@@ -233,6 +233,11 @@ function AppInner() {
   ) : (
     <Stack.Navigator>
       <Stack.Screen
+        name="QRCodeScanner"
+        component={QRCodeScanner}
+        options={{title: 'QRCodeScanner', headerShown: false}}
+      />
+      <Stack.Screen
         name="SignIn"
         component={SignIn}
         options={{title: '로그인', headerShown: false}}
