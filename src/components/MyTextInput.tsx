@@ -18,6 +18,9 @@ function MyTextInput({...props}, ref) {
       ref={ref}
       onSubmitEditing={props.onSubmitEditing}
       blurOnSubmit={props.blurOnSubmit}
+      editable={props.editable}
+      selectTextOnFocus={props.selectTextOnFocus}
+      secureTextEntry={props.secureTextEntry}
     />
   );
 }
