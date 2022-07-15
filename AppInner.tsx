@@ -4,6 +4,7 @@ import SignUpAuth from './src/pages/SignUpAuth';
 import Orders from './src/pages/Orders';
 import Delivery from './src/pages/Delivery';
 import Settings from './src/pages/Settings';
+import QRCodeScanner from './src/pages/QRCodeScanner';
 import * as React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -85,6 +86,11 @@ function AppInner() {
     </Tab.Navigator>
   ) : (
     <Stack.Navigator>
+      <Stack.Screen
+        name="QRCodeScanner"
+        component={QRCodeScanner}
+        options={{title: 'QRCodeScanner', headerShown: false}}
+      />
       <Stack.Screen
         name="SignIn"
         component={SignIn}
