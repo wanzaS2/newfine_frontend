@@ -1,9 +1,7 @@
 import React, {useCallback, useRef, useState} from 'react';
 import {
-  ActivityIndicator,
   Alert,
   Platform,
-  Pressable,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -16,60 +14,63 @@ import axios, {AxiosError} from 'axios';
 import Config from 'react-native-config';
 import {RootStackParamList} from '../../AppInner';
 import {Fonts} from '../assets/Fonts';
+import MyButton from '../components/MyButton';
+import MyTextInput from '../components/MyTextInput';
+import {RouteProp, useRoute} from '@react-navigation/native';
 
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
 function SignUp({navigation}: SignUpScreenProps) {
+  const route = useRoute<RouteProp<RootStackParamList>>(); // SignUpAuth 로부터 phoneNumer 넘겨받기 위해
+  const phoneNumber = route.params?.phoneNumber;
   const [loading, setLoading] = useState(false);
-  const [username, setUsername] = useState('');
-  const [nickname, setNickname] = useState('');
+  const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const usernameRef = useRef<TextInput | null>(null);
-  const nicknameRef = useRef<TextInput | null>(null);
+  const [chkPassword, setChkPassword] = useState('');
+  const nameRef = useRef<TextInput | null>(null);
   const passwordRef = useRef<TextInput | null>(null);
+  const chkPasswordRef = useRef<TextInput | null>(null);
 
-  const onChangeUsername = useCallback(text => {
-    setUsername(text.trim());
-  }, []);
-  const onChangeNickname = useCallback(text => {
-    setNickname(text.trim());
+  const onChangeName = useCallback(text => {
+    setName(text.trim());
   }, []);
   const onChangePassword = useCallback(text => {
     setPassword(text.trim());
+  }, []);
+  const onChangeChkPassword = useCallback(text => {
+    setChkPassword(text.trim());
   }, []);
   const onSubmit = useCallback(async () => {
     if (loading) {
       return;
     }
-    if (!username || !username.trim()) {
-      return Alert.alert('알림', '이메일을 입력해주세요.');
-    }
-    if (!nickname || !nickname.trim()) {
+    if (!name || !name.trim()) {
       return Alert.alert('알림', '이름을 입력해주세요.');
     }
     if (!password || !password.trim()) {
       return Alert.alert('알림', '비밀번호를 입력해주세요.');
     }
-    //
-    //
-    //  아이디 중복 확인 만들기
-    //
-    //
+    if (!chkPassword || !chkPassword.trim()) {
+      return Alert.alert('알림', '비밀번호 확인을 해주세요.');
+    }
     if (!/^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@^!%*#?&]).{8,50}$/.test(password)) {
       return Alert.alert(
         '알림',
         '비밀번호는 영문,숫자,특수문자($@^!%*#?&)를 모두 포함하여 8자 이상 입력해야합니다.',
       );
     }
-    console.log(username, nickname, password);
+    if (password !== chkPassword) {
+      return Alert.alert('알림', '비밀번호가 일치하지 않습니다.');
+    }
+    console.log(name, password);
     try {
       setLoading(true);
       const response = await axios.post(`${Config.API_URL}/auth/signup`, {
-        username,
-        nickname,
+        phoneNumber,
+        name,
         password,
       });
-      console.log(response.data);
+      console.log('SignUp Response: ', response.data);
       Alert.alert('알림', '회원가입 되었습니다.');
       navigation.navigate('SignIn');
     } catch (error) {
@@ -81,48 +82,43 @@ function SignUp({navigation}: SignUpScreenProps) {
     } finally {
       setLoading(false);
     }
-  }, [loading, navigation, username, nickname, password]);
+  }, [loading, name, password, chkPassword, phoneNumber, navigation]);
 
-  const canGoNext = username && nickname && password;
+  const canGoNext = phoneNumber && name && password && chkPassword;
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <DismissKeyboardView>
         <View style={styles.inputWrapper}>
-          <Text style={styles.label}>아이디</Text>
-          <TextInput
-            style={styles.textInput}
-            onChangeText={onChangeUsername}
-            placeholder="아이디를 입력해주세요"
+          <Text style={styles.label}>전화번호</Text>
+          <MyTextInput
+            placeholder={phoneNumber}
             placeholderTextColor="#666"
-            textContentType="username"
-            value={username}
-            returnKeyType="next"
-            clearButtonMode="while-editing"
-            ref={usernameRef}
-            onSubmitEditing={() => nicknameRef.current?.focus()}
+            value={phoneNumber}
             blurOnSubmit={false}
+            editable={false}
+            selectTextOnFocus={false}
           />
         </View>
         <View style={styles.inputWrapper}>
           <Text style={styles.label}>이름</Text>
-          <TextInput
-            style={styles.textInput}
+          <MyTextInput
+            onChangeText={onChangeName}
             placeholder="이름을 입력해주세요"
             placeholderTextColor="#666"
-            onChangeText={onChangeNickname}
-            value={nickname}
-            textContentType="name"
+            textContentType="none"
+            value={name}
+            keyboardType="default"
             returnKeyType="next"
             clearButtonMode="while-editing"
-            ref={nicknameRef}
+            ref={nameRef}
             onSubmitEditing={() => passwordRef.current?.focus()}
             blurOnSubmit={false}
+            // secureTextEntry={true}
           />
         </View>
         <View style={styles.inputWrapper}>
           <Text style={styles.label}>비밀번호</Text>
-          <TextInput
-            style={styles.textInput}
+          <MyTextInput
             placeholder="비밀번호를 입력해주세요 (영문, 숫자, 특수문자)"
             placeholderTextColor="#666"
             onChangeText={onChangePassword}
@@ -135,67 +131,39 @@ function SignUp({navigation}: SignUpScreenProps) {
             returnKeyType="send"
             clearButtonMode="while-editing"
             ref={passwordRef}
+            onSubmitEditing={() => chkPasswordRef.current?.focus()}
+          />
+          <View style={{margin: 5}}></View>
+          <MyTextInput
+            placeholder="비밀번호 확인"
+            placeholderTextColor="#666"
+            onChangeText={onChangeChkPassword}
+            value={chkPassword}
+            keyboardType={
+              Platform.OS === 'android' ? 'default' : 'ascii-capable'
+            }
+            textContentType="password"
+            secureTextEntry
+            returnKeyType="send"
+            clearButtonMode="while-editing"
+            ref={chkPasswordRef}
             onSubmitEditing={onSubmit}
           />
-          {/*<View style={{margin: 5}}></View>*/}
-          {/*<TextInput*/}
-          {/*  style={styles.textInput}*/}
-          {/*  placeholder="비밀번호 확인"*/}
-          {/*  placeholderTextColor="#666"*/}
-          {/*  onChangeText={onChangePassword}*/}
-          {/*  value={password}*/}
-          {/*  keyboardType={Platform.OS === 'android' ? 'default' : 'ascii-capable'}*/}
-          {/*  textContentType="password"*/}
-          {/*  secureTextEntry*/}
-          {/*  returnKeyType="send"*/}
-          {/*  clearButtonMode="while-editing"*/}
-          {/*  ref={passwordRef}*/}
-          {/*  onSubmitEditing={onSubmit}*/}
-          {/*/>*/}
         </View>
-        <View style={styles.buttonZone}>
-          <Pressable
-            style={
-              canGoNext
-                ? StyleSheet.compose(
-                    styles.loginButton,
-                    styles.loginButtonActive,
-                  )
-                : styles.loginButton
-            }
-            disabled={!canGoNext || loading}
-            onPress={onSubmit}>
-            {loading ? (
-              <ActivityIndicator color="white" />
-            ) : (
-              <Text style={styles.loginButtonText}>회원가입</Text>
-            )}
-          </Pressable>
-        </View>
+        <MyButton
+          loading={loading}
+          text="회원가입"
+          onPress={onSubmit}
+          canGoNext={canGoNext}
+          disable={!canGoNext || loading}
+        />
       </DismissKeyboardView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  // textInput: {
-  //   padding: 5,
-  //   borderBottomWidth: StyleSheet.hairlineWidth,
-  // },
-  textInput: {
-    backgroundColor: 'lightgrey',
-    fontFamily: Fonts.TRRegular,
-    fontSize: 13,
-    paddingTop: 5,
-    paddingBottom: 2,
-    paddingHorizontal: 10,
-    marginHorizontal: 10,
-    // borderWidth: StyleSheet.hairlineWidth,
-    // borderColor: 'darkblue',
-    // borderWidth: 1,
-    borderRadius: 5,
-    alignItems: 'center',
-  },
+  container: {flex: 1},
   inputWrapper: {
     paddingTop: 20,
     padding: 10,
@@ -205,26 +173,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 15,
     marginHorizontal: 10,
-  },
-  buttonZone: {
-    paddingTop: 20,
-    alignItems: 'center',
-  },
-  loginButton: {
-    backgroundColor: 'gray',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 5,
-    marginBottom: 10,
-  },
-  loginButtonActive: {
-    backgroundColor: 'darkblue',
-  },
-  loginButtonText: {
-    fontFamily: Fonts.TRRegular,
-    fontWeight: 'bold',
-    color: 'white',
-    fontSize: 16,
   },
 });
 
