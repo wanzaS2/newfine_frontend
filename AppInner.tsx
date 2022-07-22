@@ -18,11 +18,15 @@ import Config from 'react-native-config';
 import userSlice from './src/slices/user';
 import {Alert} from 'react-native';
 import {useAppDispatch} from './src/store';
+import MyPointList from './src/pages/MyPointList';
+import AllRanking from './src/pages/AllRanking';
 
 export type LoggedInParamList = {
   Welcome: undefined;
   Main: undefined;
   Ranking: undefined;
+  MyPointList: undefined;
+  AllRanking: undefined;
 };
 
 export type RootStackParamList = {
@@ -212,25 +216,7 @@ function AppInner() {
     }
   }, [isLoggedIn, disconnect]);
 
-  return isLoggedIn ? (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Welcome"
-        component={Welcome}
-        options={{title: '', headerShown: false}}
-      />
-      <Stack.Screen
-        name="Main"
-        component={Main}
-        options={{title: '메인', headerShown: false}}
-      />
-      <Stack.Screen
-        name="Ranking"
-        component={Ranking}
-        options={{title: '랭킹'}}
-      />
-    </Stack.Navigator>
-  ) : (
+  return !isLoggedIn ? (
     <Stack.Navigator>
       <Stack.Screen
         name="SignIn"
@@ -258,6 +244,37 @@ function AppInner() {
             fontSize: 22,
           },
         }}
+      />
+    </Stack.Navigator>
+  ) : !isProfile ? (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Welcome"
+        component={Welcome}
+        options={{title: '', headerShown: false}}
+      />
+    </Stack.Navigator>
+  ) : (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Main"
+        component={Main}
+        options={{title: '메인', headerShown: false}}
+      />
+      <Stack.Screen
+        name="Ranking"
+        component={Ranking}
+        options={{title: '랭킹'}}
+      />
+      <Stack.Screen
+        name="MyPointList"
+        component={MyPointList}
+        options={{title: '나의 누적 포인트'}}
+      />
+      <Stack.Screen
+        name="AllRanking"
+        component={AllRanking}
+        options={{title: '전체 랭킹'}}
       />
     </Stack.Navigator>
   );

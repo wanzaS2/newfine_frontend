@@ -201,22 +201,22 @@ function SetUpProfile() {
   // };
 
   const removeImage = async () => {
-    setImage('');
+    setImage(undefined);
 
-    console.log('이미지 삭제', accessToken);
-    const response = await axios.post(
-      `${Config.API_URL}/image/delete?image=${changedImage}`,
-      {},
-      {headers: {Authorization: `Bearer ${accessToken}`}},
-    );
-    console.log(response.data);
-    if (response.data.message === 'success') {
-      dispatch(
-        userSlice.actions.setPhotoURL({
-          photoURL: '',
-        }),
-      );
-    }
+    // console.log('이미지 삭제', accessToken);
+    // const response = await axios.post(
+    //   `${Config.API_URL}/image/delete?image=${changedImage}`,
+    //   {},
+    //   {headers: {Authorization: `Bearer ${accessToken}`}},
+    // );
+    // console.log(response.data);
+    // if (response.data.message === 'success') {
+    //   dispatch(
+    //     userSlice.actions.setPhotoURL({
+    //       photoURL: '',
+    //     }),
+    //   );
+    // }
     //   fetch(`${Config.API_URL}/image/delete?images=${changedImage}`, {
     //     method: 'POST',
     //     headers: {
@@ -242,6 +242,7 @@ function SetUpProfile() {
       includeExif: true,
       includeBase64: true,
       mediaType: 'photo',
+      cropping: true,
     })
       .then(onResponse)
       .catch(console.log);
@@ -329,68 +330,84 @@ function SetUpProfile() {
   // };
 
   const onComplete = useCallback(async () => {
-    if (!image) {
-      Alert.alert('알림', '파일을 업로드해주세요.');
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('image', image);
-    try {
-      await axios.post(`${Config.API_URL}/image/upload`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      Alert.alert('알림', '완료처리 되었습니다.');
-      navigation.navigate('Main');
-    } catch (error) {
-      const errorResponse = (error as AxiosError).response;
-      if (errorResponse) {
-        Alert.alert('알림', errorResponse.data.message);
-      }
-    }
-  }, [navigation, image, accessToken]);
-
-  const onSubmit = useCallback(async () => {
     if (loading) {
       return;
     }
     if (!nickname || !nickname.trim()) {
-      return Alert.alert('알림', '닉네임을 입력해주세요.');
+      return Alert.alert('알림', '닉네임을 꼭 입력해주세요.');
+    }
+    // if (!nickname) {
+    //   Alert.alert('알림', '닉네임을 꼭 입력해주세요.');
+    //   return;
+    // }
+    if (image) {
+      const formData = new FormData();
+      formData.append('image', image);
+      console.log('폼데이터: ', formData);
+      try {
+        const response = await axios.post(
+          `${Config.API_URL}/image/upload`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+        );
+        console.log('사진 저장??: ', response.data);
+        dispatch(
+          userSlice.actions.setPhotoURL({
+            photoURL: response.data.data,
+          }),
+        );
+      } catch (error) {
+        const errorResponse = (error as AxiosError).response;
+        if (errorResponse) {
+          Alert.alert('알림', errorResponse.data.message);
+        }
+      }
     }
 
-    // ********************* 프사 관련? ********************* //
-    // let photoURL = null;
-    // if (photo) {
-    //   const asset = photo.assets[0];
-    //   const extension = asset.fileName.split('.').pop(); // 확장자 추출
-    //   const reference = storage().ref(`/profile/${uid}.${extension}`);
-    //
-    //   if (Platform.OS === 'android') {
-    //     await reference.putString(asset.base64, 'base64', {
-    //       contentType: asset.type,
-    //     });
-    //   } else {
-    //     await reference.putFile(asset.uri);
+    // const formData = new FormData();
+    // formData.append('image', image);
+    // try {
+    //   await axios.post(`${Config.API_URL}/image/upload`, formData, {
+    //     headers: {
+    //       'Content-Type': 'multipart/form-data',
+    //       Authorization: `Bearer ${accessToken}`,
+    //     },
+    //   });
+    //   Alert.alert('알림', '완료처리 되었습니다.');
+    //   navigation.navigate('Main');
+    // } catch (error) {
+    //   const errorResponse = (error as AxiosError).response;
+    //   if (errorResponse) {
+    //     Alert.alert('알림', errorResponse.data.message);
     //   }
-    //
-    //   photoURL = response ? await reference.getDownloadURL() : null;
     // }
     try {
       setLoading(true);
-      const response = await axios.post(`${Config.API_URL}/member/nickname`, {
-        nickname,
-      });
-      console.log(response.data);
-      Alert.alert('알림', '환영합니다!!');
-      navigation.navigate('Main');
+      const response = await axios.post(
+        `${Config.API_URL}/member/nickname`,
+        {
+          nickname,
+          phoneNumber,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      );
       dispatch(
         userSlice.actions.setProfile({
           nickname: response.data.nickname,
         }),
       );
+      console.log(response.data);
+      Alert.alert('알림', '환영합니다!!');
+      navigation.navigate('Main');
     } catch (error) {
       const errorResponse = (error as AxiosError).response;
       if (errorResponse) {
@@ -399,7 +416,63 @@ function SetUpProfile() {
     } finally {
       setLoading(false);
     }
-  }, [dispatch, loading, navigation, nickname]);
+  }, [
+    loading,
+    nickname,
+    image,
+    accessToken,
+    dispatch,
+    phoneNumber,
+    navigation,
+  ]);
+
+  // const onSubmit = useCallback(async () => {
+  //   if (loading) {
+  //     return;
+  //   }
+  //   if (!nickname || !nickname.trim()) {
+  //     return Alert.alert('알림', '닉네임을 입력해주세요.');
+  //   }
+  //
+  //   // ********************* 프사 관련? ********************* //
+  //   // let photoURL = null;
+  //   // if (photo) {
+  //   //   const asset = photo.assets[0];
+  //   //   const extension = asset.fileName.split('.').pop(); // 확장자 추출
+  //   //   const reference = storage().ref(`/profile/${uid}.${extension}`);
+  //   //
+  //   //   if (Platform.OS === 'android') {
+  //   //     await reference.putString(asset.base64, 'base64', {
+  //   //       contentType: asset.type,
+  //   //     });
+  //   //   } else {
+  //   //     await reference.putFile(asset.uri);
+  //   //   }
+  //   //
+  //   //   photoURL = response ? await reference.getDownloadURL() : null;
+  //   // }
+  //   try {
+  //     setLoading(true);
+  //     const response = await axios.post(`${Config.API_URL}/member/nickname`, {
+  //       nickname,
+  //     });
+  //     console.log(response.data);
+  //     Alert.alert('알림', '환영합니다!!');
+  //     navigation.navigate('Main');
+  //     dispatch(
+  //       userSlice.actions.setProfile({
+  //         nickname: response.data.nickname,
+  //       }),
+  //     );
+  //   } catch (error) {
+  //     const errorResponse = (error as AxiosError).response;
+  //     if (errorResponse) {
+  //       Alert.alert('알림', errorResponse.data.message);
+  //     }
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }, [dispatch, loading, navigation, nickname]);
 
   // const onTakePhoto = useCallback(() => {
   //   return ImagePicker.openCamera({
@@ -436,7 +509,7 @@ function SetUpProfile() {
   //   }
   // }, [image]);
 
-  // const canGoNext = nickname;
+  const canGoNext = nickname;
   return (
     <View style={styles.block}>
       {showImage()}
@@ -473,7 +546,7 @@ function SetUpProfile() {
           returnKeyType="send"
           clearButtonMode="while-editing"
           ref={nicknameRef}
-          onSubmitEditing={onSubmit}
+          onSubmitEditing={onComplete}
           blurOnSubmit={false}
         />
         <MyButton
@@ -481,8 +554,8 @@ function SetUpProfile() {
           text="다음"
           // onPress={onSubmit}
           onPress={onComplete}
-          // canGoNext={canGoNext}
-          // disable={!canGoNext || loading}
+          canGoNext={canGoNext}
+          disable={!canGoNext || loading}
           disable={loading}
         />
       </View>
