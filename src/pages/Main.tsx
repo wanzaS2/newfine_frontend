@@ -86,7 +86,10 @@ function Main() {
           <LinearGradient
             colors={['skyblue', 'lightcyan']}
             style={styles.block}>
-            <Pressable style={styles.block}>
+            <Pressable
+              onPress={() => {
+                navigation.navigate('MyPage');
+              }}>
               <View style={{alignItems: 'center'}}>
                 <Image
                   source={require('../assets/images/main/free-icon-teach-4696563.png')}

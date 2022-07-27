@@ -392,7 +392,6 @@ function SetUpProfile() {
         `${Config.API_URL}/member/nickname`,
         {
           nickname,
-          phoneNumber,
         },
         {
           headers: {

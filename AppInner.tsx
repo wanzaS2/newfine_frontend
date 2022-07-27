@@ -20,6 +20,7 @@ import {Alert} from 'react-native';
 import {useAppDispatch} from './src/store';
 import MyPointList from './src/pages/MyPointList';
 import AllRanking from './src/pages/AllRanking';
+import MyPage from "./src/pages/MyPage";
 
 export type LoggedInParamList = {
   Welcome: undefined;
@@ -27,6 +28,7 @@ export type LoggedInParamList = {
   Ranking: undefined;
   MyPointList: undefined;
   AllRanking: undefined;
+  MyPage: undefined;
 };
 
 export type RootStackParamList = {
@@ -218,11 +220,11 @@ function AppInner() {
 
   return !isLoggedIn ? (
     <Stack.Navigator>
-      <Stack.Screen
-        name="QRCodeScanner"
-        component={QRCodeScanner}
-        options={{title: 'QRCodeScanner', headerShown: false}}
-      />
+      {/*<Stack.Screen*/}
+      {/*  name="QRCodeScanner"*/}
+      {/*  component={QRCodeScanner}*/}
+      {/*  options={{title: 'QRCodeScanner', headerShown: false}}*/}
+      {/*/>*/}
       <Stack.Screen
         name="SignIn"
         component={SignIn}
@@ -280,6 +282,11 @@ function AppInner() {
         name="AllRanking"
         component={AllRanking}
         options={{title: '전체 랭킹'}}
+      />
+      <Stack.Screen
+        name="MyPage"
+        component={MyPage}
+        options={{title: '마이페이지'}}
       />
     </Stack.Navigator>
   );

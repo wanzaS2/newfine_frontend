@@ -5,7 +5,6 @@ const initialState = {
   name: '',
   nickname: '',
   accessToken: '',
-  point: 0,
   photoURL: '',
 };
 const userSlice = createSlice({
