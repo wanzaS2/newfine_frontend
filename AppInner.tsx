@@ -4,7 +4,7 @@ import SignUpAuth from './src/pages/SignUpAuth';
 import Ranking from './src/pages/Ranking';
 import Main from './src/pages/Main';
 import Welcome from './src/pages/Welcome';
-import Course from './src/pages/Course';
+import TeacherCourse from './src/pages/TeacherCourse';
 import CourseInfo from './src/pages/CourseInfo';
 import Attendance from './src/pages/Attendance';
 import StudentAttendance from './src/pages/StudentAttendance';
@@ -294,8 +294,8 @@ function AppInner() {
         options={{title: '마이페이지'}}
       />
       <Stack.Screen
-        name="Course"
-        component={Course}
+        name="TeacherCourse"
+        component={TeacherCourse}
         options={{title: '내 강의', headerShown: true}}
       />
       <Stack.Screen

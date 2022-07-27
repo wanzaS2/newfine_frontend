@@ -27,7 +27,7 @@ export interface course {
 //   initialState,
 //     reducers : {
 //       // 미리 reducer 로 만들어놓고 action 으로 dispatch
-//       addCourse(state,action: PayloadAction<Course>){
+//       addCourse(state,action: PayloadAction<TeacherCourse>){
 //           state.courses.push(action.payload);
 //       },
 //

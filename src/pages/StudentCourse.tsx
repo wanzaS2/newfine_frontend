@@ -17,13 +17,13 @@ import {
 import Config from 'react-native-config';
 import axios from 'axios';
 
-function Course({navigation}) {
+function StudentCourse({navigation}) {
   const [courseList, setCourseList] = useState();
   const [listLength, setCourseLength] = useState();
   const [loading, setLoading] = useState(false);
 
   const getCourses = () => {
-    axios(`${Config.API_URL}/teacher/courses`)
+    axios(`${Config.API_URL}/student/courses`)
       .then(response => {
         setCourseList(response.data);
         setCourseLength(response.data.length);
@@ -100,4 +100,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Course;
+export default StudentCourse;
