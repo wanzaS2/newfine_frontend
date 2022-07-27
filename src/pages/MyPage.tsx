@@ -86,8 +86,11 @@ function MyPage({navigation}) {
   const removeImage = async () => {
     setImage(undefined);
 
+    const p = photoUrl.substring(62);
+    console.log(p);
+
     const response = await axios.post(
-      `${Config.API_URL}/image/delete?image=${photoUrl}`,
+      `${Config.API_URL}/image/delete?image=${p}`,
       {},
       {headers: {Authorization: `Bearer ${accessToken}`}},
     );
@@ -103,8 +106,10 @@ function MyPage({navigation}) {
   };
 
   const showImage = () => {
+    console.log(accessToken);
     console.log('으악');
-    console.log(image);
+    console.log('이미지: ', image);
+    console.log('포토 유알엘: ', photoUrl);
     // if (photoUrl) {
     //   urlToBase64();
     // }
@@ -128,15 +133,16 @@ function MyPage({navigation}) {
             style={{
               position: 'absolute',
               right: 0,
+              backgroundColor: 'pink',
             }}
             onPress={() => {
               removeImage();
-            }}
-          />
-          <Image
-            source={require('../assets/images/delete.png')}
-            style={{width: 15, height: 15}}
-          />
+            }}>
+            <Image
+              source={require('../assets/images/delete.png')}
+              style={{width: 15, height: 15}}
+            />
+          </Pressable>
         </View>
       );
     } else {
@@ -161,7 +167,6 @@ function MyPage({navigation}) {
             }}
             onPress={() => {
               removeImage();
-              setImage(undefined);
             }}
           />
           <Image

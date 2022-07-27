@@ -19,6 +19,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../store/reducer';
 import axios from 'axios';
 import Config from 'react-native-config';
+import QRCodeScanner from './QRCodeScanner';
 
 type MainScreenProps = NativeStackScreenProps<RootStackParamList, 'Welcome'>;
 
@@ -60,7 +61,10 @@ function Main() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.block}>
-        <Pressable>
+        <Pressable
+          onPress={() => {
+            navigation.navigate('MyPage');
+          }}>
           <Image
             source={{uri: photoUrl}}
             style={{
@@ -86,10 +90,7 @@ function Main() {
           <LinearGradient
             colors={['skyblue', 'lightcyan']}
             style={styles.block}>
-            <Pressable
-              onPress={() => {
-                navigation.navigate('MyPage');
-              }}>
+            <Pressable>
               <View style={{alignItems: 'center'}}>
                 <Image
                   source={require('../assets/images/main/free-icon-teach-4696563.png')}
@@ -102,7 +103,11 @@ function Main() {
           <LinearGradient
             colors={['skyblue', 'lightcyan']}
             style={styles.block}>
-            <Pressable style={styles.block}>
+            <Pressable
+              style={styles.block}
+              onPress={() => {
+                navigation.navigate('QRCodeScanner');
+              }}>
               <View style={{alignItems: 'center'}}>
                 <Image
                   source={require('../assets/images/main/free-icon-campus-4696591.png')}
