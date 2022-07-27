@@ -60,7 +60,10 @@ function Main() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.block}>
-        <Pressable>
+        <Pressable
+          onPress={() => {
+            navigation.navigate('MyPage');
+          }}>
           <Image
             source={{uri: photoUrl}}
             style={{
@@ -86,10 +89,7 @@ function Main() {
           <LinearGradient
             colors={['skyblue', 'lightcyan']}
             style={styles.block}>
-            <Pressable
-              onPress={() => {
-                navigation.navigate('MyPage');
-              }}>
+            <Pressable>
               <View style={{alignItems: 'center'}}>
                 <Image
                   source={require('../assets/images/main/free-icon-teach-4696563.png')}
