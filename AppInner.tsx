@@ -27,7 +27,7 @@ import {Alert} from 'react-native';
 import {useAppDispatch} from './src/store';
 import MyPointList from './src/pages/MyPointList';
 import AllRanking from './src/pages/AllRanking';
-import MyPage from "./src/pages/MyPage";
+import MyPage from './src/pages/MyPage';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
@@ -231,59 +231,6 @@ function AppInner() {
   return !isLoggedIn ? (
     <Stack.Navigator>
       <Stack.Screen
-        name="Course"
-        component={Course}
-        options={{title: '내 강의', headerShown: true}}
-      />
-      <Stack.Screen
-        name="CourseInfo"
-        component={CourseInfo}
-        options={{title: '강의', headerShown: true}}
-      />
-      <Stack.Screen
-        name="StudentInfo"
-        component={StudentInfo}
-        options={{title: '학생 정보', headerShown: true}}
-      />
-      <Stack.Screen
-        name="Welcome"
-        component={Welcome}
-        options={{title: '', headerShown: false}}
-      />
-      <Stack.Screen
-        name="Main"
-        component={Main}
-        options={{title: '메인', headerShown: false}}
-      />
-      <Stack.Screen
-        name="Ranking"
-        component={Ranking}
-        options={{title: '랭킹'}}
-      />
-      <Stack.Screen
-        name="Attendance"
-        component={Attendance}
-        options={{title: '수업 출석부'}}
-      />
-      <Stack.Screen
-        name="StudentAttendance"
-        component={StudentAttendance}
-        options={{title: '출석부'}}
-      />
-      <Stack.Screen
-        name="QRCodeScanner"
-        component={QRCodeScanner}
-        options={{title: 'QRcode', headerShown: false}}
-      />
-      <Stack.Screen
-        name="AttendanceWeb"
-        component={AttendanceWeb}
-        options={{title: 'AttendanceWeb', headerShown: true}}
-      />
-    </Stack.Navigator>
-  ) : (
-    <Stack.Navigator>
-      <Stack.Screen
         name="SignIn"
         component={SignIn}
         options={{title: '로그인', headerShown: false}}
@@ -345,6 +292,56 @@ function AppInner() {
         name="MyPage"
         component={MyPage}
         options={{title: '마이페이지'}}
+      />
+      <Stack.Screen
+        name="Course"
+        component={Course}
+        options={{title: '내 강의', headerShown: true}}
+      />
+      <Stack.Screen
+        name="CourseInfo"
+        component={CourseInfo}
+        options={{title: '강의', headerShown: true}}
+      />
+      <Stack.Screen
+        name="StudentInfo"
+        component={StudentInfo}
+        options={{title: '학생 정보', headerShown: true}}
+      />
+      <Stack.Screen
+        name="Welcome"
+        component={Welcome}
+        options={{title: '', headerShown: false}}
+      />
+      <Stack.Screen
+        name="Main"
+        component={Main}
+        options={{title: '메인', headerShown: false}}
+      />
+      <Stack.Screen
+        name="Ranking"
+        component={Ranking}
+        options={{title: '랭킹'}}
+      />
+      <Stack.Screen
+        name="Attendance"
+        component={Attendance}
+        options={{title: '수업 출석부'}}
+      />
+      <Stack.Screen
+        name="StudentAttendance"
+        component={StudentAttendance}
+        options={{title: '출석부'}}
+      />
+      <Stack.Screen
+        name="QRCodeScanner"
+        component={QRCodeScanner}
+        options={{title: 'QRcode', headerShown: false}}
+      />
+      <Stack.Screen
+        name="AttendanceWeb"
+        component={AttendanceWeb}
+        options={{title: 'AttendanceWeb', headerShown: true}}
       />
     </Stack.Navigator>
   );
