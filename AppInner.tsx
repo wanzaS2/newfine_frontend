@@ -309,21 +309,6 @@ function AppInner() {
         options={{title: '학생 정보', headerShown: true}}
       />
       <Stack.Screen
-        name="Welcome"
-        component={Welcome}
-        options={{title: '', headerShown: false}}
-      />
-      <Stack.Screen
-        name="Main"
-        component={Main}
-        options={{title: '메인', headerShown: false}}
-      />
-      <Stack.Screen
-        name="Ranking"
-        component={Ranking}
-        options={{title: '랭킹'}}
-      />
-      <Stack.Screen
         name="Attendance"
         component={Attendance}
         options={{title: '수업 출석부'}}
