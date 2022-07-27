@@ -4,6 +4,13 @@ import SignUpAuth from './src/pages/SignUpAuth';
 import Ranking from './src/pages/Ranking';
 import Main from './src/pages/Main';
 import Welcome from './src/pages/Welcome';
+import Course from './src/pages/Course';
+import CourseInfo from './src/pages/CourseInfo';
+import Attendance from './src/pages/Attendance';
+import StudentAttendance from './src/pages/StudentAttendance';
+import StudentInfo from './src/pages/StudentInfo';
+import QRCodeScanner from './src/pages/QRCodeScanner';
+import AttendanceWeb from './src/pages/AttendanceWeb';
 import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useSelector} from 'react-redux';
@@ -18,6 +25,8 @@ import Config from 'react-native-config';
 import userSlice from './src/slices/user';
 import {Alert} from 'react-native';
 import {useAppDispatch} from './src/store';
+
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 export type LoggedInParamList = {
   Welcome: undefined;
@@ -192,6 +201,7 @@ function AppInner() {
   useEffect(() => {
     const helloCallback = (data: any) => {
       console.log(data);
+      dispatch(courseSlice.actions.addOrder(data));
     };
     if (socket && isLoggedIn) {
       console.log(socket);
@@ -203,7 +213,7 @@ function AppInner() {
         socket.off('hello', helloCallback);
       }
     };
-  }, [isLoggedIn, socket]);
+  }, [dispatch, isLoggedIn, socket]);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -214,6 +224,21 @@ function AppInner() {
 
   return isLoggedIn ? (
     <Stack.Navigator>
+      <Stack.Screen
+        name="Course"
+        component={Course}
+        options={{title: '내 강의', headerShown: true}}
+      />
+      <Stack.Screen
+        name="CourseInfo"
+        component={CourseInfo}
+        options={{title: '강의', headerShown: true}}
+      />
+      <Stack.Screen
+        name="StudentInfo"
+        component={StudentInfo}
+        options={{title: '학생 정보', headerShown: true}}
+      />
       <Stack.Screen
         name="Welcome"
         component={Welcome}
@@ -228,6 +253,26 @@ function AppInner() {
         name="Ranking"
         component={Ranking}
         options={{title: '랭킹'}}
+      />
+      <Stack.Screen
+        name="Attendance"
+        component={Attendance}
+        options={{title: '수업 출석부'}}
+      />
+      <Stack.Screen
+        name="StudentAttendance"
+        component={StudentAttendance}
+        options={{title: '출석부'}}
+      />
+      <Stack.Screen
+        name="QRCodeScanner"
+        component={QRCodeScanner}
+        options={{title: 'QRcode', headerShown: false}}
+      />
+      <Stack.Screen
+        name="AttendanceWeb"
+        component={AttendanceWeb}
+        options={{title: 'AttendanceWeb', headerShown: true}}
       />
     </Stack.Navigator>
   ) : (
