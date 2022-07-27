@@ -1,25 +1,39 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Alert, Dimensions, StyleSheet, Vibration, View} from 'react-native';
+import {
+  Alert,
+  Button,
+  Dimensions,
+  SafeAreaView,
+  StyleSheet,
+  Vibration,
+  View,
+} from 'react-native';
 import {Camera, CameraType} from 'react-native-camera-kit';
+import AttendanceWeb from './AttendanceWeb';
+import WebView from 'react-native-webview';
+import {useNavigation} from '@react-navigation/native';
 
-const QRCodeScanner = () => {
+const QRCodeScanner = ({navigation}) => {
   const [scaned, setScaned] = useState<boolean>(true);
   const ref = useRef(null);
-
+  const [url, setUrl] = useState('');
   useEffect(() => {
     // 종료후 재시작을 했을때 초기화
     setScaned(true);
+    setUrl('');
   }, []);
 
   const onBarCodeRead = (event: any) => {
+    console.log(scaned);
     if (!scaned) {
       return;
     }
     setScaned(false);
     Vibration.vibrate();
-    Alert.alert('QR Code', event.nativeEvent.codeStringValue, [
-      {text: 'OK', onPress: () => setScaned(true)},
-    ]);
+    setUrl(event.nativeEvent.codeStringValue);
+    console.log('url', event.nativeEvent.codeStringValue);
+    setScaned(true);
+    navigation.navigate('AttendanceWeb', event.nativeEvent.codeStringValue);
   };
 
   return (
@@ -28,10 +42,9 @@ const QRCodeScanner = () => {
         style={styles.scanner}
         ref={ref}
         cameraType={CameraType.Back} // Front/Back(default)
-        // zoomMode
-        // focusMode
+        focusMode={CameraType.Back}
         // Barcode Scanner Props
-        // scanBarcode
+        scanBarcode={true}
         showFrame={false}
         laserColor="rgba(0, 0, 0, 0)"
         frameColor="rgba(0, 0, 0, 0)"
