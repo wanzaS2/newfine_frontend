@@ -17,11 +17,11 @@ const AttendanceWeb = ({route, navigation}) => {
   };
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const handleOnMessage = e => {
-    console.log('웹으로부터받은메시지', e.nativeEvent.data);
+    console.log('api 결과 =', e.nativeEvent.data);
     Alert.alert(
       //alert 사용
       '',
-      '변경하시겠습니까?',
+      '출석이 완료되었습니다!',
       [
         //alert창 문구 작성]
         {
