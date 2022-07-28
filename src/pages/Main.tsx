@@ -20,7 +20,7 @@ import {RootState} from '../store/reducer';
 import axios from 'axios';
 import Config from 'react-native-config';
 import QRCodeScanner from './QRCodeScanner';
-
+import TeacherCourse from './TeacherCourse';
 type MainScreenProps = NativeStackScreenProps<RootStackParamList, 'Welcome'>;
 
 function Main() {
@@ -90,7 +90,11 @@ function Main() {
           <LinearGradient
             colors={['skyblue', 'lightcyan']}
             style={styles.block}>
-            <Pressable>
+            <Pressable
+              style={styles.block}
+              onPress={() => {
+                navigation.navigate('TeacherCourse');
+              }}>
               <View style={{alignItems: 'center'}}>
                 <Image
                   source={require('../assets/images/main/free-icon-teach-4696563.png')}
