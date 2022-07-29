@@ -322,6 +322,7 @@ function MyPage({navigation}) {
           phoneNumber: '',
           nickname: '',
           photoURL: '',
+          authority: '',
         }),
       );
       dispatch(

@@ -30,6 +30,8 @@ import AllRanking from './src/pages/AllRanking';
 import MyPage from './src/pages/MyPage';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {NavigationContainer} from '@react-navigation/native';
+import TeacherMain from './src/pages/TeacherMain';
 
 export type LoggedInParamList = {
   Welcome: undefined;
@@ -38,6 +40,7 @@ export type LoggedInParamList = {
   MyPointList: undefined;
   AllRanking: undefined;
   MyPage: undefined;
+  TeacherMain: undefined;
 };
 
 export type RootStackParamList = {
@@ -54,6 +57,7 @@ function AppInner() {
     (state: RootState) => !!state.user.phoneNumber,
   );
   const isProfile = useSelector((state: RootState) => !!state.user.nickname);
+  const authority = useSelector((state: RootState) => !!state.user.authority);
   const access = useSelector((state: RootState) => state.user.accessToken);
   console.log(access);
   console.log('isLoggedIn', isLoggedIn);
@@ -91,6 +95,11 @@ function AppInner() {
             accessToken: responseT.data.accessToken,
           }),
         );
+        dispatch(
+          userSlice.actions.setAuthority({
+            authority: responseT.data.authority,
+          }),
+        );
         await EncryptedStorage.setItem(
           'refreshToken',
           responseT.data.refreshToken,
@@ -108,21 +117,38 @@ function AppInner() {
         console.log('로컬에서 꺼내온 거: ', newAccessToken);
         console.log('셀렉터: ', access);
 
-        const response = await axios.get(`${Config.API_URL}/member/me`, {
-          params: {},
-          headers: {
-            Authorization: `Bearer ${newAccessToken}`,
-          },
-        });
-        console.log(response.data);
-        dispatch(
-          userSlice.actions.setUser({
-            phoneNumber: response.data.phoneNumber,
-            nickname: response.data.nickname,
-            photoURL: response.data.photoURL,
-          }),
-        );
-        console.log(response.data);
+        if (authority === 'ROLE_USER') {
+          const response = await axios.get(`${Config.API_URL}/member/me`, {
+            params: {},
+            headers: {
+              Authorization: `Bearer ${newAccessToken}`,
+            },
+          });
+          console.log(response.data);
+          dispatch(
+            userSlice.actions.setUser({
+              phoneNumber: response.data.phoneNumber,
+              nickname: response.data.nickname,
+              photoURL: response.data.photoURL,
+            }),
+          );
+          console.log(response.data);
+        } else {
+          const response = await axios.get(`${Config.API_URL}/member/teacher`, {
+            params: {},
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+          console.log(response.data);
+          dispatch(
+            userSlice.actions.setTeacher({
+              phoneNumber: response.data.phoneNumber,
+              name: response.data.name,
+            }),
+          );
+          console.log(response.data);
+        }
 
         // .then(() => {
         //   EncryptedStorage.getItem('accessToken', (err, result) => {
@@ -228,107 +254,233 @@ function AppInner() {
     }
   }, [isLoggedIn, disconnect]);
 
+  const LoginNavigator = ({navigation}) => {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen
+          name="SignIn"
+          component={SignIn}
+          options={{title: '로그인', headerShown: false}}
+        />
+        <Stack.Screen
+          name="SignUpAuth"
+          component={SignUpAuth}
+          options={{
+            title: '전화번호 인증',
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+          }}
+        />
+        <Stack.Screen
+          name="SignUp"
+          component={SignUp}
+          options={{
+            title: '회원가입',
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+          }}
+        />
+      </Stack.Navigator>
+    );
+  };
+
+  const StudentScreenNavigator = ({navigation}) => {
+    return !isProfile ? (
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Welcome"
+          component={Welcome}
+          options={{title: '', headerShown: false}}
+        />
+      </Stack.Navigator>
+    ) : (
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Main"
+          component={Main}
+          options={{title: '메인', headerShown: false}}
+        />
+        <Stack.Screen
+          name="Ranking"
+          component={Ranking}
+          options={{title: '랭킹'}}
+        />
+        <Stack.Screen
+          name="MyPointList"
+          component={MyPointList}
+          options={{title: '나의 누적 포인트'}}
+        />
+        <Stack.Screen
+          name="AllRanking"
+          component={AllRanking}
+          options={{title: '전체 랭킹'}}
+        />
+        <Stack.Screen
+          name="MyPage"
+          component={MyPage}
+          options={{title: '마이페이지'}}
+        />
+        <Stack.Screen
+          name="TeacherCourse"
+          component={TeacherCourse}
+          options={{title: '내 강의', headerShown: true}}
+        />
+        <Stack.Screen
+          name="CourseInfo"
+          component={CourseInfo}
+          options={{title: '강의', headerShown: true}}
+        />
+        <Stack.Screen
+          name="StudentInfo"
+          component={StudentInfo}
+          options={{title: '학생 정보', headerShown: true}}
+        />
+        <Stack.Screen
+          name="Attendance"
+          component={Attendance}
+          options={{title: '수업 출석부'}}
+        />
+        <Stack.Screen
+          name="StudentAttendance"
+          component={StudentAttendance}
+          options={{title: '출석부'}}
+        />
+        <Stack.Screen
+          name="QRCodeScanner"
+          component={QRCodeScanner}
+          options={{title: 'QRcode', headerShown: false}}
+        />
+        <Stack.Screen
+          name="AttendanceWeb"
+          component={AttendanceWeb}
+          options={{title: 'AttendanceWeb', headerShown: true}}
+        />
+      </Stack.Navigator>
+    );
+  };
+
+  const TeacherScreenNavigator = navigation => {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen
+          name="TeacherMain"
+          component={TeacherMain}
+          options={{title: 'TeacherMain', headerShown: true}}
+        />
+      </Stack.Navigator>
+    );
+  };
+
   return !isLoggedIn ? (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="SignIn"
-        component={SignIn}
-        options={{title: '로그인', headerShown: false}}
-      />
-      <Stack.Screen
-        name="SignUpAuth"
-        component={SignUpAuth}
-        options={{
-          title: '전화번호 인증',
-          headerTitleStyle: {
-            fontFamily: Fonts.TRBold,
-            fontSize: 22,
-          },
-        }}
-      />
-      <Stack.Screen
-        name="SignUp"
-        component={SignUp}
-        options={{
-          title: '회원가입',
-          headerTitleStyle: {
-            fontFamily: Fonts.TRBold,
-            fontSize: 22,
-          },
-        }}
-      />
-    </Stack.Navigator>
-  ) : !isProfile ? (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Welcome"
-        component={Welcome}
-        options={{title: '', headerShown: false}}
-      />
-    </Stack.Navigator>
+    <LoginNavigator />
+  ) : authority != 'ROLE_ADMIN' ? (
+    // <Stack.Navigator>
+    //   <Stack.Screen
+    //     name="SignIn"
+    //     component={SignIn}
+    //     options={{title: '로그인', headerShown: false}}
+    //   />
+    //   <Stack.Screen
+    //     name="SignUpAuth"
+    //     component={SignUpAuth}
+    //     options={{
+    //       title: '전화번호 인증',
+    //       headerTitleStyle: {
+    //         fontFamily: Fonts.TRBold,
+    //         fontSize: 22,
+    //       },
+    //     }}
+    //   />
+    //   <Stack.Screen
+    //     name="SignUp"
+    //     component={SignUp}
+    //     options={{
+    //       title: '회원가입',
+    //       headerTitleStyle: {
+    //         fontFamily: Fonts.TRBold,
+    //         fontSize: 22,
+    //       },
+    //     }}
+    //   />
+    // </Stack.Navigator>
+    // !isProfile ? (
+    //   <Stack.Navigator>
+    //     <Stack.Screen
+    //       name="Welcome"
+    //       component={Welcome}
+    //       options={{title: '', headerShown: false}}
+    //     />
+    //   </Stack.Navigator>
+    // ) : (
+    // <Stack.Navigator>
+    //   <Stack.Screen
+    //     name="Main"
+    //     component={Main}
+    //     options={{title: '메인', headerShown: false}}
+    //   />
+    //   <Stack.Screen
+    //     name="Ranking"
+    //     component={Ranking}
+    //     options={{title: '랭킹'}}
+    //   />
+    //   <Stack.Screen
+    //     name="MyPointList"
+    //     component={MyPointList}
+    //     options={{title: '나의 누적 포인트'}}
+    //   />
+    //   <Stack.Screen
+    //     name="AllRanking"
+    //     component={AllRanking}
+    //     options={{title: '전체 랭킹'}}
+    //   />
+    //   <Stack.Screen
+    //     name="MyPage"
+    //     component={MyPage}
+    //     options={{title: '마이페이지'}}
+    //   />
+    //   <Stack.Screen
+    //     name="TeacherCourse"
+    //     component={TeacherCourse}
+    //     options={{title: '내 강의', headerShown: true}}
+    //   />
+    //   <Stack.Screen
+    //     name="CourseInfo"
+    //     component={CourseInfo}
+    //     options={{title: '강의', headerShown: true}}
+    //   />
+    //   <Stack.Screen
+    //     name="StudentInfo"
+    //     component={StudentInfo}
+    //     options={{title: '학생 정보', headerShown: true}}
+    //   />
+    //   <Stack.Screen
+    //     name="Attendance"
+    //     component={Attendance}
+    //     options={{title: '수업 출석부'}}
+    //   />
+    //   <Stack.Screen
+    //     name="StudentAttendance"
+    //     component={StudentAttendance}
+    //     options={{title: '출석부'}}
+    //   />
+    //   <Stack.Screen
+    //     name="QRCodeScanner"
+    //     component={QRCodeScanner}
+    //     options={{title: 'QRcode', headerShown: false}}
+    //   />
+    //   <Stack.Screen
+    //     name="AttendanceWeb"
+    //     component={AttendanceWeb}
+    //     options={{title: 'AttendanceWeb', headerShown: true}}
+    //   />
+    // </Stack.Navigator>
+    <TeacherScreenNavigator />
   ) : (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Main"
-        component={Main}
-        options={{title: '메인', headerShown: false}}
-      />
-      <Stack.Screen
-        name="Ranking"
-        component={Ranking}
-        options={{title: '랭킹'}}
-      />
-      <Stack.Screen
-        name="MyPointList"
-        component={MyPointList}
-        options={{title: '나의 누적 포인트'}}
-      />
-      <Stack.Screen
-        name="AllRanking"
-        component={AllRanking}
-        options={{title: '전체 랭킹'}}
-      />
-      <Stack.Screen
-        name="MyPage"
-        component={MyPage}
-        options={{title: '마이페이지'}}
-      />
-      <Stack.Screen
-        name="TeacherCourse"
-        component={TeacherCourse}
-        options={{title: '내 강의', headerShown: true}}
-      />
-      <Stack.Screen
-        name="CourseInfo"
-        component={CourseInfo}
-        options={{title: '강의', headerShown: true}}
-      />
-      <Stack.Screen
-        name="StudentInfo"
-        component={StudentInfo}
-        options={{title: '학생 정보', headerShown: true}}
-      />
-      <Stack.Screen
-        name="Attendance"
-        component={Attendance}
-        options={{title: '수업 출석부'}}
-      />
-      <Stack.Screen
-        name="StudentAttendance"
-        component={StudentAttendance}
-        options={{title: '출석부'}}
-      />
-      <Stack.Screen
-        name="QRCodeScanner"
-        component={QRCodeScanner}
-        options={{title: 'QRcode', headerShown: false}}
-      />
-      <Stack.Screen
-        name="AttendanceWeb"
-        component={AttendanceWeb}
-        options={{title: 'AttendanceWeb', headerShown: true}}
-      />
-    </Stack.Navigator>
+    <StudentScreenNavigator />
   );
 }
 
