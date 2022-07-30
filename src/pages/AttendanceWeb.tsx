@@ -12,12 +12,13 @@ const AttendanceWeb = ({route, navigation}) => {
   const handleSetRef = _ref => {
     webRef = _ref;
   };
-  const native_to_web = () => {
-    console.log(webRef.postMessage(accessToken));
-  };
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
+  const native_to_web = () => {
+    console.log(accessToken);
+    console.log('token', webRef.postMessage(accessToken));
+  };
   const handleOnMessage = e => {
-    console.log('api 결과 =', e.nativeEvent.data);
+    console.log('web 으로부터 받은 데이터', e.nativeEvent.data);
     Alert.alert(
       //alert 사용
       '',

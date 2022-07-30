@@ -38,7 +38,7 @@ function Main() {
       },
     });
     console.log('내 랭킹:', response.data);
-    setMyRank(response.data.data);
+    setMyRank(response.data.data.myRank);
   };
 
   useEffect(() => {
@@ -46,6 +46,7 @@ function Main() {
   }, []);
 
   const getPoint = async () => {
+    console.log(accessToken);
     const response = await axios.post(
       `${Config.API_URL}/member/point`,
       {},

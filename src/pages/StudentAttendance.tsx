@@ -49,7 +49,6 @@ function StudentAttendance({route, navigation}) {
         // 이벤트 발생시 로그를 찍는다
         {text: '지각', onPress: () => edit_attendance(item, '지각')},
       ],
-      {cancelable: false},
     );
   };
   const edit_attendance = (id, state) => {
@@ -73,7 +72,6 @@ function StudentAttendance({route, navigation}) {
     })
       .then(response => {
         console.log('response', response.data);
-
         setStudentsLength(response.data.length);
         let attendances = [];
         for (let i = 0; i < response.data.length; i++) {
