@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   Image,
   Pressable,
@@ -14,7 +14,11 @@ import SetUpProfile from '../components/SetUpProfile';
 import {Fonts} from '../assets/Fonts';
 import Ranking from './Ranking';
 import LinearGradient from 'react-native-linear-gradient';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {
+  NavigationProp,
+  useFocusEffect,
+  useNavigation,
+} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store/reducer';
 import axios from 'axios';
@@ -39,14 +43,16 @@ function Main() {
     });
     console.log('내 랭킹:', response.data);
     setMyRank(response.data.data.myRank);
+    setMyLevel(response.data.data.myLevel);
   };
 
-  useEffect(() => {
-    getMyRank();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      getMyRank();
+    }, []),
+  );
 
   const getPoint = async () => {
-    console.log(accessToken);
     const response = await axios.post(
       `${Config.API_URL}/member/point`,
       {},
@@ -77,7 +83,7 @@ function Main() {
             }}
           />
           <Text>
-            {nickname}님 랭킹은 *{myRank}위입니다~~~~~!
+            {nickname}님 랭킹은 {myLevel}등급 *{myRank}위입니다~~~~~!
           </Text>
         </Pressable>
       </View>

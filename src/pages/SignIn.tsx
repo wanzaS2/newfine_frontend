@@ -38,6 +38,8 @@ function SignIn({navigation}: SignInScreenProps) {
 
   const a = useSelector((state: RootState) => state.user.accessToken);
 
+  const authority = useSelector((state: RootState) => !!state.user.authority);
+
   const onChangePhoneNumber = useCallback(text => {
     setPhoneNumber(text.trim());
   }, []);
@@ -70,6 +72,14 @@ function SignIn({navigation}: SignInScreenProps) {
           // photoURL: response.data.photoURL,
         }),
       );
+      dispatch(
+        userSlice.actions.setAuthority({
+          authority: responseT.data.authority,
+          // phoneNumber: response.data.phoneNumber,
+          // nickname: response.data.nickname,
+          // photoURL: response.data.photoURL,
+        }),
+      );
       await EncryptedStorage.setItem(
         'refreshToken',
         responseT.data.refreshToken,
@@ -87,94 +97,113 @@ function SignIn({navigation}: SignInScreenProps) {
       console.log('response 받은 거: ', responseT.data.accessToken);
       console.log('로컬에서 꺼내온 거: ', accessToken);
 
-      const response = await axios.get(`${Config.API_URL}/member/me`, {
-        params: {},
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      console.log(response.data);
-      dispatch(
-        userSlice.actions.setUser({
-          phoneNumber: response.data.phoneNumber,
-          nickname: response.data.nickname,
-          photoURL: response.data.photoURL,
-        }),
-      );
-      console.log(response.data);
+      if (authority === 'ROLE_USER') {
+        const response = await axios.get(`${Config.API_URL}/member/me`, {
+          params: {},
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        console.log(response.data);
+        dispatch(
+          userSlice.actions.setUser({
+            phoneNumber: response.data.phoneNumber,
+            nickname: response.data.nickname,
+            photoURL: response.data.photoURL,
+          }),
+        );
+        console.log(response.data);
 
-      // ).then(async () => {
-      //   await EncryptedStorage.getItem('accessToken', (err, result) => {
-      //     axios
-      //       .get(`${Config.API_URL}/member/me`, {
-      //         params: {},
-      //         headers: {
-      //           Authorization: `Bearer ${result}`,
-      //         },
-      //       })
-      //       .then(response =>
-      //         dispatch(
-      //           userSlice.actions.setUser({
-      //             // accessToken: response.data.accessToken,
-      //             phoneNumber: response.data.phoneNumber,
-      //             nickname: response.data.data.nickname,
-      //             photoURL: response.data.data.photoURL,
-      //           }),
-      //         ),
-      //       );
-      //   });
-      // });
+        // ).then(async () => {
+        //   await EncryptedStorage.getItem('accessToken', (err, result) => {
+        //     axios
+        //       .get(`${Config.API_URL}/member/me`, {
+        //         params: {},
+        //         headers: {
+        //           Authorization: `Bearer ${result}`,
+        //         },
+        //       })
+        //       .then(response =>
+        //         dispatch(
+        //           userSlice.actions.setUser({
+        //             // accessToken: response.data.accessToken,
+        //             phoneNumber: response.data.phoneNumber,
+        //             nickname: response.data.data.nickname,
+        //             photoURL: response.data.data.photoURL,
+        //           }),
+        //         ),
+        //       );
+        //   });
+        // });
 
-      //
-      // await EncryptedStorage.getItem('accessToken', (err, result) => {
-      //   const accessT = result;
-      // });
-      // const response = await axios.get(`${Config.API_URL}/member/me`, {
-      //   params: {},
-      //   headers: {
-      //     Authorization: `Bearer ${accessT}`,
-      //   },
-      // });
-      // dispatch(
-      //   userSlice.actions.setUser({
-      //     // accessToken: response.data.accessToken,
-      //     phoneNumber: response.data.phoneNumber,
-      //     nickname: response.data.nickname,
-      //     photoURL: response.data.photoURL,
-      //   }),
-      // );
-      // const accessToken = responseToken.data.accessToken;
-      // const response = await axios.post(
-      //   `${Config.API_URL}/auth/myInfo`,
-      //   {},
-      //   {
-      //     headers: {
-      //       token: accessToken,
-      //       // token: `Bearer ${acT}`,
-      //     },
-      //     // headers: {authorization: `Bearer ${accessToken}`},
-      //   },
-      // );
-
-      console.log('액토', a);
-
-      Alert.alert('알림', '로그인 되었습니다.');
-      if (!isProfile) {
-        // dispatch(
-        //   userSlice.actions.setPhoneNumber({
-        //     phoneNumber: response.data.phoneNumber,
-        //   }),
-        // );
-        nav.navigate('Welcome');
-      } else {
+        //
+        // await EncryptedStorage.getItem('accessToken', (err, result) => {
+        //   const accessT = result;
+        // });
+        // const response = await axios.get(`${Config.API_URL}/member/me`, {
+        //   params: {},
+        //   headers: {
+        //     Authorization: `Bearer ${accessT}`,
+        //   },
+        // });
         // dispatch(
         //   userSlice.actions.setUser({
+        //     // accessToken: response.data.accessToken,
         //     phoneNumber: response.data.phoneNumber,
         //     nickname: response.data.nickname,
         //     photoURL: response.data.photoURL,
         //   }),
         // );
-        nav.navigate('Main');
+        // const accessToken = responseToken.data.accessToken;
+        // const response = await axios.post(
+        //   `${Config.API_URL}/auth/myInfo`,
+        //   {},
+        //   {
+        //     headers: {
+        //       token: accessToken,
+        //       // token: `Bearer ${acT}`,
+        //     },
+        //     // headers: {authorization: `Bearer ${accessToken}`},
+        //   },
+        // );
+
+        console.log('액토', a);
+
+        Alert.alert('알림', '로그인 되었습니다.');
+        if (!isProfile) {
+          // dispatch(
+          //   userSlice.actions.setPhoneNumber({
+          //     phoneNumber: response.data.phoneNumber,
+          //   }),
+          // );
+          nav.navigate('Welcome');
+        } else {
+          // dispatch(
+          //   userSlice.actions.setUser({
+          //     phoneNumber: response.data.phoneNumber,
+          //     nickname: response.data.nickname,
+          //     photoURL: response.data.photoURL,
+          //   }),
+          // );
+          nav.navigate('Main');
+        }
+      } else {
+        const response = await axios.get(`${Config.API_URL}/member/teacher`, {
+          params: {},
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        console.log(response.data);
+        dispatch(
+          userSlice.actions.setTeacher({
+            phoneNumber: response.data.phoneNumber,
+            name: response.data.name,
+          }),
+        );
+        console.log(response.data);
+        Alert.alert('알림', '로그인 되었습니다.');
+        nav.navigate('TeacherMain');
       }
     } catch (error) {
       const errorResponse = (error as AxiosError).response;
@@ -184,7 +213,7 @@ function SignIn({navigation}: SignInScreenProps) {
     } finally {
       setLoading(false);
     }
-  }, [loading, phoneNumber, password, dispatch, a, isProfile, nav]);
+  }, [loading, phoneNumber, password, dispatch, authority, a, isProfile, nav]);
 
   const toSignUpAuth = useCallback(() => {
     navigation.navigate('SignUpAuth');
