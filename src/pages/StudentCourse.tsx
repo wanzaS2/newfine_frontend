@@ -70,7 +70,7 @@ function StudentCourse({navigation}) {
                         fontSize: 20,
                         fontWeight: 'bold',
                       }}>
-                      {item.cname}
+
                     </Text>
                     <Text
                       style={{
@@ -79,8 +79,6 @@ function StudentCourse({navigation}) {
                         fontSize: 20,
                         fontWeight: 'bold',
                       }}>
-                      {item.teacher.tname} 선생님
-                    </Text>
                   </View>
                 </View>
               </TouchableOpacity>
