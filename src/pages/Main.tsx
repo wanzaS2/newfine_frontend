@@ -43,7 +43,6 @@ function Main() {
     });
     console.log('내 랭킹:', response.data);
     setMyRank(response.data.data.myRank);
-    setMyLevel(response.data.data.myLevel);
   };
 
   useFocusEffect(

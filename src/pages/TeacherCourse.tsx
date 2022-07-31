@@ -16,14 +16,23 @@ import {
 // import EachRanking from '../components/EachRanking';
 import Config from 'react-native-config';
 import axios from 'axios';
+import {useSelector} from 'react-redux';
+import {RootState} from '../store/reducer';
 
 function TeacherCourse({navigation}) {
   const [courseList, setCourseList] = useState();
   const [listLength, setCourseLength] = useState();
   const [loading, setLoading] = useState(false);
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
 
   const getCourses = () => {
-    axios(`${Config.API_URL}/teacher/courses`)
+    axios
+      .get(`${Config.API_URL}/teacher/courses`, {
+        params: {},
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
       .then(response => {
         setCourseList(response.data);
         setCourseLength(response.data.length);

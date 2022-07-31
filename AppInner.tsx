@@ -325,11 +325,6 @@ function AppInner() {
           options={{title: '마이페이지'}}
         />
         <Stack.Screen
-          name="TeacherCourse"
-          component={TeacherCourse}
-          options={{title: '내 강의', headerShown: true}}
-        />
-        <Stack.Screen
           name="CourseInfo"
           component={CourseInfo}
           options={{title: '강의', headerShown: true}}
@@ -370,6 +365,11 @@ function AppInner() {
           name="TeacherMain"
           component={TeacherMain}
           options={{title: 'TeacherMain', headerShown: true}}
+        />
+        <Stack.Screen
+          name="TeacherCourse"
+          component={TeacherCourse}
+          options={{title: '내 강의', headerShown: true}}
         />
       </Stack.Navigator>
     );
