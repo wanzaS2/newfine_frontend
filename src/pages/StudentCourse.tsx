@@ -47,7 +47,7 @@ function StudentCourse({navigation}) {
             data={courseList}
             renderItem={({item, index}) => (
               <TouchableOpacity
-                onPress={() => navigation.navigate('TeacherCourseInfo', item)}>
+                onPress={() => navigation.navigate('StudentCourseInfo', item)}>
                 <View
                   style={{
                     borderRadius: 10,
@@ -69,16 +69,16 @@ function StudentCourse({navigation}) {
                         marginLeft: 30,
                         fontSize: 20,
                         fontWeight: 'bold',
-                      }}>
-
-                    </Text>
+                      }}
+                    />
                     <Text
                       style={{
                         position: 'absolute',
                         right: 30,
                         fontSize: 20,
                         fontWeight: 'bold',
-                      }}>
+                      }}
+                    />
                   </View>
                 </View>
               </TouchableOpacity>

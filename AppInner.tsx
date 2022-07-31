@@ -4,6 +4,7 @@ import SignUpAuth from './src/pages/SignUpAuth';
 import Ranking from './src/pages/Ranking';
 import Main from './src/pages/Main';
 import Welcome from './src/pages/Welcome';
+import StudentCourseInfo from './src/pages/StudentCourseInfo';
 import TeacherCourse from './src/pages/TeacherCourse';
 import TeacherCourseInfo from './src/pages/TeacherCourseInfo';
 import Attendance from './src/pages/Attendance';
@@ -28,10 +29,11 @@ import {useAppDispatch} from './src/store';
 import MyPointList from './src/pages/MyPointList';
 import AllRanking from './src/pages/AllRanking';
 import MyPage from './src/pages/MyPage';
-
+import StudentCourse from './src/pages/StudentCourse';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import TeacherMain from './src/pages/TeacherMain';
+import isMockFunction = jest.isMockFunction;
 
 export type LoggedInParamList = {
   Welcome: undefined;
@@ -318,6 +320,21 @@ function AppInner() {
           name="AllRanking"
           component={AllRanking}
           options={{title: '전체 랭킹'}}
+        />
+        <Stack.Screen
+          name="MyPage"
+          component={MyPage}
+          options={{title: '마이페이지'}}
+        />
+        <Stack.Screen
+          name="StudentCourse"
+          component={StudentCourse}
+          options={{title: '내 강의'}}
+        />
+        <Stack.Screen
+          name="StudentCourseInfo"
+          component={StudentCourseInfo}
+          options={{title: '강의정보'}}
         />
         <Stack.Screen
           name="MyPage"
