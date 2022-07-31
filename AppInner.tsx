@@ -33,7 +33,7 @@ import StudentCourse from './src/pages/StudentCourse';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import TeacherMain from './src/pages/TeacherMain';
-import isMockFunction = jest.isMockFunction;
+// import isMockFunction = jest.isMockFunction;
 
 export type LoggedInParamList = {
   Welcome: undefined;
@@ -352,11 +352,6 @@ function AppInner() {
           name="StudentCourseInfo"
           component={StudentCourseInfo}
           options={{title: '강의정보'}}
-        />
-        <Stack.Screen
-          name="MyPage"
-          component={MyPage}
-          options={{title: '마이페이지'}}
         />
         <Stack.Screen
           name="QRCodeScanner"
