@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   Image,
   Pressable,
@@ -14,13 +14,17 @@ import SetUpProfile from '../components/SetUpProfile';
 import {Fonts} from '../assets/Fonts';
 import Ranking from './Ranking';
 import LinearGradient from 'react-native-linear-gradient';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {
+  NavigationProp,
+  useFocusEffect,
+  useNavigation,
+} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store/reducer';
 import axios from 'axios';
 import Config from 'react-native-config';
 import QRCodeScanner from './QRCodeScanner';
-
+import TeacherCourse from './TeacherCourse';
 type MainScreenProps = NativeStackScreenProps<RootStackParamList, 'Welcome'>;
 
 function Main() {
@@ -38,12 +42,14 @@ function Main() {
       },
     });
     console.log('내 랭킹:', response.data);
-    setMyRank(response.data.data);
+    setMyRank(response.data.data.myRank);
   };
 
-  useEffect(() => {
-    getMyRank();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      getMyRank();
+    }, []),
+  );
 
   const getPoint = async () => {
     const response = await axios.post(
@@ -76,7 +82,7 @@ function Main() {
             }}
           />
           <Text>
-            {nickname}님 랭킹은 *{myRank}위입니다~~~~~!
+            {nickname}님 랭킹은 {myLevel}등급 *{myRank}위입니다~~~~~!
           </Text>
         </Pressable>
       </View>
@@ -90,7 +96,11 @@ function Main() {
           <LinearGradient
             colors={['skyblue', 'lightcyan']}
             style={styles.block}>
-            <Pressable>
+            <Pressable
+              style={styles.block}
+              onPress={() => {
+                navigation.navigate('TeacherCourse');
+              }}>
               <View style={{alignItems: 'center'}}>
                 <Image
                   source={require('../assets/images/main/free-icon-teach-4696563.png')}

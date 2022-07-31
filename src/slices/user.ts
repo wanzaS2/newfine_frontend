@@ -6,6 +6,7 @@ const initialState = {
   nickname: '',
   accessToken: '',
   photoURL: '',
+  authority: '',
 };
 const userSlice = createSlice({
   name: 'user',
@@ -15,10 +16,20 @@ const userSlice = createSlice({
       state.phoneNumber = action.payload.phoneNumber;
       state.nickname = action.payload.nickname;
       state.photoURL = action.payload.photoURL;
+      // state.authority = action.payload.authority;
+      // state.accessToken = action.payload.accessToken;
+    },
+    setTeacher(state, action) {
+      state.phoneNumber = action.payload.phoneNumber;
+      state.name = action.payload.name;
+      // state.authority = action.payload.authority;
       // state.accessToken = action.payload.accessToken;
     },
     setAccessToken(state, action) {
       state.accessToken = action.payload.accessToken;
+    },
+    setAuthority(state, action) {
+      state.authority = action.payload.authority;
     },
     setProfile(state, action) {
       state.nickname = action.payload.nickname;

@@ -32,7 +32,7 @@ function MyPointList({navigation}) {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-
+      console.log(accessToken);
       console.log('리스트 출력1: ', response.data);
       console.log('리스트 출력2: ', response.data.data);
 
