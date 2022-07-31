@@ -38,7 +38,7 @@ function SignIn({navigation}: SignInScreenProps) {
 
   const a = useSelector((state: RootState) => state.user.accessToken);
 
-  const authority = useSelector((state: RootState) => !!state.user.authority);
+  const authority = useSelector((state: RootState) => state.user.authority);
 
   const onChangePhoneNumber = useCallback(text => {
     setPhoneNumber(text.trim());
@@ -170,23 +170,23 @@ function SignIn({navigation}: SignInScreenProps) {
         console.log('액토', a);
 
         Alert.alert('알림', '로그인 되었습니다.');
-        if (!isProfile) {
-          // dispatch(
-          //   userSlice.actions.setPhoneNumber({
-          //     phoneNumber: response.data.phoneNumber,
-          //   }),
-          // );
-          nav.navigate('Welcome');
-        } else {
-          // dispatch(
-          //   userSlice.actions.setUser({
-          //     phoneNumber: response.data.phoneNumber,
-          //     nickname: response.data.nickname,
-          //     photoURL: response.data.photoURL,
-          //   }),
-          // );
-          nav.navigate('Main');
-        }
+        // if (!isProfile) {
+        //   // dispatch(
+        //   //   userSlice.actions.setPhoneNumber({
+        //   //     phoneNumber: response.data.phoneNumber,
+        //   //   }),
+        //   // );
+        //   nav.navigate('Welcome');
+        // } else {
+        //   // dispatch(
+        //   //   userSlice.actions.setUser({
+        //   //     phoneNumber: response.data.phoneNumber,
+        //   //     nickname: response.data.nickname,
+        //   //     photoURL: response.data.photoURL,
+        //   //   }),
+        //   // );
+        //   nav.navigate('Main');
+        // }
       } else {
         const response = await axios.get(`${Config.API_URL}/member/teacher`, {
           params: {},
@@ -203,7 +203,7 @@ function SignIn({navigation}: SignInScreenProps) {
         );
         console.log(response.data);
         Alert.alert('알림', '로그인 되었습니다.');
-        nav.navigate('TeacherMain');
+        // nav.navigate('TeacherMain');
       }
     } catch (error) {
       const errorResponse = (error as AxiosError).response;

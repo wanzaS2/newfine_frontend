@@ -16,7 +16,7 @@ const userSlice = createSlice({
       state.phoneNumber = action.payload.phoneNumber;
       state.nickname = action.payload.nickname;
       state.photoURL = action.payload.photoURL;
-      state.authority = action.payload.authority;
+      // state.authority = action.payload.authority;
       // state.accessToken = action.payload.accessToken;
     },
     setTeacher(state, action) {

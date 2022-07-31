@@ -57,7 +57,7 @@ function AppInner() {
     (state: RootState) => !!state.user.phoneNumber,
   );
   const isProfile = useSelector((state: RootState) => !!state.user.nickname);
-  const authority = useSelector((state: RootState) => !!state.user.authority);
+  const authority = useSelector((state: RootState) => state.user.authority);
   const access = useSelector((state: RootState) => state.user.accessToken);
   console.log(access);
   console.log('isLoggedIn', isLoggedIn);
@@ -109,6 +109,7 @@ function AppInner() {
           responseT.data.accessToken,
         );
 
+        console.log('선생님? 학생?: ', authority);
         console.log('셀렉터: ', access);
 
         const newAccessToken = await EncryptedStorage.getItem('accessToken');
@@ -137,7 +138,7 @@ function AppInner() {
           const response = await axios.get(`${Config.API_URL}/member/teacher`, {
             params: {},
             headers: {
-              Authorization: `Bearer ${accessToken}`,
+              Authorization: `Bearer ${newAccessToken}`,
             },
           });
           console.log(response.data);
@@ -171,7 +172,6 @@ function AppInner() {
         //       );
         //   });
         // });
-
         console.log(responseT.data);
       } catch (error) {
         await EncryptedStorage.clear();
@@ -377,7 +377,7 @@ function AppInner() {
 
   return !isLoggedIn ? (
     <LoginNavigator />
-  ) : authority != 'ROLE_ADMIN' ? (
+  ) : authority !== 'ROLE_USER' ? (
     // <Stack.Navigator>
     //   <Stack.Screen
     //     name="SignIn"
