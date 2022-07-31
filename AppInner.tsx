@@ -33,6 +33,7 @@ import StudentCourse from './src/pages/StudentCourse';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import TeacherMain from './src/pages/TeacherMain';
+import NewPassword from './src/pages/NewPassword';
 // import isMockFunction = jest.isMockFunction;
 
 export type LoggedInParamList = {
@@ -49,6 +50,7 @@ export type RootStackParamList = {
   SignIn: undefined;
   SignUpAuth: undefined;
   SignUp: {phoneNumber: string};
+  NewPassword: undefined;
 };
 
 const Stack = createNativeStackNavigator();
@@ -280,6 +282,17 @@ function AppInner() {
           name="SignIn"
           component={SignIn}
           options={{title: '로그인', headerShown: false}}
+        />
+        <Stack.Screen
+          name="NewPassword"
+          component={NewPassword}
+          options={{
+            title: '비밀번호 변경',
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+          }}
         />
         <Stack.Screen
           name="SignUpAuth"

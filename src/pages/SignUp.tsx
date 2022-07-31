@@ -128,12 +128,12 @@ function SignUp({navigation}: SignUpScreenProps) {
             }
             textContentType="password"
             secureTextEntry
-            returnKeyType="send"
+            returnKeyType="next"
             clearButtonMode="while-editing"
             ref={passwordRef}
             onSubmitEditing={() => chkPasswordRef.current?.focus()}
           />
-          <View style={{margin: 5}}></View>
+          <View style={{margin: 5}} />
           <MyTextInput
             placeholder="비밀번호 확인"
             placeholderTextColor="#666"

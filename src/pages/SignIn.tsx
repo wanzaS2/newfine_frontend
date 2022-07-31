@@ -292,15 +292,33 @@ function SignIn({navigation}: SignInScreenProps) {
             canGoNext={canGoNext}
             disable={!canGoNext || loading}
           />
-          <Pressable style={{alignItems: 'center'}} onPress={toSignUpAuth}>
-            <Text
-              style={{
-                fontFamily: Fonts.TRRegular,
-                textDecorationLine: 'underline',
+          <View>
+            <Pressable style={{alignItems: 'center'}} onPress={toSignUpAuth}>
+              <Text
+                style={{
+                  fontFamily: Fonts.TRRegular,
+                  textDecorationLine: 'underline',
+                }}>
+                회원가입하기
+              </Text>
+            </Pressable>
+          </View>
+          <View style={styles.inputWrapper}>
+            <Pressable
+              onPress={() => {
+                navigation.navigate('NewPassword');
               }}>
-              회원가입하기
-            </Text>
-          </Pressable>
+              <View style={{alignItems: 'center'}}>
+                <Text
+                  style={{
+                    fontFamily: Fonts.TRRegular,
+                    textDecorationLine: 'underline',
+                  }}>
+                  비밀번호를 잊어버리셨나요?
+                </Text>
+              </View>
+            </Pressable>
+          </View>
         </View>
       </DismissKeyboardView>
     </SafeAreaView>
