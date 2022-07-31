@@ -14,9 +14,9 @@ import {
 // import EachRanking from '../components/EachRanking';
 import Config from 'react-native-config';
 import axios from 'axios';
-import StudentInfo from './StudentInfo';
+import Listeners from './Listeners';
 
-function CourseInfo({route, navigation}) {
+function TeacherCourseInfo({route, navigation}) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ function CourseInfo({route, navigation}) {
     <View style={styles.container}>
       <Title title={route.params.cname} />
       <TouchableOpacity
-        onPress={() => navigation.navigate('StudentInfo', route.params)}>
+        onPress={() => navigation.navigate('Listeners', route.params)}>
         <View style={styles.box}>
           <Text style={styles.font}>학생정보</Text>
         </View>
@@ -57,11 +57,11 @@ const styles = StyleSheet.create({
   },
   box: {
     borderRadius: 10,
-    borderColor: '#eee8aa',
+    borderColor: '#b0e0e6',
     borderWidth: 1,
     padding: 10,
     marginBottom: 10,
-    backgroundColor: '#fffacd',
+    backgroundColor: '#e0ffff',
     width: '100%',
     height: 50,
     alignItems: 'center',
@@ -77,4 +77,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CourseInfo;
+export default TeacherCourseInfo;

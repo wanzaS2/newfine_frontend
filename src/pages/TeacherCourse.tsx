@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Title from '../components/Title';
 import Attendance from './Attendance';
-import CourseInfo from './CourseInfo';
+import TeacherCourseInfo from './TeacherCourseInfo';
 
 import {
   FlatList,
@@ -56,7 +56,7 @@ function TeacherCourse({navigation}) {
             data={courseList}
             renderItem={({item, index}) => (
               <TouchableOpacity
-                onPress={() => navigation.navigate('CourseInfo', item)}>
+                onPress={() => navigation.navigate('TeacherCourseInfo', item)}>
                 <View
                   style={{
                     borderRadius: 10,
