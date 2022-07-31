@@ -13,6 +13,7 @@ import DismissKeyboardView from '../components/DismissKeyboardView';
 import SetUpProfile from '../components/SetUpProfile';
 import {Fonts} from '../assets/Fonts';
 import Ranking from './Ranking';
+import StudentCourse from './StudentCourse';
 import LinearGradient from 'react-native-linear-gradient';
 import {
   NavigationProp,
@@ -99,7 +100,7 @@ function Main() {
             <Pressable
               style={styles.block}
               onPress={() => {
-                navigation.navigate('TeacherCourse');
+                navigation.navigate('StudentCourse');
               }}>
               <View style={{alignItems: 'center'}}>
                 <Image

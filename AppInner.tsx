@@ -34,7 +34,9 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import TeacherMain from './src/pages/TeacherMain';
 import isMockFunction = jest.isMockFunction;
-
+import Study from './src/pages/Study';
+import StudyIn from './src/pages/StudyIn';
+import StudyOut from './src/pages/StudyOut';
 export type LoggedInParamList = {
   Welcome: undefined;
   Main: undefined;
@@ -350,6 +352,21 @@ function AppInner() {
           name="AttendanceWeb"
           component={AttendanceWeb}
           options={{title: 'AttendanceWeb', headerShown: true}}
+        />
+        <Stack.Screen
+          name="Study"
+          component={Study}
+          options={{title: '자습', headerShown: true}}
+        />
+        <Stack.Screen
+          name="StudyIn"
+          component={StudyIn}
+          options={{title: '자습입실', headerShown: true}}
+        />
+        <Stack.Screen
+          name="StudyOut"
+          component={StudyOut}
+          options={{title: '자습퇴실', headerShown: true}}
         />
       </Stack.Navigator>
     );
