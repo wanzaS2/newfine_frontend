@@ -14,9 +14,9 @@ import AttendanceWeb from './src/pages/AttendanceWeb';
 import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useSelector} from 'react-redux';
-import {RootState} from './src/store/reducer';
+import reducer, {RootState} from './src/store/reducer';
 import useSocket from './src/hooks/useSocket';
-import {useEffect} from 'react';
+import {useCallback, useEffect, useReducer, useState} from 'react';
 import {Fonts} from './src/assets/Fonts';
 import SplashScreen from 'react-native-splash-screen';
 import EncryptedStorage from 'react-native-encrypted-storage';
@@ -32,6 +32,9 @@ import MyPage from './src/pages/MyPage';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import TeacherMain from './src/pages/TeacherMain';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import ImageResizer from 'react-native-image-resizer';
+import ImagePicker from 'react-native-image-crop-picker';
 
 export type LoggedInParamList = {
   Welcome: undefined;
@@ -51,6 +54,8 @@ export type RootStackParamList = {
 
 const Stack = createNativeStackNavigator();
 
+let b = true;
+
 function AppInner() {
   const dispatch = useAppDispatch();
   const isLoggedIn = useSelector(
@@ -58,7 +63,13 @@ function AppInner() {
   );
   const isProfile = useSelector((state: RootState) => !!state.user.nickname);
   const authority = useSelector((state: RootState) => state.user.authority);
+  console.log('으아가ㅏ아갇아가가ㅏ아ㅏ가가ㅏ아가: ', authority);
   const access = useSelector((state: RootState) => state.user.accessToken);
+
+  // const changeA = () => {
+  //   setAuthority1(a => !a);
+  //
+  // };
   console.log(access);
   console.log('isLoggedIn', isLoggedIn);
 
@@ -90,6 +101,13 @@ function AppInner() {
           `${Config.API_URL}/auth/refreshToken`, // 토큰 정보 리턴
           {accessToken, refreshToken},
         );
+        console.log(responseT.data);
+        console.log('등급???????: ', responseT.data.authority);
+        // setA(prev => {
+        //   return {...prev, a: responseT.data.authority};
+        // });
+        // console.log('되라 쫌!!!!!!!!!1: ', a.a);
+
         dispatch(
           userSlice.actions.setAccessToken({
             accessToken: responseT.data.accessToken,
@@ -109,7 +127,8 @@ function AppInner() {
           responseT.data.accessToken,
         );
 
-        console.log('선생님? 학생?: ', authority);
+        // console.log('선생님? 학생?: ', authority1);
+        // console.log('선생님? 학생?: ', authority);
         console.log('셀렉터: ', access);
 
         const newAccessToken = await EncryptedStorage.getItem('accessToken');
@@ -118,7 +137,7 @@ function AppInner() {
         console.log('로컬에서 꺼내온 거: ', newAccessToken);
         console.log('셀렉터: ', access);
 
-        if (authority === 'ROLE_USER') {
+        if (responseT.data.authority === 'ROLE_USER') {
           const response = await axios.get(`${Config.API_URL}/member/me`, {
             params: {},
             headers: {
@@ -172,7 +191,6 @@ function AppInner() {
         //       );
         //   });
         // });
-        console.log(responseT.data);
       } catch (error) {
         await EncryptedStorage.clear();
         console.error(error);
@@ -185,6 +203,8 @@ function AppInner() {
     };
     getTokenAndRefresh();
   }, [dispatch]);
+
+  console.log('b 변경 함수 밖:     ', b);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -375,6 +395,7 @@ function AppInner() {
     );
   };
 
+  console.log('삐이이이이잉이: ', authority);
   return !isLoggedIn ? (
     <LoginNavigator />
   ) : authority !== 'ROLE_USER' ? (

@@ -322,6 +322,10 @@ function MyPage({navigation}) {
           phoneNumber: '',
           nickname: '',
           photoURL: '',
+        }),
+      );
+      dispatch(
+        userSlice.actions.setAuthority({
           authority: '',
         }),
       );
@@ -332,6 +336,7 @@ function MyPage({navigation}) {
       );
       await EncryptedStorage.removeItem('refreshToken');
       await EncryptedStorage.removeItem('accessToken');
+      await EncryptedStorage.removeItem('authority');
     } catch (error) {
       const errorResponse = (error as AxiosError).response;
       console.error('에러ㅓㅓㅓㅓㅓㅓㅓ: ', errorResponse);
@@ -352,7 +357,7 @@ function MyPage({navigation}) {
         </Pressable>
       </View>
       <View style={styles.inputWrapper}>
-        <Pressable onPress={onLogout}>
+        <Pressable>
           <View style={{alignItems: 'center'}}>
             <Text>비밀번호 찾기</Text>
           </View>
