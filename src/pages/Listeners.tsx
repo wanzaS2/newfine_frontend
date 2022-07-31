@@ -22,7 +22,7 @@ import StudentAttendance from '../pages/StudentAttendance';
 import Attendance from './Attendance';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-function StudentInfo({route, navigation}) {
+function Listeners({route, navigation}) {
   const [Students, setStudents] = useState([]);
   const [listLength, setStudentsLength] = useState();
   const [loading, setLoading] = useState(true);
@@ -115,4 +115,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StudentInfo;
+export default Listeners;
