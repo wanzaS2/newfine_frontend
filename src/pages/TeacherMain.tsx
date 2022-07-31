@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Alert,
   SafeAreaView,
+  TouchableOpacity,
 } from 'react-native';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import axios, {AxiosError} from 'axios';
@@ -14,12 +15,13 @@ import userSlice from '../slices/user';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store/reducer';
 import {useAppDispatch} from '../store';
-
-function TeacherMain() {
+import Title from '../components/Title';
+import TeacherCourse from './TeacherCourse';
+function TeacherMain({navigation}) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const name = useSelector((state: RootState) => state.user.name);
   const dispatch = useAppDispatch();
-
+  const teacher = name + ' Teacher';
   const onLogout = useCallback(async () => {
     try {
       console.log(accessToken);
@@ -56,21 +58,29 @@ function TeacherMain() {
   }, [accessToken, dispatch]);
 
   return (
-    <SafeAreaView>
-      <View style={styles.inputWrapper}>
-        <Text>선생님메인</Text>
-      </View>
-      <View style={styles.inputWrapper}>
-        <Text>{name}님 안녕하세용</Text>
-      </View>
-      <View style={styles.inputWrapper}>
-        <Pressable onPress={onLogout}>
-          <View style={{alignItems: 'center'}}>
-            <Text>logout</Text>
-          </View>
-        </Pressable>
-      </View>
-    </SafeAreaView>
+    <View style={styles.container}>
+      <Title title={teacher} />
+      <TouchableOpacity onPress={() => navigation.navigate('TeacherCourse')}>
+        <View style={styles.box}>
+          <Text style={styles.font}>내 수업</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Attendance')}>
+        <View style={styles.box}>
+          <Text style={styles.font}>현재 랭킹</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity>
+        <View style={styles.box}>
+          <Text style={styles.font}>내 정보</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={onLogout}>
+        <View style={styles.box}>
+          <Text style={styles.font}>로그아웃</Text>
+        </View>
+      </TouchableOpacity>
+    </View>
   );
 }
 
@@ -79,6 +89,34 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     padding: 10,
     alignItems: 'center',
+  },
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+  },
+  header: {
+    height: 60,
+    backgroundColor: 'green',
+  },
+  box: {
+    borderRadius: 10,
+    borderColor: '#b0e0e6',
+    borderWidth: 1,
+    padding: 10,
+    marginBottom: 10,
+    backgroundColor: '#e0ffff',
+    width: '100%',
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  font: {
+    flex: 1,
+    fontSize: 20,
+    fontWeight: 'bold',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 
