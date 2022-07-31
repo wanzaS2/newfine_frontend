@@ -60,11 +60,11 @@ function TeacherCourse({navigation}) {
                 <View
                   style={{
                     borderRadius: 10,
-                    borderColor: '#eee8aa',
+                    borderColor: '#b0e0e6',
                     borderWidth: 1,
                     padding: 10,
                     marginBottom: 10,
-                    backgroundColor: '#fffacd',
+                    backgroundColor: '#e0ffff',
                   }}>
                   <View
                     style={{
