@@ -6,7 +6,6 @@ import {
   Text,
   TextInput,
   View,
-  ActivityIndicator,
   SafeAreaView,
 } from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -14,24 +13,36 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 import DismissKeyboardView from '../components/DismissKeyboardView';
 import axios, {AxiosError} from 'axios';
 import Config from 'react-native-config';
-import {RootStackParamList} from '../../AppInner';
+import {LoggedInParamList, RootStackParamList} from '../../AppInner';
 import {useAppDispatch} from '../store';
 import userSlice from '../slices/user';
 import {Fonts} from '../assets/Fonts';
+import MyButton from '../components/MyButton';
+import MyTextInput from '../components/MyTextInput';
+import {useSelector} from 'react-redux';
+import {RootState} from '../store/reducer';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+// import user from '../slices/user';
 
 type SignInScreenProps = NativeStackScreenProps<RootStackParamList, 'SignIn'>;
 
 function SignIn({navigation}: SignInScreenProps) {
+  const nav = useNavigation<NavigationProp<LoggedInParamList>>();
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
-  // const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
-  const usernameRef = useRef<TextInput | null>(null);
+  const phoneNumberRef = useRef<TextInput | null>(null);
   const passwordRef = useRef<TextInput | null>(null);
+  const isProfile = useSelector((state: RootState) => !!state.user.nickname);
 
-  const onChangeUsername = useCallback(text => {
-    setUsername(text.trim());
+  const a = useSelector((state: RootState) => state.user.accessToken);
+
+  // const authority = useSelector((state: RootState) => state.user.authority);
+
+  const onChangePhoneNumber = useCallback(text => {
+    setPhoneNumber(text.trim());
   }, []);
   const onChangePassword = useCallback(text => {
     setPassword(text.trim());
@@ -40,31 +51,163 @@ function SignIn({navigation}: SignInScreenProps) {
     if (loading) {
       return;
     }
-    if (!username || !username.trim()) {
-      return Alert.alert('알림', '이메일을 입력해주세요.');
+    if (!phoneNumber || !phoneNumber.trim()) {
+      return Alert.alert('알림', '전화번호를 입력해주세요.');
     }
     if (!password || !password.trim()) {
       return Alert.alert('알림', '비밀번호를 입력해주세요.');
     }
     try {
       setLoading(true);
-      const response = await axios.post(`${Config.API_URL}/auth/login`, {
-        username,
+
+      const responseT = await axios.post(`${Config.API_URL}/auth/login`, {
+        phoneNumber,
         password,
       });
-      console.log(response.data);
-      Alert.alert('알림', '로그인 되었습니다.');
+      console.log(responseT.data); // 토큰 정보 출력
       dispatch(
-        userSlice.actions.setUser({
-          nickname: response.data.data.nickname,
-          username: response.data.data.username,
-          accessToken: response.data.data.accessToken,
+        userSlice.actions.setAccessToken({
+          accessToken: responseT.data.accessToken,
+          // phoneNumber: response.data.phoneNumber,
+          // nickname: response.data.nickname,
+          // photoURL: response.data.photoURL,
+        }),
+      );
+      dispatch(
+        userSlice.actions.setAuthority({
+          authority: responseT.data.authority,
+          // phoneNumber: response.data.phoneNumber,
+          // nickname: response.data.nickname,
+          // photoURL: response.data.photoURL,
         }),
       );
       await EncryptedStorage.setItem(
         'refreshToken',
-        response.data.data.refreshToken,
+        responseT.data.refreshToken,
       );
+      await EncryptedStorage.setItem('accessToken', responseT.data.accessToken);
+
+      // console.log('response 받은 거: ', responseT.data.accessToken);
+      // console.log(
+      //   '로컬에서 꺼내온 거: ',
+      //   await EncryptedStorage.getItem('accessToken'),
+      // );
+
+      const accessToken = await EncryptedStorage.getItem('accessToken');
+
+      console.log('response 받은 거: ', responseT.data.accessToken);
+      console.log('로컬에서 꺼내온 거: ', accessToken);
+
+      // console.log('사인인페이지의 authority:      ', authority);
+
+      if (responseT.data.authority === 'ROLE_USER') {
+        const response = await axios.get(`${Config.API_URL}/member/me`, {
+          params: {},
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        console.log(response.data);
+        dispatch(
+          userSlice.actions.setUser({
+            phoneNumber: response.data.phoneNumber,
+            nickname: response.data.nickname,
+            photoURL: response.data.photoURL,
+          }),
+        );
+        console.log(response.data);
+
+        // ).then(async () => {
+        //   await EncryptedStorage.getItem('accessToken', (err, result) => {
+        //     axios
+        //       .get(`${Config.API_URL}/member/me`, {
+        //         params: {},
+        //         headers: {
+        //           Authorization: `Bearer ${result}`,
+        //         },
+        //       })
+        //       .then(response =>
+        //         dispatch(
+        //           userSlice.actions.setUser({
+        //             // accessToken: response.data.accessToken,
+        //             phoneNumber: response.data.phoneNumber,
+        //             nickname: response.data.data.nickname,
+        //             photoURL: response.data.data.photoURL,
+        //           }),
+        //         ),
+        //       );
+        //   });
+        // });
+
+        //
+        // await EncryptedStorage.getItem('accessToken', (err, result) => {
+        //   const accessT = result;
+        // });
+        // const response = await axios.get(`${Config.API_URL}/member/me`, {
+        //   params: {},
+        //   headers: {
+        //     Authorization: `Bearer ${accessT}`,
+        //   },
+        // });
+        // dispatch(
+        //   userSlice.actions.setUser({
+        //     // accessToken: response.data.accessToken,
+        //     phoneNumber: response.data.phoneNumber,
+        //     nickname: response.data.nickname,
+        //     photoURL: response.data.photoURL,
+        //   }),
+        // );
+        // const accessToken = responseToken.data.accessToken;
+        // const response = await axios.post(
+        //   `${Config.API_URL}/auth/myInfo`,
+        //   {},
+        //   {
+        //     headers: {
+        //       token: accessToken,
+        //       // token: `Bearer ${acT}`,
+        //     },
+        //     // headers: {authorization: `Bearer ${accessToken}`},
+        //   },
+        // );
+
+        console.log('액토', a);
+
+        Alert.alert('알림', '로그인 되었습니다.');
+        if (!isProfile) {
+          // dispatch(
+          //   userSlice.actions.setPhoneNumber({
+          //     phoneNumber: response.data.phoneNumber,
+          //   }),
+          // );
+          nav.navigate('Welcome');
+        } else {
+          // dispatch(
+          //   userSlice.actions.setUser({
+          //     phoneNumber: response.data.phoneNumber,
+          //     nickname: response.data.nickname,
+          //     photoURL: response.data.photoURL,
+          //   }),
+          // );
+          nav.navigate('Main');
+        }
+      } else {
+        const response = await axios.get(`${Config.API_URL}/member/teacher`, {
+          params: {},
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        console.log(response.data);
+        dispatch(
+          userSlice.actions.setTeacher({
+            phoneNumber: response.data.phoneNumber,
+            name: response.data.name,
+          }),
+        );
+        console.log(response.data);
+        Alert.alert('알림', '로그인 되었습니다.');
+        // nav.navigate('TeacherMain');
+      }
     } catch (error) {
       const errorResponse = (error as AxiosError).response;
       if (errorResponse) {
@@ -73,17 +216,13 @@ function SignIn({navigation}: SignInScreenProps) {
     } finally {
       setLoading(false);
     }
-  }, [loading, dispatch, username, password]);
-
-  // const toSignUp = useCallback(() => {
-  //   navigation.navigate('SignUp');
-  // }, [navigation]);
+  }, [loading, phoneNumber, password, dispatch, a, isProfile, nav]);
 
   const toSignUpAuth = useCallback(() => {
     navigation.navigate('SignUpAuth');
   }, [navigation]);
 
-  const canGoNext = username && password;
+  const canGoNext = phoneNumber && password;
   return (
     <SafeAreaView style={styles.container}>
       <DismissKeyboardView>
@@ -107,32 +246,31 @@ function SignIn({navigation}: SignInScreenProps) {
               fontSize: 30,
               lineHeight: 35,
             }}>
-            레쭈고~~~~~~~~~!:D
+            Fly High!!!:D
           </Text>
         </View>
         <View style={styles.loginArea}>
           <View style={styles.inputWrapper}>
-            <Text style={styles.label}>아이디</Text>
-            <TextInput
-              style={styles.textInput}
-              onChangeText={onChangeUsername}
-              placeholder="아이디를 입력해주세요"
+            <Text style={styles.label}>전화번호</Text>
+            <MyTextInput
+              onChangeText={onChangePhoneNumber}
+              placeholder="전화번호를 입력해주세요"
               placeholderTextColor="#666"
               importantForAutofill="yes"
-              autoComplete="username"
-              textContentType="username"
-              value={username}
+              autoComplete="tel"
+              textContentType="telephoneNumber"
+              keyboardType={'number-pad'}
+              value={phoneNumber}
               returnKeyType="next"
               clearButtonMode="while-editing"
-              ref={usernameRef}
+              ref={phoneNumberRef}
               onSubmitEditing={() => passwordRef.current?.focus()}
               blurOnSubmit={false}
             />
           </View>
           <View style={styles.inputWrapper}>
             <Text style={styles.label}>비밀번호</Text>
-            <TextInput
-              style={styles.textInput}
+            <MyTextInput
               placeholder="비밀번호를 입력해주세요 (영문, 숫자, 특수문자)"
               placeholderTextColor="#666"
               importantForAutofill="yes"
@@ -147,26 +285,38 @@ function SignIn({navigation}: SignInScreenProps) {
               onSubmitEditing={onSubmit}
             />
           </View>
-          <View style={styles.buttonZone}>
-            <Pressable
-              style={
-                canGoNext
-                  ? StyleSheet.compose(
-                      styles.loginButton,
-                      styles.loginButtonActive,
-                    )
-                  : styles.loginButton
-              }
-              disabled={!canGoNext || loading}
-              onPress={onSubmit}>
-              {loading ? (
-                <ActivityIndicator color="white" />
-              ) : (
-                <Text style={styles.loginButtonText}>로그인</Text>
-              )}
+          <MyButton
+            loading={loading}
+            text="로그인"
+            onPress={onSubmit}
+            canGoNext={canGoNext}
+            disable={!canGoNext || loading}
+          />
+          <View>
+            <Pressable style={{alignItems: 'center'}} onPress={toSignUpAuth}>
+              <Text
+                style={{
+                  fontFamily: Fonts.TRRegular,
+                  textDecorationLine: 'underline',
+                }}>
+                회원가입하기
+              </Text>
             </Pressable>
-            <Pressable onPress={toSignUpAuth}>
-              <Text style={{fontFamily: Fonts.TRRegular}}>회원가입하기</Text>
+          </View>
+          <View style={styles.inputWrapper}>
+            <Pressable
+              onPress={() => {
+                navigation.navigate('NewPassword');
+              }}>
+              <View style={{alignItems: 'center'}}>
+                <Text
+                  style={{
+                    fontFamily: Fonts.TRRegular,
+                    textDecorationLine: 'underline',
+                  }}>
+                  비밀번호를 잊어버리셨나요?
+                </Text>
+              </View>
             </Pressable>
           </View>
         </View>
@@ -191,19 +341,6 @@ const styles = StyleSheet.create({
   loginArea: {
     // backgroundColor: 'powderblue',
   },
-  textInput: {
-    backgroundColor: 'lightgrey',
-    fontFamily: Fonts.TRRegular,
-    fontSize: 13,
-    paddingTop: 5,
-    paddingBottom: 2,
-    paddingHorizontal: 15,
-    // borderWidth: StyleSheet.hairlineWidth,
-    // borderColor: 'darkblue',
-    // borderWidth: 1,
-    borderRadius: 30,
-    alignItems: 'center',
-  },
   inputWrapper: {
     padding: 20,
   },
@@ -211,25 +348,6 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.TRBold,
     fontSize: 17,
     marginBottom: 15,
-  },
-  buttonZone: {
-    alignItems: 'center',
-  },
-  loginButton: {
-    backgroundColor: 'gray',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 5,
-    marginBottom: 10,
-  },
-  loginButtonActive: {
-    backgroundColor: 'darkblue',
-  },
-  loginButtonText: {
-    fontFamily: Fonts.TRRegular,
-    fontWeight: 'bold',
-    color: 'white',
-    fontSize: 16,
   },
 });
 

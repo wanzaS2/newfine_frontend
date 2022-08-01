@@ -1,8 +1,6 @@
 import React, {useCallback, useRef, useState} from 'react';
 import {
-  ActivityIndicator,
   Alert,
-  Pressable,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -15,6 +13,9 @@ import axios, {AxiosError} from 'axios';
 import Config from 'react-native-config';
 import DismissKeyboardView from '../components/DismissKeyboardView';
 import {Fonts} from '../assets/Fonts';
+import MyButton from '../components/MyButton';
+import MyTextInput from '../components/MyTextInput';
+// import Overlay from 'react-native-elements/dist/overlay/Overlay';
 
 type SignUpAuthScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -23,28 +24,42 @@ type SignUpAuthScreenProps = NativeStackScreenProps<
 
 function SignUpAuth({navigation}: SignUpAuthScreenProps) {
   const [loading, setLoading] = useState(false);
-  const [phonenumber, setPhonenumber] = useState('');
-  const phonenumberRef = useRef<TextInput | null>(null);
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [buttonReady, setButtonReady] = useState<boolean>(false);
+  const [authButtonReady, setAuthButtonReady] = useState<boolean>(false);
+  const [authCode, setAuthCode] = useState('');
+  const [chkAuthCode, setChkAuthCode] = useState('');
+  const [visible, setVisible] = useState<boolean>(false);
+  const phoneNumberRef = useRef<TextInput | null>(null);
+  const authCodeRef = useRef<TextInput | null>(null);
 
-  const onChangePhonenumber = useCallback(text => {
-    setPhonenumber(text.trim());
+  const onChangePhoneNumber = useCallback(text => {
+    setPhoneNumber(text.trim());
+  }, []);
+  const onChangeAuthCode = useCallback(text => {
+    setAuthCode(text.trim());
   }, []);
   const onSubmit = useCallback(async () => {
     if (loading) {
       return;
     }
-    if (!phonenumber || !phonenumber.trim()) {
-      return Alert.alert('알림', '전화번호를 입력해주세요.');
+    if (phoneNumber.length < 11) {
+      setButtonReady(false);
+    } else {
+      setButtonReady(true);
     }
-    console.log(phonenumber);
+    if (!/^[0-9].{0,11}$/.test(phoneNumber)) {
+      return Alert.alert('알림', '하이픈 없이 11자리 전화번호를 입력해주세요.');
+    }
+    console.log(phoneNumber);
     try {
+      setVisible(true);
       setLoading(true);
-      const response = await axios.post(`${Config.API_URL}/auth/signup0`, {
-        phonenumber,
+      const response = await axios.post(`${Config.API_URL}/auth/sendMessage`, {
+        phoneNumber,
       });
+      setChkAuthCode(response.data);
       console.log(response.data);
-      // Alert.alert('알림', '회원가입 되었습니다.');
-      navigation.navigate('SignUp');
     } catch (error) {
       const errorResponse = (error as AxiosError).response;
       console.error(errorResponse);
@@ -54,50 +69,107 @@ function SignUpAuth({navigation}: SignUpAuthScreenProps) {
     } finally {
       setLoading(false);
     }
-  }, [loading, navigation, phonenumber]);
+  }, [loading, phoneNumber]);
 
-  const canGoNext = phonenumber;
+  const onChkAuthCode = useCallback(async () => {
+    if (loading) {
+      return;
+    }
+    if (authCode.length < 4) {
+      setAuthButtonReady(false);
+    } else {
+      setAuthButtonReady(true);
+    }
+    if (authCode != chkAuthCode) {
+      return Alert.alert('알림', '인증번호가 일치하지 않습니다.');
+    }
+    console.log(authCode, chkAuthCode);
+    try {
+      setLoading(true);
+      Alert.alert('알림', '전화번호 인증이 완료되었습니다.');
+      navigation.navigate('SignUp', {phoneNumber: phoneNumber});
+    } catch (error) {
+      // const errorResponse = (error as AxiosError).response;
+      // console.error(errorResponse);
+      // if (errorResponse) {
+      //   Alert.alert('알림', errorResponse.data.message);
+      // }
+    } finally {
+      setLoading(false);
+    }
+  }, [loading, authCode, chkAuthCode, navigation, phoneNumber]);
+
+  const canGoNext = phoneNumber && buttonReady;
+  const canGoNextAuth = authCode && authButtonReady;
   return (
     <SafeAreaView style={styles.container}>
       <DismissKeyboardView>
         <View style={styles.inputWrapper}>
-          <Text style={styles.label}>전화번호를 입력해주세용~!</Text>
-          <TextInput
-            style={styles.textInput}
-            onChangeText={onChangePhonenumber}
-            placeholder="전화번호를 입력해주세요"
+          <View style={styles.textArea}>
+            <Text style={{fontFamily: Fonts.TRBold, fontSize: 25}}>
+              전화번호를 입력해주세요.
+            </Text>
+            <Text
+              style={{fontFamily: Fonts.TRRegular, fontSize: 18, marginTop: 3}}>
+              전화번호를 아이디로 사용합니다.
+            </Text>
+          </View>
+          <MyTextInput
+            onChangeText={onChangePhoneNumber}
+            placeholder="하이픈 없이 11자리 전화번호를 입력해주세요."
             placeholderTextColor="#666"
             maxLength={11}
             textContentType="telephoneNumber"
             keyboardType={'number-pad'}
-            value={phonenumber}
+            value={phoneNumber}
             returnKeyType="send"
             clearButtonMode="while-editing"
-            ref={phonenumberRef}
-            // onSubmitEditing={() => nicknameRef.current?.focus()}
+            ref={phoneNumberRef}
             onSubmitEditing={onSubmit}
             blurOnSubmit={false}
           />
         </View>
-        <View style={styles.buttonZone}>
-          <Pressable
-            style={
-              canGoNext
-                ? StyleSheet.compose(
-                    styles.loginButton,
-                    styles.loginButtonActive,
-                  )
-                : styles.loginButton
+        <MyButton
+          loading={visible === true ? false : !true}
+          text="인증번호 발송"
+          onPress={() =>
+            canGoNext && {
+              onSubmit,
             }
-            disabled={!canGoNext || loading}
-            onPress={onSubmit}>
-            {loading ? (
-              <ActivityIndicator color="white" />
-            ) : (
-              <Text style={styles.loginButtonText}>다음</Text>
-            )}
-          </Pressable>
-        </View>
+          }
+          canGoNext={buttonReady}
+          disable={!canGoNext || loading}
+        />
+        {visible && (
+          <View style={styles.inputWrapper}>
+            <View style={styles.textArea}>
+              <Text style={{fontFamily: Fonts.TRBold, fontSize: 25}}>
+                인증번호를 입력해주세요.
+              </Text>
+            </View>
+            <MyTextInput
+              onChangeText={onChangeAuthCode}
+              placeholder="인증번호 4자리를 입력해주세요"
+              placeholderTextColor="#666"
+              maxLength={4}
+              textContentType="telephoneNumber"
+              keyboardType={'number-pad'}
+              value={authCode}
+              returnKeyType="send"
+              clearButtonMode="while-editing"
+              ref={authCodeRef}
+              onSubmitEditing={onChkAuthCode}
+              blurOnSubmit={false}
+            />
+            <MyButton
+              loading={loading}
+              text="확인"
+              onPress={onChkAuthCode}
+              canGoNext={authButtonReady}
+              disabled={!canGoNextAuth}
+            />
+          </View>
+        )}
       </DismissKeyboardView>
     </SafeAreaView>
   );
@@ -105,49 +177,15 @@ function SignUpAuth({navigation}: SignUpAuthScreenProps) {
 
 const styles = StyleSheet.create({
   container: {flex: 1},
-  textInput: {
-    backgroundColor: 'lightgrey',
-    fontFamily: Fonts.TRRegular,
-    fontSize: 13,
-    paddingTop: 5,
-    paddingBottom: 2,
-    paddingHorizontal: 10,
-    marginHorizontal: 10,
-    // borderWidth: StyleSheet.hairlineWidth,
-    // borderColor: 'darkblue',
-    // borderWidth: 1,
-    borderRadius: 5,
-    alignItems: 'center',
+  textArea: {
+    padding: 10,
+    marginTop: '15%',
+    justifyContent: 'center',
+    marginBottom: 5,
   },
   inputWrapper: {
-    paddingTop: 20,
+    // paddingTop: 20,
     padding: 10,
-  },
-  label: {
-    fontFamily: Fonts.TRBold,
-    fontSize: 18,
-    marginBottom: 15,
-    marginHorizontal: 10,
-  },
-  buttonZone: {
-    paddingTop: 20,
-    alignItems: 'center',
-  },
-  loginButton: {
-    backgroundColor: 'gray',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 5,
-    marginBottom: 10,
-  },
-  loginButtonActive: {
-    backgroundColor: 'darkblue',
-  },
-  loginButtonText: {
-    fontFamily: Fonts.TRRegular,
-    fontWeight: 'bold',
-    color: 'white',
-    fontSize: 16,
   },
 });
 export default SignUpAuth;

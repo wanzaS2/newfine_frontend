@@ -4,6 +4,8 @@ apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.grad
 
 import com.android.build.OutputFile
 import org.apache.tools.ant.taskdefs.condition.Os
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-android-extensions"
 
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
@@ -85,6 +87,7 @@ project.ext.react = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
