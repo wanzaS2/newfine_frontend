@@ -66,15 +66,12 @@ function NewPassword({navigation}) {
     // console.log(phoneNumber);
     try {
       setLoadingP(true);
-      const responseA = await axios.post(`${Config.API_URL}/member/a`, {
-        phoneNumber,
-      });
-      if (responseA.data == false) {
-        return Alert.alert('알림', '회원가입을 해주세요.');
-      }
-      const response = await axios.post(`${Config.API_URL}/auth/sendMessage`, {
-        phoneNumber,
-      });
+      const response = await axios.post(
+        `${Config.API_URL}/member/sendMessage`,
+        {
+          phoneNumber,
+        },
+      );
       setChkAuthCode(response.data);
       console.log(response.data);
     } catch (error) {
@@ -184,11 +181,7 @@ function NewPassword({navigation}) {
           <MyButton
             loading={loadingP}
             text="인증번호 발송"
-            onPress={() =>
-              canGoNextP && {
-                onSubmitPhoneNumber,
-              }
-            }
+            onPress={onSubmitPhoneNumber}
             canGoNext={canGoNextP}
             disable={!canGoNextP || loadingP}
           />
