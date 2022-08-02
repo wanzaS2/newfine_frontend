@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {Camera, CameraType} from 'react-native-camera-kit';
 import AttendanceWeb from './AttendanceWeb';
-import WebView from 'react-native-webview';
+
 import {useNavigation} from '@react-navigation/native';
 
 const QRCodeScanner = ({navigation}) => {

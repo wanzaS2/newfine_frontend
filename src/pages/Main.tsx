@@ -13,7 +13,6 @@ import DismissKeyboardView from '../components/DismissKeyboardView';
 import SetUpProfile from '../components/SetUpProfile';
 import {Fonts} from '../assets/Fonts';
 import Ranking from './Ranking';
-import StudentCourse from './StudentCourse';
 import LinearGradient from 'react-native-linear-gradient';
 import {
   NavigationProp,
@@ -83,7 +82,7 @@ function Main() {
             }}
           />
           <Text>
-            {nickname}님 랭킹은 {myLevel}등급 *{myRank}위입니다~~~~~!
+            {nickname}님 랭킹은 등급 *{myRank}위입니다~~~~~!
           </Text>
         </Pressable>
       </View>

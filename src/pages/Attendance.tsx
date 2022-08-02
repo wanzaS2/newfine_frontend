@@ -23,11 +23,10 @@ function Attendance({route, navigation}) {
   const [AttendanceList, setAttendanceList] = useState();
   const [listLength, setAttendanceLength] = useState();
   const [loading, setLoading] = useState(false);
-  const nav = useNavigation<NavigationProp<LoggedInParamList>>();
   const getAttendances = () => {
     console.log(route.params);
     axios(`${Config.API_URL}/attendances`, {
-      params: {id: route.params.cid},
+      params: {id: route.params.id},
     })
       .then(response => {
         setAttendanceList(response.data);
@@ -56,11 +55,11 @@ function Attendance({route, navigation}) {
                 <View
                   style={{
                     borderRadius: 10,
-                    borderColor: '#eee8aa',
+                    borderColor: '#b0e0e6',
                     borderWidth: 1,
                     padding: 10,
                     marginBottom: 10,
-                    backgroundColor: '#fafad2',
+                    backgroundColor: '#e0ffff',
                   }}>
                   <View
                     style={{

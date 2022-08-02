@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import Title from '../components/Title';
-import Attendance from './Attendance';
 import {
   FlatList,
   SafeAreaView,
@@ -14,24 +13,25 @@ import {
 // import EachRanking from '../components/EachRanking';
 import Config from 'react-native-config';
 import axios from 'axios';
-import Listeners from './Listeners';
+import StudyIn from './StudyIn';
+import StudyOut from './StudyOut';
 
 function Study({route, navigation}) {
-  const [loading, setLoading] = useState(false);
-
   useEffect(() => {
     console.log(route.params);
   }, []);
   return (
     <View style={styles.container}>
       <Title title={route.params.cname} />
-      <TouchableOpacity onPress={() => navigation.navigate('', route.params)}>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('StudyIn');
+        }}>
         <View style={styles.box}>
           <Text style={styles.font}>자습 입실</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => navigation.navigate('Attendance', route.params)}>
+      <TouchableOpacity>
         <View style={styles.box}>
           <Text style={styles.font}>자습 퇴실</Text>
         </View>
@@ -76,4 +76,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StudentCourseInfo;
+export default Study;
