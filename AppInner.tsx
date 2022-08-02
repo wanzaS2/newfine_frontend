@@ -357,6 +357,21 @@ function AppInner() {
           component={MyAttendance}
           options={{title: '출석현황'}}
         />
+        <Stack.Screen
+          name="Study"
+          component={Study}
+          options={{title: '자습', headerShown: true}}
+        />
+        <Stack.Screen
+          name="StudyIn"
+          component={StudyIn}
+          options={{title: '입실', headerShown: false}}
+        />
+        <Stack.Screen
+          name="StudyOut"
+          component={StudyOut}
+          options={{title: '출석현황', headerShown: false}}
+        />
       </Stack.Navigator>
     );
   };

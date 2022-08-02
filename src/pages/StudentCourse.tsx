@@ -91,7 +91,7 @@ function StudentCourse({navigation}) {
                 </View>
               </TouchableOpacity>
             )}
-            keyExtractor={item => String(item.course.cid)}
+            keyExtractor={item => String(item.course.id)}
           />
         </View>
       </SafeAreaView>

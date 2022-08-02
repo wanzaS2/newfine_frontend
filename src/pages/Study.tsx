@@ -17,28 +17,26 @@ import StudyIn from './StudyIn';
 import StudyOut from './StudyOut';
 
 function Study({route, navigation}) {
-  useEffect(() => {
-    console.log(route.params);
-  }, []);
+  useEffect(() => {}, []);
   return (
     <View style={styles.container}>
-      <Title title={route.params.cname} />
+      <Title title="자습" />
       <TouchableOpacity
         onPress={() => {
           navigation.navigate('StudyIn');
         }}>
         <View style={styles.box}>
-          <Text style={styles.font}>자습 입실</Text>
+          <Text style={styles.font}>입실</Text>
         </View>
       </TouchableOpacity>
       <TouchableOpacity>
         <View style={styles.box}>
-          <Text style={styles.font}>자습 퇴실</Text>
+          <Text style={styles.font}>퇴실</Text>
         </View>
       </TouchableOpacity>
       <TouchableOpacity>
         <View style={styles.box}>
-          <Text style={styles.font}>동영상신청</Text>
+          <Text style={styles.font}>자습시간</Text>
         </View>
       </TouchableOpacity>
     </View>
