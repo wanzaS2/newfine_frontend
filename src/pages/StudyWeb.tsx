@@ -5,7 +5,7 @@ import Main from './Main';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store/reducer';
 
-const AttendanceWeb = ({route, navigation}) => {
+const StudyWeb = ({route, navigation}) => {
   // 웹뷰에서 데이터를 받을 때 필요한 함수입니다.
   console.log(route.params);
 
@@ -50,4 +50,4 @@ const AttendanceWeb = ({route, navigation}) => {
   );
 };
 
-export default AttendanceWeb;
+export default StudyWeb;

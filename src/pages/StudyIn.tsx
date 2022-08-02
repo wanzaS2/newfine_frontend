@@ -10,10 +10,10 @@ import {
 } from 'react-native';
 import {Camera, CameraType} from 'react-native-camera-kit';
 import AttendanceWeb from './AttendanceWeb';
-
+import WebView from 'react-native-webview';
 import {useNavigation} from '@react-navigation/native';
 
-const QRCodeScanner = ({navigation}) => {
+const StudyIn = ({navigation}) => {
   const [scaned, setScaned] = useState<boolean>(true);
   const ref = useRef(null);
   const [url, setUrl] = useState('');
@@ -63,4 +63,4 @@ const styles = StyleSheet.create({
   },
   scanner: {flex: 1},
 });
-export default QRCodeScanner;
+export default StudyIn;
