@@ -34,6 +34,7 @@ function Main() {
   const photoUrl = useSelector((state: RootState) => state.user.photoURL);
   const nickname = useSelector((state: RootState) => state.user.nickname);
   const [myRank, setMyRank] = useState();
+  const [myLevel, setMyLevel] = useState();
 
   const getMyRank = async () => {
     const response = await axios.get(`${Config.API_URL}/ranking/myRank`, {
@@ -44,6 +45,7 @@ function Main() {
     });
     console.log('내 랭킹:', response.data);
     setMyRank(response.data.data.myRank);
+    setMyLevel(response.data.data.myLevel);
   };
 
   useFocusEffect(

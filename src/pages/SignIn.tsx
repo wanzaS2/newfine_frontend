@@ -22,6 +22,7 @@ import MyTextInput from '../components/MyTextInput';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store/reducer';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import user from '../slices/user';
 
 type SignInScreenProps = NativeStackScreenProps<RootStackParamList, 'SignIn'>;
@@ -38,7 +39,7 @@ function SignIn({navigation}: SignInScreenProps) {
 
   const a = useSelector((state: RootState) => state.user.accessToken);
 
-  const authority = useSelector((state: RootState) => state.user.authority);
+  // const authority = useSelector((state: RootState) => state.user.authority);
 
   const onChangePhoneNumber = useCallback(text => {
     setPhoneNumber(text.trim());
@@ -97,7 +98,9 @@ function SignIn({navigation}: SignInScreenProps) {
       console.log('response 받은 거: ', responseT.data.accessToken);
       console.log('로컬에서 꺼내온 거: ', accessToken);
 
-      if (authority === 'ROLE_USER') {
+      // console.log('사인인페이지의 authority:      ', authority);
+
+      if (responseT.data.authority === 'ROLE_USER') {
         const response = await axios.get(`${Config.API_URL}/member/me`, {
           params: {},
           headers: {
@@ -170,23 +173,23 @@ function SignIn({navigation}: SignInScreenProps) {
         console.log('액토', a);
 
         Alert.alert('알림', '로그인 되었습니다.');
-        // if (!isProfile) {
-        //   // dispatch(
-        //   //   userSlice.actions.setPhoneNumber({
-        //   //     phoneNumber: response.data.phoneNumber,
-        //   //   }),
-        //   // );
-        //   nav.navigate('Welcome');
-        // } else {
-        //   // dispatch(
-        //   //   userSlice.actions.setUser({
-        //   //     phoneNumber: response.data.phoneNumber,
-        //   //     nickname: response.data.nickname,
-        //   //     photoURL: response.data.photoURL,
-        //   //   }),
-        //   // );
-        //   nav.navigate('Main');
-        // }
+        if (!isProfile) {
+          // dispatch(
+          //   userSlice.actions.setPhoneNumber({
+          //     phoneNumber: response.data.phoneNumber,
+          //   }),
+          // );
+          nav.navigate('Welcome');
+        } else {
+          // dispatch(
+          //   userSlice.actions.setUser({
+          //     phoneNumber: response.data.phoneNumber,
+          //     nickname: response.data.nickname,
+          //     photoURL: response.data.photoURL,
+          //   }),
+          // );
+          nav.navigate('Main');
+        }
       } else {
         const response = await axios.get(`${Config.API_URL}/member/teacher`, {
           params: {},
@@ -213,7 +216,7 @@ function SignIn({navigation}: SignInScreenProps) {
     } finally {
       setLoading(false);
     }
-  }, [loading, phoneNumber, password, dispatch, authority, a, isProfile, nav]);
+  }, [loading, phoneNumber, password, dispatch, a, isProfile, nav]);
 
   const toSignUpAuth = useCallback(() => {
     navigation.navigate('SignUpAuth');
@@ -289,15 +292,33 @@ function SignIn({navigation}: SignInScreenProps) {
             canGoNext={canGoNext}
             disable={!canGoNext || loading}
           />
-          <Pressable style={{alignItems: 'center'}} onPress={toSignUpAuth}>
-            <Text
-              style={{
-                fontFamily: Fonts.TRRegular,
-                textDecorationLine: 'underline',
+          <View>
+            <Pressable style={{alignItems: 'center'}} onPress={toSignUpAuth}>
+              <Text
+                style={{
+                  fontFamily: Fonts.TRRegular,
+                  textDecorationLine: 'underline',
+                }}>
+                회원가입하기
+              </Text>
+            </Pressable>
+          </View>
+          <View style={styles.inputWrapper}>
+            <Pressable
+              onPress={() => {
+                navigation.navigate('NewPassword');
               }}>
-              회원가입하기
-            </Text>
-          </Pressable>
+              <View style={{alignItems: 'center'}}>
+                <Text
+                  style={{
+                    fontFamily: Fonts.TRRegular,
+                    textDecorationLine: 'underline',
+                  }}>
+                  비밀번호를 잊어버리셨나요?
+                </Text>
+              </View>
+            </Pressable>
+          </View>
         </View>
       </DismissKeyboardView>
     </SafeAreaView>
