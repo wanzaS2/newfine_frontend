@@ -24,8 +24,8 @@ import {RootState} from '../store/reducer';
 import axios from 'axios';
 import Config from 'react-native-config';
 import QRCodeScanner from './QRCodeScanner';
+import StudentCourse from './StudentCourse';
 import Study from './Study';
-import TeacherCourse from './TeacherCourse';
 type MainScreenProps = NativeStackScreenProps<RootStackParamList, 'Welcome'>;
 
 function Main() {
@@ -85,7 +85,7 @@ function Main() {
             }}
           />
           <Text>
-            {nickname}님 랭킹은 등급 *{myRank}위입니다~~~~~!
+            {nickname}님 랭킹은 {myLevel}등급 *{myRank}위입니다~~~~~!
           </Text>
         </Pressable>
       </View>

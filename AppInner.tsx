@@ -12,6 +12,7 @@ import StudentCourseInfo from './src/pages/StudentCourseInfo';
 import Study from './src/pages/Study';
 import StudyIn from './src/pages/StudyIn';
 import StudyOut from './src/pages/StudyOut';
+import StudyWeb from './src/pages/StudyWeb';
 import Attendance from './src/pages/Attendance';
 import MyAttendance from './src/pages/MyAttendance';
 import StudentAttendance from './src/pages/StudentAttendance';
@@ -40,7 +41,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import TeacherMain from './src/pages/TeacherMain';
 import NewPassword from './src/pages/NewPassword';
 // import isMockFunction = jest.isMockFunction;
-
 
 export type LoggedInParamList = {
   Welcome: undefined;
@@ -403,6 +403,11 @@ function AppInner() {
           name="StudyOut"
           component={StudyOut}
           options={{title: '출석현황', headerShown: false}}
+        />
+        <Stack.Screen
+          name="StudyWeb"
+          component={StudyWeb}
+          options={{title: '출석페이지', headerShown: false}}
         />
       </Stack.Navigator>
     );
