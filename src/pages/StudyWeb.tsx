@@ -31,9 +31,15 @@ const StudyWeb = ({route, navigation}) => {
     );
   };
   const handleOnMessage = e => {
-    console.log('web 으로부터 받은 데이터', e.nativeEvent.data);
+    console.log(
+      'web 으로부터 받은 데이터',
+      JSON.parse(e.nativeEvent.data).data,
+    );
+    var ans;
+    ans = JSON.parse(e.nativeEvent.data).data;
     console.log(route.params[1]);
-    if (e.nativeEvent.data.data == 1) {
+    console.log('0이야 1이야', e.nativeEvent.data);
+    if (ans == 1) {
       if (route.params[1].localeCompare('in') == 0) {
         Alert.alert(
           //alert 사용
@@ -71,7 +77,7 @@ const StudyWeb = ({route, navigation}) => {
         Alert.alert(
           //alert 사용
           '',
-          '이미 처리되었습니다',
+          '이미 입실 처리되었습니다',
           [
             //alert창 문구 작성]
             {
@@ -86,13 +92,13 @@ const StudyWeb = ({route, navigation}) => {
         Alert.alert(
           //alert 사용
           '',
-          '이미 처리되었습니다',
+          '입실을 먼저 해주세요!',
           [
             //alert창 문구 작성]
             {
               text: '확인',
               onPress: () => {
-                navigation.navigate('Main');
+                navigation.navigate('Study');
               },
             }, //alert 버튼 작성
           ],

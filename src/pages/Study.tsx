@@ -29,7 +29,10 @@ function Study({route, navigation}) {
           <Text style={styles.font}>입실</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('StudyOut');
+        }}>
         <View style={styles.box}>
           <Text style={styles.font}>퇴실</Text>
         </View>

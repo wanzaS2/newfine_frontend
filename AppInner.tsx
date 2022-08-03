@@ -6,7 +6,6 @@ import Main from './src/pages/Main';
 import Welcome from './src/pages/Welcome';
 import TeacherCourse from './src/pages/TeacherCourse';
 import TeacherCourseInfo from './src/pages/TeacherCourseInfo';
-import NewPassword from './src/pages/NewPassword';
 import Listeners from './src/pages/Listeners';
 import StudentCourse from './src/pages/StudentCourse';
 import StudentCourseInfo from './src/pages/StudentCourseInfo';
@@ -42,7 +41,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import TeacherMain from './src/pages/TeacherMain';
 import NewPassword from './src/pages/NewPassword';
 // import isMockFunction = jest.isMockFunction;
-
 
 export type LoggedInParamList = {
   Welcome: undefined;

@@ -9,8 +9,7 @@ import {
   View,
 } from 'react-native';
 import {Camera, CameraType} from 'react-native-camera-kit';
-import AttendanceWeb from './AttendanceWeb';
-import WebView from 'react-native-webview';
+import StudyWeb from './StudyWeb';
 import {useNavigation} from '@react-navigation/native';
 
 const StudyOut = ({navigation}) => {
@@ -33,7 +32,11 @@ const StudyOut = ({navigation}) => {
     setUrl(event.nativeEvent.codeStringValue);
     console.log('url', event.nativeEvent.codeStringValue);
     setScaned(true);
-    navigation.navigate('StudyWeb', event.nativeEvent.codeStringValue);
+    let params = [];
+    params.push(event.nativeEvent.codeStringValue);
+    params.push('out');
+
+    navigation.navigate('StudyWeb', params);
   };
 
   return (
