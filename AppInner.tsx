@@ -6,12 +6,14 @@ import Main from './src/pages/Main';
 import Welcome from './src/pages/Welcome';
 import TeacherCourse from './src/pages/TeacherCourse';
 import TeacherCourseInfo from './src/pages/TeacherCourseInfo';
+import NewPassword from './src/pages/NewPassword';
 import Listeners from './src/pages/Listeners';
 import StudentCourse from './src/pages/StudentCourse';
 import StudentCourseInfo from './src/pages/StudentCourseInfo';
 import Study from './src/pages/Study';
 import StudyIn from './src/pages/StudyIn';
 import StudyOut from './src/pages/StudyOut';
+import StudyWeb from './src/pages/StudyWeb';
 import Attendance from './src/pages/Attendance';
 import MyAttendance from './src/pages/MyAttendance';
 import StudentAttendance from './src/pages/StudentAttendance';
@@ -269,6 +271,17 @@ function AppInner() {
           options={{title: '로그인', headerShown: false}}
         />
         <Stack.Screen
+          name="NewPassword"
+          component={NewPassword}
+          options={{
+            title: '비밀번호 변경',
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+          }}
+        />
+        <Stack.Screen
           name="SignUpAuth"
           component={SignUpAuth}
           options={{
@@ -371,6 +384,11 @@ function AppInner() {
           name="StudyOut"
           component={StudyOut}
           options={{title: '출석현황', headerShown: false}}
+        />
+        <Stack.Screen
+          name="StudyWeb"
+          component={StudyWeb}
+          options={{title: '출석페이지', headerShown: false}}
         />
       </Stack.Navigator>
     );

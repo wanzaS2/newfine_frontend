@@ -24,7 +24,6 @@ import {RootState} from '../store/reducer';
 import axios from 'axios';
 import Config from 'react-native-config';
 import QRCodeScanner from './QRCodeScanner';
-import Study from './Study';
 import TeacherCourse from './TeacherCourse';
 type MainScreenProps = NativeStackScreenProps<RootStackParamList, 'Welcome'>;
 
@@ -34,6 +33,7 @@ function Main() {
   const photoUrl = useSelector((state: RootState) => state.user.photoURL);
   const nickname = useSelector((state: RootState) => state.user.nickname);
   const [myRank, setMyRank] = useState();
+  const [myLevel, setMyLevel] = useState();
 
   const getMyRank = async () => {
     const response = await axios.get(`${Config.API_URL}/ranking/myRank`, {
@@ -44,6 +44,7 @@ function Main() {
     });
     console.log('내 랭킹:', response.data);
     setMyRank(response.data.data.myRank);
+    setMyLevel(response.data.data.myLevel);
   };
 
   useFocusEffect(
@@ -83,7 +84,7 @@ function Main() {
             }}
           />
           <Text>
-            {nickname}님 랭킹은 등급 *{myRank}위입니다~~~~~!
+            {nickname}님 랭킹은 {myLevel}등급 *{myRank}위입니다~~~~~!
           </Text>
         </Pressable>
       </View>
@@ -100,7 +101,7 @@ function Main() {
             <Pressable
               style={styles.block}
               onPress={() => {
-                navigation.navigate('StudentCourse');
+                navigation.navigate('TeacherCourse');
               }}>
               <View style={{alignItems: 'center'}}>
                 <Image
@@ -146,7 +147,7 @@ function Main() {
           <Pressable
             style={styles.block}
             onPress={() => {
-              navigation.navigate('Study');
+              getPoint();
             }}>
             <View style={{alignItems: 'center'}}>
               <Image

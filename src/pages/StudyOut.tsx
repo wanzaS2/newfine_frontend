@@ -33,7 +33,7 @@ const StudyOut = ({navigation}) => {
     setUrl(event.nativeEvent.codeStringValue);
     console.log('url', event.nativeEvent.codeStringValue);
     setScaned(true);
-    navigation.navigate('AttendanceWeb', event.nativeEvent.codeStringValue);
+    navigation.navigate('StudyWeb', event.nativeEvent.codeStringValue);
   };
 
   return (
