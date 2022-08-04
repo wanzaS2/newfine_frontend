@@ -10,10 +10,6 @@ import {
   View,
 } from 'react-native';
 
-import {Fonts} from '../assets/Fonts';
-import LinearGradient from 'react-native-linear-gradient';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {LoggedInParamList} from '../../AppInner';
 import axios from 'axios';
 import Config from 'react-native-config';
 import Title from '../components/Title';

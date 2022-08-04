@@ -44,7 +44,7 @@ const StudyWeb = ({route, navigation}) => {
         Alert.alert(
           //alert 사용
           '',
-          'qr체크가 완료되었습니다',
+          '자습 입실이 완료되었습니다',
           [
             //alert창 문구 작성]
             {
@@ -59,7 +59,7 @@ const StudyWeb = ({route, navigation}) => {
         Alert.alert(
           //alert 사용
           '',
-          '퇴실이 완료되었습니다',
+          '자습 퇴실이 완료되었습니다',
           [
             //alert창 문구 작성]
             {

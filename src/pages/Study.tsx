@@ -9,12 +9,12 @@ import {
   StatusBar,
   TouchableOpacity,
 } from 'react-native';
-// import {ranking} from '../slices/ranking';
-// import EachRanking from '../components/EachRanking';
+
 import Config from 'react-native-config';
 import axios from 'axios';
 import StudyIn from './StudyIn';
 import StudyOut from './StudyOut';
+import StudyTime from './StudyTime';
 
 function Study({route, navigation}) {
   useEffect(() => {}, []);
@@ -37,7 +37,10 @@ function Study({route, navigation}) {
           <Text style={styles.font}>퇴실</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('StudyTime');
+        }}>
         <View style={styles.box}>
           <Text style={styles.font}>자습시간</Text>
         </View>
