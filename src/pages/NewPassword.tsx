@@ -26,7 +26,7 @@ function NewPassword({navigation}) {
   const [loadingA, setLoadingA] = useState(false);
   const [loadingPw, setLoadingPw] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [password, setPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
   const [chkPassword, setChkPassword] = useState('');
   const [authCode, setAuthCode] = useState('');
   const [chkAuthCode, setChkAuthCode] = useState('');
@@ -38,8 +38,8 @@ function NewPassword({navigation}) {
   const onChangePhoneNumber = useCallback(text => {
     setPhoneNumber(text.trim());
   }, []);
-  const onChangePassword = useCallback(text => {
-    setPassword(text.trim());
+  const onChangeNewPassword = useCallback(text => {
+    setNewPassword(text.trim());
   }, []);
   const onChangeChkPassword = useCallback(text => {
     setChkPassword(text.trim());
@@ -115,30 +115,30 @@ function NewPassword({navigation}) {
     if (loadingPw) {
       return;
     }
-    if (!password || !password.trim()) {
+    if (!newPassword || !newPassword.trim()) {
       return Alert.alert('알림', '비밀번호를 입력해주세요.');
     }
     if (!chkPassword || !chkPassword.trim()) {
       return Alert.alert('알림', '비밀번호 확인을 해주세요.');
     }
-    if (!/^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@^!%*#?&]).{8,50}$/.test(password)) {
+    if (
+      !/^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@^!%*#?&]).{8,50}$/.test(newPassword)
+    ) {
       return Alert.alert(
         '알림',
         '비밀번호는 영문,숫자,특수문자($@^!%*#?&)를 모두 포함하여 8자 이상 입력해야합니다.',
       );
     }
-    if (password !== chkPassword) {
+    if (newPassword !== chkPassword) {
       return Alert.alert('알림', '비밀번호가 일치하지 않습니다.');
     }
-    console.log(password);
+    console.log(newPassword);
     try {
+      console.log('핸폰 번호: ', phoneNumber);
       setLoadingPw(true);
       const response = await axios.post(
         `${Config.API_URL}/member/newPassword`,
-        {
-          phoneNumber,
-          password,
-        },
+        {phoneNumber, newPassword},
       );
       console.log('비번 변경 완. : ', response.data);
       Alert.alert('알림', '비밀번호가 변경되었습니다.');
@@ -152,11 +152,11 @@ function NewPassword({navigation}) {
     } finally {
       setLoadingPw(false);
     }
-  }, [loadingPw, password, chkPassword, phoneNumber, navigation]);
+  }, [loadingPw, newPassword, chkPassword, phoneNumber, navigation]);
 
   const canGoNextP = phoneNumber;
   const canGoNextA = authCode;
-  const canGoNextPw = password && chkPassword;
+  const canGoNextPw = newPassword && chkPassword;
   return (
     <SafeAreaView>
       <DismissKeyboardView>
@@ -214,8 +214,8 @@ function NewPassword({navigation}) {
           <MyTextInput
             placeholder="비밀번호를 입력해주세요 (영문, 숫자, 특수문자)"
             placeholderTextColor="#666"
-            onChangeText={onChangePassword}
-            value={password}
+            onChangeText={onChangeNewPassword}
+            value={newPassword}
             keyboardType={
               Platform.OS === 'android' ? 'default' : 'ascii-capable'
             }
