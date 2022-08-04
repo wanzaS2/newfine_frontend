@@ -13,6 +13,7 @@ import Study from './src/pages/Study';
 import StudyIn from './src/pages/StudyIn';
 import StudyOut from './src/pages/StudyOut';
 import StudyWeb from './src/pages/StudyWeb';
+import StudyTime from './src/pages/StudyTime';
 import Attendance from './src/pages/Attendance';
 import MyAttendance from './src/pages/MyAttendance';
 import StudentAttendance from './src/pages/StudentAttendance';
@@ -402,12 +403,17 @@ function AppInner() {
         <Stack.Screen
           name="StudyOut"
           component={StudyOut}
-          options={{title: '출석현황', headerShown: false}}
+          options={{title: '퇴실', headerShown: false}}
         />
         <Stack.Screen
           name="StudyWeb"
           component={StudyWeb}
-          options={{title: '출석페이지', headerShown: false}}
+          options={{title: '자습 웹', headerShown: false}}
+        />
+        <Stack.Screen
+          name="StudyTime"
+          component={StudyTime}
+          options={{title: '자습시간', headerShown: false}}
         />
       </Stack.Navigator>
     );
