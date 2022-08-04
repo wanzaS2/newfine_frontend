@@ -37,7 +37,7 @@ function Listeners({route, navigation}) {
     setIsRefreshing(true);
     console.log('받은 param', route.params);
     axios(`${Config.API_URL}/listeners`, {
-      params: {id: route.params.cid},
+      params: {id: route.params.id},
     })
       .then(response => {
         console.log('response', response.data);
@@ -47,6 +47,7 @@ function Listeners({route, navigation}) {
         for (let i = 0; i < response.data.length; i++) {
           // 결석
           attendances.push({
+            id: response.data[i].id,
             name: response.data[i].student.name,
             phone: response.data[i].student.phoneNumber,
           });
@@ -75,10 +76,10 @@ function Listeners({route, navigation}) {
             renderItem={({item, index}) => (
               <View
                 style={{
-                  borderColor: '#eee8aa',
+                  borderColor: '#b0e0e6',
                   borderWidth: 1,
                   padding: 5,
-                  backgroundColor: '#ffffe0',
+                  backgroundColor: '#e0ffff',
                   flexDirection: 'row',
                 }}>
                 <Text

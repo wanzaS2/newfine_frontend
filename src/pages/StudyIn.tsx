@@ -9,11 +9,10 @@ import {
   View,
 } from 'react-native';
 import {Camera, CameraType} from 'react-native-camera-kit';
-import AttendanceWeb from './AttendanceWeb';
-
+import StudyWeb from './StudyWeb';
 import {useNavigation} from '@react-navigation/native';
 
-const QRCodeScanner = ({navigation}) => {
+const StudyIn = ({navigation}) => {
   const [scaned, setScaned] = useState<boolean>(true);
   const ref = useRef(null);
   const [url, setUrl] = useState('');
@@ -33,7 +32,11 @@ const QRCodeScanner = ({navigation}) => {
     setUrl(event.nativeEvent.codeStringValue);
     console.log('url', event.nativeEvent.codeStringValue);
     setScaned(true);
-    navigation.navigate('AttendanceWeb', event.nativeEvent.codeStringValue);
+    let params = [];
+    params.push(event.nativeEvent.codeStringValue);
+    params.push('in');
+
+    navigation.navigate('StudyWeb', params);
   };
 
   return (
@@ -63,4 +66,4 @@ const styles = StyleSheet.create({
   },
   scanner: {flex: 1},
 });
-export default QRCodeScanner;
+export default StudyIn;

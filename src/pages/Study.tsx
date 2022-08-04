@@ -9,35 +9,40 @@ import {
   StatusBar,
   TouchableOpacity,
 } from 'react-native';
-// import {ranking} from '../slices/ranking';
-// import EachRanking from '../components/EachRanking';
+
 import Config from 'react-native-config';
 import axios from 'axios';
-import MyAttendance from './MyAttendance';
+import StudyIn from './StudyIn';
+import StudyOut from './StudyOut';
+import StudyTime from './StudyTime';
 
-function StudentCourseInfo({route, navigation}) {
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    console.log(route.params);
-  }, []);
+function Study({route, navigation}) {
+  useEffect(() => {}, []);
   return (
     <View style={styles.container}>
-      <Title title={route.params.cname} />
+      <Title title="자습" />
       <TouchableOpacity
-        onPress={() => navigation.navigate('MyAttendance', route.params)}>
+        onPress={() => {
+          navigation.navigate('StudyIn');
+        }}>
         <View style={styles.box}>
-          <Text style={styles.font}>내 출석현황</Text>
+          <Text style={styles.font}>입실</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('StudyOut');
+        }}>
         <View style={styles.box}>
-          <Text style={styles.font}>과제</Text>
+          <Text style={styles.font}>퇴실</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('StudyTime');
+        }}>
         <View style={styles.box}>
-          <Text style={styles.font}>동영상신청</Text>
+          <Text style={styles.font}>자습시간</Text>
         </View>
       </TouchableOpacity>
     </View>
@@ -75,4 +80,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StudentCourseInfo;
+export default Study;
