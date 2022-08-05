@@ -24,7 +24,8 @@ import {RootState} from '../store/reducer';
 import axios from 'axios';
 import Config from 'react-native-config';
 import QRCodeScanner from './QRCodeScanner';
-import TeacherCourse from './TeacherCourse';
+import StudentCourse from './StudentCourse';
+import Study from './Study';
 type MainScreenProps = NativeStackScreenProps<RootStackParamList, 'Welcome'>;
 
 function Main() {
@@ -71,7 +72,7 @@ function Main() {
       <View style={styles.block}>
         <Pressable
           onPress={() => {
-            navigation.navigate('MyPage');
+            navigation.navigate('MyPointList');
           }}>
           <Image
             source={{uri: photoUrl}}
@@ -87,6 +88,12 @@ function Main() {
             {nickname}님 랭킹은 {myLevel}등급 *{myRank}위입니다~~~~~!
           </Text>
         </Pressable>
+        <Pressable
+          onPress={() => {
+            getPoint();
+          }}>
+          <Text>포인트!!</Text>
+        </Pressable>
       </View>
       <View
         style={{
@@ -101,7 +108,7 @@ function Main() {
             <Pressable
               style={styles.block}
               onPress={() => {
-                navigation.navigate('TeacherCourse');
+                navigation.navigate('StudentCourse');
               }}>
               <View style={{alignItems: 'center'}}>
                 <Image
@@ -147,7 +154,7 @@ function Main() {
           <Pressable
             style={styles.block}
             onPress={() => {
-              getPoint();
+              navigation.navigate('Study');
             }}>
             <View style={{alignItems: 'center'}}>
               <Image
@@ -173,7 +180,7 @@ function Main() {
           <Pressable
             style={styles.block}
             onPress={() => {
-              navigation.navigate('MyPointList');
+              navigation.navigate('MyPage');
             }}>
             <View style={{alignItems: 'center'}}>
               <Image

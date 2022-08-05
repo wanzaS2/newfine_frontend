@@ -4,12 +4,19 @@ import SignUpAuth from './src/pages/SignUpAuth';
 import Ranking from './src/pages/Ranking';
 import Main from './src/pages/Main';
 import Welcome from './src/pages/Welcome';
-import StudentCourseInfo from './src/pages/StudentCourseInfo';
 import TeacherCourse from './src/pages/TeacherCourse';
 import TeacherCourseInfo from './src/pages/TeacherCourseInfo';
-import Attendance from './src/pages/Attendance';
-import StudentAttendance from './src/pages/StudentAttendance';
 import Listeners from './src/pages/Listeners';
+import StudentCourse from './src/pages/StudentCourse';
+import StudentCourseInfo from './src/pages/StudentCourseInfo';
+import Study from './src/pages/Study';
+import StudyIn from './src/pages/StudyIn';
+import StudyOut from './src/pages/StudyOut';
+import StudyWeb from './src/pages/StudyWeb';
+import StudyTime from './src/pages/StudyTime';
+import Attendance from './src/pages/Attendance';
+import MyAttendance from './src/pages/MyAttendance';
+import StudentAttendance from './src/pages/StudentAttendance';
 import QRCodeScanner from './src/pages/QRCodeScanner';
 import AttendanceWeb from './src/pages/AttendanceWeb';
 import * as React from 'react';
@@ -29,7 +36,7 @@ import {useAppDispatch} from './src/store';
 import MyPointList from './src/pages/MyPointList';
 import AllRanking from './src/pages/AllRanking';
 import MyPage from './src/pages/MyPage';
-import StudentCourse from './src/pages/StudentCourse';
+
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import TeacherMain from './src/pages/TeacherMain';
@@ -347,11 +354,6 @@ function AppInner() {
           options={{title: '나의 누적 포인트'}}
         />
         <Stack.Screen
-          name="AllRanking"
-          component={AllRanking}
-          options={{title: '전체 랭킹'}}
-        />
-        <Stack.Screen
           name="MyPage"
           component={MyPage}
           options={{title: '마이페이지'}}
@@ -359,22 +361,54 @@ function AppInner() {
         <Stack.Screen
           name="StudentCourse"
           component={StudentCourse}
-          options={{title: '내 강의'}}
+          options={{title: '강의', headerShown: true}}
         />
         <Stack.Screen
           name="StudentCourseInfo"
           component={StudentCourseInfo}
-          options={{title: '강의정보'}}
+          options={{title: '학생 정보', headerShown: true}}
         />
+
         <Stack.Screen
           name="QRCodeScanner"
           component={QRCodeScanner}
           options={{title: 'QRcode', headerShown: false}}
         />
+
         <Stack.Screen
           name="AttendanceWeb"
           component={AttendanceWeb}
           options={{title: 'AttendanceWeb', headerShown: true}}
+        />
+        <Stack.Screen
+          name="MyAttendance"
+          component={MyAttendance}
+          options={{title: '출석현황'}}
+        />
+        <Stack.Screen
+          name="Study"
+          component={Study}
+          options={{title: '자습', headerShown: true}}
+        />
+        <Stack.Screen
+          name="StudyIn"
+          component={StudyIn}
+          options={{title: '입실', headerShown: false}}
+        />
+        <Stack.Screen
+          name="StudyOut"
+          component={StudyOut}
+          options={{title: '퇴실', headerShown: false}}
+        />
+        <Stack.Screen
+          name="StudyWeb"
+          component={StudyWeb}
+          options={{title: '자습 웹', headerShown: false}}
+        />
+        <Stack.Screen
+          name="StudyTime"
+          component={StudyTime}
+          options={{title: '자습시간', headerShown: false}}
         />
       </Stack.Navigator>
     );
@@ -394,16 +428,6 @@ function AppInner() {
           options={{title: '내 강의', headerShown: true}}
         />
         <Stack.Screen
-          name="TeacherCourseInfo"
-          component={TeacherCourseInfo}
-          options={{title: '강의', headerShown: true}}
-        />
-        <Stack.Screen
-          name="Listeners"
-          component={Listeners}
-          options={{title: '학생 정보', headerShown: true}}
-        />
-        <Stack.Screen
           name="Attendance"
           component={Attendance}
           options={{title: '수업 출석부'}}
@@ -411,7 +435,22 @@ function AppInner() {
         <Stack.Screen
           name="StudentAttendance"
           component={StudentAttendance}
-          options={{title: '출석부'}}
+          options={{title: '강의'}}
+        />
+        <Stack.Screen
+          name="TeacherCourseInfo"
+          component={TeacherCourseInfo}
+          options={{title: '강의정보'}}
+        />
+        <Stack.Screen
+          name="Listeners"
+          component={Listeners}
+          options={{title: '수강생'}}
+        />
+        <Stack.Screen
+          name="AllRanking"
+          component={AllRanking}
+          options={{title: '전체 랭킹'}}
         />
       </Stack.Navigator>
     );
@@ -491,13 +530,13 @@ function AppInner() {
     //     options={{title: '내 강의', headerShown: true}}
     //   />
     //   <Stack.Screen
-    //     name="TeacherCourseInfo"
-    //     component={TeacherCourseInfo}
+    //     name="CourseInfo"
+    //     component={CourseInfo}
     //     options={{title: '강의', headerShown: true}}
     //   />
     //   <Stack.Screen
-    //     name="Listeners"
-    //     component={Listeners}
+    //     name="StudentInfo"
+    //     component={StudentInfo}
     //     options={{title: '학생 정보', headerShown: true}}
     //   />
     //   <Stack.Screen

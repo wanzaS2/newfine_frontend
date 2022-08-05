@@ -15,6 +15,8 @@ import DismissKeyboardView from '../components/DismissKeyboardView';
 import {Fonts} from '../assets/Fonts';
 import MyButton from '../components/MyButton';
 import MyTextInput from '../components/MyTextInput';
+import RNPickerSelect from 'react-native-picker-select';
+// import MyPickerSelect from '../components/MyPickerSelect';
 // import Overlay from 'react-native-elements/dist/overlay/Overlay';
 
 type SignUpAuthScreenProps = NativeStackScreenProps<
@@ -32,6 +34,18 @@ function SignUpAuth({navigation}: SignUpAuthScreenProps) {
   const [visible, setVisible] = useState<boolean>(false);
   const phoneNumberRef = useRef<TextInput | null>(null);
   const authCodeRef = useRef<TextInput | null>(null);
+  const [branch, setBranch] = useState('');
+  // const [b, setB] = useState('');
+  const data = [
+    {label: '대치', value: 1},
+    {label: '반포', value: '반포'},
+    {label: '압구정', value: '압구정'},
+  ];
+
+  const onChangeBranch = value => {
+    console.log(value);
+    setBranch(value);
+  };
 
   const onChangePhoneNumber = useCallback(text => {
     setPhoneNumber(text.trim());
@@ -48,15 +62,20 @@ function SignUpAuth({navigation}: SignUpAuthScreenProps) {
     } else {
       setButtonReady(true);
     }
+    if (!branch) {
+      return Alert.alert('알림', '분원을 선택해주세요.');
+    }
     if (!/^[0-9].{0,11}$/.test(phoneNumber)) {
       return Alert.alert('알림', '하이픈 없이 11자리 전화번호를 입력해주세요.');
     }
     console.log(phoneNumber);
+    console.log(branch);
     try {
       setVisible(true);
       setLoading(true);
       const response = await axios.post(`${Config.API_URL}/auth/sendMessage`, {
         phoneNumber,
+        branch,
       });
       setChkAuthCode(response.data);
       console.log(response.data);
@@ -99,11 +118,37 @@ function SignUpAuth({navigation}: SignUpAuthScreenProps) {
     }
   }, [loading, authCode, chkAuthCode, navigation, phoneNumber]);
 
-  const canGoNext = phoneNumber && buttonReady;
+  const canGoNext = branch && phoneNumber && buttonReady;
   const canGoNextAuth = authCode && authButtonReady;
   return (
     <SafeAreaView style={styles.container}>
       <DismissKeyboardView>
+        <View style={{alignItems: 'center'}}>
+          <Text style={{fontFamily: Fonts.TRBold, fontSize: 25}}>
+            분원 선택
+          </Text>
+          {/*<MyPickerSelect*/}
+          {/*  onValueChange={value => onChangeBranch(value)}*/}
+          {/*  value={branch}*/}
+          {/*  data={data}*/}
+          {/*  placeholder={'분원을 선택해주세요.'}*/}
+          {/*/>*/}
+          <RNPickerSelect
+            textInputProps={{underlineColorAndroid: 'transparent'}}
+            fixAndroidTouchableBug={true} // 안드로이드 에러 방지
+            useNativeAndroidPickerStyle={false} // 기본 안드로이드 textInput 스타일 X, pickerSelect 스타일 O
+            placeholder={{label: '분원을 선택해주세요.'}}
+            value={branch}
+            onValueChange={value => onChangeBranch(value)}
+            // items={[
+            //   {label: '반포', value: '반포'},
+            //   {label: '반포', value: '반포'},
+            //   {label: '반포', value: '반포'},
+            // ]}
+            items={data}
+            style={pickerSelectStyles}
+          />
+        </View>
         <View style={styles.inputWrapper}>
           <View style={styles.textArea}>
             <Text style={{fontFamily: Fonts.TRBold, fontSize: 25}}>
@@ -188,4 +233,28 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 });
+
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: 16,
+    height: 50,
+    width: 300,
+    color: '#000000',
+    borderColor: '#000000',
+    borderWidth: 1,
+    borderRadius: 12,
+    padding: 10,
+  },
+  inputAndroid: {
+    fontSize: 16,
+    height: 50,
+    width: 300,
+    color: '#000000',
+    borderColor: '#000000',
+    borderWidth: 1,
+    borderRadius: 12,
+    padding: 10,
+  },
+});
+
 export default SignUpAuth;

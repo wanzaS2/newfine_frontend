@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import Title from '../components/Title';
-import Attendance from './Attendance';
-import TeacherCourseInfo from './TeacherCourseInfo';
 
 import {
   FlatList,
@@ -16,14 +14,21 @@ import {
 // import EachRanking from '../components/EachRanking';
 import Config from 'react-native-config';
 import axios from 'axios';
-
+import {useSelector} from 'react-redux';
+import {RootState} from '../store/reducer';
 function StudentCourse({navigation}) {
   const [courseList, setCourseList] = useState();
   const [listLength, setCourseLength] = useState();
   const [loading, setLoading] = useState(false);
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
 
   const getCourses = () => {
-    axios(`${Config.API_URL}/student/courses`)
+    axios(`${Config.API_URL}/student/courses`, {
+      params: {},
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
       .then(response => {
         setCourseList(response.data);
         setCourseLength(response.data.length);
@@ -47,15 +52,17 @@ function StudentCourse({navigation}) {
             data={courseList}
             renderItem={({item, index}) => (
               <TouchableOpacity
-                onPress={() => navigation.navigate('StudentCourseInfo', item)}>
+                onPress={() =>
+                  navigation.navigate('StudentCourseInfo', item.course)
+                }>
                 <View
                   style={{
                     borderRadius: 10,
-                    borderColor: '#eee8aa',
+                    borderColor: '#b0e0e6',
                     borderWidth: 1,
                     padding: 10,
                     marginBottom: 10,
-                    backgroundColor: '#fffacd',
+                    backgroundColor: '#e0ffff',
                   }}>
                   <View
                     style={{
@@ -69,8 +76,9 @@ function StudentCourse({navigation}) {
                         marginLeft: 30,
                         fontSize: 20,
                         fontWeight: 'bold',
-                      }}
-                    />
+                      }}>
+                      {item.course.cname}
+                    </Text>
                     <Text
                       style={{
                         position: 'absolute',
@@ -83,7 +91,7 @@ function StudentCourse({navigation}) {
                 </View>
               </TouchableOpacity>
             )}
-            keyExtractor={item => String(item.cid)}
+            keyExtractor={item => String(item.course.id)}
           />
         </View>
       </SafeAreaView>

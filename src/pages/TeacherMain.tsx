@@ -17,6 +17,7 @@ import {RootState} from '../store/reducer';
 import {useAppDispatch} from '../store';
 import Title from '../components/Title';
 import TeacherCourse from './TeacherCourse';
+import AllRanking from './AllRanking';
 function TeacherMain({navigation}) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const name = useSelector((state: RootState) => state.user.name);
@@ -66,6 +67,11 @@ function TeacherMain({navigation}) {
         </View>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Attendance')}>
+        <View style={styles.box}>
+          <Text style={styles.font}>출석</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('AllRanking')}>
         <View style={styles.box}>
           <Text style={styles.font}>현재 랭킹</Text>
         </View>

@@ -8,13 +8,14 @@ import {RootState} from '../store/reducer';
 const AttendanceWeb = ({route, navigation}) => {
   // 웹뷰에서 데이터를 받을 때 필요한 함수입니다.
   console.log(route.params);
+
   let webRef = useRef<WebView>(null);
   const handleSetRef = _ref => {
     webRef = _ref;
   };
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const native_to_web = () => {
-    console.log(accessToken);
+    console.log('accessToken', accessToken);
     console.log('token', webRef.postMessage(accessToken));
   };
   const handleOnMessage = e => {
