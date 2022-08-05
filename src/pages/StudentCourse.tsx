@@ -85,13 +85,14 @@ function StudentCourse({navigation}) {
                         right: 30,
                         fontSize: 20,
                         fontWeight: 'bold',
-                      }}
-                    />
+                      }}>
+                      {item.course.subjectType}
+                    </Text>
                   </View>
                 </View>
               </TouchableOpacity>
             )}
-            keyExtractor={item => String(item.course.id)}
+            keyExtractor={item => String(item.id)}
           />
         </View>
       </SafeAreaView>
