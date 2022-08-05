@@ -72,7 +72,7 @@ function Main() {
       <View style={styles.block}>
         <Pressable
           onPress={() => {
-            navigation.navigate('MyPage');
+            navigation.navigate('MyPointList');
           }}>
           <Image
             source={{uri: photoUrl}}
@@ -87,6 +87,12 @@ function Main() {
           <Text>
             {nickname}님 랭킹은 {myLevel}등급 *{myRank}위입니다~~~~~!
           </Text>
+        </Pressable>
+        <Pressable
+          onPress={() => {
+            getPoint();
+          }}>
+          <Text>포인트!!</Text>
         </Pressable>
       </View>
       <View
@@ -174,7 +180,7 @@ function Main() {
           <Pressable
             style={styles.block}
             onPress={() => {
-              navigation.navigate('MyPointList');
+              navigation.navigate('MyPage');
             }}>
             <View style={{alignItems: 'center'}}>
               <Image
