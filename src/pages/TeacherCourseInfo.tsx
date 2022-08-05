@@ -37,7 +37,10 @@ function TeacherCourseInfo({route, navigation}) {
           <Text style={styles.font}>출석현황</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate('BoardList', {courseId: route.params.id})
+        }>
         <View style={styles.box}>
           <Text style={styles.font}>과제</Text>
         </View>
