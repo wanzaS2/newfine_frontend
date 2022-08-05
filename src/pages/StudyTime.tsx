@@ -32,7 +32,8 @@ function StudyTime({route, navigation}) {
     })
       .then(response => {
         setLength(response.data.length);
-
+        console.log('내 토큰');
+        console.log(accessToken);
         let time = [];
         for (let i = 0; i < response.data.length; i++) {
           // 결석
