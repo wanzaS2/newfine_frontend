@@ -46,6 +46,9 @@ import BoardSave from './src/pages/BoardSave';
 import BoardDetail from './src/pages/BoardDetail';
 import BoardUpdate from './src/pages/BoardUpdate';
 import SHomeworkList from "./src/pages/SHomeworkList";
+import StudentBoardList from './src/pages/StudentBoardList';
+import StudentBoardDetail from "./src/pages/StudentBoardDetail";
+import StudentHomework from "./src/pages/StudentHomework";
 // import isMockFunction = jest.isMockFunction;
 
 export type LoggedInParamList = {
@@ -389,6 +392,21 @@ function AppInner() {
           name="MyAttendance"
           component={MyAttendance}
           options={{title: '출석현황'}}
+        />
+        <Stack.Screen
+          name="StudentBoardList"
+          component={StudentBoardList}
+          options={{title: '과제 리스트'}}
+        />
+        <Stack.Screen
+          name="StudentBoardDetail"
+          component={StudentBoardDetail}
+          options={{title: '과제 상세보기'}}
+        />
+        <Stack.Screen
+          name="StudentHomework"
+          component={StudentHomework}
+          options={{title: '과제 제출확인 현황'}}
         />
         <Stack.Screen
           name="Study"

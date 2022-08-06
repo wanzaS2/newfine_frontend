@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -12,11 +12,15 @@ import {
 import Config from 'react-native-config';
 import RoundButton from '../components/RoundButton';
 import axios from 'axios';
+import BouncyCheckbox from 'react-native-bouncy-checkbox';
+import MyButton from '../components/MyButton';
+import CheckBox from '@react-native-community/checkbox';
 
 export default function SHomeworkList({route}) {
   const [data, setData] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const {thId} = route.params;
+  const [checkedList, setCheckedList] = useState([]);
 
   const fetchItems = () => {
     if (!isRefreshing) {
@@ -36,6 +40,32 @@ export default function SHomeworkList({route}) {
       })
       .catch(error => console.error(error))
       .finally(() => setIsRefreshing(false));
+  };
+
+  const onCheckedElement = useCallback(
+    (checked, id) => {
+      if (checked) {
+        setCheckedList([...checkedList, id]);
+        console.log(checkedList);
+      } else {
+        setCheckedList(checkedList.filter(el => el !== id));
+      }
+    },
+    [checkedList],
+  );
+
+  const submitChecked = async () => {
+    setIsRefreshing(true);
+    try {
+      const response = await axios.post(`${Config.API_URL}/api/sh/point`, {
+        checkedList,
+      });
+      console.log(checkedList);
+      setIsRefreshing(false);
+    } catch (error) {
+      Alert.alert('An error has occurred');
+      setIsRefreshing(false);
+    }
   };
 
   useEffect(() => {
@@ -60,14 +90,31 @@ export default function SHomeworkList({route}) {
             return (
               <TouchableOpacity style={styles.container} key={index.toString()}>
                 <View>
-                  <Text style={styles.title}>{item.title}</Text>
-                  <Text style={styles.text}>{item.name}</Text>
+                  <Text style={styles.title}>{item.name}</Text>
+                  <Text style={styles.text}>{item.title}</Text>
                 </View>
+                <BouncyCheckbox
+                  size={25}
+                  fillColor="#ff4c4c"
+                  unfillColor="#FFFFFF"
+                  text="check"
+                  iconStyle={{borderColor: '#ff4c4c'}}
+                  textStyle={{fontFamily: 'JosefinSans-Regular'}}
+                  onPress={() => {
+                    onCheckedElement(checkedList, item.shId);
+                  }}
+                />
               </TouchableOpacity>
             );
           }}
         />
       )}
+      <MyButton
+        text="과제 확인"
+        onPress={() => {
+          submitChecked();
+        }}
+      />
     </View>
   );
 }
