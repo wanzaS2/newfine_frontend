@@ -1,67 +1,60 @@
 import React, {useEffect, useState} from 'react';
+import Title from '../components/Title';
+
 import {
   FlatList,
-  Pressable,
   SafeAreaView,
-  StatusBar,
   StyleSheet,
-  Text,
-  TouchableOpacity,
   View,
+  Text,
+  StatusBar,
+  TouchableOpacity,
 } from 'react-native';
-
-import {Fonts} from '../assets/Fonts';
-import LinearGradient from 'react-native-linear-gradient';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {LoggedInParamList} from '../../AppInner';
-import axios from 'axios';
+// import {ranking} from '../slices/ranking';
+// import EachRanking from '../components/EachRanking';
 import Config from 'react-native-config';
-import Title from '../components/Title';
-import StudentAttendance from '../pages/StudentAttendance';
-import {useWebWiewLogic} from 'react-native-webview/lib/WebViewShared';
+import axios from 'axios';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store/reducer';
-
-function VideoList({navigation}) {
-  const [AttendanceList, setAttendanceList] = useState();
-  const [listLength, setAttendanceLength] = useState();
+function ApplyVideo({navigation}) {
+  const [courseList, setCourseList] = useState();
+  const [listLength, setCourseLength] = useState();
   const [loading, setLoading] = useState(false);
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
-  const getAttendances = () => {
-    axios(`${Config.API_URL}/attendances/my/now`, {
+
+  const getCourses = () => {
+    axios(`${Config.API_URL}/student/courses`, {
+      params: {},
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     })
       .then(response => {
-        console.log(response.data);
-        setAttendanceList(response.data);
-        setAttendanceLength(response.data.length);
+        setCourseList(response.data);
+        setCourseLength(response.data.length);
       })
       .catch(error => console.error(error))
       .finally(() => setLoading(false));
   };
 
   useEffect(() => {
-    getAttendances();
-    console.log('동영상 가능 리스트 : ', AttendanceList);
-    console.log('동영상 갯수 : ', listLength);
+    getCourses();
+    console.log('courseList : ', courseList);
+    console.log('listLength : ', listLength);
   }, [listLength]);
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
+      <Title title="내 수업✔️" />
       <SafeAreaView style={styles.container}>
-        <View style={styles.subtitlebox}>
-          <Text style={styles.subtitle}>
-            현재 동영상 신청을 할 수 있는 수업입니다!
-          </Text>
-        </View>
         <View>
           <FlatList
-            data={AttendanceList}
+            data={courseList}
             renderItem={({item, index}) => (
               <TouchableOpacity
-                onPress={() => navigation.navigate('VideoAuth', item)}>
+                onPress={() =>
+                  navigation.navigate('StudentCourseInfo', item.course)
+                }>
                 <View
                   style={{
                     borderRadius: 10,
@@ -93,13 +86,13 @@ function VideoList({navigation}) {
                         fontSize: 20,
                         fontWeight: 'bold',
                       }}>
-                      {item.course.start_time}
+                      {item.course.subjectType}
                     </Text>
                   </View>
                 </View>
               </TouchableOpacity>
             )}
-            keyExtractor={item => String(item.attendanceId)}
+            keyExtractor={item => String(item.id)}
           />
         </View>
       </SafeAreaView>
@@ -112,17 +105,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
-  subtitle: {
-    fontSize: 18,
-    color: '#6495ed',
-    fontWeight: 'bold',
-  },
-  subtitlebox: {
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    marginBottom: 20,
-    marginTop: 30,
-  },
 });
 
-export default VideoList;
+export default ApplyVideo;
