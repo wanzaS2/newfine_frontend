@@ -41,6 +41,8 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import TeacherMain from './src/pages/TeacherMain';
 import NewPassword from './src/pages/NewPassword';
+import VideoList from './src/pages/VideoList';
+import AttendanceInfo from './src/pages/AttendanceInfo';
 // import isMockFunction = jest.isMockFunction;
 
 export type LoggedInParamList = {
@@ -414,6 +416,16 @@ function AppInner() {
           name="StudyTime"
           component={StudyTime}
           options={{title: '자습시간', headerShown: false}}
+        />
+        <Stack.Screen
+          name="AttendanceInfo"
+          component={AttendanceInfo}
+          options={{title: '출석', headerShown: true}}
+        />
+        <Stack.Screen
+          name="VideoList"
+          component={VideoList}
+          options={{title: '동영상 신청', headerShown: true}}
         />
       </Stack.Navigator>
     );

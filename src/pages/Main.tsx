@@ -23,9 +23,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../store/reducer';
 import axios from 'axios';
 import Config from 'react-native-config';
-import QRCodeScanner from './QRCodeScanner';
-import StudentCourse from './StudentCourse';
-import Study from './Study';
+import AttendanceInfo from './AttendanceInfo';
 type MainScreenProps = NativeStackScreenProps<RootStackParamList, 'Welcome'>;
 
 function Main() {
@@ -119,7 +117,7 @@ function Main() {
             <Pressable
               style={styles.block}
               onPress={() => {
-                navigation.navigate('QRCodeScanner');
+                navigation.navigate('AttendanceInfo');
               }}>
               <View style={{alignItems: 'center'}}>
                 <Image
