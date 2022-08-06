@@ -356,11 +356,6 @@ function AppInner() {
           options={{title: '나의 누적 포인트'}}
         />
         <Stack.Screen
-          name="AllRanking"
-          component={AllRanking}
-          options={{title: '전체 랭킹'}}
-        />
-        <Stack.Screen
           name="MyPage"
           component={MyPage}
           options={{title: '마이페이지'}}
@@ -463,6 +458,11 @@ function AppInner() {
           name="Listeners"
           component={Listeners}
           options={{title: '수강생'}}
+        />
+        <Stack.Screen
+          name="AllRanking"
+          component={AllRanking}
+          options={{title: '전체 랭킹'}}
         />
       </Stack.Navigator>
     );
