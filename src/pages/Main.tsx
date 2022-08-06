@@ -139,7 +139,11 @@ function Main() {
           <LinearGradient
             colors={['skyblue', 'lightcyan']}
             style={styles.block}>
-            <Pressable style={styles.block}>
+            <Pressable
+              style={styles.block}
+              onPress={() => {
+                navigation.navigate('StudentHomework');
+              }}>
               <View style={{alignItems: 'center'}}>
                 <Image
                   source={require('../assets/images/main/free-icon-study-4696502.png')}
