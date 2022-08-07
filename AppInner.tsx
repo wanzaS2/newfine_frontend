@@ -429,11 +429,6 @@ function AppInner() {
           component={VideoAuth}
           options={{title: '부모님 인증', headerShown: true}}
         />
-        <Stack.Screen
-          name="ApplyVideo"
-          component={ApplyVideo}
-          options={{title: '동영상신청리스트', headerShown: true}}
-        />
       </Stack.Navigator>
     );
   };
@@ -475,6 +470,11 @@ function AppInner() {
           name="AllRanking"
           component={AllRanking}
           options={{title: '전체 랭킹'}}
+        />
+        <Stack.Screen
+          name="ApplyVideo"
+          component={ApplyVideo}
+          options={{title: '동영상신청리스트', headerShown: true}}
         />
       </Stack.Navigator>
     );
