@@ -18,15 +18,21 @@ import axios from 'axios';
 import Config from 'react-native-config';
 import Title from '../components/Title';
 import StudentAttendance from '../pages/StudentAttendance';
+import {useSelector} from 'react-redux';
+import {RootState} from '../store/reducer';
 
 function Attendance({route, navigation}) {
   const [AttendanceList, setAttendanceList] = useState();
   const [listLength, setAttendanceLength] = useState();
   const [loading, setLoading] = useState(false);
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const getAttendances = () => {
     console.log(route.params);
     axios(`${Config.API_URL}/attendances`, {
       params: {id: route.params.id},
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     })
       .then(response => {
         setAttendanceList(response.data);
@@ -83,7 +89,7 @@ function Attendance({route, navigation}) {
                         fontSize: 20,
                         fontWeight: 'bold',
                       }}>
-                      수업
+                      {item.course.start_time}
                     </Text>
                   </View>
                 </View>

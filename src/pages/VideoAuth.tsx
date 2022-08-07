@@ -21,12 +21,7 @@ import {RootState} from '../store/reducer';
 // import MyPickerSelect from '../components/MyPickerSelect';
 // import Overlay from 'react-native-elements/dist/overlay/Overlay';
 
-type SignUpAuthScreenProps = NativeStackScreenProps<
-  RootStackParamList,
-  'SignUpAuth'
->;
-
-function VideoAuth({navigation}: SignUpAuthScreenProps) {
+function VideoAuth({route, navigation}) {
   const [loading, setLoading] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [buttonReady, setButtonReady] = useState<boolean>(false);
@@ -38,6 +33,7 @@ function VideoAuth({navigation}: SignUpAuthScreenProps) {
   const authCodeRef = useRef<TextInput | null>(null);
   // const [b, setB] = useState('');
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
+  console.log('페이지 변수', route.params);
   const getPhoneNumber = () => {
     axios(`${Config.API_URL}/number/parents`, {
       params: {},
@@ -59,6 +55,7 @@ function VideoAuth({navigation}: SignUpAuthScreenProps) {
     if (loading) {
       return;
     }
+    console.log('폰번호', phoneNumber);
     if (phoneNumber.length < 11) {
       setButtonReady(false);
     } else {
@@ -99,26 +96,40 @@ function VideoAuth({navigation}: SignUpAuthScreenProps) {
     if (loading) {
       return;
     }
-    if (authCode.length < 4) {
-      setAuthButtonReady(false);
-    } else {
-      setAuthButtonReady(true);
-    }
+    // if (authCode.length < 4) {
+    //   setAuthButtonReady(false);
+    // } else {
+    //   setAuthButtonReady(true);
+    // }
     if (authCode != chkAuthCode) {
       return Alert.alert('알림', '인증번호가 일치하지 않습니다.');
     }
     console.log(authCode, chkAuthCode);
     try {
       setLoading(true);
-      Alert.alert('알림', '전화번호 인증이 완료되었습니다.');
-      navigation.navigate('ApplyVideo', {phoneNumber: phoneNumber});
+      axios
+        .put(
+          `${Config.API_URL}/apply/video`,
+          {id: route.params.attendanceId},
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+        )
+        .then(response => {
+          console.log(response.data);
+          Alert.alert('알림', '동영상신청이 완료되었습니다.');
+          navigation.navigate('Main');
+        })
+        .catch(error => console.error(error))
+        .finally();
     } catch (error) {
       // }
     } finally {
       setLoading(false);
     }
   }, [loading, authCode, chkAuthCode, navigation, phoneNumber]);
-  const canGoNext = phoneNumber && buttonReady;
   const canGoNextAuth = authCode && authButtonReady;
   useEffect(() => {
     getPhoneNumber();
@@ -140,28 +151,22 @@ function VideoAuth({navigation}: SignUpAuthScreenProps) {
           <MyTextInput
             // onChangeText={onChangePhoneNumber}
             placeholder="부모님번호"
-            placeholderTextColor="#666"
+            placeholderTextColor="black"
             maxLength={11}
             textContentType="telephoneNumber"
             // keyboardType={'number-pad'}
             value={phoneNumber}
             returnKeyType="send"
-            clearButtonMode="while-editing"
             ref={phoneNumberRef}
             onSubmitEditing={onSubmit}
             blurOnSubmit={false}
+            editable={false}
           />
         </View>
         <MyButton
           loading={visible === true ? false : !true}
           text="인증번호 발송"
-          onPress={() =>
-            canGoNext && {
-              onSubmit,
-            }
-          }
-          canGoNext={buttonReady}
-          disable={!canGoNext || loading}
+          onPress={onSubmit}
         />
         {visible && (
           <View style={styles.inputWrapper}>

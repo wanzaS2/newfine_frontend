@@ -35,11 +35,6 @@ function StudentCourseInfo({route, navigation}) {
           <Text style={styles.font}>과제</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity>
-        <View style={styles.box}>
-          <Text style={styles.font}>동영상신청</Text>
-        </View>
-      </TouchableOpacity>
     </View>
   );
 }
