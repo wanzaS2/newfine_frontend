@@ -66,9 +66,9 @@ function TeacherMain({navigation}) {
           <Text style={styles.font}>내 수업</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Attendance')}>
+      <TouchableOpacity onPress={() => navigation.navigate('ApplyVideo')}>
         <View style={styles.box}>
-          <Text style={styles.font}>출석</Text>
+          <Text style={styles.font}>동영상신청 현황</Text>
         </View>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('AllRanking')}>

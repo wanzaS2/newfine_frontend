@@ -49,6 +49,10 @@ import SHomeworkList from "./src/pages/SHomeworkList";
 import StudentBoardList from './src/pages/StudentBoardList';
 import StudentBoardDetail from "./src/pages/StudentBoardDetail";
 import StudentHomework from "./src/pages/StudentHomework";
+import VideoList from './src/pages/VideoList';
+import AttendanceInfo from './src/pages/AttendanceInfo';
+import VideoAuth from './src/pages/VideoAuth';
+import ApplyVideo from './src/pages/ApplyVideo';
 // import isMockFunction = jest.isMockFunction;
 
 export type LoggedInParamList = {
@@ -433,6 +437,21 @@ function AppInner() {
           component={StudyTime}
           options={{title: '자습시간', headerShown: false}}
         />
+        <Stack.Screen
+          name="AttendanceInfo"
+          component={AttendanceInfo}
+          options={{title: '출석', headerShown: true}}
+        />
+        <Stack.Screen
+          name="VideoList"
+          component={VideoList}
+          options={{title: '동영상 신청', headerShown: true}}
+        />
+        <Stack.Screen
+          name="VideoAuth"
+          component={VideoAuth}
+          options={{title: '부모님 인증', headerShown: true}}
+        />
       </Stack.Navigator>
     );
   };
@@ -499,6 +518,11 @@ function AppInner() {
           name="AllRanking"
           component={AllRanking}
           options={{title: '전체 랭킹'}}
+        />
+        <Stack.Screen
+          name="ApplyVideo"
+          component={ApplyVideo}
+          options={{title: '동영상신청리스트', headerShown: true}}
         />
       </Stack.Navigator>
     );

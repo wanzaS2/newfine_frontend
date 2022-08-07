@@ -13,29 +13,23 @@ import {
 // import EachRanking from '../components/EachRanking';
 import Config from 'react-native-config';
 import axios from 'axios';
-import MyAttendance from './MyAttendance';
+import QRCodeScanner from './QRCodeScanner';
 
-function StudentCourseInfo({route, navigation}) {
+function AttendanceInfo({navigation}) {
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    console.log(route.params);
-  }, []);
+  useEffect(() => {}, []);
   return (
     <View style={styles.container}>
-      <Title title={route.params.cname} />
-      <TouchableOpacity
-        onPress={() => navigation.navigate('MyAttendance', route.params)}>
+      <Title title="출석현황" />
+      <TouchableOpacity onPress={() => navigation.navigate('QRCodeScanner')}>
         <View style={styles.box}>
-          <Text style={styles.font}>내 출석현황</Text>
+          <Text style={styles.font}>지금 출석하기</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() =>
-          navigation.navigate('StudentBoardList', {courseId: route.params.id})
-        }>
+      <TouchableOpacity onPress={() => navigation.navigate('VideoList')}>
         <View style={styles.box}>
-          <Text style={styles.font}>과제</Text>
+          <Text style={styles.font}>동영상신청</Text>
         </View>
       </TouchableOpacity>
     </View>
@@ -73,4 +67,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StudentCourseInfo;
+export default AttendanceInfo;
