@@ -30,14 +30,12 @@ function StudentCourseInfo({route, navigation}) {
           <Text style={styles.font}>내 출석현황</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate('StudentBoardList', {courseId: route.params.id})
+        }>
         <View style={styles.box}>
           <Text style={styles.font}>과제</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <View style={styles.box}>
-          <Text style={styles.font}>동영상신청</Text>
         </View>
       </TouchableOpacity>
     </View>

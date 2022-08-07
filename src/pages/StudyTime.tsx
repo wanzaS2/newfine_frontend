@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {
+  Alert,
   FlatList,
   Pressable,
   SafeAreaView,
@@ -31,27 +32,52 @@ function StudyTime({route, navigation}) {
       },
     })
       .then(response => {
+        console.log(response.data);
         setLength(response.data.length);
 
         let time = [];
         for (let i = 0; i < response.data.length; i++) {
           // 결석
           if (response.data[i].total < 60) {
-            time.push({
-              id: response.data[i].sstudyId,
-              time: `${response.data[i].total} 분`,
-              when: response.data[i].startTime.slice(0, 10),
-            });
+            if (response.data[i].endTime == null) {
+              time.push({
+                id: response.data[i].sstudyId,
+                time: `${response.data[i].total} 분`,
+                when: response.data[i].startTime.slice(0, 10),
+                startTime: response.data[i].startTime.slice(11),
+                endTime: '퇴실X',
+              });
+            } else {
+              time.push({
+                id: response.data[i].sstudyId,
+                time: `${response.data[i].total} 분`,
+                when: response.data[i].startTime.slice(0, 10),
+                startTime: response.data[i].startTime.slice(11),
+                endTime: response.data[i].endTime,
+              });
+            }
           } else {
             const totaltime = response.data[i].total;
             const hour: number = min / 60;
             hour = parseInt(hour.toString());
             const min = totaltime % 60;
-            time.push({
-              id: response.data[i].sstudyId,
-              time: `${hour}시간 ${min}분`,
-              when: response.data[i].startTime.slice(0, 10),
-            });
+            if (response.data[i].endTime == null) {
+              time.push({
+                id: response.data[i].sstudyId,
+                time: `${hour}시간 ${min}분`,
+                when: response.data[i].startTime.slice(0, 10),
+                startTime: response.data[i].startTime.slice(11),
+                endTime: '퇴실X',
+              });
+            } else {
+              time.push({
+                id: response.data[i].sstudyId,
+                time: `${hour}시간 ${min}분`,
+                when: response.data[i].startTime.slice(0, 10),
+                startTime: response.data[i].startTime.slice(11),
+                endTime: response.data[i].endTime,
+              });
+            }
           }
         }
         setStuyList(time);
@@ -105,28 +131,33 @@ function StudyTime({route, navigation}) {
           <FlatList
             data={StudyList}
             renderItem={({item, index}) => (
-              <View style={styles.box_list}>
-                <View style={styles.box}>
-                  <Text
-                    style={{
-                      marginLeft: 30,
-                      fontSize: 20,
-                      fontWeight: 'bold',
-                    }}>
-                    {item.when.slice(0, 10)}
-                  </Text>
-                  <Text
-                    style={{
-                      position: 'absolute',
-                      right: 30,
-                      fontSize: 20,
-                      fontWeight: 'bold',
-                      color: '#6a5acd',
-                    }}>
-                    {item.time}
-                  </Text>
+              <TouchableOpacity
+                onPress={() =>
+                  Alert.alert('자습시간', `${item.startTime} ~ ${item.endTime}`)
+                }>
+                <View style={styles.box_list}>
+                  <View style={styles.box}>
+                    <Text
+                      style={{
+                        marginLeft: 30,
+                        fontSize: 20,
+                        fontWeight: 'bold',
+                      }}>
+                      {item.when.slice(0, 10)}
+                    </Text>
+                    <Text
+                      style={{
+                        position: 'absolute',
+                        right: 30,
+                        fontSize: 20,
+                        fontWeight: 'bold',
+                        color: '#6a5acd',
+                      }}>
+                      {item.time}
+                    </Text>
+                  </View>
                 </View>
-              </View>
+              </TouchableOpacity>
             )}
             keyExtractor={item => String(item.id)}
           />

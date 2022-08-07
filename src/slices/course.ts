@@ -11,7 +11,7 @@ export interface course {
     tname: string;
     tphoneNumber: string;
   };
-  cid: number;
+  id: number;
   cname: string;
 }
 

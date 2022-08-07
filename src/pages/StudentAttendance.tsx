@@ -21,12 +21,15 @@ import Config from 'react-native-config';
 import Title from '../components/Title';
 import Attendance from './Attendance';
 import Icon from 'react-native-vector-icons/AntDesign';
+import {useSelector} from 'react-redux';
+import {RootState} from '../store/reducer';
 
 function StudentAttendance({route, navigation}) {
   const [Students, setStudents] = useState([]);
   const [listLength, setStudentsLength] = useState();
   const [loading, setLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const fetchItems = () => {
     if (!isRefreshing) {
       getListeners();
@@ -48,16 +51,25 @@ function StudentAttendance({route, navigation}) {
         {text: '결석', onPress: () => edit_attendance(item, '결석')}, //버튼 제목
         // 이벤트 발생시 로그를 찍는다
         {text: '지각', onPress: () => edit_attendance(item, '지각')},
+        {text: '동영상', onPress: () => edit_attendance(item, '동영상')},
       ],
     );
   };
   const edit_attendance = (id, state) => {
     console.log(id, state);
     axios
-      .put(`${Config.API_URL}/teacher/attendance`, {
-        id: id,
-        state: state,
-      })
+      .put(
+        `${Config.API_URL}/teacher/attendance`,
+        {
+          id: id,
+          state: state,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      )
       .then(response => {
         console.log(response.data);
       })
@@ -69,6 +81,9 @@ function StudentAttendance({route, navigation}) {
     console.log('받은 param', route.params);
     axios(`${Config.API_URL}/attendances/student`, {
       params: {id: route.params.attendanceId},
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     })
       .then(response => {
         console.log('response', response.data);
