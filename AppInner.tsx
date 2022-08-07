@@ -41,6 +41,14 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import TeacherMain from './src/pages/TeacherMain';
 import NewPassword from './src/pages/NewPassword';
+import BoardList from './src/pages/BoardList';
+import BoardSave from './src/pages/BoardSave';
+import BoardDetail from './src/pages/BoardDetail';
+import BoardUpdate from './src/pages/BoardUpdate';
+import SHomeworkList from "./src/pages/SHomeworkList";
+import StudentBoardList from './src/pages/StudentBoardList';
+import StudentBoardDetail from "./src/pages/StudentBoardDetail";
+import StudentHomework from "./src/pages/StudentHomework";
 import VideoList from './src/pages/VideoList';
 import AttendanceInfo from './src/pages/AttendanceInfo';
 import VideoAuth from './src/pages/VideoAuth';
@@ -390,6 +398,21 @@ function AppInner() {
           options={{title: '출석현황'}}
         />
         <Stack.Screen
+          name="StudentBoardList"
+          component={StudentBoardList}
+          options={{title: '과제 리스트'}}
+        />
+        <Stack.Screen
+          name="StudentBoardDetail"
+          component={StudentBoardDetail}
+          options={{title: '과제 상세보기'}}
+        />
+        <Stack.Screen
+          name="StudentHomework"
+          component={StudentHomework}
+          options={{title: '과제 제출확인 현황'}}
+        />
+        <Stack.Screen
           name="Study"
           component={Study}
           options={{title: '자습', headerShown: true}}
@@ -460,6 +483,31 @@ function AppInner() {
           name="TeacherCourseInfo"
           component={TeacherCourseInfo}
           options={{title: '강의정보'}}
+        />
+        <Stack.Screen
+          name="BoardList"
+          component={BoardList}
+          options={{title: '과제 리스트'}}
+        />
+        <Stack.Screen
+          name="BoardSave"
+          component={BoardSave}
+          options={{title: '과제 작성'}}
+        />
+        <Stack.Screen
+          name="BoardUpdate"
+          component={BoardUpdate}
+          options={{title: '과제 작성'}}
+        />
+        <Stack.Screen
+          name="BoardDetail"
+          component={BoardDetail}
+          options={{title: '과제 상세보기'}}
+        />
+        <Stack.Screen
+          name="SHomeworkList"
+          component={SHomeworkList}
+          options={{title: '수강생 체크리스트'}}
         />
         <Stack.Screen
           name="Listeners"
