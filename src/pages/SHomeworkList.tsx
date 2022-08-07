@@ -16,11 +16,14 @@ import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import MyButton from '../components/MyButton';
 import CheckBox from '@react-native-community/checkbox';
 
-export default function SHomeworkList({route}) {
+export default function SHomeworkList(this: any, {route}) {
   const [data, setData] = useState([]);
+  const [datalength, setDatalength] = useState();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const {thId} = route.params;
   const [checkedList, setCheckedList] = useState([]);
+  const datalist: {id: any; title: any; checked: boolean}[] = [];
+  let checklist: any[] = [];
 
   const fetchItems = () => {
     if (!isRefreshing) {
@@ -35,7 +38,18 @@ export default function SHomeworkList({route}) {
       .get(`${Config.API_URL}/api/sh/list/${thId}`)
       .then(response => {
         setData(response.data);
+        //this.setState({data: response.data});
+        //console.log(this.state.data);
         console.log(response.data);
+        setDatalength(response.data.length);
+        for (let i = 0; i < response.data.length; i++) {
+          datalist.push({
+            id: response.data[i].shId,
+            title: response.data[i].title,
+            checked: false,
+          });
+        }
+        console.log(datalist);
         console.log(thId);
       })
       .catch(error => console.error(error))
@@ -55,12 +69,13 @@ export default function SHomeworkList({route}) {
   );
 
   const submitChecked = async () => {
+    console.log('보낼 값: ', checklist);
     setIsRefreshing(true);
     try {
       const response = await axios.post(`${Config.API_URL}/api/sh/point`, {
-        checkedList,
+        checklist: checklist,
       });
-      console.log(checkedList);
+      console.log(response);
       setIsRefreshing(false);
     } catch (error) {
       Alert.alert('An error has occurred');
@@ -68,9 +83,37 @@ export default function SHomeworkList({route}) {
     }
   };
 
+  const onChangeValue = (itemSelected, index) => {
+    const newData = data.map(item => {
+      if (item.id == itemSelected.id) {
+        return {
+          ...item,
+          selected: !item.selected,
+        };
+      }
+      return {
+        ...item,
+        selected: item.selected,
+      };
+    });
+    setData(newData);
+  };
+
+  const onShowItemSelected = () => {
+    const listSelected = data.filter(item => item.selected === true);
+    let contentAlert = '';
+    listSelected.forEach(item => {
+      checklist.push({id: item.shId});
+      console.log(checklist);
+      contentAlert = contentAlert + `${item.shId} + ` + item.title + '\n';
+    });
+    Alert.alert(contentAlert);
+    submitChecked();
+  };
+
   useEffect(() => {
     getSHomeworks();
-  }, []);
+  }, [datalength]);
 
   return (
     <View style={{flex: 1, padding: 24, backgroundColor: 'white'}}>
@@ -87,6 +130,8 @@ export default function SHomeworkList({route}) {
           }}
           renderItem={({item, index}) => {
             console.log('item', item);
+            console.log('index', index);
+            console.log('item의 id', item.shId);
             return (
               <TouchableOpacity style={styles.container} key={index.toString()}>
                 <View>
@@ -101,7 +146,7 @@ export default function SHomeworkList({route}) {
                   iconStyle={{borderColor: '#ff4c4c'}}
                   textStyle={{fontFamily: 'JosefinSans-Regular'}}
                   onPress={() => {
-                    onCheckedElement(checkedList, item.shId);
+                    onChangeValue(item, index);
                   }}
                 />
               </TouchableOpacity>
@@ -112,7 +157,7 @@ export default function SHomeworkList({route}) {
       <MyButton
         text="과제 확인"
         onPress={() => {
-          submitChecked();
+          onShowItemSelected();
         }}
       />
     </View>
@@ -146,5 +191,11 @@ const styles = StyleSheet.create({
   itemSeparator: {
     backgroundColor: 'green',
     height: 1,
+  },
+  ckItem: {
+    width: 20,
+    height: 20,
+    marginTop: 10,
+    marginRight: 10,
   },
 });
