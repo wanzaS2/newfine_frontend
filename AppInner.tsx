@@ -46,6 +46,13 @@ import BoardSave from './src/pages/BoardSave';
 import BoardDetail from './src/pages/BoardDetail';
 import BoardUpdate from './src/pages/BoardUpdate';
 import SHomeworkList from "./src/pages/SHomeworkList";
+import StudentBoardList from './src/pages/StudentBoardList';
+import StudentBoardDetail from "./src/pages/StudentBoardDetail";
+import StudentHomework from "./src/pages/StudentHomework";
+import VideoList from './src/pages/VideoList';
+import AttendanceInfo from './src/pages/AttendanceInfo';
+import VideoAuth from './src/pages/VideoAuth';
+import ApplyVideo from './src/pages/ApplyVideo';
 // import isMockFunction = jest.isMockFunction;
 
 export type LoggedInParamList = {
@@ -391,6 +398,21 @@ function AppInner() {
           options={{title: '출석현황'}}
         />
         <Stack.Screen
+          name="StudentBoardList"
+          component={StudentBoardList}
+          options={{title: '과제 리스트'}}
+        />
+        <Stack.Screen
+          name="StudentBoardDetail"
+          component={StudentBoardDetail}
+          options={{title: '과제 상세보기'}}
+        />
+        <Stack.Screen
+          name="StudentHomework"
+          component={StudentHomework}
+          options={{title: '과제 제출확인 현황'}}
+        />
+        <Stack.Screen
           name="Study"
           component={Study}
           options={{title: '자습', headerShown: true}}
@@ -414,6 +436,21 @@ function AppInner() {
           name="StudyTime"
           component={StudyTime}
           options={{title: '자습시간', headerShown: false}}
+        />
+        <Stack.Screen
+          name="AttendanceInfo"
+          component={AttendanceInfo}
+          options={{title: '출석', headerShown: true}}
+        />
+        <Stack.Screen
+          name="VideoList"
+          component={VideoList}
+          options={{title: '동영상 신청', headerShown: true}}
+        />
+        <Stack.Screen
+          name="VideoAuth"
+          component={VideoAuth}
+          options={{title: '부모님 인증', headerShown: true}}
         />
       </Stack.Navigator>
     );
@@ -481,6 +518,11 @@ function AppInner() {
           name="AllRanking"
           component={AllRanking}
           options={{title: '전체 랭킹'}}
+        />
+        <Stack.Screen
+          name="ApplyVideo"
+          component={ApplyVideo}
+          options={{title: '동영상신청리스트', headerShown: true}}
         />
       </Stack.Navigator>
     );
