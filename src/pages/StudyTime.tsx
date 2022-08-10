@@ -53,7 +53,7 @@ function StudyTime({route, navigation}) {
                 time: `${response.data[i].total} 분`,
                 when: response.data[i].startTime.slice(0, 10),
                 startTime: response.data[i].startTime.slice(11),
-                endTime: response.data[i].endTime,
+                endTime: response.data[i].endTime.slice(11),
               });
             }
           } else {
@@ -75,7 +75,7 @@ function StudyTime({route, navigation}) {
                 time: `${hour}시간 ${min}분`,
                 when: response.data[i].startTime.slice(0, 10),
                 startTime: response.data[i].startTime.slice(11),
-                endTime: response.data[i].endTime,
+                endTime: response.data[i].endTime.slice(11),
               });
             }
           }
