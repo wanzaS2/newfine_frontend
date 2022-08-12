@@ -375,6 +375,8 @@ PODS:
     - React-Core
   - RNCAsyncStorage (1.17.4):
     - React-Core
+  - RNCCheckbox (0.5.12):
+    - React-Core
   - RNCPicker (2.4.3):
     - React-Core
   - RNFS (2.20.0):
@@ -465,6 +467,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - ReactNativeCameraKit (from `../node_modules/react-native-camera-kit`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - "RNCCheckbox (from `../node_modules/@react-native-community/checkbox`)"
   - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - RNFS (from `../node_modules/react-native-fs`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
@@ -574,6 +577,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-camera-kit"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNCCheckbox:
+    :path: "../node_modules/@react-native-community/checkbox"
   RNCPicker:
     :path: "../node_modules/@react-native-picker/picker"
   RNFS:
@@ -642,6 +647,7 @@ SPEC CHECKSUMS:
   ReactCommon: bf2888a826ceedf54b99ad1b6182d1bc4a8a3984
   ReactNativeCameraKit: 5765fc3e38a8c3b6b26aff6e66f89d9855b1db46
   RNCAsyncStorage: 9367a646dc24e3ab7b6874d79bc1bfd0832dce58
+  RNCCheckbox: ed1b4ca295475b41e7251ebae046360a703b6eb5
   RNCPicker: a99807a74d9cd65c394f6e2a6c843a377b355b4d
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNImageCropPicker: ffbba608264885c241cbf3a8f78eb7aeeb978241

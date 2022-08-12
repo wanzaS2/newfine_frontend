@@ -169,7 +169,7 @@ function Main() {
           <Pressable
             style={styles.block}
             onPress={() => {
-              navigation.navigate('AllRanking');
+              navigation.navigate('StudentTestMain');
             }}>
             <View style={{alignItems: 'center'}}>
               <Image

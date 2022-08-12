@@ -45,14 +45,16 @@ import BoardList from './src/pages/BoardList';
 import BoardSave from './src/pages/BoardSave';
 import BoardDetail from './src/pages/BoardDetail';
 import BoardUpdate from './src/pages/BoardUpdate';
-import SHomeworkList from "./src/pages/SHomeworkList";
+import SHomeworkList from './src/pages/SHomeworkList';
 import StudentBoardList from './src/pages/StudentBoardList';
-import StudentBoardDetail from "./src/pages/StudentBoardDetail";
-import StudentHomework from "./src/pages/StudentHomework";
+import StudentBoardDetail from './src/pages/StudentBoardDetail';
+import StudentHomework from './src/pages/StudentHomework';
 import VideoList from './src/pages/VideoList';
 import AttendanceInfo from './src/pages/AttendanceInfo';
 import VideoAuth from './src/pages/VideoAuth';
 import ApplyVideo from './src/pages/ApplyVideo';
+import StudentTestMain from './src/pages/StudentTestMain';
+import StudentTestResult from './src/pages/StudentTestResult';
 // import isMockFunction = jest.isMockFunction;
 
 export type LoggedInParamList = {
@@ -451,6 +453,16 @@ function AppInner() {
           name="VideoAuth"
           component={VideoAuth}
           options={{title: '부모님 인증', headerShown: true}}
+        />
+        <Stack.Screen
+          name="StudentTestMain"
+          component={StudentTestMain}
+          options={{title: '내 테스트', headerShown: true}}
+        />
+        <Stack.Screen
+          name="StudentTestResult"
+          component={StudentTestResult}
+          options={{title: '테스트 결과', headerShown: true}}
         />
       </Stack.Navigator>
     );
