@@ -26,7 +26,7 @@ function StudentTestMain({route, navigation}) {
   const [listLength, setAttendanceLength] = useState();
   const [loading, setLoading] = useState(false);
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
-  const getAttendances = () => {
+  const getTests = () => {
     console.log(route.params);
     axios(`${Config.API_URL}/test/all/my`, {
       params: {},
@@ -35,6 +35,7 @@ function StudentTestMain({route, navigation}) {
       },
     })
       .then(response => {
+        response.data.sort((a, b) => (a.testDate < b.testDate ? 1 : -1));
         setTestList(response.data);
         setAttendanceLength(response.data.length);
       })
@@ -43,7 +44,7 @@ function StudentTestMain({route, navigation}) {
   };
 
   useEffect(() => {
-    getAttendances();
+    getTests();
     console.log('AttendanceList : ', TestList);
     console.log('listLength : ', listLength);
   }, [listLength]);
@@ -57,7 +58,7 @@ function StudentTestMain({route, navigation}) {
             data={TestList}
             renderItem={({item, index}) => (
               <TouchableOpacity
-                onPress={() => navigation.navigate('StudentAttendance')}>
+                onPress={() => navigation.navigate('StudentTestResult')}>
                 <View
                   style={{
                     borderRadius: 10,
