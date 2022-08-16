@@ -21,15 +21,17 @@ function StudentTestResult({route, navigation}) {
   const [listLength, setAttendanceLength] = useState();
   const [loading, setLoading] = useState(false);
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
+  console.log(route.params.id);
   const getAttendances = () => {
     console.log(route.params);
-    axios(`${Config.API_URL}/test/all/my`, {
-      params: {},
+    axios(`${Config.API_URL}/test/result`, {
+      params: {id: route.params},
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     })
       .then(response => {
+        console.log(response.data);
         setTestList(response.data);
         setAttendanceLength(response.data.length);
       })

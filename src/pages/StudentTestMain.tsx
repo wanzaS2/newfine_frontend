@@ -58,7 +58,9 @@ function StudentTestMain({route, navigation}) {
             data={TestList}
             renderItem={({item, index}) => (
               <TouchableOpacity
-                onPress={() => navigation.navigate('StudentTestResult')}>
+                onPress={() =>
+                  navigation.navigate('StudentTestResult', item.id)
+                }>
                 <View
                   style={{
                     borderRadius: 10,
