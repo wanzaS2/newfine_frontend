@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import Title from '../components/Title';
-import Attendance from './Attendance';
+import Title from '../../components/Title';
 import {
   FlatList,
   SafeAreaView,
@@ -14,9 +13,9 @@ import {
 // import EachRanking from '../components/EachRanking';
 import Config from 'react-native-config';
 import axios from 'axios';
-import Listeners from './Listeners';
+import MyAttendance from '../MyAttendance';
 
-function TeacherCourseInfo({route, navigation}) {
+function StudentCourseInfo({route, navigation}) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -26,20 +25,14 @@ function TeacherCourseInfo({route, navigation}) {
     <View style={styles.container}>
       <Title title={route.params.cname} />
       <TouchableOpacity
-        onPress={() => navigation.navigate('Listeners', route.params)}>
+        onPress={() => navigation.navigate('MyAttendance', route.params)}>
         <View style={styles.box}>
-          <Text style={styles.font}>학생정보</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => navigation.navigate('Attendance', route.params)}>
-        <View style={styles.box}>
-          <Text style={styles.font}>출석현황</Text>
+          <Text style={styles.font}>내 출석현황</Text>
         </View>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() =>
-          navigation.navigate('BoardList', {courseId: route.params.id})
+          navigation.navigate('StudentBoardList', {courseId: route.params.id})
         }>
         <View style={styles.box}>
           <Text style={styles.font}>과제</Text>
@@ -80,4 +73,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TeacherCourseInfo;
+export default StudentCourseInfo;

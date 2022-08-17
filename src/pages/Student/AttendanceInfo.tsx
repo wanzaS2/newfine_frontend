@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import Title from '../components/Title';
+import Title from '../../components/Title';
 import {
   FlatList,
   SafeAreaView,
@@ -9,40 +9,27 @@ import {
   StatusBar,
   TouchableOpacity,
 } from 'react-native';
-
+// import {ranking} from '../slices/ranking';
+// import EachRanking from '../components/EachRanking';
 import Config from 'react-native-config';
 import axios from 'axios';
-import StudyIn from './StudyIn';
-import StudyOut from './StudyOut';
-import StudyTime from './StudyTime';
+import QRCodeScanner from './QRCodeScanner';
 
-function Study({route, navigation}) {
+function AttendanceInfo({navigation}) {
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {}, []);
   return (
     <View style={styles.container}>
-      <Title title="자습" />
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate('StudyIn');
-        }}>
+      <Title title="출석현황" />
+      <TouchableOpacity onPress={() => navigation.navigate('QRCodeScanner')}>
         <View style={styles.box}>
-          <Text style={styles.font}>입실</Text>
+          <Text style={styles.font}>지금 출석하기</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate('StudyOut');
-        }}>
+      <TouchableOpacity onPress={() => navigation.navigate('VideoList')}>
         <View style={styles.box}>
-          <Text style={styles.font}>퇴실</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate('StudyTime');
-        }}>
-        <View style={styles.box}>
-          <Text style={styles.font}>자습시간</Text>
+          <Text style={styles.font}>동영상신청</Text>
         </View>
       </TouchableOpacity>
     </View>
@@ -80,4 +67,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Study;
+export default AttendanceInfo;

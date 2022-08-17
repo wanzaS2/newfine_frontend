@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import Title from '../components/Title';
+import Title from '../../components/Title';
 
 import {
   FlatList,
@@ -16,7 +16,7 @@ import {
 import Config from 'react-native-config';
 import axios from 'axios';
 import {useSelector} from 'react-redux';
-import {RootState} from '../store/reducer';
+import {RootState} from '../../store/reducer';
 import Icon from 'react-native-vector-icons/AntDesign';
 function ApplyVideo({navigation}) {
   const [videoList, setVideos] = useState();

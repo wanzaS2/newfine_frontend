@@ -2,23 +2,23 @@ import SignIn from './src/pages/SignIn';
 import SignUp from './src/pages/SignUp';
 import SignUpAuth from './src/pages/SignUpAuth';
 import Ranking from './src/pages/Ranking';
-import Main from './src/pages/Main';
+import Main from './src/pages/Student/Main';
 import Welcome from './src/pages/Welcome';
-import TeacherCourse from './src/pages/TeacherCourse';
-import TeacherCourseInfo from './src/pages/TeacherCourseInfo';
-import Listeners from './src/pages/Listeners';
-import StudentCourse from './src/pages/StudentCourse';
-import StudentCourseInfo from './src/pages/StudentCourseInfo';
-import Study from './src/pages/Study';
-import StudyIn from './src/pages/StudyIn';
-import StudyOut from './src/pages/StudyOut';
-import StudyWeb from './src/pages/StudyWeb';
-import StudyTime from './src/pages/StudyTime';
+import TeacherCourse from './src/pages/Teacher/TeacherCourse';
+import TeacherCourseInfo from './src/pages/Teacher/TeacherCourseInfo';
+import Listeners from './src/pages/Teacher/Listeners';
+import StudentCourse from './src/pages/Student/StudentCourse';
+import StudentCourseInfo from './src/pages/Student/StudentCourseInfo';
+import Study from './src/pages/Student/Study';
+import StudyIn from './src/pages/Student/StudyIn';
+import StudyOut from './src/pages/Student/StudyOut';
+import StudyWeb from './src/pages/Student/StudyWeb';
+import StudyTime from './src/pages/Student/StudyTime';
 import Attendance from './src/pages/Attendance';
 import MyAttendance from './src/pages/MyAttendance';
-import StudentAttendance from './src/pages/StudentAttendance';
-import QRCodeScanner from './src/pages/QRCodeScanner';
-import AttendanceWeb from './src/pages/AttendanceWeb';
+import StudentAttendance from './src/pages/Student/StudentAttendance';
+import QRCodeScanner from './src/pages/Student/QRCodeScanner';
+import AttendanceWeb from './src/pages/Student/AttendanceWeb';
 import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useSelector} from 'react-redux';
@@ -39,20 +39,22 @@ import MyPage from './src/pages/MyPage';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
-import TeacherMain from './src/pages/TeacherMain';
+import TeacherMain from './src/pages/Teacher/TeacherMain';
 import NewPassword from './src/pages/NewPassword';
 import BoardList from './src/pages/BoardList';
 import BoardSave from './src/pages/BoardSave';
 import BoardDetail from './src/pages/BoardDetail';
 import BoardUpdate from './src/pages/BoardUpdate';
-import SHomeworkList from "./src/pages/SHomeworkList";
+import SHomeworkList from './src/pages/SHomeworkList';
 import StudentBoardList from './src/pages/StudentBoardList';
-import StudentBoardDetail from "./src/pages/StudentBoardDetail";
-import StudentHomework from "./src/pages/StudentHomework";
-import VideoList from './src/pages/VideoList';
-import AttendanceInfo from './src/pages/AttendanceInfo';
-import VideoAuth from './src/pages/VideoAuth';
-import ApplyVideo from './src/pages/ApplyVideo';
+import StudentBoardDetail from './src/pages/StudentBoardDetail';
+import StudentHomework from './src/pages/StudentHomework';
+import VideoList from './src/pages/Teacher/VideoList';
+import AttendanceInfo from './src/pages/Student/AttendanceInfo';
+import VideoAuth from './src/pages/Student/VideoAuth';
+import ApplyVideo from './src/pages/Teacher/ApplyVideo';
+import StudentTestMain from './src/pages/Student/StudentTestMain';
+import StudentTestResult from './src/pages/Student/StudentTestResult';
 // import isMockFunction = jest.isMockFunction;
 
 export type LoggedInParamList = {
@@ -451,6 +453,16 @@ function AppInner() {
           name="VideoAuth"
           component={VideoAuth}
           options={{title: '부모님 인증', headerShown: true}}
+        />
+        <Stack.Screen
+          name="StudentTestMain"
+          component={StudentTestMain}
+          options={{title: '내 테스트', headerShown: true}}
+        />
+        <Stack.Screen
+          name="StudentTestResult"
+          component={StudentTestResult}
+          options={{title: '테스트 결과', headerShown: true}}
         />
       </Stack.Navigator>
     );

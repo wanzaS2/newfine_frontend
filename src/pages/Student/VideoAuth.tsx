@@ -8,16 +8,16 @@ import {
   View,
 } from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../AppInner';
+import {RootStackParamList} from '../../../AppInner';
 import axios, {AxiosError} from 'axios';
 import Config from 'react-native-config';
-import DismissKeyboardView from '../components/DismissKeyboardView';
-import {Fonts} from '../assets/Fonts';
-import MyButton from '../components/MyButton';
-import MyTextInput from '../components/MyTextInput';
+import DismissKeyboardView from '../../components/DismissKeyboardView';
+import {Fonts} from '../../assets/Fonts';
+import MyButton from '../../components/MyButton';
+import MyTextInput from '../../components/MyTextInput';
 import RNPickerSelect from 'react-native-picker-select';
 import {useSelector} from 'react-redux';
-import {RootState} from '../store/reducer';
+import {RootState} from '../../store/reducer';
 // import MyPickerSelect from '../components/MyPickerSelect';
 // import Overlay from 'react-native-elements/dist/overlay/Overlay';
 

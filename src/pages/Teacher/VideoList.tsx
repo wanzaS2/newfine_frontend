@@ -1,62 +1,67 @@
 import React, {useEffect, useState} from 'react';
-import Title from '../components/Title';
-import Attendance from './Attendance';
-import TeacherCourseInfo from './TeacherCourseInfo';
-
 import {
   FlatList,
+  Pressable,
   SafeAreaView,
-  StyleSheet,
-  View,
-  Text,
   StatusBar,
+  StyleSheet,
+  Text,
   TouchableOpacity,
+  View,
 } from 'react-native';
-// import {ranking} from '../slices/ranking';
-// import EachRanking from '../components/EachRanking';
-import Config from 'react-native-config';
-import axios from 'axios';
-import {useSelector} from 'react-redux';
-import {RootState} from '../store/reducer';
 
-function TeacherCourse({navigation}) {
-  const [courseList, setCourseList] = useState();
-  const [listLength, setCourseLength] = useState();
+import {Fonts} from '../../assets/Fonts';
+import LinearGradient from 'react-native-linear-gradient';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {LoggedInParamList} from '../../../AppInner';
+import axios from 'axios';
+import Config from 'react-native-config';
+import Title from '../../components/Title';
+import StudentAttendance from '../Student/StudentAttendance';
+import {useWebWiewLogic} from 'react-native-webview/lib/WebViewShared';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../store/reducer';
+
+function VideoList({navigation}) {
+  const [AttendanceList, setAttendanceList] = useState();
+  const [listLength, setAttendanceLength] = useState();
   const [loading, setLoading] = useState(false);
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
-
-  const getCourses = () => {
-    axios
-      .get(`${Config.API_URL}/teacher/courses`, {
-        params: {},
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
+  const getAttendances = () => {
+    axios(`${Config.API_URL}/attendances/my/now`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
       .then(response => {
-        setCourseList(response.data);
-        setCourseLength(response.data.length);
+        console.log(response.data);
+        setAttendanceList(response.data);
+        setAttendanceLength(response.data.length);
       })
       .catch(error => console.error(error))
       .finally(() => setLoading(false));
   };
 
   useEffect(() => {
-    getCourses();
-    console.log('courseList : ', courseList);
-    console.log('listLength : ', listLength);
+    getAttendances();
+    console.log('동영상 가능 리스트 : ', AttendanceList);
+    console.log('동영상 갯수 : ', listLength);
   }, [listLength]);
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <Title title="내 수업✔️" />
       <SafeAreaView style={styles.container}>
+        <View style={styles.subtitlebox}>
+          <Text style={styles.subtitle}>
+            현재 동영상 신청을 할 수 있는 수업입니다!
+          </Text>
+        </View>
         <View>
           <FlatList
-            data={courseList}
+            data={AttendanceList}
             renderItem={({item, index}) => (
               <TouchableOpacity
-                onPress={() => navigation.navigate('TeacherCourseInfo', item)}>
+                onPress={() => navigation.navigate('VideoAuth', item)}>
                 <View
                   style={{
                     borderRadius: 10,
@@ -79,7 +84,7 @@ function TeacherCourse({navigation}) {
                         fontSize: 20,
                         fontWeight: 'bold',
                       }}>
-                      {item.cname}
+                      {item.course.cname}
                     </Text>
                     <Text
                       style={{
@@ -88,13 +93,13 @@ function TeacherCourse({navigation}) {
                         fontSize: 20,
                         fontWeight: 'bold',
                       }}>
-                      {item.teacher.tname} 선생님
+                      {item.course.start_time}
                     </Text>
                   </View>
                 </View>
               </TouchableOpacity>
             )}
-            keyExtractor={item => String(item.id)}
+            keyExtractor={item => String(item.attendanceId)}
           />
         </View>
       </SafeAreaView>
@@ -107,6 +112,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
+  subtitle: {
+    fontSize: 18,
+    color: '#6495ed',
+    fontWeight: 'bold',
+  },
+  subtitlebox: {
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    marginBottom: 20,
+    marginTop: 30,
+  },
 });
 
-export default TeacherCourse;
+export default VideoList;

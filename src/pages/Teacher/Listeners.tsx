@@ -11,22 +11,25 @@ import {
   View,
 } from 'react-native';
 
-import {Fonts} from '../assets/Fonts';
+import {Fonts} from '../../assets/Fonts';
 import LinearGradient from 'react-native-linear-gradient';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {LoggedInParamList} from '../../AppInner';
+import {LoggedInParamList} from '../../../AppInner';
 import axios from 'axios';
 import Config from 'react-native-config';
-import Title from '../components/Title';
-import StudentAttendance from '../pages/StudentAttendance';
-import Attendance from './Attendance';
+import Title from '../../components/Title';
+import StudentAttendance from '../Student/StudentAttendance';
+import Attendance from '../Attendance';
 import Icon from 'react-native-vector-icons/AntDesign';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../store/reducer';
 
 function Listeners({route, navigation}) {
   const [Students, setStudents] = useState([]);
   const [listLength, setStudentsLength] = useState();
   const [loading, setLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const fetchItems = () => {
     if (!isRefreshing) {
       getListeners();
@@ -38,6 +41,9 @@ function Listeners({route, navigation}) {
     console.log('받은 param', route.params);
     axios(`${Config.API_URL}/listeners`, {
       params: {id: route.params.id},
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     })
       .then(response => {
         console.log('response', response.data);
