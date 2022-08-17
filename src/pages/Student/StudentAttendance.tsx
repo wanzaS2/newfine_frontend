@@ -12,17 +12,17 @@ import {
   View,
 } from 'react-native';
 
-import {Fonts} from '../assets/Fonts';
+import {Fonts} from '../../assets/Fonts';
 import LinearGradient from 'react-native-linear-gradient';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {LoggedInParamList} from '../../AppInner';
+import {LoggedInParamList} from '../../../AppInner';
 import axios from 'axios';
 import Config from 'react-native-config';
-import Title from '../components/Title';
-import Attendance from './Attendance';
+import Title from '../../components/Title';
+import Attendance from '../Attendance';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {useSelector} from 'react-redux';
-import {RootState} from '../store/reducer';
+import {RootState} from '../../store/reducer';
 
 function StudentAttendance({route, navigation}) {
   const [Students, setStudents] = useState([]);

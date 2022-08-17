@@ -3,7 +3,7 @@ import {WebView} from 'react-native-webview';
 import {TouchableOpacity, View, Text, Alert} from 'react-native';
 import Main from './Main';
 import {useSelector} from 'react-redux';
-import {RootState} from '../store/reducer';
+import {RootState} from '../../store/reducer';
 
 const StudyWeb = ({route, navigation}) => {
   // 웹뷰에서 데이터를 받을 때 필요한 함수입니다.

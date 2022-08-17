@@ -17,7 +17,7 @@ import {LoggedInParamList} from '../../AppInner';
 import axios from 'axios';
 import Config from 'react-native-config';
 import Title from '../components/Title';
-import StudentAttendance from '../pages/StudentAttendance';
+import StudentAttendance from './Student/StudentAttendance';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store/reducer';
 

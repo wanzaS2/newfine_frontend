@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import Title from '../components/Title';
-import Attendance from './Attendance';
-import TeacherCourseInfo from './TeacherCourseInfo';
+import Title from '../../components/Title';
 
 import {
   FlatList,
@@ -17,22 +15,20 @@ import {
 import Config from 'react-native-config';
 import axios from 'axios';
 import {useSelector} from 'react-redux';
-import {RootState} from '../store/reducer';
-
-function TeacherCourse({navigation}) {
+import {RootState} from '../../store/reducer';
+function StudentCourse({navigation}) {
   const [courseList, setCourseList] = useState();
   const [listLength, setCourseLength] = useState();
   const [loading, setLoading] = useState(false);
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
 
   const getCourses = () => {
-    axios
-      .get(`${Config.API_URL}/teacher/courses`, {
-        params: {},
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
+    axios(`${Config.API_URL}/student/courses`, {
+      params: {},
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
       .then(response => {
         setCourseList(response.data);
         setCourseLength(response.data.length);
@@ -56,7 +52,9 @@ function TeacherCourse({navigation}) {
             data={courseList}
             renderItem={({item, index}) => (
               <TouchableOpacity
-                onPress={() => navigation.navigate('TeacherCourseInfo', item)}>
+                onPress={() =>
+                  navigation.navigate('StudentCourseInfo', item.course)
+                }>
                 <View
                   style={{
                     borderRadius: 10,
@@ -79,7 +77,7 @@ function TeacherCourse({navigation}) {
                         fontSize: 20,
                         fontWeight: 'bold',
                       }}>
-                      {item.cname}
+                      {item.course.cname}
                     </Text>
                     <Text
                       style={{
@@ -88,7 +86,7 @@ function TeacherCourse({navigation}) {
                         fontSize: 20,
                         fontWeight: 'bold',
                       }}>
-                      {item.teacher.tname} 선생님
+                      {item.course.subjectType}
                     </Text>
                   </View>
                 </View>
@@ -109,4 +107,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TeacherCourse;
+export default StudentCourse;

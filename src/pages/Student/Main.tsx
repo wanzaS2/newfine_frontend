@@ -8,11 +8,11 @@ import {
   View,
 } from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {LoggedInParamList, RootStackParamList} from '../../AppInner';
-import DismissKeyboardView from '../components/DismissKeyboardView';
-import SetUpProfile from '../components/SetUpProfile';
-import {Fonts} from '../assets/Fonts';
-import Ranking from './Ranking';
+import {LoggedInParamList, RootStackParamList} from '../../../AppInner';
+import DismissKeyboardView from '../../components/DismissKeyboardView';
+import SetUpProfile from '../../components/SetUpProfile';
+import {Fonts} from '../../assets/Fonts';
+import Ranking from '../Ranking';
 import LinearGradient from 'react-native-linear-gradient';
 import {
   NavigationProp,
@@ -20,7 +20,7 @@ import {
   useNavigation,
 } from '@react-navigation/native';
 import {useSelector} from 'react-redux';
-import {RootState} from '../store/reducer';
+import {RootState} from '../../store/reducer';
 import axios from 'axios';
 import Config from 'react-native-config';
 import AttendanceInfo from './AttendanceInfo';
@@ -110,7 +110,7 @@ function Main() {
               }}>
               <View style={{alignItems: 'center'}}>
                 <Image
-                  source={require('../assets/images/main/free-icon-teach-4696563.png')}
+                  source={require('../../assets/images/main/free-icon-teach-4696563.png')}
                   style={styles.blockImage}
                 />
                 <Text style={styles.blockTitle}>수업</Text>
@@ -127,7 +127,7 @@ function Main() {
               }}>
               <View style={{alignItems: 'center'}}>
                 <Image
-                  source={require('../assets/images/main/free-icon-campus-4696591.png')}
+                  source={require('../../assets/images/main/free-icon-campus-4696591.png')}
                   style={styles.blockImage}
                 />
                 <Text style={styles.blockTitle}>출석</Text>
@@ -144,7 +144,7 @@ function Main() {
               }}>
               <View style={{alignItems: 'center'}}>
                 <Image
-                  source={require('../assets/images/main/free-icon-study-4696502.png')}
+                  source={require('../../assets/images/main/free-icon-study-4696502.png')}
                   style={styles.blockImage}
                 />
                 <Text style={styles.blockTitle}>과제</Text>
@@ -160,7 +160,7 @@ function Main() {
             }}>
             <View style={{alignItems: 'center'}}>
               <Image
-                source={require('../assets/images/main/free-icon-read-4696561.png')}
+                source={require('../../assets/images/main/free-icon-read-4696561.png')}
                 style={styles.blockImage}
               />
               <Text style={styles.blockTitle}>자습</Text>
@@ -173,7 +173,7 @@ function Main() {
             }}>
             <View style={{alignItems: 'center'}}>
               <Image
-                source={require('../assets/images/main/free-icon-checklist-4696519.png')}
+                source={require('../../assets/images/main/free-icon-checklist-4696519.png')}
                 style={styles.blockImage}
               />
               <Text style={styles.blockTitle}>테스트</Text>
@@ -186,7 +186,7 @@ function Main() {
             }}>
             <View style={{alignItems: 'center'}}>
               <Image
-                source={require('../assets/images/main/free-icon-sports-4696513.png')}
+                source={require('../../assets/images/main/free-icon-sports-4696513.png')}
                 style={styles.blockImage}
               />
               <Text style={styles.blockTitle}>내 정보</Text>
