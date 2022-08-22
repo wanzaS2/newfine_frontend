@@ -55,6 +55,10 @@ import VideoAuth from './src/pages/Student/VideoAuth';
 import ApplyVideo from './src/pages/Teacher/ApplyVideo';
 import StudentTestMain from './src/pages/Student/StudentTestMain';
 import StudentTestResult from './src/pages/Student/StudentTestResult';
+import StudentAllTestResult from './src/pages/Student/StudentAllTestResult';
+import TeacherAllTest from './src/pages/Teacher/TeacherAllTest';
+import TeacherTest from './src/pages/Teacher/TeacherTest';
+import TestRank from './src/pages/Teacher/TestRank';
 // import isMockFunction = jest.isMockFunction;
 
 export type LoggedInParamList = {
@@ -464,6 +468,11 @@ function AppInner() {
           component={StudentTestResult}
           options={{title: '테스트 결과', headerShown: true}}
         />
+        <Stack.Screen
+          name="StudentAllTestResult"
+          component={StudentAllTestResult}
+          options={{title: '전회차 분석', headerShown: true}}
+        />
       </Stack.Navigator>
     );
   };
@@ -535,6 +544,21 @@ function AppInner() {
           name="ApplyVideo"
           component={ApplyVideo}
           options={{title: '동영상신청리스트', headerShown: true}}
+        />
+        <Stack.Screen
+          name="TeacherAllTest"
+          component={TeacherAllTest}
+          options={{title: '테스트', headerShown: true}}
+        />
+        <Stack.Screen
+          name="TeacherTest"
+          component={TeacherTest}
+          options={{title: '테스트', headerShown: true}}
+        />
+        <Stack.Screen
+          name="TestRank"
+          component={TestRank}
+          options={{title: '순위', headerShown: true}}
         />
       </Stack.Navigator>
     );

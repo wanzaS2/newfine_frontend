@@ -38,7 +38,7 @@ function TeacherCourseInfo({route, navigation}) {
         </View>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => navigation.navigate('Attendance', route.params)}>
+        onPress={() => navigation.navigate('TeacherAllTest', route.params)}>
         <View style={styles.box}>
           <Text style={styles.font}>테스트 결과</Text>
         </View>
