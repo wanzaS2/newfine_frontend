@@ -21,11 +21,10 @@ import {RootState} from '../../store/reducer';
 import {Fonts} from '../../assets/Fonts';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-function StudentTestResult({route, navigation}) {
+function TeacherTest({route, navigation}) {
   const [TestList, setTestList] = useState();
-  const [MyRank, setMyRank] = useState();
-  const [MyScore, setMyScore] = useState();
-  const [total, setTotal] = useState();
+  const [highest, sethighest] = useState();
+  const [lowest, setlowest] = useState();
   const [avg, setAvg] = useState();
   const [top5, settop5] = useState();
   const [listLength, setAttendanceLength] = useState();
@@ -36,7 +35,7 @@ function StudentTestResult({route, navigation}) {
   console.log('전달받은 것', route.params);
   const getAttendances = () => {
     console.log(route.params);
-    axios(`${Config.API_URL}/test/result/my`, {
+    axios(`${Config.API_URL}/test/result/teacher`, {
       params: {id: route.params},
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -46,10 +45,8 @@ function StudentTestResult({route, navigation}) {
         console.log(response.data);
         setTestList(response.data);
         setAvg(response.data.avg);
-        setMyRank(response.data.rank);
-        setMyScore(response.data.myScore);
-        setTotal(response.data.total);
-        console.log('처음 top5', top5);
+        sethighest(response.data.highest);
+        setlowest(response.data.lowest);
         setmycorrect(response.data.notCorrectDtos);
         setAttendanceLength(response.data.length);
       })
@@ -58,7 +55,7 @@ function StudentTestResult({route, navigation}) {
   };
   const getTypeResult = () => {
     console.log(route.params);
-    axios(`${Config.API_URL}/test/result/type`, {
+    axios(`${Config.API_URL}/test/result/type/teacher`, {
       params: {id: route.params},
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -72,59 +69,39 @@ function StudentTestResult({route, navigation}) {
         for (let i = 0; i < bk.length; i++) {
           let best1 = bk[i].most_chosen.slice(0, 1);
           let best2 = bk[i].most_chosen.slice(1, 2);
-          let best3 = bk[i].most_chosen.slice(2);
-          if (bk[i].iscorrect == false) {
-            // 내가 틀렸다면
-            bkiller.push({
-              id: i + 1,
-              q_num: bk[i].q_num,
-              rate: bk[i].rate,
-              right_ans: bk[i].right_ans,
-              iscorrect: `나는 ${bk[i].student_ans}를 선택하여 틀렸어요.`,
-              mostchosen: `학생들은 ${best1}, ${best2}, ${best3} 순으로 많이 선택했어요.`,
-            });
-          } else {
-            bkiller.push({
-              id: i + 1,
-              q_num: bk[i].q_num,
-              rate: bk[i].rate,
-              right_ans: bk[i].right_ans,
-              iscorrect: '나는 맞았어요!',
-              mostchosen: `학생들은 ${best1}, ${best2}, ${best3} 순으로 많이 선택했어요.`,
-            });
-          }
-          setBkiller(bkiller);
-          let k = response.data.killerDtos;
-          console.log('k', k);
-          let killer = [];
-          for (let i = 0; i < k.length; i++) {
-            let best1 = k[i].most_chosen.slice(0, 1);
-            let best2 = k[i].most_chosen.slice(1, 2);
-            let best3 = k[i].most_chosen.slice(2);
-            if (bk[i].iscorrect == false) {
-              // 내가 틀렸다면
-              killer.push({
-                id: i + 1,
-                q_num: k[i].q_num,
-                rate: k[i].rate,
-                right_ans: k[i].right_ans,
-                iscorrect: `나는 ${k[i].student_ans}를 선택하여 틀렸어요.`,
-                mostchosen: `학생들은 ${best1}, ${best2}, ${best3} 순으로 많이 선택했어요.`,
-              });
-            } else {
-              killer.push({
-                id: i + 1,
-                q_num: k[i].q_num,
-                rate: k[i].rate,
-                right_ans: k[i].right_ans,
-                iscorrect: '나는 맞았어요!',
-                mostchosen: `학생들은 ${best1}, ${best2}, ${best3} 순으로 많이 선택했어요.`,
-              });
-            }
-          }
-          console.log('killer', killer);
-          setKiller(killer);
+          let best3 = bk[i].most_chosen.slice(2, 3);
+          let best4 = bk[i].most_chosen.slice(3, 4);
+          let best5 = bk[i].most_chosen.slice(4);
+
+          bkiller.push({
+            id: i + 1,
+            q_num: bk[i].q_num,
+            rate: bk[i].rate,
+            right_ans: bk[i].right_ans,
+            mostchosen: `학생들은 ${best1}, ${best2}, ${best3} ,${best4}, ${best5}순으로 많이 선택했어요.`,
+          });
         }
+        setBkiller(bkiller);
+        let k = response.data.killerDtos;
+        console.log('k', k);
+        let killer = [];
+        for (let i = 0; i < k.length; i++) {
+          let best1 = k[i].most_chosen.slice(0, 1);
+          let best2 = k[i].most_chosen.slice(1, 2);
+          let best3 = k[i].most_chosen.slice(2, 3);
+          let best4 = k[i].most_chosen.slice(3, 4);
+          let best5 = k[i].most_chosen.slice(4);
+
+          killer.push({
+            id: i + 1,
+            q_num: k[i].q_num,
+            rate: k[i].rate,
+            right_ans: k[i].right_ans,
+            mostchosen: `학생들은 ${best1}, ${best2}, ${best3} ,${best4}, ${best5} 순으로 많이 선택했어요.`,
+          });
+        }
+        console.log('killer', killer);
+        setKiller(killer);
       })
       .catch(error => console.error(error))
       .finally(() => setLoading(false));
@@ -133,28 +110,14 @@ function StudentTestResult({route, navigation}) {
     let correct = [];
     console.log('top5', top5);
     for (let i = 0; i < 5; i++) {
-      if (top5[i].isCorrect == false) {
-        // 내가 이 문제를 틀렸다면
-        correct.push({
-          id: i + 1,
-          rank: top5[i].q_rank,
-          q_num: top5[i].q_num,
-          rate: top5[i].rate,
-          my_ans: `내 답:${top5[i].student_ans}/`,
-          ans: `답:${top5[i].right_ans}`,
-          correct: 'X',
-        });
-      } else {
-        correct.push({
-          id: i,
-          rank: top5[i].q_rank,
-          q_num: top5[i].q_num,
-          rate: top5[i].rate,
-          my_ans: '',
-          ans: '맞았습니다!',
-          correct: 'O',
-        });
-      }
+      // 내가 이 문제를 틀렸다면
+      correct.push({
+        id: i + 1,
+        rank: top5[i].q_rank,
+        q_num: top5[i].q_num,
+        rate: top5[i].rate,
+        ans: `답:${top5[i].right_ans}`,
+      });
     }
     settop5(correct);
     console.log(top5);
@@ -173,14 +136,12 @@ function StudentTestResult({route, navigation}) {
         <SafeAreaView style={styles.container}>
           <View style={styles.myinfo}>
             <View style={styles.scorebox}>
-              <Text style={styles.rank}>순위 </Text>
-              <Text style={styles.number}> {MyRank}위</Text>
-              <Text style={styles.total}>/ {total} 명</Text>
+              <Text style={styles.rank}>평균 </Text>
+              <Text style={styles.number}> {avg}점</Text>
             </View>
             <View style={styles.scorebox}>
-              <Text style={styles.score}>점수 </Text>
-              <Text style={styles.number}> {MyScore}점</Text>
-              <Text style={styles.avg}>/ 평균 {avg} 점</Text>
+              <Text style={styles.avg}>최고 {highest} 점</Text>
+              <Text style={styles.avg}>/ 최저 {lowest} 점</Text>
             </View>
           </View>
           <View style={styles.topfive}>
@@ -195,7 +156,7 @@ function StudentTestResult({route, navigation}) {
                     <Text style={styles.toprank}>{item.rank}위 </Text>
                     <Text
                       style={{
-                        marginLeft: 60,
+                        marginLeft: 90,
                         position: 'absolute',
                         fontSize: 20,
                         fontWeight: 'bold',
@@ -207,7 +168,7 @@ function StudentTestResult({route, navigation}) {
                     <Text
                       style={{
                         marginTop: 4,
-                        marginLeft: 110,
+                        marginLeft: 140,
                         position: 'absolute',
                         fontSize: 16,
                       }}>
@@ -216,11 +177,11 @@ function StudentTestResult({route, navigation}) {
                     <Text style={styles.correct}>{item.correct}</Text>
                     <Text
                       style={{
-                        marginLeft: 200,
+                        marginLeft: 250,
                         position: 'absolute',
                         fontSize: 16,
                       }}>
-                      {item.my_ans} {item.ans}
+                      {item.ans}
                     </Text>
                   </View>
                 </View>
@@ -259,20 +220,7 @@ function StudentTestResult({route, navigation}) {
                       오답률 ({item.rate}%)
                     </Text>
                   </View>
-                  <View style={styles.killerbox_content}>
-                    <Text
-                      style={{
-                        padding: 3,
-                        position: 'absolute',
-                        fontSize: 16,
-                        color: '#ffa07a',
-                        fontWeight: 'bold',
-                        marginLeft: 10,
-                        fontFamily: Fonts.TRBold,
-                      }}>
-                      {item.iscorrect}
-                    </Text>
-                  </View>
+
                   <View style={styles.killerbox_content}>
                     <Text
                       style={{
@@ -334,20 +282,6 @@ function StudentTestResult({route, navigation}) {
                         marginLeft: 10,
                         fontFamily: Fonts.TRRegular,
                       }}>
-                      {item.iscorrect}
-                    </Text>
-                  </View>
-                  <View style={styles.killerbox_content}>
-                    <Text
-                      style={{
-                        padding: 3,
-                        position: 'absolute',
-                        fontSize: 17,
-                        color: '#ffa07a',
-                        fontWeight: 'bold',
-                        marginLeft: 10,
-                        fontFamily: Fonts.TRRegular,
-                      }}>
                       {item.mostchosen}
                     </Text>
                   </View>
@@ -364,9 +298,7 @@ function StudentTestResult({route, navigation}) {
             }}>
             <TouchableOpacity
               style={styles.button}
-              onPress={() =>
-                navigation.navigate('StudentAllTestResult', route.params)
-              }>
+              onPress={() => navigation.navigate('TestRank', route.params)}>
               <Text
                 style={{
                   position: 'absolute',
@@ -375,7 +307,7 @@ function StudentTestResult({route, navigation}) {
                   fontWeight: 'bold',
                   fontFamily: Fonts.TRBold,
                 }}>
-                전회차 분석 보러가기
+                학생 순위 보러가기
               </Text>
             </TouchableOpacity>
           </View>
@@ -424,7 +356,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     marginTop: 10,
     backgroundColor: '#fff8dc',
-    height: 120,
+    height: 100,
   },
   box: {
     flexDirection: 'row',
@@ -438,7 +370,7 @@ const styles = StyleSheet.create({
   killerbox_content: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 26,
+    marginTop: 20,
   },
   rank: {
     alignItems: 'center',
@@ -484,19 +416,19 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: 'lightskyblue',
     borderWidth: 8,
-    marginBottom: 20,
+    marginBottom: 25,
     fontFamily: Fonts.TRBold,
     backgroundColor: '#f0f8ff',
     // backgroundColor: '#fafad2',
   },
   killerzone: {
-    height: 310,
+    height: 300,
     justifyContent: 'flex-start',
     marginTop: 10,
     // borderRadius: 10,
     // borderColor: 'lightskyblue',
     // borderWidth: 8,
-    marginBottom: 20,
+    marginBottom: 15,
     fontFamily: Fonts.TRBold,
     backgroundColor: '#f0f8ff',
     // backgroundColor: '#fafad2',
@@ -545,4 +477,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StudentTestResult;
+export default TeacherTest;
