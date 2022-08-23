@@ -14,9 +14,11 @@ import RoundButton from '../components/RoundButton';
 import axios from 'axios';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store/reducer';
+import {ExpandableListView} from 'react-native-expandable-listview';
 import Title from '../components/Title';
 
 export default function StudentHomework({route, navigation}) {
+  const [toggle, onToggle] = useState('');
   const [data, setData] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
@@ -55,8 +57,8 @@ export default function StudentHomework({route, navigation}) {
         <ActivityIndicator />
       ) : (
         <>
-          <Title title="제출 확인 ✔️" />
           <View>
+            <Text>확인 완료 된 과제</Text>
             <FlatList
               data={data}
               onRefresh={fetchItems} // fetch로 데이터 호출
@@ -70,10 +72,19 @@ export default function StudentHomework({route, navigation}) {
                 return (
                   <TouchableOpacity
                     style={styles.container}
-                    key={index.toString()}>
+                    key={index.toString()}
+                    onPress={() =>
+                      navigation.navigate('StudentBoardDetail', {
+                        id: item.thId,
+                      })
+                    }>
                     <View>
-                      <Text style={styles.title}>{item.title}</Text>
-                      <Text style={styles.text}>{item.name}</Text>
+                      <Text style={styles.title}>
+                        {item.course} / {item.title} / {item.grade}
+                      </Text>
+                      <Text style={styles.text}>
+                        확인일시: {item.checkedDate}
+                      </Text>
                     </View>
                   </TouchableOpacity>
                 );

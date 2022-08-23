@@ -7,6 +7,7 @@ const initialState = {
   accessToken: '',
   photoURL: '',
   authority: '',
+  phoneToken: '',
 };
 const userSlice = createSlice({
   name: 'user',
@@ -40,6 +41,9 @@ const userSlice = createSlice({
     },
     setPhotoURL(state, action) {
       state.photoURL = action.payload.photoURL;
+    },
+    setPhoneToken(state, action) {
+      state.phoneToken = action.payload.phoneToken;
     },
   },
   extraReducers: builder => {},

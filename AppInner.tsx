@@ -45,14 +45,15 @@ import BoardList from './src/pages/BoardList';
 import BoardSave from './src/pages/BoardSave';
 import BoardDetail from './src/pages/BoardDetail';
 import BoardUpdate from './src/pages/BoardUpdate';
-import SHomeworkList from "./src/pages/SHomeworkList";
+import SHomeworkList from './src/pages/SHomeworkList';
 import StudentBoardList from './src/pages/StudentBoardList';
-import StudentBoardDetail from "./src/pages/StudentBoardDetail";
-import StudentHomework from "./src/pages/StudentHomework";
+import StudentBoardDetail from './src/pages/StudentBoardDetail';
+import StudentHomework from './src/pages/StudentHomework';
 import VideoList from './src/pages/VideoList';
 import AttendanceInfo from './src/pages/AttendanceInfo';
 import VideoAuth from './src/pages/VideoAuth';
 import ApplyVideo from './src/pages/ApplyVideo';
+import messaging from '@react-native-firebase/messaging';
 // import isMockFunction = jest.isMockFunction;
 
 export type LoggedInParamList = {
@@ -233,6 +234,8 @@ function AppInner() {
     }
   }, [isLoggedIn, disconnect]);
 
+  // 푸시알림 토큰 받아와서 등록하는 코드
+
   // useEffect(() => {
   //   axios.interceptors.response.use(
   //     response => {
@@ -293,6 +296,23 @@ function AppInner() {
       disconnect();
     }
   }, [isLoggedIn, disconnect]);
+
+  // 푸시알림 토큰 생성
+  useEffect(() => {
+    async function getToken() {
+      try {
+        if (!messaging().isDeviceRegisteredForRemoteMessages) {
+          await messaging().registerDeviceForRemoteMessages();
+        }
+        const token = await messaging().getToken();
+        console.log('phone token', token);
+        dispatch(userSlice.actions.setPhoneToken({phoneToken: token}));
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getToken();
+  }, [dispatch]);
 
   const LoginNavigator = ({navigation}) => {
     return (
