@@ -10,32 +10,33 @@ import {
   View,
 } from 'react-native';
 
-import {Fonts} from '../assets/Fonts';
+import {Fonts} from '../../assets/Fonts';
 import LinearGradient from 'react-native-linear-gradient';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {LoggedInParamList} from '../../AppInner';
+import {LoggedInParamList} from '../../../AppInner';
 import axios from 'axios';
 import Config from 'react-native-config';
-import Title from '../components/Title';
-import StudentAttendance from '../pages/StudentAttendance';
-import {useWebWiewLogic} from 'react-native-webview/lib/WebViewShared';
+import Title from '../../components/Title';
+import StudentAttendance from './StudentAttendance';
 import {useSelector} from 'react-redux';
-import {RootState} from '../store/reducer';
+import {RootState} from '../../store/reducer';
 
-function VideoList({navigation}) {
-  const [AttendanceList, setAttendanceList] = useState();
+function StudentTestMain({route, navigation}) {
+  const [TestList, setTestList] = useState();
   const [listLength, setAttendanceLength] = useState();
   const [loading, setLoading] = useState(false);
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
-  const getAttendances = () => {
-    axios(`${Config.API_URL}/attendances/my/now`, {
+  const getTests = () => {
+    console.log(route.params);
+    axios(`${Config.API_URL}/test/all/my`, {
+      params: {},
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     })
       .then(response => {
-        console.log(response.data);
-        setAttendanceList(response.data);
+        response.data.sort((a, b) => (a.testDate < b.testDate ? 1 : -1));
+        setTestList(response.data);
         setAttendanceLength(response.data.length);
       })
       .catch(error => console.error(error))
@@ -43,25 +44,23 @@ function VideoList({navigation}) {
   };
 
   useEffect(() => {
-    getAttendances();
-    console.log('동영상 가능 리스트 : ', AttendanceList);
-    console.log('동영상 갯수 : ', listLength);
+    getTests();
+    console.log('AttendanceList : ', TestList);
+    console.log('listLength : ', listLength);
   }, [listLength]);
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
+      <Title title="내 테스트" />
       <SafeAreaView style={styles.container}>
-        <View style={styles.subtitlebox}>
-          <Text style={styles.subtitle}>
-            현재 동영상 신청을 할 수 있는 수업입니다!
-          </Text>
-        </View>
         <View>
           <FlatList
-            data={AttendanceList}
+            data={TestList}
             renderItem={({item, index}) => (
               <TouchableOpacity
-                onPress={() => navigation.navigate('VideoAuth', item)}>
+                onPress={() =>
+                  navigation.navigate('StudentTestResult', item.id)
+                }>
                 <View
                   style={{
                     borderRadius: 10,
@@ -84,7 +83,7 @@ function VideoList({navigation}) {
                         fontSize: 20,
                         fontWeight: 'bold',
                       }}>
-                      {item.course.cname}
+                      {item.testName}
                     </Text>
                     <Text
                       style={{
@@ -93,13 +92,13 @@ function VideoList({navigation}) {
                         fontSize: 20,
                         fontWeight: 'bold',
                       }}>
-                      {item.course.start_time}
+                      {item.testDate.slice(5)}
                     </Text>
                   </View>
                 </View>
               </TouchableOpacity>
             )}
-            keyExtractor={item => String(item.attendanceId)}
+            keyExtractor={item => String(item.id)}
           />
         </View>
       </SafeAreaView>
@@ -112,17 +111,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
-  subtitle: {
-    fontSize: 18,
-    color: '#6495ed',
-    fontWeight: 'bold',
-  },
-  subtitlebox: {
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    marginBottom: 20,
-    marginTop: 30,
-  },
 });
 
-export default VideoList;
+export default StudentTestMain;

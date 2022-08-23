@@ -1,63 +1,60 @@
 import React, {useEffect, useState} from 'react';
+import Title from '../../components/Title';
+
 import {
   FlatList,
-  Pressable,
   SafeAreaView,
-  StatusBar,
   StyleSheet,
-  Text,
-  TouchableOpacity,
   View,
+  Text,
+  StatusBar,
+  TouchableOpacity,
 } from 'react-native';
-
-import {Fonts} from '../assets/Fonts';
-import LinearGradient from 'react-native-linear-gradient';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {LoggedInParamList} from '../../AppInner';
-import axios from 'axios';
+// import {ranking} from '../slices/ranking';
+// import EachRanking from '../components/EachRanking';
 import Config from 'react-native-config';
-import Title from '../components/Title';
-import StudentAttendance from './Student/StudentAttendance';
+import axios from 'axios';
 import {useSelector} from 'react-redux';
-import {RootState} from '../store/reducer';
-
-function Attendance({route, navigation}) {
-  const [AttendanceList, setAttendanceList] = useState();
-  const [listLength, setAttendanceLength] = useState();
+import {RootState} from '../../store/reducer';
+function StudentCourse({navigation}) {
+  const [courseList, setCourseList] = useState();
+  const [listLength, setCourseLength] = useState();
   const [loading, setLoading] = useState(false);
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
-  const getAttendances = () => {
-    console.log(route.params);
-    axios(`${Config.API_URL}/attendances`, {
-      params: {id: route.params.id},
+
+  const getCourses = () => {
+    axios(`${Config.API_URL}/student/courses`, {
+      params: {},
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     })
       .then(response => {
-        setAttendanceList(response.data);
-        setAttendanceLength(response.data.length);
+        setCourseList(response.data);
+        setCourseLength(response.data.length);
       })
       .catch(error => console.error(error))
       .finally(() => setLoading(false));
   };
 
   useEffect(() => {
-    getAttendances();
-    console.log('AttendanceList : ', AttendanceList);
+    getCourses();
+    console.log('courseList : ', courseList);
     console.log('listLength : ', listLength);
   }, [listLength]);
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <Title title={route.params.cname} />
+      <Title title="내 수업✔️" />
       <SafeAreaView style={styles.container}>
         <View>
           <FlatList
-            data={AttendanceList}
+            data={courseList}
             renderItem={({item, index}) => (
               <TouchableOpacity
-                onPress={() => navigation.navigate('StudentAttendance', item)}>
+                onPress={() =>
+                  navigation.navigate('StudentCourseInfo', item.course)
+                }>
                 <View
                   style={{
                     borderRadius: 10,
@@ -80,7 +77,7 @@ function Attendance({route, navigation}) {
                         fontSize: 20,
                         fontWeight: 'bold',
                       }}>
-                      {item.startTime.slice(0, 10)}
+                      {item.course.cname}
                     </Text>
                     <Text
                       style={{
@@ -89,13 +86,13 @@ function Attendance({route, navigation}) {
                         fontSize: 20,
                         fontWeight: 'bold',
                       }}>
-                      {item.course.start_time}
+                      {item.course.subjectType}
                     </Text>
                   </View>
                 </View>
               </TouchableOpacity>
             )}
-            keyExtractor={item => String(item.attendanceId)}
+            keyExtractor={item => String(item.id)}
           />
         </View>
       </SafeAreaView>
@@ -110,4 +107,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Attendance;
+export default StudentCourse;

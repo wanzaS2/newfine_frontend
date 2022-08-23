@@ -13,11 +13,11 @@ import {
 
 import axios from 'axios';
 import Config from 'react-native-config';
-import Title from '../components/Title';
-import StudentAttendance from '../pages/StudentAttendance';
+import Title from '../../components/Title';
+import StudentAttendance from './StudentAttendance';
 import {useSelector} from 'react-redux';
-import {RootState} from '../store/reducer';
-import {Fonts} from '../assets/Fonts';
+import {RootState} from '../../store/reducer';
+import {Fonts} from '../../assets/Fonts';
 
 function StudyTime({route, navigation}) {
   const [StudyList, setStuyList] = useState();

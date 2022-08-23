@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import Title from '../components/Title';
+import Title from '../../components/Title';
+import Attendance from '../Attendance';
 import {
   FlatList,
   SafeAreaView,
@@ -9,40 +10,45 @@ import {
   StatusBar,
   TouchableOpacity,
 } from 'react-native';
-
+// import {ranking} from '../slices/ranking';
+// import EachRanking from '../components/EachRanking';
 import Config from 'react-native-config';
 import axios from 'axios';
-import StudyIn from './StudyIn';
-import StudyOut from './StudyOut';
-import StudyTime from './StudyTime';
+import Listeners from './Listeners';
 
-function Study({route, navigation}) {
-  useEffect(() => {}, []);
+function TeacherCourseInfo({route, navigation}) {
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    console.log(route.params);
+  }, []);
   return (
     <View style={styles.container}>
-      <Title title="자습" />
+      <Title title={route.params.cname} />
       <TouchableOpacity
-        onPress={() => {
-          navigation.navigate('StudyIn');
-        }}>
+        onPress={() => navigation.navigate('Listeners', route.params)}>
         <View style={styles.box}>
-          <Text style={styles.font}>입실</Text>
+          <Text style={styles.font}>학생정보</Text>
         </View>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => {
-          navigation.navigate('StudyOut');
-        }}>
+        onPress={() => navigation.navigate('Attendance', route.params)}>
         <View style={styles.box}>
-          <Text style={styles.font}>퇴실</Text>
+          <Text style={styles.font}>출석현황</Text>
         </View>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => {
-          navigation.navigate('StudyTime');
-        }}>
+        onPress={() => navigation.navigate('TeacherAllTest', route.params)}>
         <View style={styles.box}>
-          <Text style={styles.font}>자습시간</Text>
+          <Text style={styles.font}>테스트 결과</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate('BoardList', {courseId: route.params.id})
+        }>
+        <View style={styles.box}>
+          <Text style={styles.font}>과제</Text>
         </View>
       </TouchableOpacity>
     </View>
@@ -80,4 +86,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Study;
+export default TeacherCourseInfo;

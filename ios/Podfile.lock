@@ -375,6 +375,8 @@ PODS:
     - React-Core
   - RNCAsyncStorage (1.17.4):
     - React-Core
+  - RNCCheckbox (0.5.12):
+    - React-Core
   - RNCPicker (2.4.3):
     - React-Core
   - RNFS (2.20.0):
@@ -391,6 +393,8 @@ PODS:
   - RNScreens (3.13.1):
     - React-Core
     - React-RCTImage
+  - RNSVG (13.0.0):
+    - React-Core
   - RNVectorIcons (9.2.0):
     - React-Core
   - SocketRocket (0.6.0)
@@ -465,10 +469,12 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - ReactNativeCameraKit (from `../node_modules/react-native-camera-kit`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - "RNCCheckbox (from `../node_modules/@react-native-community/checkbox`)"
   - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - RNFS (from `../node_modules/react-native-fs`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -574,6 +580,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-camera-kit"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNCCheckbox:
+    :path: "../node_modules/@react-native-community/checkbox"
   RNCPicker:
     :path: "../node_modules/@react-native-picker/picker"
   RNFS:
@@ -582,6 +590,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-image-crop-picker"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNSVG:
+    :path: "../node_modules/react-native-svg"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
   Yoga:
@@ -642,10 +652,12 @@ SPEC CHECKSUMS:
   ReactCommon: bf2888a826ceedf54b99ad1b6182d1bc4a8a3984
   ReactNativeCameraKit: 5765fc3e38a8c3b6b26aff6e66f89d9855b1db46
   RNCAsyncStorage: 9367a646dc24e3ab7b6874d79bc1bfd0832dce58
+  RNCCheckbox: ed1b4ca295475b41e7251ebae046360a703b6eb5
   RNCPicker: a99807a74d9cd65c394f6e2a6c843a377b355b4d
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNImageCropPicker: ffbba608264885c241cbf3a8f78eb7aeeb978241
   RNScreens: 40a2cb40a02a609938137a1e0acfbf8fc9eebf19
+  RNSVG: 42a0c731b11179ebbd27a3eeeafa7201ebb476ff
   RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
