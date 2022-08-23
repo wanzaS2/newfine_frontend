@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "137117828693",
+    "project_id": "newfineapp",
+    "storage_bucket": "newfineapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:137117828693:android:e10eede7f29969880576dc",
+        "android_client_info": {
+          "package_name": "com.newfine_frontend"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "137117828693-s8ufvjnt063fnemuu8q1mid3lbca5830.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAySh8iDkhFrF-L0GZVPuBqE6EuWff0P4c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "137117828693-s8ufvjnt063fnemuu8q1mid3lbca5830.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
