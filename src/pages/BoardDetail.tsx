@@ -12,6 +12,8 @@ import MyButton from '../components/MyButton';
 import {Fonts} from '../assets/Fonts';
 import axios from 'axios';
 import Config from 'react-native-config';
+import { useSelector } from "react-redux";
+import { RootState } from "../store/reducer";
 
 export default function BoardDetail({route, navigation}) {
   const [title, setTitle] = useState('');
@@ -19,11 +21,16 @@ export default function BoardDetail({route, navigation}) {
   const [isLoading, setIsLoading] = useState(false);
   const id = route.params.id;
   const courseId = route.params.courseId;
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
 
   useEffect(() => {
     console.log('받은 param', id);
     axios
-      .get(`${Config.API_URL}/api/homework/${id}`)
+      .get(`${Config.API_URL}/api/homework/${id}`,{
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
       .then(res => {
         console.log(res.data.id);
         console.log(courseId);

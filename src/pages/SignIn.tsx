@@ -23,6 +23,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../store/reducer';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import PushNotification from 'react-native-push-notification';
 // import user from '../slices/user';
 
 type SignInScreenProps = NativeStackScreenProps<RootStackParamList, 'SignIn'>;
@@ -59,7 +60,6 @@ function SignIn({navigation}: SignInScreenProps) {
     }
     try {
       setLoading(true);
-
       const responseT = await axios.post(`${Config.API_URL}/auth/login`, {
         phoneNumber,
         password,

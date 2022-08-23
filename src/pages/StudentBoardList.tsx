@@ -12,11 +12,14 @@ import {
 import Config from 'react-native-config';
 import RoundButton from '../components/RoundButton';
 import axios from 'axios';
+import {useSelector} from 'react-redux';
+import {RootState} from '../store/reducer';
 
 export default function StudentBoardList({route, navigation}) {
   const [data, setData] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const {courseId} = route.params;
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
 
   const fetchItems = () => {
     if (!isRefreshing) {
@@ -28,7 +31,12 @@ export default function StudentBoardList({route, navigation}) {
     setIsRefreshing(true);
     console.log('받은 param', route.params);
     axios
-      .get(`${Config.API_URL}/api/homework/list/${courseId}`)
+      .get(`${Config.API_URL}/api/homework/list/${courseId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      })
       .then(response => {
         setData(response.data);
         console.log(response.data);
