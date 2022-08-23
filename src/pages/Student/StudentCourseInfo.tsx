@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import Title from '../components/Title';
+import Title from '../../components/Title';
 import {
   FlatList,
   SafeAreaView,
@@ -13,7 +13,7 @@ import {
 // import EachRanking from '../components/EachRanking';
 import Config from 'react-native-config';
 import axios from 'axios';
-import MyAttendance from './MyAttendance';
+import MyAttendance from '../MyAttendance';
 
 function StudentCourseInfo({route, navigation}) {
   const [loading, setLoading] = useState(false);
