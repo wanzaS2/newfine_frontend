@@ -12,17 +12,25 @@ import MyButton from '../components/MyButton';
 import {Fonts} from '../assets/Fonts';
 import axios from 'axios';
 import Config from 'react-native-config';
+import { useSelector } from "react-redux";
+import { RootState } from "../store/reducer";
 
 export default function StudentBoardDetail({route, navigation}) {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const id = route.params.id;
   const courseId = route.params.courseId;
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
 
   useEffect(() => {
     console.log('받은 param', id);
     axios
-      .get(`${Config.API_URL}/api/homework/${id}`)
+      .get(`${Config.API_URL}/api/homework/${id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      })
       .then(res => {
         console.log(res.data.id);
         console.log(courseId);
@@ -75,16 +83,6 @@ export default function StudentBoardDetail({route, navigation}) {
             style={styles.input}
             value={content}
           />
-          <View style={styles.button}>
-            <MyButton
-              text="List"
-              onPress={() =>
-                navigation.navigate('StudentBoardList', {
-                  courseId: route.params.courseId,
-                })
-              }
-            />
-          </View>
         </ScrollView>
       </View>
     </DismissKeyboardView>
@@ -94,7 +92,7 @@ export default function StudentBoardDetail({route, navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -14,6 +14,28 @@
       android:theme="@style/AppTheme"
       android:usesCleartextTraffic="true"
     >
+    <!--푸시알림-->
+        <meta-data  android:name="com.dieam.reactnativepushnotification.notification_channel_name"
+                    android:value="com.newfine_frontend"/>
+        <meta-data  android:name="com.dieam.reactnativepushnotification.notification_channel_description"
+                    android:value="com.newfine_frontend"/>
+        <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher"
+                  android:exported="false"/>
+        <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationBootEventReceiver"
+                  android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <service android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationRegistrationService"/>
+        <service
+                android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationListenerService"
+                android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"

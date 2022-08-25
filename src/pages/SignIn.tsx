@@ -20,6 +20,11 @@ import userSlice from '../slices/user';
 import {Fonts} from '../assets/Fonts';
 import MyButton from '../components/MyButton';
 import MyTextInput from '../components/MyTextInput';
+import {useSelector} from 'react-redux';
+import {RootState} from '../store/reducer';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import PushNotification from 'react-native-push-notification';
 
 type SignInScreenProps = NativeStackScreenProps<RootStackParamList, 'SignIn'>;
 
@@ -54,7 +59,6 @@ function SignIn({navigation}: SignInScreenProps) {
     }
     try {
       setLoading(true);
-
       const responseT = await axios.post(`${Config.API_URL}/auth/login`, {
         phoneNumber,
         password,

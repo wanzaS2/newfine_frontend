@@ -13,6 +13,8 @@ import MyButton from '../components/MyButton';
 import Config from 'react-native-config';
 import {Fonts} from '../assets/Fonts';
 import BoardDetail from './BoardDetail';
+import { useSelector } from "react-redux";
+import { RootState } from "../store/reducer";
 
 export default function BoardUpdate({route, navigation}) {
   const [title, setTitle] = useState('');
@@ -20,10 +22,15 @@ export default function BoardUpdate({route, navigation}) {
   const [isLoading, setIsLoading] = useState(false);
   const id = route.params.id;
   const courseId = route.params.courseId;
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
 
   useEffect(() => {
     axios
-      .get(`${Config.API_URL}/api/homework/${id}`)
+      .get(`${Config.API_URL}/api/homework/${id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
       .then(res => {
         console.log(res.data.id);
         setTitle(res.data.title);

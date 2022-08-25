@@ -17,11 +17,17 @@ import {Fonts} from '../assets/Fonts';
 import MyButton from '../components/MyButton';
 import MyTextInput from '../components/MyTextInput';
 import {RouteProp, useRoute} from '@react-navigation/native';
+import { useSelector } from "react-redux";
+import { RootState } from "../store/reducer";
+import messaging from "@react-native-firebase/messaging";
+import userSlice from "../slices/user";
+import { useAppDispatch } from "../store";
 
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
 function SignUp({navigation}: SignUpScreenProps) {
-  const route = useRoute<RouteProp<RootStackParamList>>(); // SignUpAuth 로부터 phoneNumber 넘겨받기 위해
+  const dispatch = useAppDispatch();
+  const route = useRoute<RouteProp<RootStackParamList>>(); // SignUpAuth 로부터 phoneNumer 넘겨받기 위해
   const phoneNumber = route.params?.phoneNumber;
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState('');
@@ -30,6 +36,7 @@ function SignUp({navigation}: SignUpScreenProps) {
   const nameRef = useRef<TextInput | null>(null);
   const passwordRef = useRef<TextInput | null>(null);
   const chkPasswordRef = useRef<TextInput | null>(null);
+  const phoneToken = useSelector((state: RootState) => state.user.phoneToken);
 
   const onChangeName = useCallback(text => {
     setName(text.trim());
@@ -65,10 +72,17 @@ function SignUp({navigation}: SignUpScreenProps) {
     console.log(name, password);
     try {
       setLoading(true);
-      const response = await axios.post(`${Config.API_URL}/auth/signup`, {
+      if (!messaging().isDeviceRegisteredForRemoteMessages) {
+        await messaging().registerDeviceForRemoteMessages();
+      }
+      const token = await messaging().getToken();
+      console.log('phone token', token);
+      dispatch(userSlice.actions.setPhoneToken({phoneToken: token}));
+      const response = await axios.post(`${Config.API_URL}/auth/signuptest`, {
         phoneNumber,
         name,
         password,
+        phoneToken,
       });
       console.log('SignUp Response: ', response.data);
       Alert.alert('알림', '회원가입 완료!!');
