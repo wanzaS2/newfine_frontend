@@ -19,7 +19,6 @@ import {Fonts} from '../../assets/Fonts';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {LoggedInParamList} from '../../../AppInner';
 // import {Switch} from 'native-base';
-import Ionicons from 'react-native-vector-icons/FontAwesome5';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import DismissKeyboardView from '../../components/DismissKeyboardView';
 import AllRanking from './AllRanking';
@@ -53,7 +52,7 @@ function MyPointList({navigation}: MyPointListScreenProps) {
   //   setTextColor(colorScheme === 'dark' ? '#FFF' : '#000');
   // }, [colorScheme]);
 
-  const showImage = () => {
+  const showList = () => {
     if (selectedIndex === 0) {
       return (
         <View style={styles.listArea}>
@@ -140,7 +139,7 @@ function MyPointList({navigation}: MyPointListScreenProps) {
             activeFontStyle={{fontSize: 17}}
           />
         </View>
-        {showImage()}
+        {showList()}
         {/*<Switch*/}
         {/*  size="lg"*/}
         {/*  offTrackColor="orange.200"*/}

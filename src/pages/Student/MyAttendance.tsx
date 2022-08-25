@@ -1,28 +1,31 @@
 import React, {useEffect, useState} from 'react';
 import {
   FlatList,
-  Pressable,
   SafeAreaView,
   StatusBar,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
-
 import axios from 'axios';
 import Config from 'react-native-config';
-import Title from '../components/Title';
-import StudentAttendance from './Student/StudentAttendance';
+import Title from '../../components/Title';
 import {useSelector} from 'react-redux';
-import {RootState} from '../store/reducer';
+import {RootState} from '../../store/reducer';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {LoggedInParamList} from '../../../AppInner';
 
-function MyAttendance({route, navigation}) {
+type MyAttendacneScreenProps = NativeStackScreenProps<
+  LoggedInParamList,
+  'MyAttendacne'
+>;
+
+function MyAttendance({route, navigation}: MyAttendacneScreenProps) {
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const [AttendanceList, setAttendanceList] = useState();
   const [listLength, setAttendanceLength] = useState();
   const [MyAttendance, setMyAttendanceList] = useState();
-  const [loading, setLoading] = useState(false);
-  const accessToken = useSelector((state: RootState) => state.user.accessToken);
+
   const getAttendances = () => {
     console.log(route.params);
     axios(`${Config.API_URL}/attendances/my`, {
@@ -66,8 +69,7 @@ function MyAttendance({route, navigation}) {
         }
         setMyAttendanceList(attendances);
       })
-      .catch(error => console.error(error))
-      .finally(() => setLoading(false));
+      .catch(error => console.error(error));
   };
 
   useEffect(() => {
@@ -75,57 +77,56 @@ function MyAttendance({route, navigation}) {
     console.log('AttendanceList : ', AttendanceList);
     console.log('listLength : ', listLength);
   }, [listLength]);
+
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      <Title title="내 수업✔️" />
-      <SafeAreaView style={styles.container}>
-        <View>
-          <FlatList
-            data={MyAttendance}
-            renderItem={({item, index}) => (
+    <SafeAreaView style={styles.container}>
+      {/*<StatusBar style="auto" />*/}
+      {/*<Title title="내 수업✔️" />*/}
+      <View>
+        <FlatList
+          data={MyAttendance}
+          renderItem={({item, index}) => (
+            <View
+              style={{
+                borderRadius: 10,
+                borderColor: '#b0e0e6',
+                borderWidth: 1,
+                padding: 10,
+                marginBottom: 10,
+                backgroundColor: '#e0ffff',
+              }}>
               <View
                 style={{
-                  borderRadius: 10,
-                  borderColor: '#b0e0e6',
-                  borderWidth: 1,
-                  padding: 10,
-                  marginBottom: 10,
-                  backgroundColor: '#e0ffff',
+                  flexDirection: 'row',
+                  flex: 1,
+                  alignItems: 'center',
+                  justifyContent: 'flex-start',
                 }}>
-                <View
+                <Text
                   style={{
-                    flexDirection: 'row',
-                    flex: 1,
-                    alignItems: 'center',
-                    justifyContent: 'flex-start',
+                    marginLeft: 30,
+                    fontSize: 20,
+                    fontWeight: 'bold',
                   }}>
-                  <Text
-                    style={{
-                      marginLeft: 30,
-                      fontSize: 20,
-                      fontWeight: 'bold',
-                    }}>
-                    {item.time}
-                  </Text>
-                  <Text
-                    style={{
-                      position: 'absolute',
-                      right: 30,
-                      fontSize: 20,
-                      fontWeight: 'bold',
-                      color: '#6a5acd',
-                    }}>
-                    {item.attend}
-                  </Text>
-                </View>
+                  {item.time}
+                </Text>
+                <Text
+                  style={{
+                    position: 'absolute',
+                    right: 30,
+                    fontSize: 20,
+                    fontWeight: 'bold',
+                    color: '#6a5acd',
+                  }}>
+                  {item.attend}
+                </Text>
               </View>
-            )}
-            keyExtractor={item => String(item.id)}
-          />
-        </View>
-      </SafeAreaView>
-    </View>
+            </View>
+          )}
+          keyExtractor={item => String(item.id)}
+        />
+      </View>
+    </SafeAreaView>
   );
 }
 

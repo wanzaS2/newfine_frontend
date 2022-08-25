@@ -20,8 +20,16 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../store/reducer';
 import {Fonts} from '../../assets/Fonts';
 import Icon from 'react-native-vector-icons/AntDesign';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {LoggedInParamList} from '../../../AppInner';
 
-function StudentTestResult({route, navigation}) {
+type StudentTestResultScreenProps = NativeStackScreenProps<
+  LoggedInParamList,
+  'StudentTestResult'
+>;
+
+function StudentTestResult({route, navigation}: StudentTestResultScreenProps) {
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const [TestList, setTestList] = useState();
   const [MyRank, setMyRank] = useState();
   const [MyScore, setMyScore] = useState();
@@ -32,7 +40,6 @@ function StudentTestResult({route, navigation}) {
   const [Bkiller, setBkiller] = useState();
   const [killer, setKiller] = useState();
   const [loading, setLoading] = useState(false);
-  const accessToken = useSelector((state: RootState) => state.user.accessToken);
   console.log('전달받은 것', route.params);
   const getAttendances = () => {
     console.log(route.params);
@@ -166,11 +173,12 @@ function StudentTestResult({route, navigation}) {
     console.log('AttendanceList : ', TestList);
     console.log('listLength : ', listLength);
   }, [listLength]);
+
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <StatusBar style="auto" />
-        <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
+        {/*<StatusBar style="auto" />*/}
+        <View style={{marginTop: '10%'}}>
           <View style={styles.myinfo}>
             <View style={styles.scorebox}>
               <Text style={styles.rank}>순위 </Text>
@@ -379,9 +387,9 @@ function StudentTestResult({route, navigation}) {
               </Text>
             </TouchableOpacity>
           </View>
-        </SafeAreaView>
-      </View>
-    </ScrollView>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({

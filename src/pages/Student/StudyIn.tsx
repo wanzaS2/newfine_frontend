@@ -1,18 +1,13 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {
-  Alert,
-  Button,
-  Dimensions,
-  SafeAreaView,
-  StyleSheet,
-  Vibration,
-  View,
-} from 'react-native';
+import {Dimensions, StyleSheet, Vibration, View} from 'react-native';
 import {Camera, CameraType} from 'react-native-camera-kit';
 import StudyWeb from './StudyWeb';
-import {useNavigation} from '@react-navigation/native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {LoggedInParamList} from '../../../AppInner';
 
-const StudyIn = ({navigation}) => {
+type StudyInScreenProps = NativeStackScreenProps<LoggedInParamList, 'StudyIn'>;
+
+const StudyIn = ({navigation}: StudyInScreenProps) => {
   const [scaned, setScaned] = useState<boolean>(true);
   const ref = useRef(null);
   const [url, setUrl] = useState('');
