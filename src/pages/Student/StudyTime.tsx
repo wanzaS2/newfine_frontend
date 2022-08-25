@@ -7,7 +7,6 @@ import {
   StatusBar,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
 
@@ -18,13 +17,20 @@ import StudentAttendance from './StudentAttendance';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store/reducer';
 import {Fonts} from '../../assets/Fonts';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {LoggedInParamList} from '../../../AppInner';
 
-function StudyTime({route, navigation}) {
-  const [StudyList, setStuyList] = useState();
+type StudyTimeScreenProps = NativeStackScreenProps<
+  LoggedInParamList,
+  'StudyTime'
+>;
+
+function StudyTime({navigation}: StudyTimeScreenProps) {
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
+  const [StudyList, setStudyList] = useState();
   const [listLength, setLength] = useState();
   let [total, setTotal] = useState();
   const [loading, setLoading] = useState(false);
-  const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const getMyStudy = () => {
     axios(`${Config.API_URL}/study/my`, {
       headers: {
@@ -80,7 +86,7 @@ function StudyTime({route, navigation}) {
             }
           }
         }
-        setStuyList(time);
+        setStudyList(time);
       })
       .catch(error => console.error(error))
       .finally(() => setLoading(false));
@@ -131,7 +137,7 @@ function StudyTime({route, navigation}) {
           <FlatList
             data={StudyList}
             renderItem={({item, index}) => (
-              <TouchableOpacity
+              <Pressable
                 onPress={() =>
                   Alert.alert('자습시간', `${item.startTime} ~ ${item.endTime}`)
                 }>
@@ -157,7 +163,7 @@ function StudyTime({route, navigation}) {
                     </Text>
                   </View>
                 </View>
-              </TouchableOpacity>
+              </Pressable>
             )}
             keyExtractor={item => String(item.id)}
           />
@@ -170,7 +176,7 @@ function StudyTime({route, navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: 'pink',
   },
   time: {
     weight: 60,

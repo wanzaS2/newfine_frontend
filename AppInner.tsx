@@ -14,7 +14,7 @@ import StudyOut from './src/pages/Student/StudyOut';
 import StudyWeb from './src/pages/Student/StudyWeb';
 import StudyTime from './src/pages/Student/StudyTime';
 import Attendance from './src/pages/Attendance';
-import MyAttendance from './src/pages/MyAttendance';
+import MyAttendance from './src/pages/Student/MyAttendance';
 import StudentAttendance from './src/pages/Student/StudentAttendance';
 import QRCodeScanner from './src/pages/Student/QRCodeScanner';
 import AttendanceWeb from './src/pages/Student/AttendanceWeb';
@@ -48,7 +48,7 @@ import SHomeworkList from './src/pages/SHomeworkList';
 import StudentBoardList from './src/pages/StudentBoardList';
 import StudentBoardDetail from './src/pages/StudentBoardDetail';
 import StudentHomework from './src/pages/StudentHomework';
-import VideoList from './src/pages/Teacher/VideoList';
+import VideoList from './src/pages/Student/VideoList';
 import AttendanceInfo from './src/pages/Student/AttendanceInfo';
 import VideoAuth from './src/pages/Student/VideoAuth';
 import ApplyVideo from './src/pages/Teacher/ApplyVideo';
@@ -67,6 +67,18 @@ export type LoggedInParamList = {
   AllRanking: undefined;
   MyPage: undefined;
   StudentCourse: undefined;
+  StudentCourseInfo: undefined;
+  AttendanceInfo: undefined;
+  QRCodeScanner: undefined;
+  VideoList: undefined;
+  Study: undefined;
+  StudyIn: undefined;
+  StudyOut: undefined;
+  StudyTime: undefined;
+  StudentTestMain: undefined;
+  StudentTestResult: undefined;
+  MyAttendance: undefined;
+  StudentBoardList: undefined;
 };
 
 export type RootStackParamList = {
@@ -89,7 +101,6 @@ function AppInner() {
   );
   const isProfile = useSelector((state: RootState) => !!state.user.nickname);
   const authority = useSelector((state: RootState) => state.user.authority);
-  // console.log('으아가ㅏ아갇아가가ㅏ아ㅏ가가ㅏ아가: ', authority);
   const access = useSelector((state: RootState) => state.user.accessToken);
 
   console.log(access);
@@ -376,12 +387,21 @@ function AppInner() {
               fontFamily: Fonts.TRBold,
               fontSize: 22,
             },
+            headerTransparent: true,
           }}
         />
         <Stack.Screen
           name="StudentCourseInfo"
           component={StudentCourseInfo}
-          options={{title: '학생 정보', headerShown: true}}
+          options={{
+            title: '수업 정보',
+            headerShown: true,
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
 
         <Stack.Screen
@@ -398,12 +418,26 @@ function AppInner() {
         <Stack.Screen
           name="MyAttendance"
           component={MyAttendance}
-          options={{title: '출석현황'}}
+          options={{
+            title: '출석 현황',
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="StudentBoardList"
           component={StudentBoardList}
-          options={{title: '과제 리스트'}}
+          options={{
+            title: '과제 리스트',
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="StudentBoardDetail"
@@ -418,7 +452,15 @@ function AppInner() {
         <Stack.Screen
           name="Study"
           component={Study}
-          options={{title: '자습', headerShown: true}}
+          options={{
+            title: '자습',
+            headerShown: true,
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="StudyIn"
@@ -443,12 +485,28 @@ function AppInner() {
         <Stack.Screen
           name="AttendanceInfo"
           component={AttendanceInfo}
-          options={{title: '출석', headerShown: true}}
+          options={{
+            title: '출석',
+            headerShown: true,
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="VideoList"
           component={VideoList}
-          options={{title: '동영상 신청', headerShown: true}}
+          options={{
+            title: '동영상 신청',
+            headerShown: true,
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="VideoAuth"
@@ -458,12 +516,28 @@ function AppInner() {
         <Stack.Screen
           name="StudentTestMain"
           component={StudentTestMain}
-          options={{title: '내 테스트', headerShown: true}}
+          options={{
+            title: '내 테스트',
+            headerShown: true,
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="StudentTestResult"
           component={StudentTestResult}
-          options={{title: '테스트 결과', headerShown: true}}
+          options={{
+            title: '테스트 결과',
+            headerShown: true,
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="StudentAllTestResult"
