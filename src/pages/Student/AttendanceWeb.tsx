@@ -1,7 +1,7 @@
 import React, {Component, useRef} from 'react';
 import {WebView} from 'react-native-webview';
 import {TouchableOpacity, View, Text, Alert} from 'react-native';
-import Main from './Main';
+import StudentMain from './Main';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store/reducer';
 

@@ -1,9 +1,8 @@
 import SignIn from './src/pages/SignIn';
 import SignUp from './src/pages/SignUp';
 import SignUpAuth from './src/pages/SignUpAuth';
-import Ranking from './src/pages/Ranking';
-import Main from './src/pages/Student/Main';
-import Welcome from './src/pages/Welcome';
+import StudentMain from './src/pages/Student/StudentMain';
+import Welcome from './src/pages/Student/Welcome';
 import TeacherCourse from './src/pages/Teacher/TeacherCourse';
 import TeacherCourseInfo from './src/pages/Teacher/TeacherCourseInfo';
 import Listeners from './src/pages/Teacher/Listeners';
@@ -33,9 +32,9 @@ import Config from 'react-native-config';
 import userSlice from './src/slices/user';
 import {Alert} from 'react-native';
 import {useAppDispatch} from './src/store';
-import MyPointList from './src/pages/MyPointList';
-import AllRanking from './src/pages/AllRanking';
-import MyPage from './src/pages/MyPage';
+import MyPointList from './src/pages/Student/MyPointList';
+import AllRanking from './src/pages/Student/AllRanking';
+import MyPage from './src/pages/Student/MyPage';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
@@ -55,16 +54,15 @@ import VideoAuth from './src/pages/Student/VideoAuth';
 import ApplyVideo from './src/pages/Teacher/ApplyVideo';
 import StudentTestMain from './src/pages/Student/StudentTestMain';
 import StudentTestResult from './src/pages/Student/StudentTestResult';
-// import isMockFunction = jest.isMockFunction;
+import {NativeBaseProvider} from 'native-base';
 
 export type LoggedInParamList = {
   Welcome: undefined;
-  Main: undefined;
-  Ranking: undefined;
+  StudentMain: undefined;
   MyPointList: undefined;
   AllRanking: undefined;
   MyPage: undefined;
-  TeacherMain: undefined;
+  StudentCourse: undefined;
 };
 
 export type RootStackParamList = {
@@ -74,9 +72,11 @@ export type RootStackParamList = {
   NewPassword: undefined;
 };
 
-const Stack = createNativeStackNavigator();
+export type TeacherParamList = {
+  TeacherMain: undefined;
+};
 
-let b = true;
+const Stack = createNativeStackNavigator();
 
 function AppInner() {
   const dispatch = useAppDispatch();
@@ -85,13 +85,9 @@ function AppInner() {
   );
   const isProfile = useSelector((state: RootState) => !!state.user.nickname);
   const authority = useSelector((state: RootState) => state.user.authority);
-  console.log('으아가ㅏ아갇아가가ㅏ아ㅏ가가ㅏ아가: ', authority);
+  // console.log('으아가ㅏ아갇아가가ㅏ아ㅏ가가ㅏ아가: ', authority);
   const access = useSelector((state: RootState) => state.user.accessToken);
 
-  // const changeA = () => {
-  //   setAuthority1(a => !a);
-  //
-  // };
   console.log(access);
   console.log('isLoggedIn', isLoggedIn);
 
@@ -109,6 +105,7 @@ function AppInner() {
       try {
         const accessToken = await EncryptedStorage.getItem('accessToken');
         const refreshToken = await EncryptedStorage.getItem('refreshToken');
+
         console.log(
           'refreshToken: ',
           refreshToken,
@@ -125,10 +122,6 @@ function AppInner() {
         );
         console.log(responseT.data);
         console.log('등급???????: ', responseT.data.authority);
-        // setA(prev => {
-        //   return {...prev, a: responseT.data.authority};
-        // });
-        // console.log('되라 쫌!!!!!!!!!1: ', a.a);
 
         dispatch(
           userSlice.actions.setAccessToken({
@@ -149,12 +142,9 @@ function AppInner() {
           responseT.data.accessToken,
         );
 
-        // console.log('선생님? 학생?: ', authority1);
-        // console.log('선생님? 학생?: ', authority);
-        console.log('셀렉터: ', access);
-
         const newAccessToken = await EncryptedStorage.getItem('accessToken');
 
+        // ** 나중에 지우기
         console.log('response 받은 거: ', responseT.data.accessToken);
         console.log('로컬에서 꺼내온 거: ', newAccessToken);
         console.log('셀렉터: ', access);
@@ -225,8 +215,6 @@ function AppInner() {
     };
     getTokenAndRefresh();
   }, [dispatch]);
-
-  console.log('b 변경 함수 밖:     ', b);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -353,29 +341,38 @@ function AppInner() {
     ) : (
       <Stack.Navigator>
         <Stack.Screen
-          name="Main"
-          component={Main}
+          name="StudentMain"
+          component={StudentMain}
           options={{title: '메인', headerShown: false}}
-        />
-        <Stack.Screen
-          name="Ranking"
-          component={Ranking}
-          options={{title: '랭킹'}}
         />
         <Stack.Screen
           name="MyPointList"
           component={MyPointList}
-          options={{title: '나의 누적 포인트'}}
+          options={{title: '', headerShown: false}}
         />
         <Stack.Screen
           name="MyPage"
           component={MyPage}
-          options={{title: '마이페이지'}}
+          options={{
+            title: '마이페이지',
+            headerShown: false,
+            // headerTitleStyle: {
+            //   fontFamily: Fonts.TRBold,
+            //   fontSize: 22,
+            // },
+          }}
         />
         <Stack.Screen
           name="StudentCourse"
           component={StudentCourse}
-          options={{title: '강의', headerShown: true}}
+          options={{
+            title: '내 수업',
+            headerShown: true,
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+          }}
         />
         <Stack.Screen
           name="StudentCourseInfo"
@@ -468,7 +465,7 @@ function AppInner() {
     );
   };
 
-  const TeacherScreenNavigator = navigation => {
+  const TeacherScreenNavigator = ({navigation}) => {
     return (
       <Stack.Navigator>
         <Stack.Screen
@@ -540,113 +537,16 @@ function AppInner() {
     );
   };
 
-  console.log('삐이이이이잉이: ', authority);
-  return !isLoggedIn ? (
-    <LoginNavigator />
-  ) : authority !== 'ROLE_USER' ? (
-    // <Stack.Navigator>
-    //   <Stack.Screen
-    //     name="SignIn"
-    //     component={SignIn}
-    //     options={{title: '로그인', headerShown: false}}
-    //   />
-    //   <Stack.Screen
-    //     name="SignUpAuth"
-    //     component={SignUpAuth}
-    //     options={{
-    //       title: '전화번호 인증',
-    //       headerTitleStyle: {
-    //         fontFamily: Fonts.TRBold,
-    //         fontSize: 22,
-    //       },
-    //     }}
-    //   />
-    //   <Stack.Screen
-    //     name="SignUp"
-    //     component={SignUp}
-    //     options={{
-    //       title: '회원가입',
-    //       headerTitleStyle: {
-    //         fontFamily: Fonts.TRBold,
-    //         fontSize: 22,
-    //       },
-    //     }}
-    //   />
-    // </Stack.Navigator>
-    // !isProfile ? (
-    //   <Stack.Navigator>
-    //     <Stack.Screen
-    //       name="Welcome"
-    //       component={Welcome}
-    //       options={{title: '', headerShown: false}}
-    //     />
-    //   </Stack.Navigator>
-    // ) : (
-    // <Stack.Navigator>
-    //   <Stack.Screen
-    //     name="Main"
-    //     component={Main}
-    //     options={{title: '메인', headerShown: false}}
-    //   />
-    //   <Stack.Screen
-    //     name="Ranking"
-    //     component={Ranking}
-    //     options={{title: '랭킹'}}
-    //   />
-    //   <Stack.Screen
-    //     name="MyPointList"
-    //     component={MyPointList}
-    //     options={{title: '나의 누적 포인트'}}
-    //   />
-    //   <Stack.Screen
-    //     name="AllRanking"
-    //     component={AllRanking}
-    //     options={{title: '전체 랭킹'}}
-    //   />
-    //   <Stack.Screen
-    //     name="MyPage"
-    //     component={MyPage}
-    //     options={{title: '마이페이지'}}
-    //   />
-    //   <Stack.Screen
-    //     name="TeacherCourse"
-    //     component={TeacherCourse}
-    //     options={{title: '내 강의', headerShown: true}}
-    //   />
-    //   <Stack.Screen
-    //     name="CourseInfo"
-    //     component={CourseInfo}
-    //     options={{title: '강의', headerShown: true}}
-    //   />
-    //   <Stack.Screen
-    //     name="StudentInfo"
-    //     component={StudentInfo}
-    //     options={{title: '학생 정보', headerShown: true}}
-    //   />
-    //   <Stack.Screen
-    //     name="Attendance"
-    //     component={Attendance}
-    //     options={{title: '수업 출석부'}}
-    //   />
-    //   <Stack.Screen
-    //     name="StudentAttendance"
-    //     component={StudentAttendance}
-    //     options={{title: '출석부'}}
-    //   />
-    //   <Stack.Screen
-    //     name="QRCodeScanner"
-    //     component={QRCodeScanner}
-    //     options={{title: 'QRcode', headerShown: false}}
-    //   />
-    //   <Stack.Screen
-    //     name="AttendanceWeb"
-    //     component={AttendanceWeb}
-    //     options={{title: 'AttendanceWeb', headerShown: true}}
-    //   />
-    // </Stack.Navigator>
-    <TeacherScreenNavigator />
-  ) : (
-    <StudentScreenNavigator />
+  return (
+    <NativeBaseProvider>
+      {!isLoggedIn ? (
+        <LoginNavigator />
+      ) : authority !== 'ROLE_USER' ? (
+        <TeacherScreenNavigator />
+      ) : (
+        <StudentScreenNavigator />
+      )}
+    </NativeBaseProvider>
   );
 }
 

@@ -12,10 +12,10 @@ import {
 import Config from 'react-native-config';
 import axios, {AxiosError} from 'axios';
 import {useSelector} from 'react-redux';
-import {RootState} from '../store/reducer';
+import {RootState} from '../../store/reducer';
 import {useFocusEffect} from '@react-navigation/native';
-import {Fonts} from '../assets/Fonts';
-import MyModal from '../components/MyModal';
+import {Fonts} from '../../assets/Fonts';
+// import MyModal from '../components/MyModal';
 import Modal from 'react-native-modal';
 
 const screenHeight = Dimensions.get('window').height;

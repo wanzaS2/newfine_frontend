@@ -16,7 +16,15 @@ import Config from 'react-native-config';
 import axios from 'axios';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store/reducer';
-function StudentCourse({navigation}) {
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {LoggedInParamList} from '../../../AppInner';
+
+type StudentCourseScreenProps = NativeStackScreenProps<
+  LoggedInParamList,
+  'StudentCourse'
+>;
+
+function StudentCourse({navigation}: StudentCourseScreenProps) {
   const [courseList, setCourseList] = useState();
   const [listLength, setCourseLength] = useState();
   const [loading, setLoading] = useState(false);
@@ -44,8 +52,8 @@ function StudentCourse({navigation}) {
   }, [listLength]);
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
-      <Title title="내 수업✔️" />
+      {/*<StatusBar style="auto" />*/}
+      {/*<Title title="내 수업✔️" />*/}
       <SafeAreaView style={styles.container}>
         <View>
           <FlatList
