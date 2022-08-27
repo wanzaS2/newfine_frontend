@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {
   FlatList,
+  Platform,
   Pressable,
   SafeAreaView,
   StatusBar,
@@ -77,40 +78,9 @@ function VideoList({navigation}: VideoListScreenProps) {
           data={AttendanceList}
           renderItem={({item, index}) => (
             <Pressable onPress={() => navigation.navigate('VideoAuth', item)}>
-              <View
-                style={{
-                  borderRadius: 10,
-                  borderColor: '#b0e0e6',
-                  borderWidth: 1,
-                  padding: 10,
-                  marginBottom: 10,
-                  backgroundColor: '#e0ffff',
-                }}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    flex: 1,
-                    alignItems: 'center',
-                    justifyContent: 'flex-start',
-                  }}>
-                  <Text
-                    style={{
-                      marginLeft: 30,
-                      fontSize: 20,
-                      fontWeight: 'bold',
-                    }}>
-                    {item.course.cname}
-                  </Text>
-                  <Text
-                    style={{
-                      position: 'absolute',
-                      right: 30,
-                      fontSize: 20,
-                      fontWeight: 'bold',
-                    }}>
-                    {item.course.start_time}
-                  </Text>
-                </View>
+              <View style={styles.flatList}>
+                <Text style={styles.classText}>{item.course.cname}</Text>
+                <Text style={styles.timeText}>{item.course.start_time}</Text>
               </View>
             </Pressable>
           )}
@@ -131,6 +101,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 10,
     marginTop: '15%',
+    marginBottom: '5%',
   },
   subtitleX: {
     fontSize: 17,
@@ -141,6 +112,50 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: '#0077e6',
     fontFamily: Fonts.TRBold,
+  },
+  flatList: {
+    // width: screenWidth,
+    paddingVertical: 15,
+    // alignItems: 'center',
+    // marginTop: 5,
+    justifyContent: 'center',
+    marginBottom: 10,
+    borderRadius: 8,
+    backgroundColor: '#bae6fd',
+    marginHorizontal: 10,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 10,
+          height: 10,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 10,
+      },
+      android: {
+        elevation: 3,
+      },
+    }),
+  },
+  dateText: {
+    marginLeft: '5%',
+    fontSize: 18,
+    fontFamily: Fonts.TRBold,
+    color: 'black',
+  },
+  classText: {
+    marginLeft: '5%',
+    fontSize: 20,
+    fontFamily: Fonts.TRBold,
+    color: 'black',
+  },
+  timeText: {
+    position: 'absolute',
+    right: 15,
+    fontSize: 17,
+    fontFamily: Fonts.TRBold,
+    color: 'gray',
   },
 });
 

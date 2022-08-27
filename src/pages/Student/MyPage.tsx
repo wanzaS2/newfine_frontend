@@ -157,7 +157,7 @@ function MyPage({navigation}: MyPageScreenProps) {
                 width: 150,
                 height: 150,
                 borderRadius: 15,
-                borderColor: 'skyblue',
+                borderColor: '#e0f2fe',
                 borderWidth: 5,
               }}
             />

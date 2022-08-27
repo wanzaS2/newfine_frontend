@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 // import Title from '../../components/Title';
 
 import {
@@ -35,6 +35,7 @@ function StudentCourse({navigation}: StudentCourseScreenProps) {
   const [listLength, setCourseLength] = useState();
   const [loading, setLoading] = useState(false);
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
+  const scrollRef = useRef();
 
   const getCourses = () => {
     axios(`${Config.API_URL}/student/courses`, {
@@ -62,6 +63,7 @@ function StudentCourse({navigation}: StudentCourseScreenProps) {
       {/*<Title title="내 수업✔️" />*/}
       <View style={styles.listArea}>
         <FlatList
+          ref={scrollRef}
           data={courseList}
           renderItem={({item, index}) => (
             <Pressable
