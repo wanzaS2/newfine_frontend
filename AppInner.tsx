@@ -36,7 +36,7 @@ import MyPointList from './src/pages/Student/MyPointList';
 import AllRanking from './src/pages/Student/AllRanking';
 import MyPage from './src/pages/Student/MyPage';
 
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+// import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import TeacherMain from './src/pages/Teacher/TeacherMain';
 import NewPassword from './src/pages/NewPassword';
@@ -71,6 +71,7 @@ export type LoggedInParamList = {
   AttendanceInfo: undefined;
   QRCodeScanner: undefined;
   VideoList: undefined;
+  VideoAuth: undefined;
   Study: undefined;
   StudyIn: undefined;
   StudyOut: undefined;
@@ -93,6 +94,7 @@ export type TeacherParamList = {
 };
 
 const Stack = createNativeStackNavigator();
+// const BottomTab = createBottomTabNavigator();
 
 function AppInner() {
   const dispatch = useAppDispatch();
@@ -369,12 +371,13 @@ function AppInner() {
           name="MyPage"
           component={MyPage}
           options={{
-            title: '마이페이지',
-            headerShown: false,
-            // headerTitleStyle: {
-            //   fontFamily: Fonts.TRBold,
-            //   fontSize: 22,
-            // },
+            title: '',
+            headerShown: true,
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
           }}
         />
         <Stack.Screen
@@ -480,7 +483,15 @@ function AppInner() {
         <Stack.Screen
           name="StudyTime"
           component={StudyTime}
-          options={{title: '자습시간', headerShown: false}}
+          options={{
+            title: '내 자습 현황',
+            headerShown: true,
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="AttendanceInfo"
@@ -511,7 +522,15 @@ function AppInner() {
         <Stack.Screen
           name="VideoAuth"
           component={VideoAuth}
-          options={{title: '부모님 인증', headerShown: true}}
+          options={{
+            title: '학부모님 인증',
+            headerShown: true,
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="StudentTestMain"

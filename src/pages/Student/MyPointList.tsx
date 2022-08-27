@@ -9,6 +9,7 @@ import {
   StyleSheet,
   useColorScheme,
   Platform,
+  ScrollView,
 } from 'react-native';
 import Config from 'react-native-config';
 import axios, {AxiosError} from 'axios';
@@ -123,7 +124,7 @@ function MyPointList({navigation}: MyPointListScreenProps) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <DismissKeyboardView>
+      <ScrollView stickyHeaderIndices={[0]}>
         <View style={styles.segmentContainer}>
           <SegmentedControl
             style={{
@@ -151,7 +152,7 @@ function MyPointList({navigation}: MyPointListScreenProps) {
         {/*  }}*/}
         {/*  defaultIsChecked={false}*/}
         {/*/>*/}
-      </DismissKeyboardView>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -159,7 +160,7 @@ function MyPointList({navigation}: MyPointListScreenProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: 'pink',
+    backgroundColor: 'white',
     //
     // alignItems: 'center',
     // justifyContent: 'center',
@@ -167,10 +168,10 @@ const styles = StyleSheet.create({
   textTop: {fontFamily: Fonts.TRRegular, fontSize: 13},
   textBottom: {fontFamily: Fonts.TRBold, fontSize: 17, color: 'black'},
   segmentContainer: {
-    // backgroundColor: 'green',
-    marginVertical: 10,
-    marginTop: 20,
-    marginHorizontal: 10,
+    backgroundColor: 'white',
+    paddingBottom: 10,
+    paddingTop: 20,
+    paddingHorizontal: 10,
   },
   listArea: {
     // backgroundColor: 'yellow',

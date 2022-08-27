@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {
   FlatList,
+  Platform,
   SafeAreaView,
+  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
@@ -9,18 +11,21 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import Config from 'react-native-config';
-import Title from '../../components/Title';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store/reducer';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {LoggedInParamList} from '../../../AppInner';
+import {Calendar} from 'react-native-calendars/src';
+import {Pressable} from 'native-base';
+import {Fonts} from '../../assets/Fonts';
+import DismissKeyboardView from '../../components/DismissKeyboardView';
 
-type MyAttendacneScreenProps = NativeStackScreenProps<
+type MyAttendanceScreenProps = NativeStackScreenProps<
   LoggedInParamList,
-  'MyAttendacne'
+  'MyAttendance'
 >;
 
-function MyAttendance({route, navigation}: MyAttendacneScreenProps) {
+function MyAttendance({route, navigation}: MyAttendanceScreenProps) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const [AttendanceList, setAttendanceList] = useState();
   const [listLength, setAttendanceLength] = useState();
@@ -80,52 +85,58 @@ function MyAttendance({route, navigation}: MyAttendacneScreenProps) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/*<StatusBar style="auto" />*/}
-      {/*<Title title="내 수업✔️" />*/}
-      <View>
-        <FlatList
-          data={MyAttendance}
-          renderItem={({item, index}) => (
-            <View
-              style={{
-                borderRadius: 10,
-                borderColor: '#b0e0e6',
-                borderWidth: 1,
-                padding: 10,
-                marginBottom: 10,
-                backgroundColor: '#e0ffff',
-              }}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'flex-start',
-                }}>
+      <ScrollView>
+        {/*<StatusBar style="auto" />*/}
+        {/*<Title title="내 수업✔️" />*/}
+        <View style={styles.listArea}>
+          <FlatList
+            data={MyAttendance}
+            renderItem={({item, index}) => (
+              <View style={styles.flatList}>
+                <Text style={styles.dateText}>{item.time}</Text>
                 <Text
-                  style={{
-                    marginLeft: 30,
-                    fontSize: 20,
-                    fontWeight: 'bold',
-                  }}>
-                  {item.time}
-                </Text>
-                <Text
-                  style={{
-                    position: 'absolute',
-                    right: 30,
-                    fontSize: 20,
-                    fontWeight: 'bold',
-                    color: '#6a5acd',
-                  }}>
+                  style={
+                    item.attend === '출석'
+                      ? styles.attendanceText
+                      : item.attend === '결석'
+                      ? styles.absenceText
+                      : styles.tardyText
+                  }>
                   {item.attend}
                 </Text>
               </View>
-            </View>
-          )}
-          keyExtractor={item => String(item.id)}
-        />
-      </View>
+            )}
+            keyExtractor={item => String(item.id)}
+          />
+        </View>
+        {/*<View style={styles.flatList}>*/}
+        {/*  <Text style={styles.dateText}>dmdkr</Text>*/}
+        {/*</View>*/}
+        {/*<View style={styles.flatList}>*/}
+        {/*  <Text style={styles.dateText}>dmdkr</Text>*/}
+        {/*</View>*/}
+        {/*<View style={styles.flatList}>*/}
+        {/*  <Text style={styles.dateText}>dmdkr</Text>*/}
+        {/*</View>*/}
+        {/*<View style={styles.flatList}>*/}
+        {/*  <Text style={styles.dateText}>dmdkr</Text>*/}
+        {/*</View>*/}
+        {/*<View style={styles.flatList}>*/}
+        {/*  <Text style={styles.dateText}>dmdkr</Text>*/}
+        {/*</View>*/}
+        {/*<View style={styles.flatList}>*/}
+        {/*  <Text style={styles.dateText}>dmdkr</Text>*/}
+        {/*</View>*/}
+        {/*<View style={styles.flatList}>*/}
+        {/*  <Text style={styles.dateText}>dmdkr</Text>*/}
+        {/*</View>*/}
+        {/*<View style={styles.flatList}>*/}
+        {/*  <Text style={styles.dateText}>dmdkr</Text>*/}
+        {/*</View>*/}
+        {/*<View style={styles.flatList}>*/}
+        {/*  <Text style={styles.dateText}>dmdkr</Text>*/}
+        {/*</View>*/}
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -133,7 +144,65 @@ function MyAttendance({route, navigation}: MyAttendacneScreenProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    // backgroundColor: 'pink',
+  },
+  listArea: {
+    marginTop: '15%',
+    // backgroundColor: 'yellow',
+    alignItem: 'center',
+    justifyContent: 'center',
+  },
+  flatList: {
+    // width: screenWidth,
+    paddingVertical: 15,
+    // alignItems: 'center',
+    // marginTop: 5,
+    justifyContent: 'center',
+    marginBottom: 10,
+    borderRadius: 8,
+    backgroundColor: '#bae6fd',
+    marginHorizontal: 10,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 10,
+          height: 10,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 10,
+      },
+      android: {
+        elevation: 3,
+      },
+    }),
+  },
+  dateText: {
+    marginLeft: '5%',
+    fontSize: 18,
+    fontFamily: Fonts.TRBold,
+    color: 'black',
+  },
+  attendanceText: {
+    position: 'absolute',
+    right: 15,
+    fontSize: 20,
+    fontFamily: Fonts.TRBold,
+    color: '#0077e6',
+  },
+  absenceText: {
+    position: 'absolute',
+    right: 15,
+    fontSize: 20,
+    fontFamily: Fonts.TRBold,
+    color: '#ef4444',
+  },
+  tardyText: {
+    position: 'absolute',
+    right: 15,
+    fontSize: 20,
+    fontFamily: Fonts.TRBold,
+    color: '#16a34a',
   },
 });
 
