@@ -32,23 +32,22 @@ function MyButton({...props}) {
 const styles = StyleSheet.create({
   buttonZone: {
     alignItems: 'center',
+    // backgroundColor: 'pink',
+    paddingVertical: 10,
   },
   myButton: {
     backgroundColor: 'gray',
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 5,
-    marginBottom: 10,
-    marginTop: 10,
   },
   myButtonActive: {
     backgroundColor: 'darkblue',
   },
   myButtonText: {
-    fontFamily: Fonts.TRRegular,
-    fontWeight: 'bold',
+    fontFamily: Fonts.TRBold,
     color: 'white',
-    fontSize: 16,
+    fontSize: 17,
   },
 });
 

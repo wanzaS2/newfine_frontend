@@ -20,8 +20,16 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../store/reducer';
 import {Fonts} from '../../assets/Fonts';
 import Icon from 'react-native-vector-icons/AntDesign';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {LoggedInParamList} from '../../../AppInner';
 
-function StudentTestResult({route, navigation}) {
+type StudentTestResultScreenProps = NativeStackScreenProps<
+  LoggedInParamList,
+  'StudentTestResult'
+>;
+
+function StudentTestResult({route, navigation}: StudentTestResultScreenProps) {
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const [TestList, setTestList] = useState();
   const [MyRank, setMyRank] = useState();
   const [MyScore, setMyScore] = useState();
@@ -31,8 +39,7 @@ function StudentTestResult({route, navigation}) {
   const [listLength, setAttendanceLength] = useState();
   const [Bkiller, setBkiller] = useState();
   const [killer, setKiller] = useState();
-  const [loading, setLoading] = useState(false);
-  const accessToken = useSelector((state: RootState) => state.user.accessToken);
+
   console.log('전달받은 것', route.params);
   const getAttendances = () => {
     console.log(route.params);
@@ -53,8 +60,7 @@ function StudentTestResult({route, navigation}) {
         setmycorrect(response.data.notCorrectDtos);
         setAttendanceLength(response.data.length);
       })
-      .catch(error => console.error(error))
-      .finally(() => setLoading(false));
+      .catch(error => console.error(error));
   };
   const getTypeResult = () => {
     console.log(route.params);
@@ -126,8 +132,7 @@ function StudentTestResult({route, navigation}) {
           setKiller(killer);
         }
       })
-      .catch(error => console.error(error))
-      .finally(() => setLoading(false));
+      .catch(error => console.error(error));
   };
   const setmycorrect = top5 => {
     let correct = [];
@@ -166,78 +171,69 @@ function StudentTestResult({route, navigation}) {
     console.log('AttendanceList : ', TestList);
     console.log('listLength : ', listLength);
   }, [listLength]);
+
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <StatusBar style="auto" />
-        <SafeAreaView style={styles.container}>
-          <View style={styles.myinfo}>
-            <View style={styles.scorebox}>
-              <Text style={styles.rank}>순위 </Text>
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
+        {/*<StatusBar style="auto" />*/}
+        <View style={{marginTop: '10%'}}>
+          <View style={styles.myInfo}>
+            <View style={styles.scoreBox}>
+              <Text style={styles.rankScore}>순위 </Text>
               <Text style={styles.number}> {MyRank}위</Text>
-              <Text style={styles.total}>/ {total} 명</Text>
+              <Text style={styles.totalAvg}>/ {total} 명</Text>
             </View>
-            <View style={styles.scorebox}>
-              <Text style={styles.score}>점수 </Text>
+            <View style={styles.scoreBox}>
+              <Text style={styles.rankScore}>점수 </Text>
               <Text style={styles.number}> {MyScore}점</Text>
-              <Text style={styles.avg}>/ 평균 {avg} 점</Text>
+              <Text style={styles.totalAvg}>/ 평균 {avg} 점</Text>
             </View>
           </View>
-          <View style={styles.topfive}>
-            <View style={styles.toptitle}>
-              <Text style={styles.topfont}>오답률 Best 5</Text>
+          <View style={styles.contentsContainer}>
+            <View style={styles.topTitle}>
+              <Text style={styles.topFont}>오답률 Top 5</Text>
             </View>
             <FlatList
               data={top5}
               renderItem={({item, index}) => (
                 <View style={styles.box_list}>
-                  <View style={styles.box}>
-                    <Text style={styles.toprank}>{item.rank}위 </Text>
-                    <Text
-                      style={{
-                        marginLeft: 60,
-                        position: 'absolute',
-                        fontSize: 20,
-                        fontWeight: 'bold',
-                        fontFamily: Fonts.TRBold,
-                        color: '#87cefa',
-                      }}>
-                      {item.q_num}번
-                    </Text>
-                    <Text
-                      style={{
-                        marginTop: 4,
-                        marginLeft: 110,
-                        position: 'absolute',
-                        fontSize: 16,
-                      }}>
-                      ({item.rate}%)
-                    </Text>
-                    <Text style={styles.correct}>{item.correct}</Text>
-                    <Text
-                      style={{
-                        marginLeft: 200,
-                        position: 'absolute',
-                        fontSize: 16,
-                      }}>
-                      {item.my_ans} {item.ans}
-                    </Text>
-                  </View>
+                  <Text style={styles.topRank}>{item.rank}위 </Text>
+                  <Text style={styles.probNum}>{item.q_num}번</Text>
+                  <Text
+                    style={{
+                      marginTop: 4,
+                      marginLeft: 110,
+                      position: 'absolute',
+                      fontSize: 16,
+                      color: 'black',
+                    }}>
+                    ({item.rate}%)
+                  </Text>
+                  <Text style={styles.correct}>{item.correct}</Text>
+                  <Text
+                    style={{
+                      marginLeft: 200,
+                      position: 'absolute',
+                      fontSize: 16,
+                      color: 'black',
+                    }}>
+                    {item.my_ans} {item.ans}
+                  </Text>
                 </View>
               )}
               keyExtractor={(item, index) => index.toString()}
             />
           </View>
-          <View style={styles.killerzone}>
-            <View style={styles.toptitle}>
-              <Text style={styles.topfont}>킬러문항 분석</Text>
+          <View style={styles.contentsContainer}>
+            <View style={styles.topTitle}>
+              <Text style={styles.topFont}>킬러문항 분석</Text>
             </View>
             <FlatList
               data={Bkiller}
               renderItem={({item, index}) => (
-                <View style={styles.killerbox_list}>
-                  <View style={styles.killerbox_title}>
-                    <Text style={styles.killernum}>{item.q_num}번 </Text>
+                <View style={styles.killerBox_list}>
+                  <View style={styles.killerBox_title}>
+                    <Text style={styles.killerNum}>{item.q_num}번 </Text>
                     <Text
                       style={{
                         marginLeft: 70,
@@ -259,7 +255,7 @@ function StudentTestResult({route, navigation}) {
                       오답률 ({item.rate}%)
                     </Text>
                   </View>
-                  <View style={styles.killerbox_content}>
+                  <View style={styles.killerBox_content}>
                     <Text
                       style={{
                         padding: 3,
@@ -273,7 +269,7 @@ function StudentTestResult({route, navigation}) {
                       {item.iscorrect}
                     </Text>
                   </View>
-                  <View style={styles.killerbox_content}>
+                  <View style={styles.killerBox_content}>
                     <Text
                       style={{
                         padding: 3,
@@ -292,16 +288,16 @@ function StudentTestResult({route, navigation}) {
               keyExtractor={(item, index) => index.toString()}
             />
           </View>
-          <View style={styles.killerzone}>
-            <View style={styles.toptitle}>
-              <Text style={styles.topfont}>준킬러문항 분석</Text>
+          <View style={styles.contentsContainer}>
+            <View style={styles.topTitle}>
+              <Text style={styles.topFont}>준킬러문항 분석</Text>
             </View>
             <FlatList
               data={killer}
               renderItem={({item, index}) => (
-                <View style={styles.killerbox_list}>
-                  <View style={styles.killerbox_title}>
-                    <Text style={styles.killernum}>{item.q_num}번 </Text>
+                <View style={styles.killerBox_list}>
+                  <View style={styles.killerBox_title}>
+                    <Text style={styles.killerNum}>{item.q_num}번 </Text>
                     <Text
                       style={{
                         marginLeft: 70,
@@ -323,7 +319,7 @@ function StudentTestResult({route, navigation}) {
                       오답률 ({item.rate}%)
                     </Text>
                   </View>
-                  <View style={styles.killerbox_content}>
+                  <View style={styles.killerBox_content}>
                     <Text
                       style={{
                         padding: 3,
@@ -337,7 +333,7 @@ function StudentTestResult({route, navigation}) {
                       {item.iscorrect}
                     </Text>
                   </View>
-                  <View style={styles.killerbox_content}>
+                  <View style={styles.killerBox_content}>
                     <Text
                       style={{
                         padding: 3,
@@ -379,27 +375,30 @@ function StudentTestResult({route, navigation}) {
               </Text>
             </TouchableOpacity>
           </View>
-        </SafeAreaView>
-      </View>
-    </ScrollView>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
-  button: {
-    alignItems: 'center',
-    backgroundColor: '#87cefa',
-    padding: 10,
-    justifyContent: 'center',
-    borderRadius: 100,
-    width: 320,
-    height: 60,
-  },
   container: {
     flex: 1,
-    backgroundColor: '#f0f8ff',
-    fontFamily: Fonts.TRBold,
+    backgroundColor: 'white',
   },
-  myinfo: {
+  contentsContainer: {
+    // justifyContent: 'flex-start',
+    marginTop: 10,
+    marginBottom: '5%',
+    paddingVertical: '5%',
+    // borderRadius: 8,
+    // borderColor: '#7cc2ff',
+    // borderBottomWidth: 4,
+    // borderTopWidth: 4,
+    fontFamily: Fonts.TRBold,
+    backgroundColor: '#e0f2fe',
+    // backgroundColor: '#fafad2',
+  },
+  myInfo: {
     weight: 60,
     height: 80,
     alignItems: 'center',
@@ -408,15 +407,16 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   box_list: {
-    borderRadius: 15,
-    borderColor: '#87cefa',
+    borderRadius: 27,
+    borderColor: '#1a91ff',
     borderWidth: 2,
-    padding: 7,
-    justifyContent: 'flex-start',
-    marginTop: 5,
-    backgroundColor: '#fff8dc',
+    justifyContent: 'center',
+    paddingVertical: 7,
+    marginVertical: 2,
+    marginHorizontal: '4%',
+    backgroundColor: 'white',
   },
-  killerbox_list: {
+  killerBox_list: {
     borderRadius: 15,
     borderColor: '#87cefa',
     borderWidth: 2,
@@ -431,96 +431,68 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
-  killerbox_title: {
+  killerBox_title: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  killerbox_content: {
+  killerBox_content: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 26,
   },
-  rank: {
+  rankScore: {
     alignItems: 'center',
     justifyContent: 'flex-start',
     fontSize: 30,
     fontFamily: Fonts.TRBold,
+    color: 'black',
   },
-  scorebox: {
+  scoreBox: {
     marginTop: 7,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  score: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    fontSize: 30,
-    fontFamily: Fonts.TRBold,
-  },
-  avg: {
+  totalAvg: {
     marginTop: 8,
     paddingLeft: 10,
     // backgroundColor: 'yellow',
     borderRadius: 5,
     fontSize: 18,
-  },
-  total: {
-    marginTop: 8,
-    paddingLeft: 10,
-    // backgroundColor: 'yellow',
-    borderRadius: 5,
-    fontSize: 18,
+    color: 'black',
+    // fontFamily: Fonts.TRRegular,
   },
   number: {
-    color: '#87cefa',
+    color: '#0077e6',
     fontSize: 30,
     fontFamily: Fonts.TRBold,
   },
-  topfive: {
-    height: 360,
-    justifyContent: 'flex-start',
-    marginTop: 10,
-    borderRadius: 10,
-    borderColor: 'lightskyblue',
-    borderWidth: 8,
-    marginBottom: 20,
-    fontFamily: Fonts.TRBold,
-    backgroundColor: '#f0f8ff',
-    // backgroundColor: '#fafad2',
-  },
-  killerzone: {
-    height: 310,
-    justifyContent: 'flex-start',
-    marginTop: 10,
-    // borderRadius: 10,
-    // borderColor: 'lightskyblue',
-    // borderWidth: 8,
-    marginBottom: 20,
-    fontFamily: Fonts.TRBold,
-    backgroundColor: '#f0f8ff',
-    // backgroundColor: '#fafad2',
-  },
-  toptitle: {
-    marginTop: 8,
+  topTitle: {
+    // marginTop: 8,
+    // backgroundColor: 'yellow',
     justifyContent: 'center',
     alignItems: 'center',
-    fontFamily: Fonts.TRRegular,
-    marginBottom: 4,
+    marginBottom: '3%',
   },
-  topfont: {
+  topFont: {
     fontSize: 28,
     fontFamily: Fonts.TRBold,
-    fontWeight: 'bold',
-    color: '#87cefa',
+    color: '#0077e6',
   },
-  toprank: {
+  topRank: {
     marginLeft: 15,
+    fontFamily: Fonts.TRBold,
     fontSize: 22,
-    fontWeight: '900',
-    color: '#87cefa',
+    color: '#f97316',
   },
-  killernum: {
+  probNum: {
+    marginLeft: 60,
+    position: 'absolute',
+    fontSize: 18,
+    fontFamily: Fonts.TRBold,
+    color: '#fb923c',
+  },
+  killerNum: {
     marginLeft: 15,
     fontSize: 22,
     fontWeight: '900',
@@ -534,7 +506,7 @@ const styles = StyleSheet.create({
     color: '#ffa07a',
     fontWeight: 'bold',
   },
-  killercorrect: {
+  killerCorrect: {
     padding: 3,
     position: 'absolute',
     fontSize: 16,
@@ -542,6 +514,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 10,
     fontFamily: Fonts.TRBold,
+  },
+  button: {
+    alignItems: 'center',
+    backgroundColor: '#87cefa',
+    padding: 10,
+    justifyContent: 'center',
+    borderRadius: 100,
+    width: 320,
+    height: 60,
   },
 });
 
