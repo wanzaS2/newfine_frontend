@@ -1,31 +1,33 @@
 import React, {useEffect, useState} from 'react';
 import {
   FlatList,
+  Platform,
   Pressable,
   SafeAreaView,
-  StatusBar,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
-
-import {Fonts} from '../../assets/Fonts';
-import LinearGradient from 'react-native-linear-gradient';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {LoggedInParamList} from '../../../AppInner';
 import axios from 'axios';
 import Config from 'react-native-config';
-import Title from '../../components/Title';
-import StudentAttendance from './StudentAttendance';
+// import Title from '../../components/Title';
+// import StudentAttendance from './StudentAttendance';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store/reducer';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {Fonts} from '../../assets/Fonts';
 
-function StudentTestMain({route, navigation}) {
+type StudentTestMainScreenProps = NativeStackScreenProps<
+  LoggedInParamList,
+  'StudentTestMain'
+>;
+
+function StudentTestMain({route, navigation}: StudentTestMainScreenProps) {
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const [TestList, setTestList] = useState();
   const [listLength, setAttendanceLength] = useState();
-  const [loading, setLoading] = useState(false);
-  const accessToken = useSelector((state: RootState) => state.user.accessToken);
+
   const getTests = () => {
     console.log(route.params);
     axios(`${Config.API_URL}/test/all/my`, {
@@ -39,8 +41,7 @@ function StudentTestMain({route, navigation}) {
         setTestList(response.data);
         setAttendanceLength(response.data.length);
       })
-      .catch(error => console.error(error))
-      .finally(() => setLoading(false));
+      .catch(error => console.error(error));
   };
 
   useEffect(() => {
@@ -49,67 +50,76 @@ function StudentTestMain({route, navigation}) {
     console.log('listLength : ', listLength);
   }, [listLength]);
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      <Title title="내 테스트" />
-      <SafeAreaView style={styles.container}>
-        <View>
-          <FlatList
-            data={TestList}
-            renderItem={({item, index}) => (
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate('StudentTestResult', item.id)
-                }>
-                <View
-                  style={{
-                    borderRadius: 10,
-                    borderColor: '#b0e0e6',
-                    borderWidth: 1,
-                    padding: 10,
-                    marginBottom: 10,
-                    backgroundColor: '#e0ffff',
-                  }}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      flex: 1,
-                      alignItems: 'center',
-                      justifyContent: 'flex-start',
-                    }}>
-                    <Text
-                      style={{
-                        marginLeft: 30,
-                        fontSize: 20,
-                        fontWeight: 'bold',
-                      }}>
-                      {item.testName}
-                    </Text>
-                    <Text
-                      style={{
-                        position: 'absolute',
-                        right: 30,
-                        fontSize: 20,
-                        fontWeight: 'bold',
-                      }}>
-                      {item.testDate.slice(5)}
-                    </Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            )}
-            keyExtractor={item => String(item.id)}
-          />
-        </View>
-      </SafeAreaView>
-    </View>
+    <SafeAreaView style={styles.container}>
+      {/*<StatusBar style="auto" />*/}
+      {/*<Title title="내 테스트" />*/}
+      <View style={styles.listArea}>
+        <FlatList
+          data={TestList}
+          renderItem={({item, index}) => (
+            <Pressable
+              onPress={() => navigation.navigate('StudentTestResult', item.id)}>
+              <View style={styles.flatList}>
+                <Text style={styles.classText}>{item.testName}</Text>
+                <Text style={styles.dateText}>{item.testDate.slice(5)}</Text>
+              </View>
+            </Pressable>
+          )}
+          keyExtractor={item => String(item.id)}
+        />
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    // backgroundColor: 'pink',
+  },
+  listArea: {
+    marginTop: '15%',
+    // backgroundColor: 'yellow',
+    alignItem: 'center',
+    justifyContent: 'center',
+  },
+  flatList: {
+    // width: screenWidth,
+    height: 60,
+    // alignItems: 'center',
+    // marginTop: 5,
+    justifyContent: 'center',
+    marginBottom: 10,
+    borderRadius: 8,
+    backgroundColor: '#bae6fd',
+    marginHorizontal: 10,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 10,
+          height: 10,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 10,
+      },
+      android: {
+        elevation: 3,
+      },
+    }),
+  },
+  classText: {
+    marginLeft: '5%',
+    fontSize: 20,
+    fontFamily: Fonts.TRBold,
+    color: 'black',
+  },
+  dateText: {
+    position: 'absolute',
+    right: 15,
+    fontSize: 17,
+    fontFamily: Fonts.TRBold,
+    color: 'gray',
   },
 });
 

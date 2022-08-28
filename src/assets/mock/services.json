@@ -1,0 +1,8 @@
+[
+  { "name": "수업", "icon": "chalkboard", "next": "StudentCourse" },
+  { "name": "출석", "icon": "portrait", "next": "AttendanceInfo" },
+  { "name": "과제", "icon": "pencil-alt", "next": "StudentHomework" },
+  { "name": "자습", "icon": "book-open", "next": "Study" },
+  { "name": "테스트", "icon": "columns", "next": "StudentTestMain" },
+  { "name": "마이페이지", "icon": "star", "next": "MyPage" }
+]
