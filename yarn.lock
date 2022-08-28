@@ -7275,6 +7275,11 @@ punycode@^2.1.0, punycode@^2.1.1:
   resolved "https://registry.npmjs.org/punycode/-/punycode-2.1.1.tgz"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
+push-notification@^0.2.5:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/push-notification/-/push-notification-0.2.5.tgz#07b9550eb06801e696022d200d02e058ab06582e"
+  integrity sha512-HmmV2hjxMJIyOWwdyXA4lmQPp+FKc1wGbf/A6/3fQ/gj74i+UqLuw1iFc7o6EAU4Gr60wfUX2sZghwez4Q/HmQ==
+
 qs@6.10.3:
   version "6.10.3"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.10.3.tgz#d6cde1b2ffca87b5aa57889816c5f81535e22e8e"
