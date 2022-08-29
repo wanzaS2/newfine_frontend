@@ -17,7 +17,8 @@ import {RootState} from '../../store/reducer';
 import {useAppDispatch} from '../../store';
 import Title from '../../components/Title';
 import TeacherCourse from './TeacherCourse';
-import AllRanking from '../AllRanking';
+import ColorfulCard from 'react-native-colorful-card';
+
 function TeacherMain({navigation}) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const name = useSelector((state: RootState) => state.user.name);
@@ -71,14 +72,9 @@ function TeacherMain({navigation}) {
           <Text style={styles.font}>동영상신청 현황</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('AllRanking')}>
+      <TouchableOpacity onPress={() => navigation.navigate('TeacherRanking')}>
         <View style={styles.box}>
           <Text style={styles.font}>현재 랭킹</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <View style={styles.box}>
-          <Text style={styles.font}>내 정보</Text>
         </View>
       </TouchableOpacity>
       <TouchableOpacity onPress={onLogout}>
@@ -86,6 +82,16 @@ function TeacherMain({navigation}) {
           <Text style={styles.font}>로그아웃</Text>
         </View>
       </TouchableOpacity>
+      {/*<ColorfulCard*/}
+      {/*  title="Sleep"*/}
+      {/*  value="8"*/}
+      {/*  valuePostfix="h 42 m"*/}
+      {/*  footerTitle="Deep Sleep"*/}
+      {/*  footerValue="3h 13m"*/}
+      {/*  // iconImageSource={require('./assets/sleep.png')}*/}
+      {/*  style={{backgroundColor: '#7954ff'}}*/}
+      {/*  onPress={() => {}}*/}
+      {/*/>*/}
     </View>
   );
 }

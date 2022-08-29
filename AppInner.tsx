@@ -32,7 +32,7 @@ import Config from 'react-native-config';
 import userSlice from './src/slices/user';
 import {Alert} from 'react-native';
 import {useAppDispatch} from './src/store';
-import MyPointList from './src/pages/Student/MyPointList';
+import RankingPoint from './src/pages/Student/RankingPoint';
 import AllRanking from './src/pages/Student/AllRanking';
 import MyPage from './src/pages/Student/MyPage';
 
@@ -45,9 +45,9 @@ import BoardSave from './src/pages/BoardSave';
 import BoardDetail from './src/pages/BoardDetail';
 import BoardUpdate from './src/pages/BoardUpdate';
 import SHomeworkList from './src/pages/SHomeworkList';
-import StudentBoardList from './src/pages/StudentBoardList';
-import StudentBoardDetail from './src/pages/StudentBoardDetail';
-import StudentHomework from './src/pages/StudentHomework';
+import StudentBoardList from './src/pages/Student/StudentBoardList';
+import StudentBoardDetail from './src/pages/Student/StudentBoardDetail';
+import StudentHomework from './src/pages/Student/StudentHomework';
 import VideoList from './src/pages/Student/VideoList';
 import AttendanceInfo from './src/pages/Student/AttendanceInfo';
 import VideoAuth from './src/pages/Student/VideoAuth';
@@ -59,12 +59,15 @@ import StudentAllTestResult from './src/pages/Student/StudentAllTestResult';
 import TeacherAllTest from './src/pages/Teacher/TeacherAllTest';
 import TeacherTest from './src/pages/Teacher/TeacherTest';
 import TestRank from './src/pages/Teacher/TestRank';
+import TeacherRanking from './src/pages/Teacher/TeacherRanking';
+import MyPointList from './src/pages/Student/MyPointList';
 
 export type LoggedInParamList = {
   Welcome: undefined;
   StudentMain: undefined;
-  MyPointList: undefined;
+  RankingPoint: undefined;
   AllRanking: undefined;
+  MyPointList: undefined;
   MyPage: undefined;
   StudentCourse: undefined;
   StudentCourseInfo: undefined;
@@ -78,8 +81,12 @@ export type LoggedInParamList = {
   StudyTime: undefined;
   StudentTestMain: undefined;
   StudentTestResult: undefined;
+  StudentAllTestResult: undefined;
   MyAttendance: undefined;
   StudentBoardList: undefined;
+  StudentBoardDetail: {id: number; courseId: number};
+  StudentHomework: undefined;
+  CarouselPage1: undefined;
 };
 
 export type RootStackParamList = {
@@ -91,6 +98,7 @@ export type RootStackParamList = {
 
 export type TeacherParamList = {
   TeacherMain: undefined;
+  TeacherRanking: undefined;
 };
 
 const Stack = createNativeStackNavigator();
@@ -363,6 +371,16 @@ function AppInner() {
           options={{title: '메인', headerShown: false}}
         />
         <Stack.Screen
+          name="RankingPoint"
+          component={RankingPoint}
+          options={{title: '', headerShown: false}}
+        />
+        <Stack.Screen
+          name="AllRanking"
+          component={AllRanking}
+          options={{title: '', headerShown: false}}
+        />
+        <Stack.Screen
           name="MyPointList"
           component={MyPointList}
           options={{title: '', headerShown: false}}
@@ -442,15 +460,23 @@ function AppInner() {
             headerTransparent: true,
           }}
         />
-        <Stack.Screen
-          name="StudentBoardDetail"
-          component={StudentBoardDetail}
-          options={{title: '과제 상세보기'}}
-        />
+        {/*<Stack.Screen*/}
+        {/*  name="StudentBoardDetail"*/}
+        {/*  component={StudentBoardDetail}*/}
+        {/*  options={{title: '', headerTransparent: true}}*/}
+        {/*/>*/}
         <Stack.Screen
           name="StudentHomework"
           component={StudentHomework}
-          options={{title: '과제 제출확인 현황'}}
+          options={{
+            title: '과제 현황',
+            headerShown: true,
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="Study"
@@ -561,7 +587,15 @@ function AppInner() {
         <Stack.Screen
           name="StudentAllTestResult"
           component={StudentAllTestResult}
-          options={{title: '전회차 분석', headerShown: true}}
+          options={{
+            title: '전회차 분석',
+            headerShown: true,
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
       </Stack.Navigator>
     );
@@ -573,7 +607,7 @@ function AppInner() {
         <Stack.Screen
           name="TeacherMain"
           component={TeacherMain}
-          options={{title: 'TeacherMain', headerShown: true}}
+          options={{title: 'TeacherMain', headerShown: false}}
         />
         <Stack.Screen
           name="TeacherCourse"
@@ -626,9 +660,9 @@ function AppInner() {
           options={{title: '수강생'}}
         />
         <Stack.Screen
-          name="AllRanking"
-          component={AllRanking}
-          options={{title: '전체 랭킹'}}
+          name="TeacherRanking"
+          component={TeacherRanking}
+          options={{title: '학생 랭킹'}}
         />
         <Stack.Screen
           name="ApplyVideo"
