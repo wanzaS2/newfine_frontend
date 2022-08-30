@@ -17,15 +17,10 @@ import {Fonts} from '../../assets/Fonts';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {LoggedInParamList} from '../../../AppInner';
 
-type AllRankingScreenProps = NativeStackScreenProps<
-  LoggedInParamList,
-  'AllRanking'
->;
-
 const screenHeight = Dimensions.get('window').height;
 const screenWidth = Dimensions.get('window').width;
 
-function AllRanking({navigation}: AllRankingScreenProps) {
+function AllRanking() {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const [rankingList, setRankingList] = useState();
   const [listLength, setListLength] = useState();

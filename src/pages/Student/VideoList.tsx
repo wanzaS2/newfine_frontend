@@ -50,8 +50,8 @@ function VideoList({navigation}: VideoListScreenProps) {
   }, [listLength]);
 
   const isVideo = () => {
-    console.log(listLength);
-    if (listLength === undefined) {
+    console.log('리스트길이: ', listLength);
+    if (listLength === undefined || listLength === 0) {
       return (
         <View style={styles.subtitleBox}>
           <Text style={styles.subtitleX}>

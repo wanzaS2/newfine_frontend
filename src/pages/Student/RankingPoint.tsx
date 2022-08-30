@@ -1,27 +1,17 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   Dimensions,
-  FlatList,
   SafeAreaView,
   View,
-  Text,
-  Alert,
   StyleSheet,
   useColorScheme,
   Platform,
-  ScrollView,
 } from 'react-native';
-import Config from 'react-native-config';
-import axios, {AxiosError} from 'axios';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../store/reducer';
-import {useFocusEffect} from '@react-navigation/native';
 import {Fonts} from '../../assets/Fonts';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {LoggedInParamList} from '../../../AppInner';
 // import {Switch} from 'native-base';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
-import DismissKeyboardView from '../../components/DismissKeyboardView';
 import AllRanking from './AllRanking';
 import MyPointList from './MyPointList';
 
@@ -34,14 +24,9 @@ type MyPointListScreenProps = NativeStackScreenProps<
 >;
 
 function RankingPoint({navigation}: MyPointListScreenProps) {
-  const colorScheme = useColorScheme();
-  const accessToken = useSelector((state: RootState) => state.user.accessToken);
-  const [pointInfo, setPointInfo] = useState([]);
   // const [textColor, setTextColor] = useState('#000');
   const [value, setValue] = useState('포인트 내역');
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [sorting, setSorting] = useState('pointDesc');
-  const scrollRef = useRef();
 
   const _onChange = event => {
     setSelectedIndex(event.nativeEvent.selectedSegmentIndex);
@@ -56,74 +41,11 @@ function RankingPoint({navigation}: MyPointListScreenProps) {
 
   const showList = () => {
     if (selectedIndex === 0) {
-      return (
-        <MyPointList />
-        // <View style={styles.listArea}>
-        //   <FlatList
-        //     ref={scrollRef}
-        //     data={pointInfo}
-        //     keyExtractor={(item, index) => {
-        //       return `pointHistory-${index}`;
-        //     }}
-        //     renderItem={({item, index}) => (
-        //       <View style={styles.flatList}>
-        //         <Text style={styles.textTop}>
-        //           {item.date} | {item.time} | {item.contents} | {item.score}점
-        //         </Text>
-        //         <Text style={styles.textBottom}>
-        //           누적 포인트 : {item.scoreSum}
-        //         </Text>
-        //       </View>
-        //     )}
-        //   />
-        // </View>
-      );
+      return <MyPointList />;
     } else if (selectedIndex === 1) {
       return <AllRanking />;
     }
   };
-
-  // const getPointHistory = async () => {
-  //   try {
-  //     const response = await axios.get(`${Config.API_URL}/point/${sorting}`, {
-  //       params: {},
-  //       headers: {
-  //         Authorization: `Bearer ${accessToken}`,
-  //       },
-  //     });
-  //     console.log(accessToken);
-  //     console.log(response.data.data[1].date.substr(0, 10));
-  //
-  //     let list = [];
-  //     for (let i = 0; i < response.data.data.length; i++) {
-  //       list.push({
-  //         contents: response.data.data[i].contents,
-  //         date: response.data.data[i].date.substring(0, 10),
-  //         time: response.data.data[i].date.substring(11, 5),
-  //         score: response.data.data[i].score,
-  //         scoreSum: response.data.data[i].scoreSum,
-  //       });
-  //     }
-  //
-  //     console.log('포인트 리스트: ', list);
-  //     setPointInfo(list);
-  //   } catch (error) {
-  //     const errorResponse = (error as AxiosError).response;
-  //     if (errorResponse) {
-  //       Alert.alert('알림', errorResponse.data.message);
-  //     }
-  //   }
-  // };
-  //
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     getPointHistory();
-  //   }, []),
-  // );
-
-  // useEffect(() => {
-  //   getPointHistory();
-  // }, []);
 
   return (
     <SafeAreaView style={styles.container}>
