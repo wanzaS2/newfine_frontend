@@ -13,7 +13,7 @@ import StudyIn from './src/pages/Student/StudyIn';
 import StudyOut from './src/pages/Student/StudyOut';
 import StudyWeb from './src/pages/Student/StudyWeb';
 import StudyTime from './src/pages/Student/StudyTime';
-import Attendance from './src/pages/Attendance';
+import Attendance from './src/pages/Teacher/Attendance';
 import MyAttendance from './src/pages/Student/MyAttendance';
 import StudentAttendance from './src/pages/Student/StudentAttendance';
 import QRCodeScanner from './src/pages/Student/QRCodeScanner';
@@ -46,7 +46,7 @@ import BoardDetail from './src/pages/BoardDetail';
 import BoardUpdate from './src/pages/BoardUpdate';
 import SHomeworkList from './src/pages/SHomeworkList';
 import StudentBoardList from './src/pages/Student/StudentBoardList';
-import StudentBoardDetail from './src/pages/Student/StudentBoardDetail';
+// import StudentBoardDetail from './src/pages/Student/StudentBoardDetail';
 import StudentHomework from './src/pages/Student/StudentHomework';
 import VideoList from './src/pages/Student/VideoList';
 import AttendanceInfo from './src/pages/Student/AttendanceInfo';
@@ -98,6 +98,12 @@ export type RootStackParamList = {
 
 export type TeacherParamList = {
   TeacherMain: undefined;
+  TeacherCourse: undefined;
+  TeacherCourseInfo: undefined;
+  Listeners: undefined;
+  Attendance: undefined;
+  TeacherAllTest: undefined;
+  BoardList: {courseId: number};
   TeacherRanking: undefined;
 };
 
@@ -612,12 +618,27 @@ function AppInner() {
         <Stack.Screen
           name="TeacherCourse"
           component={TeacherCourse}
-          options={{title: '내 강의', headerShown: true}}
+          options={{
+            title: '내 강의',
+            headerShown: true,
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="Attendance"
           component={Attendance}
-          options={{title: '수업 출석부'}}
+          options={{
+            title: '수업 출석부',
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="StudentAttendance"
@@ -627,7 +648,14 @@ function AppInner() {
         <Stack.Screen
           name="TeacherCourseInfo"
           component={TeacherCourseInfo}
-          options={{title: '강의정보'}}
+          options={{
+            title: '강의정보',
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="BoardList"

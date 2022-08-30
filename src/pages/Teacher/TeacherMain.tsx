@@ -2,11 +2,10 @@ import React, {useCallback} from 'react';
 import {
   View,
   Text,
-  Pressable,
   StyleSheet,
   Alert,
   SafeAreaView,
-  TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import axios, {AxiosError} from 'axios';
@@ -15,15 +14,24 @@ import userSlice from '../../slices/user';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store/reducer';
 import {useAppDispatch} from '../../store';
-import Title from '../../components/Title';
-import TeacherCourse from './TeacherCourse';
+import teacherService from '../../assets/mock/teacherService.json';
 import ColorfulCard from 'react-native-colorful-card';
+import {Fonts} from '../../assets/Fonts';
+import {TeacherParamList} from '../../../AppInner';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+// import Icon from 'react-native-vector-icons/FontAwesome';
+// import Ionicons from 'react-native-vector-icons/FontAwesome5';
 
-function TeacherMain({navigation}) {
+type TeacherMainScreenProps = NativeStackScreenProps<
+  TeacherParamList,
+  'TeacherMain'
+>;
+
+function TeacherMain({navigation}: TeacherMainScreenProps) {
+  const dispatch = useAppDispatch();
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const name = useSelector((state: RootState) => state.user.name);
-  const dispatch = useAppDispatch();
-  const teacher = name + ' Teacher';
+
   const onLogout = useCallback(async () => {
     try {
       console.log(accessToken);
@@ -60,75 +68,97 @@ function TeacherMain({navigation}) {
   }, [accessToken, dispatch]);
 
   return (
-    <View style={styles.container}>
-      <Title title={teacher} />
-      <TouchableOpacity onPress={() => navigation.navigate('TeacherCourse')}>
-        <View style={styles.box}>
-          <Text style={styles.font}>내 수업</Text>
+    <SafeAreaView style={styles.container}>
+      <View style={{flex: 1}}>
+        <View style={styles.textArea}>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.nameText}>{name}</Text>
+            <Text style={styles.welcomeText}> 선생님,</Text>
+          </View>
+          <View>
+            <Text style={styles.welcomeText}>환영합니다!!</Text>
+          </View>
         </View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('ApplyVideo')}>
-        <View style={styles.box}>
-          <Text style={styles.font}>동영상신청 현황</Text>
+        <View style={styles.blockArea}>
+          <FlatList
+            contentContainerStyle={{
+              flex: 1,
+              // backgroundColor: 'pink',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            data={teacherService}
+            renderItem={({item, index}) => (
+              <ColorfulCard
+                title={item.title}
+                titleTextStyle={{fontFamily: Fonts.TRRegular, fontSize: 17}}
+                value={item.value}
+                valueTextStyle={styles.value}
+                // valuePostfix="h 42 m"
+                // footerTitle="Deep Sleep"
+                // footerValue="3h 13m"
+                iconImageSource={require('../../assets/images/star.png')}
+                // ImageComponent={<Icon name={item.icon} color={'white'} />}
+                iconImageStyle={{tintColor: 'white', width: 25}}
+                style={{
+                  backgroundColor: item.backgroundColor,
+                  margin: 5,
+                  marginVertical: 10,
+                }}
+                onPress={() => {
+                  console.log(item.value === '로그아웃');
+                  if (item.value != '로그아웃') {
+                    navigation.navigate(item.onPress);
+                  } else {
+                    onLogout();
+                  }
+                }}
+              />
+            )}
+            numColumns={2}
+          />
         </View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('TeacherRanking')}>
-        <View style={styles.box}>
-          <Text style={styles.font}>현재 랭킹</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={onLogout}>
-        <View style={styles.box}>
-          <Text style={styles.font}>로그아웃</Text>
-        </View>
-      </TouchableOpacity>
-      {/*<ColorfulCard*/}
-      {/*  title="Sleep"*/}
-      {/*  value="8"*/}
-      {/*  valuePostfix="h 42 m"*/}
-      {/*  footerTitle="Deep Sleep"*/}
-      {/*  footerValue="3h 13m"*/}
-      {/*  // iconImageSource={require('./assets/sleep.png')}*/}
-      {/*  style={{backgroundColor: '#7954ff'}}*/}
-      {/*  onPress={() => {}}*/}
-      {/*/>*/}
-    </View>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    // backgroundColor: 'white',
+  },
+  textArea: {
+    flex: 1,
+    paddingTop: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // backgroundColor: 'pink',
+  },
+  welcomeText: {
+    fontFamily: Fonts.TRBold,
+    fontSize: 30,
+    color: 'black',
+  },
+  nameText: {
+    fontFamily: Fonts.TRBold,
+    fontSize: 32,
+    color: '#0077e6',
+  },
+  blockArea: {
+    flex: 6,
+    flexDirection: 'row',
+    marginBottom: 30,
+    // backgroundColor: 'yellow',
+  },
   inputWrapper: {
     paddingTop: 20,
     padding: 10,
     alignItems: 'center',
   },
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
-  header: {
-    height: 60,
-    backgroundColor: 'green',
-  },
-  box: {
-    borderRadius: 10,
-    borderColor: '#b0e0e6',
-    borderWidth: 1,
-    padding: 10,
-    marginBottom: 10,
-    backgroundColor: '#e0ffff',
-    width: '100%',
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  font: {
-    flex: 1,
-    fontSize: 20,
-    fontWeight: 'bold',
-    alignItems: 'center',
-    justifyContent: 'center',
+  value: {
+    fontFamily: Fonts.TRBold,
+    lineHeight: 35,
   },
 });
 
