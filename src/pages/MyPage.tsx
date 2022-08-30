@@ -38,6 +38,7 @@ function MyPage({navigation}) {
   }>();
   const photoUrl = useSelector((state: RootState) => state.user.photoURL);
   const [changeImage, setChangeImage] = useState(false);
+  const deviceToken = useSelector((state: RootState) => state.user.deviceToken);
 
   const onResponse = useCallback(async response => {
     console.log(response.width, response.height, response.exif);
@@ -305,6 +306,9 @@ function MyPage({navigation}) {
   const onLogout = useCallback(async () => {
     try {
       console.log(accessToken);
+      console.log('deviceToken1:', deviceToken);
+      // let phoneToken = '초기화';
+      console.log('deviceToken2:');
       const refreshToken = await EncryptedStorage.getItem('refreshToken');
       const response = await axios.post(
         `${Config.API_URL}/auth/logout`,

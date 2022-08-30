@@ -19,8 +19,8 @@ import MyTextInput from '../components/MyTextInput';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import { useSelector } from "react-redux";
 import { RootState } from "../store/reducer";
-import messaging from "@react-native-firebase/messaging";
-import userSlice from "../slices/user";
+import messaging from '@react-native-firebase/messaging';
+import userSlice from '../slices/user';
 import { useAppDispatch } from "../store";
 
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
@@ -36,7 +36,7 @@ function SignUp({navigation}: SignUpScreenProps) {
   const nameRef = useRef<TextInput | null>(null);
   const passwordRef = useRef<TextInput | null>(null);
   const chkPasswordRef = useRef<TextInput | null>(null);
-  const phoneToken = useSelector((state: RootState) => state.user.phoneToken);
+  const deviceToken = useSelector((state: RootState) => state.user.deviceToken);
 
   const onChangeName = useCallback(text => {
     setName(text.trim());
@@ -72,17 +72,11 @@ function SignUp({navigation}: SignUpScreenProps) {
     console.log(name, password);
     try {
       setLoading(true);
-      if (!messaging().isDeviceRegisteredForRemoteMessages) {
-        await messaging().registerDeviceForRemoteMessages();
-      }
-      const token = await messaging().getToken();
-      console.log('phone token', token);
-      dispatch(userSlice.actions.setPhoneToken({phoneToken: token}));
       const response = await axios.post(`${Config.API_URL}/auth/signuptest`, {
         phoneNumber,
         name,
         password,
-        phoneToken,
+        deviceToken,
       });
       console.log('SignUp Response: ', response.data);
       Alert.alert('알림', '회원가입 되었습니다.');

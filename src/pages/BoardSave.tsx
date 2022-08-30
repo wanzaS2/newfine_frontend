@@ -29,31 +29,61 @@ export default function BoardSave({route, navigation}) {
   const [isLoading, setIsLoading] = useState(false);
   const {courseId} = route.params;
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
-  const [date, onChangeDate] = useState(new Date()); // 선택 날짜
-  const [mode, setMode] = useState('date'); // 모달 유형
-  const [visible, setVisible] = useState(false); // 모달 노출 여부
+  const [date1, onChangeDate1] = useState(new Date()); // 선택 날짜
+  const [mode1, setMode1] = useState('date'); // 모달 유형
+  const [visible1, setVisible1] = useState(false); // 모달 노출 여부
+  const [date2, onChangeDate2] = useState(new Date()); // 선택 날짜
+  const [mode2, setMode2] = useState('date'); // 모달 유형
+  const [visible2, setVisible2] = useState(false); // 모달 노출 여부
 
-  const onPressDate = () => {
+  const onPressDate1 = () => {
     // 날짜 클릭 시
-    setMode('date'); // 모달 유형을 date로 변경
-    setVisible(true); // 모달 open
+    setMode1('date'); // 모달 유형을 date로 변경
+    setVisible1(true); // 모달 open
   };
 
-  const onPressTime = () => {
+  const onPressTime1 = () => {
     // 시간 클릭 시
-    setMode('time'); // 모달 유형을 time으로 변경
-    setVisible(true); // 모달 open
+    setMode1('time'); // 모달 유형을 time으로 변경
+    setVisible1(true); // 모달 open
   };
 
-  const onConfirm = selectedDate => {
+  const onConfirm1 = selectedDate => {
     // 날짜 또는 시간 선택 시
-    setVisible(false); // 모달 close
-    onChangeDate(selectedDate); // 선택한 날짜 변경
+    setVisible1(false); // 모달 close
+    onChangeDate1(selectedDate); // 선택한 날짜 변경
+
+    console.log(date1);
   };
 
-  const onCancel = () => {
+  const onCancel1 = () => {
     // 취소 시
-    setVisible(false); // 모달 close
+    setVisible1(false); // 모달 close
+  };
+
+  const onPressDate2 = () => {
+    // 날짜 클릭 시
+    setMode2('date'); // 모달 유형을 date로 변경
+    setVisible2(true); // 모달 open
+  };
+
+  const onPressTime2 = () => {
+    // 시간 클릭 시
+    setMode2('time'); // 모달 유형을 time으로 변경
+    setVisible2(true); // 모달 open
+  };
+
+  const onConfirm2 = selectedDate => {
+    // 날짜 또는 시간 선택 시
+    setVisible2(false); // 모달 close
+    onChangeDate2(selectedDate); // 선택한 날짜 변경
+
+    console.log(date2);
+  };
+
+  const onCancel2 = () => {
+    // 취소 시
+    setVisible2(false); // 모달 close
   };
 
   console.log('받은 param course', courseId);
@@ -63,13 +93,19 @@ export default function BoardSave({route, navigation}) {
       return;
     }
     setIsLoading(true);
+    let fdeadline = date1.toString();
+    console.log(fdeadline);
+    let sdeadline = date2.toString();
+    console.log(sdeadline);
     try {
       const response = await axios.post(
         `${Config.API_URL}/api/homework/post/${courseId}`,
         {
-          id,
-          title,
-          content,
+          id: id,
+          title: title,
+          content: content,
+          fdeadline: fdeadline,
+          sdeadline: sdeadline,
         },
         {
           headers: {
@@ -79,7 +115,7 @@ export default function BoardSave({route, navigation}) {
       );
       console.log('아이디 반환:', response.data);
       setId(response.data);
-      console.log('글의 아이디:', response.data.id);
+      console.log('글의 아이디:', response.data);
       Alert.alert('저장완료');
       setIsLoading(false);
       navigation.navigate('BoardDetail', {
@@ -115,27 +151,59 @@ export default function BoardSave({route, navigation}) {
             onChangeText={val => setContent(val)}
           />
           <View style={styles.datetime}>
-            <Text style={styles.text2}>마감기한 설정:</Text>
-            <TouchableOpacity onPress={onPressDate}>
+            <Text style={styles.text2}>1차 마감기한:</Text>
+            <TouchableOpacity onPress={onPressDate1}>
               <TextInput
-                placeholder={format(new Date(date), 'PPP', {locale: ko})}
+                placeholder={format(new Date(date1), 'PPP', {locale: ko})}
                 editable={false}
               />
             </TouchableOpacity>
-            <TouchableOpacity onPress={onPressTime}>
+            <DateTimePickerModal
+              isVisible={visible1}
+              mode={mode1}
+              onConfirm={onConfirm1}
+              onCancel={onCancel1}
+              date={date1}
+            />
+            <TouchableOpacity onPress={onPressTime1}>
               <TextInput
                 editable={false}
-                placeholder={format(new Date(date), 'p', {
+                placeholder={format(new Date(date1), 'p', {
                   locale: ko,
-                })}></TextInput>
+                })}
+              />
             </TouchableOpacity>
           </View>
           <DateTimePickerModal
-            isVisible={visible}
-            mode={mode}
-            onConfirm={onConfirm}
-            onCancel={onCancel}
-            date={date}
+            isVisible={visible1}
+            mode={mode1}
+            onConfirm={onConfirm1}
+            onCancel={onCancel1}
+            date={date1}
+          />
+          <View style={styles.datetime}>
+            <Text style={styles.text2}>2차 마감기한:</Text>
+            <TouchableOpacity onPress={onPressDate2}>
+              <TextInput
+                placeholder={format(new Date(date2), 'PPP', {locale: ko})}
+                editable={false}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={onPressTime2}>
+              <TextInput
+                editable={false}
+                placeholder={format(new Date(date2), 'p', {
+                  locale: ko,
+                })}
+              />
+            </TouchableOpacity>
+          </View>
+          <DateTimePickerModal
+            isVisible={visible2}
+            mode={mode2}
+            onConfirm={onConfirm2}
+            onCancel={onCancel2}
+            date={date2}
           />
           <MyButton
             text="Save"
