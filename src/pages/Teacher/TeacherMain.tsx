@@ -73,10 +73,10 @@ function TeacherMain({navigation}: TeacherMainScreenProps) {
         <View style={styles.textArea}>
           <View style={{flexDirection: 'row'}}>
             <Text style={styles.nameText}>{name}</Text>
-            <Text style={styles.welcomeText}> 선생님,</Text>
+            <Text style={styles.welcomeText}> 선생님</Text>
           </View>
           <View>
-            <Text style={styles.welcomeText}>환영합니다!!</Text>
+            <Text style={styles.welcomeText}>환영합니다!! ^0^</Text>
           </View>
         </View>
         <View style={styles.blockArea}>

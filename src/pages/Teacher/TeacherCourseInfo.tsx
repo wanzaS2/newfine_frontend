@@ -1,28 +1,19 @@
-import React, {useEffect, useState} from 'react';
-import Title from '../../components/Title';
-import Attendance from '../Attendance';
+import React, {useEffect} from 'react';
 import {
   FlatList,
   SafeAreaView,
   StyleSheet,
   View,
   Text,
-  StatusBar,
-  TouchableOpacity,
   Pressable,
   Dimensions,
+  Platform,
 } from 'react-native';
-// import {ranking} from '../slices/ranking';
-// import EachRanking from '../components/EachRanking';
-import Config from 'react-native-config';
-import axios from 'axios';
-import Listeners from './Listeners';
 import teacherCourseInfo from '../../assets/mock/teacherCourseInfo.json';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {TeacherParamList} from '../../../AppInner';
 import {Fonts} from '../../assets/Fonts';
-import teacherService from '../../assets/mock/teacherService.json';
-import ColorfulCard from 'react-native-colorful-card';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 type TeacherCourseInfoScreenProps = NativeStackScreenProps<
   TeacherParamList,
@@ -38,33 +29,38 @@ function TeacherCourseInfo({route, navigation}: TeacherCourseInfoScreenProps) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{marginTop: '3%', flex: 1}}>
-        <View style={{marginLeft: '40%', flex: 1}}>
-          <Text style={styles.courseName}> #내신 미적분</Text>
-        </View>
-        {/*<Title title={route.params.cname} />*/}
-        <View style={styles.buttonArea}>
-          <FlatList
-            contentContainerStyle={{
-              marginTop: 10,
-              flex: 1,
-              // backgroundColor: 'pink',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-            data={teacherCourseInfo}
-            renderItem={({item, index}) => (
+      <View style={styles.courseArea}>
+        <Text style={styles.courseName}> #{route.params.cname}</Text>
+      </View>
+      <View style={{flex: 1}}>
+        <FlatList
+          contentContainerStyle={{
+            // marginTop: 10,
+            flex: 1,
+            // backgroundColor: 'yellow',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          data={teacherCourseInfo}
+          renderItem={({item, index}) => (
+            <View style={styles.buttonArea}>
               <Pressable
                 style={styles.button}
                 onPress={() => navigation.navigate(item.onPress, route.params)}>
-                <View style={styles.box}>
-                  <Text style={styles.font}>{item.name}</Text>
+                <View style={{alignItems: 'center'}}>
+                  <FontAwesome5Icon
+                    name={item.icon}
+                    size={50}
+                    color={'white'}
+                    style={{position: 'absolute', bottom: 5}}
+                  />
+                  <Text style={styles.buttonText}>{item.name}</Text>
                 </View>
               </Pressable>
-            )}
-            numColumns={2}
-          />
-        </View>
+            </View>
+          )}
+          numColumns={2}
+        />
       </View>
     </SafeAreaView>
   );
@@ -73,42 +69,60 @@ function TeacherCourseInfo({route, navigation}: TeacherCourseInfoScreenProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'pink',
+    // backgroundColor: 'pink',
+  },
+  courseArea: {
+    marginTop: '3%',
+    marginLeft: '40%',
+    paddingBottom: '5%',
+    // flex: 1,
+    // backgroundColor: 'blue',
   },
   buttonArea: {
-    flex: 11,
-    // marginTop: '15%',
-    backgroundColor: 'green',
+    marginHorizontal: 10,
+    marginVertical: 10,
+    // marginVertical: 30,
+    width: '45%',
+    height: 270,
+    // backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },
   button: {
-    backgroundColor: 'yellow',
-    width: '45%',
-    // height: '80%',
-    marginHorizontal: '2%',
-    marginVertical: '10%',
-  },
-  box: {
-    borderRadius: 10,
-    borderColor: '#b0e0e6',
-    borderWidth: 1,
-    // width: '100%',
-    // height: '100%',
-    padding: 10,
+    alignItems: 'center',
+    marginHorizontal: 10,
     marginBottom: 10,
-    backgroundColor: '#e0ffff',
-    alignItems: 'center',
+    width: '100%',
+    height: '100%',
     justifyContent: 'center',
+    borderRadius: 20,
+    backgroundColor: '#fb923c',
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 10,
+          height: 10,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 10,
+      },
+      android: {
+        elevation: 7,
+      },
+    }),
   },
-  font: {
-    fontSize: 20,
+  buttonText: {
+    marginTop: 10,
+    fontSize: 25,
     fontFamily: Fonts.TRBold,
-    alignItems: 'center',
-    justifyContent: 'center',
+    color: 'white',
+    lineHeight: 33,
+    position: 'absolute',
+    top: 5,
   },
   courseName: {
-    fontSize: 22,
+    fontSize: 23,
     fontFamily: Fonts.TRBold,
     color: '#0077e6',
     // backgroundColor: 'lightyellow',

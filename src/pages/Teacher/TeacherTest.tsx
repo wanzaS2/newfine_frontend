@@ -12,7 +12,6 @@ import {
   ScrollView,
   Button,
 } from 'react-native';
-
 import axios from 'axios';
 import Config from 'react-native-config';
 import Title from '../../components/Title';
@@ -20,8 +19,16 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../store/reducer';
 import {Fonts} from '../../assets/Fonts';
 import Icon from 'react-native-vector-icons/AntDesign';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {TeacherParamList} from '../../../AppInner';
 
-function TeacherTest({route, navigation}) {
+type TeacherTestScreenProps = NativeStackScreenProps<
+  TeacherParamList,
+  'TeacherTest'
+>;
+
+function TeacherTest({route, navigation}: TeacherTestScreenProps) {
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const [TestList, setTestList] = useState();
   const [highest, sethighest] = useState();
   const [lowest, setlowest] = useState();
@@ -30,8 +37,7 @@ function TeacherTest({route, navigation}) {
   const [listLength, setAttendanceLength] = useState();
   const [Bkiller, setBkiller] = useState();
   const [killer, setKiller] = useState();
-  const [loading, setLoading] = useState(false);
-  const accessToken = useSelector((state: RootState) => state.user.accessToken);
+
   console.log('전달받은 것', route.params);
   const getAttendances = () => {
     console.log(route.params);
@@ -50,8 +56,7 @@ function TeacherTest({route, navigation}) {
         setmycorrect(response.data.notCorrectDtos);
         setAttendanceLength(response.data.length);
       })
-      .catch(error => console.error(error))
-      .finally(() => setLoading(false));
+      .catch(error => console.error(error));
   };
   const getTypeResult = () => {
     console.log(route.params);
@@ -103,8 +108,7 @@ function TeacherTest({route, navigation}) {
         console.log('killer', killer);
         setKiller(killer);
       })
-      .catch(error => console.error(error))
-      .finally(() => setLoading(false));
+      .catch(error => console.error(error));
   };
   const setmycorrect = top5 => {
     let correct = [];
@@ -129,109 +133,82 @@ function TeacherTest({route, navigation}) {
     console.log('AttendanceList : ', TestList);
     console.log('listLength : ', listLength);
   }, [listLength]);
+
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <StatusBar style="auto" />
-        <SafeAreaView style={styles.container}>
-          <View style={styles.myinfo}>
-            <View style={styles.scorebox}>
+    <SafeAreaView style={styles.container}>
+      <View style={{marginTop: '15%'}}>
+        <ScrollView>
+          <View style={styles.myInfo}>
+            <View style={styles.scoreBox}>
               <Text style={styles.rank}>평균 </Text>
               <Text style={styles.number}> {avg}점</Text>
             </View>
-            <View style={styles.scorebox}>
+            <View style={styles.scoreBox}>
               <Text style={styles.avg}>최고 {highest} 점</Text>
               <Text style={styles.avg}>/ 최저 {lowest} 점</Text>
             </View>
           </View>
-          <View style={styles.topfive}>
-            <View style={styles.toptitle}>
-              <Text style={styles.topfont}>오답률 Best 5</Text>
+          <View style={styles.contentsContainer}>
+            <View style={styles.topTitle}>
+              <Text style={styles.topFont}>오답률 Top 5</Text>
             </View>
             <FlatList
               data={top5}
               renderItem={({item, index}) => (
-                <View style={styles.box_list}>
-                  <View style={styles.box}>
-                    <Text style={styles.toprank}>{item.rank}위 </Text>
-                    <Text
-                      style={{
-                        marginLeft: 90,
-                        position: 'absolute',
-                        fontSize: 20,
-                        fontWeight: 'bold',
-                        fontFamily: Fonts.TRBold,
-                        color: '#87cefa',
-                      }}>
-                      {item.q_num}번
-                    </Text>
-                    <Text
-                      style={{
-                        marginTop: 4,
-                        marginLeft: 140,
-                        position: 'absolute',
-                        fontSize: 16,
-                      }}>
-                      ({item.rate}%)
-                    </Text>
-                    <Text style={styles.correct}>{item.correct}</Text>
-                    <Text
-                      style={{
-                        marginLeft: 250,
-                        position: 'absolute',
-                        fontSize: 16,
-                      }}>
-                      {item.ans}
-                    </Text>
-                  </View>
+                <View style={styles.contentList}>
+                  <Text style={styles.topRank}>{item.rank}위 </Text>
+                  <Text style={styles.probNum}>{item.q_num}번</Text>
+                  <Text
+                    style={{
+                      marginTop: 4,
+                      marginLeft: 110,
+                      position: 'absolute',
+                      fontSize: 16,
+                      color: 'black',
+                    }}>
+                    ({item.rate}%)
+                  </Text>
+                  <Text
+                    style={
+                      item.correct === 'O'
+                        ? StyleSheet.compose(styles.wrong, styles.correct)
+                        : styles.wrong
+                    }>
+                    {item.correct}
+                  </Text>
+                  <Text
+                    style={{
+                      // marginLeft: 230,
+                      right: 20,
+                      position: 'absolute',
+                      fontSize: 16,
+                      color: 'black',
+                    }}>
+                    {item.my_ans} {item.ans}
+                  </Text>
                 </View>
               )}
               keyExtractor={(item, index) => index.toString()}
             />
           </View>
-          <View style={styles.killerzone}>
-            <View style={styles.toptitle}>
-              <Text style={styles.topfont}>킬러문항 분석</Text>
+          <View style={styles.contentsContainer}>
+            <View style={styles.topTitle}>
+              <Text style={styles.topFont}>킬러문항 분석</Text>
             </View>
             <FlatList
               data={Bkiller}
               renderItem={({item, index}) => (
-                <View style={styles.killerbox_list}>
-                  <View style={styles.killerbox_title}>
-                    <Text style={styles.killernum}>{item.q_num}번 </Text>
-                    <Text
-                      style={{
-                        marginLeft: 70,
-                        position: 'absolute',
-                        fontSize: 18,
-                        fontFamily: Fonts.TRBold,
-                        color: '#87cefa',
-                      }}>
-                      정답:{item.right_ans}번 |
-                    </Text>
-                    <Text
-                      style={{
-                        marginLeft: 160,
-                        position: 'absolute',
-                        fontSize: 18,
-                        fontFamily: Fonts.TRBold,
-                        color: '#87cefa',
-                      }}>
-                      오답률 ({item.rate}%)
+                <View style={styles.killerBox_list}>
+                  <View style={styles.killerBox_title}>
+                    <Text style={styles.topRank}> 문제 {item.q_num}번 </Text>
+                    <Text style={styles.wrongRate}>
+                      정답: {item.right_ans}번 | 오답률 ({item.rate}%)
                     </Text>
                   </View>
-
-                  <View style={styles.killerbox_content}>
-                    <Text
-                      style={{
-                        padding: 3,
-                        position: 'absolute',
-                        fontSize: 16,
-                        color: '#ffa07a',
-                        fontWeight: 'bold',
-                        marginLeft: 10,
-                        fontFamily: Fonts.TRBold,
-                      }}>
+                  <View style={styles.killerBox_content}>
+                    <Text style={styles.killerExplain}>
+                      {item.iscorrect}
+                      {'\n'}
                       {item.mostchosen}
                     </Text>
                   </View>
@@ -240,48 +217,24 @@ function TeacherTest({route, navigation}) {
               keyExtractor={(item, index) => index.toString()}
             />
           </View>
-          <View style={styles.killerzone}>
-            <View style={styles.toptitle}>
-              <Text style={styles.topfont}>준킬러문항 분석</Text>
+          <View style={styles.contentsContainer}>
+            <View style={styles.topTitle}>
+              <Text style={styles.topFont}>준킬러문항 분석</Text>
             </View>
             <FlatList
               data={killer}
               renderItem={({item, index}) => (
-                <View style={styles.killerbox_list}>
-                  <View style={styles.killerbox_title}>
-                    <Text style={styles.killernum}>{item.q_num}번 </Text>
-                    <Text
-                      style={{
-                        marginLeft: 70,
-                        position: 'absolute',
-                        fontSize: 18,
-                        fontFamily: Fonts.TRBold,
-                        color: '#87cefa',
-                      }}>
-                      정답:{item.right_ans}번 |
-                    </Text>
-                    <Text
-                      style={{
-                        marginLeft: 160,
-                        position: 'absolute',
-                        fontSize: 18,
-                        fontFamily: Fonts.TRBold,
-                        color: '#87cefa',
-                      }}>
-                      오답률 ({item.rate}%)
+                <View style={styles.killerBox_list}>
+                  <View style={styles.killerBox_title}>
+                    <Text style={styles.topRank}> 문제 {item.q_num}번 </Text>
+                    <Text style={styles.wrongRate}>
+                      정답: {item.right_ans}번 | 오답률 ({item.rate}%)
                     </Text>
                   </View>
-                  <View style={styles.killerbox_content}>
-                    <Text
-                      style={{
-                        padding: 3,
-                        position: 'absolute',
-                        fontSize: 17,
-                        color: '#ffa07a',
-                        fontWeight: 'bold',
-                        marginLeft: 10,
-                        fontFamily: Fonts.TRRegular,
-                      }}>
+                  <View style={styles.killerBox_content}>
+                    <Text style={styles.killerExplain}>
+                      {item.iscorrect}
+                      {'\n'}
                       {item.mostchosen}
                     </Text>
                   </View>
@@ -294,101 +247,59 @@ function TeacherTest({route, navigation}) {
             style={{
               alignItems: 'center',
               justifyContent: 'center',
-              marginBottom: 30,
+              paddingBottom: 20,
+              // backgroundColor: 'pink',
             }}>
-            <TouchableOpacity
+            <Pressable
               style={styles.button}
               onPress={() => navigation.navigate('TestRank', route.params)}>
               <Text
                 style={{
-                  position: 'absolute',
                   fontSize: 20,
                   color: 'white',
-                  fontWeight: 'bold',
                   fontFamily: Fonts.TRBold,
                 }}>
                 학생 순위 보러가기
               </Text>
-            </TouchableOpacity>
+            </Pressable>
           </View>
-        </SafeAreaView>
+        </ScrollView>
       </View>
-    </ScrollView>
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
-  button: {
-    alignItems: 'center',
-    backgroundColor: '#87cefa',
-    padding: 10,
-    justifyContent: 'center',
-    borderRadius: 100,
-    width: 320,
-    height: 60,
-  },
   container: {
     flex: 1,
-    backgroundColor: '#f0f8ff',
-    fontFamily: Fonts.TRBold,
+    backgroundColor: 'white',
   },
-  myinfo: {
-    weight: 60,
-    height: 80,
+  myInfo: {
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 20,
     marginBottom: 20,
   },
-  box_list: {
-    borderRadius: 15,
-    borderColor: '#87cefa',
-    borderWidth: 2,
-    padding: 7,
-    justifyContent: 'flex-start',
-    marginTop: 5,
-    backgroundColor: '#fff8dc',
-  },
-  killerbox_list: {
-    borderRadius: 15,
-    borderColor: '#87cefa',
-    borderWidth: 2,
-    padding: 7,
-    justifyContent: 'flex-start',
+  contentsContainer: {
+    // justifyContent: 'flex-start',
     marginTop: 10,
-    backgroundColor: '#fff8dc',
-    height: 100,
+    marginBottom: '5%',
+    paddingVertical: '5%',
+    fontFamily: Fonts.TRBold,
+    backgroundColor: '#e0f2fe',
+    // backgroundColor: '#fafad2',
   },
-  box: {
-    flexDirection: 'row',
-    flex: 1,
-    alignItems: 'center',
-  },
-  killerbox_title: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  killerbox_content: {
+  scoreBox: {
+    marginTop: 7,
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 20,
+    justifyContent: 'space-between',
   },
   rank: {
     alignItems: 'center',
     justifyContent: 'flex-start',
     fontSize: 30,
     fontFamily: Fonts.TRBold,
-  },
-  scorebox: {
-    marginTop: 7,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  score: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    fontSize: 30,
-    fontFamily: Fonts.TRBold,
+    color: 'black',
   },
   avg: {
     marginTop: 8,
@@ -396,84 +307,109 @@ const styles = StyleSheet.create({
     // backgroundColor: 'yellow',
     borderRadius: 5,
     fontSize: 18,
-  },
-  total: {
-    marginTop: 8,
-    paddingLeft: 10,
-    // backgroundColor: 'yellow',
-    borderRadius: 5,
-    fontSize: 18,
+    color: 'black',
+    fontFamily: Fonts.TRRegular,
   },
   number: {
-    color: '#87cefa',
+    color: '#0077e6',
     fontSize: 30,
     fontFamily: Fonts.TRBold,
   },
-  topfive: {
-    height: 360,
-    justifyContent: 'flex-start',
-    marginTop: 10,
-    borderRadius: 10,
-    borderColor: 'lightskyblue',
-    borderWidth: 8,
-    marginBottom: 25,
-    fontFamily: Fonts.TRBold,
-    backgroundColor: '#f0f8ff',
-    // backgroundColor: '#fafad2',
+  contentList: {
+    borderRadius: 27,
+    borderColor: '#1a91ff',
+    borderWidth: 2,
+    justifyContent: 'center',
+    paddingVertical: '5%',
+    marginVertical: 2,
+    marginHorizontal: '4%',
+    backgroundColor: 'white',
   },
-  killerzone: {
-    height: 300,
-    justifyContent: 'flex-start',
-    marginTop: 10,
-    // borderRadius: 10,
-    // borderColor: 'lightskyblue',
-    // borderWidth: 8,
-    marginBottom: 15,
-    fontFamily: Fonts.TRBold,
-    backgroundColor: '#f0f8ff',
-    // backgroundColor: '#fafad2',
-  },
-  toptitle: {
-    marginTop: 8,
+  topTitle: {
+    // marginTop: 8,
+    // backgroundColor: 'yellow',
     justifyContent: 'center',
     alignItems: 'center',
-    fontFamily: Fonts.TRRegular,
-    marginBottom: 4,
+    marginBottom: '3%',
   },
-  topfont: {
+  topFont: {
     fontSize: 28,
     fontFamily: Fonts.TRBold,
-    fontWeight: 'bold',
-    color: '#87cefa',
+    color: '#0077e6',
   },
-  toprank: {
+  topRank: {
     marginLeft: 15,
-    fontSize: 22,
-    fontWeight: '900',
-    color: '#87cefa',
-  },
-  killernum: {
-    marginLeft: 15,
-    fontSize: 22,
-    fontWeight: '900',
-    color: '#ffa07a',
+    position: 'absolute',
     fontFamily: Fonts.TRBold,
+    fontSize: 22,
+    color: '#f97316',
+  },
+  probNum: {
+    marginLeft: 60,
+    position: 'absolute',
+    fontSize: 18,
+    fontFamily: Fonts.TRBold,
+    color: '#fb923c',
   },
   correct: {
-    marginLeft: 180,
+    marginLeft: 190,
     position: 'absolute',
     fontSize: 20,
-    color: '#ffa07a',
+    color: '#0077e6',
     fontWeight: 'bold',
   },
-  killercorrect: {
-    padding: 3,
+  wrong: {
+    marginLeft: 190,
     position: 'absolute',
-    fontSize: 16,
-    color: '#87cefa',
+    fontSize: 20,
+    color: '#ef4444',
     fontWeight: 'bold',
-    marginLeft: 10,
+  },
+  killerBox_list: {
+    borderRadius: 20,
+    borderColor: '#1a91ff',
+    borderWidth: 2,
+    // justifyContent: 'center',
+    paddingVertical: '5%',
+    marginVertical: 2,
+    marginHorizontal: '4%',
+    backgroundColor: 'white',
+  },
+  killerBox_title: {
+    // backgroundColor: 'blue',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  killerBox_content: {
+    // paddingTop: '5%',
+    paddingHorizontal: '4%',
+    justifyContent: 'center',
+    // flexDirection: 'row',
+    alignItems: 'center',
+    // backgroundColor: 'pink',
+  },
+  killerExplain: {
+    // padding: 3,
+    lineHeight: 30,
+    fontSize: 18,
+    color: 'black',
     fontFamily: Fonts.TRBold,
+  },
+  wrongRate: {
+    marginLeft: 120,
+    // position: 'absolute',
+    fontSize: 18,
+    fontFamily: Fonts.TRBold,
+    color: '#1a91ff',
+  },
+  button: {
+    width: '60%',
+    alignItems: 'center',
+    backgroundColor: '#0077e6',
+    padding: 10,
+    justifyContent: 'center',
+    borderRadius: 120,
+    paddingVertical: '5%',
   },
 });
 

@@ -15,7 +15,7 @@ import StudyWeb from './src/pages/Student/StudyWeb';
 import StudyTime from './src/pages/Student/StudyTime';
 import Attendance from './src/pages/Teacher/Attendance';
 import MyAttendance from './src/pages/Student/MyAttendance';
-import StudentAttendance from './src/pages/Student/StudentAttendance';
+import StudentAttendance from './src/pages/Teacher/StudentAttendance';
 import QRCodeScanner from './src/pages/Student/QRCodeScanner';
 import AttendanceWeb from './src/pages/Student/AttendanceWeb';
 import * as React from 'react';
@@ -102,9 +102,13 @@ export type TeacherParamList = {
   TeacherCourseInfo: undefined;
   Listeners: undefined;
   Attendance: undefined;
+  StudentAttendance: undefined;
   TeacherAllTest: undefined;
+  TeacherTest: undefined;
+  TestRank: undefined;
   BoardList: {courseId: number};
   TeacherRanking: undefined;
+  ApplyVideo: undefined;
 };
 
 const Stack = createNativeStackNavigator();
@@ -643,7 +647,14 @@ function AppInner() {
         <Stack.Screen
           name="StudentAttendance"
           component={StudentAttendance}
-          options={{title: '강의'}}
+          options={{
+            title: '출석 체크',
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="TeacherCourseInfo"
@@ -685,32 +696,63 @@ function AppInner() {
         <Stack.Screen
           name="Listeners"
           component={Listeners}
-          options={{title: '수강생'}}
+          options={{title: '', headerShown: true, headerTransparent: true}}
         />
         <Stack.Screen
           name="TeacherRanking"
           component={TeacherRanking}
-          options={{title: '학생 랭킹'}}
+          options={{
+            title: '학생 랭킹',
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="ApplyVideo"
           component={ApplyVideo}
-          options={{title: '동영상신청리스트', headerShown: true}}
+          options={{
+            title: '동영상 신청 리스트',
+            headerShown: true,
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="TeacherAllTest"
           component={TeacherAllTest}
-          options={{title: '테스트', headerShown: true}}
+          options={{title: '', headerShown: true, headerTransparent: true}}
         />
         <Stack.Screen
           name="TeacherTest"
           component={TeacherTest}
-          options={{title: '테스트', headerShown: true}}
+          options={{
+            title: '테스트 분석',
+            headerShown: true,
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="TestRank"
           component={TestRank}
-          options={{title: '순위', headerShown: true}}
+          options={{
+            title: '테스트 랭킹',
+            headerShown: true,
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
       </Stack.Navigator>
     );
