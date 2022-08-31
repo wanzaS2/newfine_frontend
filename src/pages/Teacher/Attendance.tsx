@@ -16,6 +16,7 @@ import {RootState} from '../../store/reducer';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {TeacherParamList} from '../../../AppInner';
 import {Fonts} from '../../assets/Fonts';
+import {Divider} from 'native-base';
 
 type AttendanceScreenProps = NativeStackScreenProps<
   TeacherParamList,
@@ -52,7 +53,16 @@ function Attendance({route, navigation}: AttendanceScreenProps) {
   return (
     <SafeAreaView style={styles.container}>
       {/*<ScrollView stickyHeaderIndices={[0]}>*/}
-      <View style={{marginTop: '12%'}}>
+      <View style={{marginTop: '15%'}}>
+        {/*<Divider*/}
+        {/*  my="2"*/}
+        {/*  _light={{*/}
+        {/*    bg: 'teal.500',*/}
+        {/*  }}*/}
+        {/*  _dark={{*/}
+        {/*    bg: 'muted.50',*/}
+        {/*  }}*/}
+        {/*/>*/}
         <ScrollView>
           <View>
             <View>
@@ -66,7 +76,8 @@ function Attendance({route, navigation}: AttendanceScreenProps) {
                     }>
                     <View style={styles.box_list}>
                       <Text style={styles.dateText}>
-                        {item.startTime.slice(0, 10)}
+                        {item.startTime[0]}-{item.startTime[1]}-
+                        {item.startTime[2]}
                       </Text>
                       <Text style={styles.timeText}>
                         {item.course.start_time}
@@ -142,7 +153,7 @@ const styles = StyleSheet.create({
     borderColor: '#b0e0e6',
     borderBottomWidth: 1,
     padding: 15,
-    backgroundColor: 'white',
+    backgroundColor: '#f0f9ff',
   },
   dateText: {
     marginLeft: '5%',

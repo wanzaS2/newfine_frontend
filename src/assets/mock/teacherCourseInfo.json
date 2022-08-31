@@ -1,6 +1,6 @@
 [
-  { "name": "수강생 정보", "onPress": "Listeners", "icon":  "sdf"},
-  { "name": "출석부", "onPress": "Attendance", "icon":  "sdf"},
-  { "name": "과제", "onPress": "TeacherAllTest", "icon":  "sdf"},
-  { "name": "테스트 결과", "onPress": "BoardList", "icon":  "sdf"}
+  { "name": "수강생\n  정보", "onPress": "Listeners", "icon":  "graduation-cap"},
+  { "name": "출석부", "onPress": "Attendance", "icon":  "calendar-check"},
+  { "name": "과제", "onPress": "BoardList", "icon":  "book"},
+  { "name": "테스트\n  결과", "onPress": "TeacherAllTest", "icon":  "laugh-beam"}
 ]

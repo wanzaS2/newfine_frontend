@@ -53,8 +53,6 @@ function TeacherCourse({navigation}: TeacherCourseScreenProps) {
 
   return (
     <View style={styles.container}>
-      {/*<StatusBar style="auto" />*/}
-      {/*<Title title="내 수업✔️" />*/}
       <SafeAreaView style={styles.container}>
         <View style={styles.listArea}>
           <FlatList
