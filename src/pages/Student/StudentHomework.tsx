@@ -8,16 +8,27 @@ import {
   TouchableOpacity,
   Alert,
   Image,
+  SafeAreaView,
 } from 'react-native';
 import Config from 'react-native-config';
-import RoundButton from '../components/RoundButton';
+import RoundButton from '../../components/RoundButton';
 import axios from 'axios';
 import {useSelector} from 'react-redux';
-import {RootState} from '../store/reducer';
+import {RootState} from '../../store/reducer';
 import {ExpandableListView} from 'react-native-expandable-listview';
 import Title from '../components/Title';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {LoggedInParamList} from '../../../AppInner';
 
-export default function StudentHomework({route, navigation}) {
+type StudentHomeworkScreenProps = NativeStackScreenProps<
+  LoggedInParamList,
+  'StudentHomework'
+>;
+
+export default function StudentHomework({
+  route,
+  navigation,
+}: StudentHomeworkScreenProps) {
   const [toggle, onToggle] = useState('');
   const [data, setData] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -52,13 +63,15 @@ export default function StudentHomework({route, navigation}) {
   }, []);
 
   return (
-    <View style={{flex: 1, padding: 24, backgroundColor: 'white'}}>
-      {isRefreshing ? (
-        <ActivityIndicator />
-      ) : (
-        <>
+    <SafeAreaView style={styles.container}>
+      <View>
+        {isRefreshing ? (
+          <ActivityIndicator />
+        ) : (
           <View>
-            <Text>확인 완료 된 과제</Text>
+            <View>
+              <Text>확인 완료 된 과제</Text>
+            </View>
             <FlatList
               data={data}
               onRefresh={fetchItems} // fetch로 데이터 호출
@@ -91,9 +104,9 @@ export default function StudentHomework({route, navigation}) {
               }}
             />
           </View>
-        </>
-      )}
-    </View>
+        )}
+      </View>
+    </SafeAreaView>
   );
 }
 

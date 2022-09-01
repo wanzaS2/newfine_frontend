@@ -1,30 +1,38 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   Alert,
   FlatList,
+  Platform,
   Pressable,
   SafeAreaView,
+  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
 
 import axios from 'axios';
 import Config from 'react-native-config';
 import Title from '../../components/Title';
-import StudentAttendance from './StudentAttendance';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store/reducer';
 import {Fonts} from '../../assets/Fonts';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {LoggedInParamList} from '../../../AppInner';
 
-function StudyTime({route, navigation}) {
-  const [StudyList, setStuyList] = useState();
+type StudyTimeScreenProps = NativeStackScreenProps<
+  LoggedInParamList,
+  'StudyTime'
+>;
+
+function StudyTime({navigation}: StudyTimeScreenProps) {
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
+  const [StudyList, setStudyList] = useState();
   const [listLength, setLength] = useState();
   let [total, setTotal] = useState();
-  const [loading, setLoading] = useState(false);
-  const accessToken = useSelector((state: RootState) => state.user.accessToken);
+  const scrollRef = useRef();
+
   const getMyStudy = () => {
     axios(`${Config.API_URL}/study/my`, {
       headers: {
@@ -80,10 +88,9 @@ function StudyTime({route, navigation}) {
             }
           }
         }
-        setStuyList(time);
+        setStudyList(time);
       })
-      .catch(error => console.error(error))
-      .finally(() => setLoading(false));
+      .catch(error => console.error(error));
   };
 
   const getMyTotal = () => {
@@ -108,8 +115,7 @@ function StudyTime({route, navigation}) {
         }
         setTotal(time);
       })
-      .catch(error => console.error(error))
-      .finally(() => setLoading(false));
+      .catch(error => console.error(error));
   };
 
   useEffect(() => {
@@ -118,52 +124,72 @@ function StudyTime({route, navigation}) {
     console.log('AttendanceList : ', StudyList);
     console.log('total', total);
   }, [listLength]);
+
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      <Title title="내 자습현황️" />
-      <SafeAreaView style={styles.container}>
-        <View style={styles.time}>
-          <Text style={styles.timefont1}>현재까지 자습시간은</Text>
-          <Text style={styles.timefont2}>총 {total} 입니다!</Text>
+    <SafeAreaView style={styles.container}>
+      <ScrollView stickyHeaderIndices={[0]}>
+        {/*<StatusBar style="auto" />*/}
+        {/*<Title title="내 자습현황️" />*/}
+        <View style={{backgroundColor: 'white'}}>
+          <View style={styles.time}>
+            <Text style={styles.timeFont1}>현재까지 자습시간은</Text>
+            <Text style={styles.timeFont2}>
+              <Text>총</Text>
+              <Text style={{color: '#0077e6'}}> {total} </Text>
+              <Text>입니다!</Text>
+            </Text>
+          </View>
         </View>
         <View>
           <FlatList
+            ref={scrollRef}
             data={StudyList}
             renderItem={({item, index}) => (
-              <TouchableOpacity
+              <Pressable
                 onPress={() =>
                   Alert.alert('자습시간', `${item.startTime} ~ ${item.endTime}`)
                 }>
                 <View style={styles.box_list}>
-                  <View style={styles.box}>
-                    <Text
-                      style={{
-                        marginLeft: 30,
-                        fontSize: 20,
-                        fontWeight: 'bold',
-                      }}>
-                      {item.when.slice(0, 10)}
-                    </Text>
-                    <Text
-                      style={{
-                        position: 'absolute',
-                        right: 30,
-                        fontSize: 20,
-                        fontWeight: 'bold',
-                        color: '#6a5acd',
-                      }}>
-                      {item.time}
-                    </Text>
-                  </View>
+                  <Text style={styles.dateText}>{item.when.slice(0, 10)}</Text>
+                  <Text style={styles.timeText}>{item.time}</Text>
                 </View>
-              </TouchableOpacity>
+              </Pressable>
             )}
             keyExtractor={item => String(item.id)}
           />
         </View>
-      </SafeAreaView>
-    </View>
+        {/*<View style={styles.box_list}>*/}
+        {/*  <Text>dmdkr</Text>*/}
+        {/*</View>*/}
+        {/*<View style={styles.box_list}>*/}
+        {/*  <Text>dmdkr</Text>*/}
+        {/*</View>*/}
+        {/*<View style={styles.box_list}>*/}
+        {/*  <Text>dmdkr</Text>*/}
+        {/*</View>*/}
+        {/*<View style={styles.box_list}>*/}
+        {/*  <Text>dmdkr</Text>*/}
+        {/*</View>*/}
+        {/*<View style={styles.box_list}>*/}
+        {/*  <Text>dmdkr</Text>*/}
+        {/*</View>*/}
+        {/*<View style={styles.box_list}>*/}
+        {/*  <Text>dmdkr</Text>*/}
+        {/*</View>*/}
+        {/*<View style={styles.box_list}>*/}
+        {/*  <Text>dmdkr</Text>*/}
+        {/*</View>*/}
+        {/*<View style={styles.box_list}>*/}
+        {/*  <Text>dmdkr</Text>*/}
+        {/*</View>*/}
+        {/*<View style={styles.box_list}>*/}
+        {/*  <Text>dmdkr</Text>*/}
+        {/*</View>*/}
+        {/*<View style={styles.box_list}>*/}
+        {/*  <Text>dmdkr</Text>*/}
+        {/*</View>*/}
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -173,41 +199,60 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   time: {
-    weight: 60,
-    height: 80,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 5,
-    borderRadius: 8,
+    marginTop: '15%',
+    paddingVertical: 20,
+    borderRadius: 16,
     borderColor: '#b0e0e6',
     borderWidth: 4,
     marginBottom: 20,
-    // backgroundColor: '#fafad2',
+    marginHorizontal: '3%',
+    backgroundColor: '#e0f2fe',
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 10,
+          height: 10,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 10,
+      },
+      android: {
+        elevation: 5,
+      },
+    }),
   },
-  box_list: {
-    borderRadius: 4,
-    borderColor: '#b0e0e6',
-    borderWidth: 1,
-    padding: 10,
-    backgroundColor: '#e0ffff',
-  },
-  box: {
-    flexDirection: 'row',
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
-  timefont1: {
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    fontSize: 20,
+  timeFont1: {
+    fontSize: 18,
     fontFamily: Fonts.TRRegular,
+    color: 'black',
   },
-  timefont2: {
-    alignItems: 'center',
-    justifyContent: 'flex-start',
+  timeFont2: {
     fontSize: 25,
     fontFamily: Fonts.TRBold,
+    color: 'black',
+  },
+  box_list: {
+    justifyContent: 'center',
+    borderColor: '#b0e0e6',
+    borderBottomWidth: 1,
+    padding: 15,
+    backgroundColor: 'white',
+  },
+  dateText: {
+    marginLeft: '5%',
+    fontSize: 18,
+    fontFamily: Fonts.TRBold,
+    color: 'black',
+  },
+  timeText: {
+    position: 'absolute',
+    right: '7%',
+    fontSize: 17,
+    fontFamily: Fonts.TRBold,
+    color: '#6a5acd',
   },
 });
 

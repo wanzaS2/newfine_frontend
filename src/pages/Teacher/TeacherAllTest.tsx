@@ -1,30 +1,32 @@
 import React, {useEffect, useState} from 'react';
 import {
   FlatList,
+  Platform,
   Pressable,
   SafeAreaView,
-  StatusBar,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
-
-import {Fonts} from '../assets/Fonts';
-import LinearGradient from 'react-native-linear-gradient';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {LoggedInParamList} from '../../AppInner';
+import {Fonts} from '../../assets/Fonts';
 import axios from 'axios';
 import Config from 'react-native-config';
 import {useSelector} from 'react-redux';
-import {RootState} from '../store/reducer';
-import Title from '../../components/Title';
+import {RootState} from '../../store/reducer';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {TeacherParamList} from '../../../AppInner';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
-function TeacherAllTest({route, navigation}) {
+type TeacherAllTestScreenProps = NativeStackScreenProps<
+  TeacherParamList,
+  'TeacherAllTest'
+>;
+
+function TeacherAllTest({route, navigation}: TeacherAllTestScreenProps) {
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const [AttendanceList, setAttendanceList] = useState();
   const [listLength, setAttendanceLength] = useState();
-  const [loading, setLoading] = useState(false);
-  const accessToken = useSelector((state: RootState) => state.user.accessToken);
+
   const getTests = () => {
     console.log(route.params);
     axios(`${Config.API_URL}/test/course/teacher`, {
@@ -37,8 +39,7 @@ function TeacherAllTest({route, navigation}) {
         setAttendanceList(response.data);
         setAttendanceLength(response.data.length);
       })
-      .catch(error => console.error(error))
-      .finally(() => setLoading(false));
+      .catch(error => console.error(error));
   };
 
   useEffect(() => {
@@ -47,65 +48,101 @@ function TeacherAllTest({route, navigation}) {
     console.log('listLength : ', listLength);
   }, [listLength]);
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      <Title title={route.params.cname} />
-      <SafeAreaView style={styles.container}>
-        <View>
-          <FlatList
-            data={AttendanceList}
-            renderItem={({item, index}) => (
-              <TouchableOpacity
-                onPress={() => navigation.navigate('TeacherTest', item.id)}>
-                <View
-                  style={{
-                    borderRadius: 10,
-                    borderColor: '#b0e0e6',
-                    borderWidth: 1,
-                    padding: 10,
-                    marginBottom: 10,
-                    backgroundColor: '#e0ffff',
-                  }}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      flex: 1,
-                      alignItems: 'center',
-                      justifyContent: 'flex-start',
-                    }}>
-                    <Text
-                      style={{
-                        marginLeft: 30,
-                        fontSize: 20,
-                        fontWeight: 'bold',
-                      }}>
-                      {item.testName}
-                    </Text>
-                    <Text
-                      style={{
-                        position: 'absolute',
-                        right: 30,
-                        fontSize: 20,
-                        fontWeight: 'bold',
-                      }}>
-                      {item.testDate}
-                    </Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            )}
-            keyExtractor={item => String(item.id)}
-          />
-        </View>
-      </SafeAreaView>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.courseArea}>
+        <Text style={styles.courseName}> #{route.params.cname}</Text>
+        <Text style={{fontSize: 23, fontFamily: Fonts.TRBold, color: 'black'}}>
+          {'  '}
+          테스트
+        </Text>
+      </View>
+      <View style={styles.listArea}>
+        <FlatList
+          data={AttendanceList}
+          renderItem={({item, index}) => (
+            <Pressable
+              onPress={() => navigation.navigate('TeacherTest', item.id)}>
+              <View style={styles.flatList}>
+                <Text style={styles.classText}>{item.testName}</Text>
+                <Text style={styles.dateText}>{item.testDate.slice(5)}</Text>
+              </View>
+              <FontAwesome5Icon
+                name={'caret-right'}
+                size={30}
+                color={'black'}
+                style={{
+                  position: 'absolute',
+                  bottom: 22,
+                  right: 25,
+                }}
+              />
+            </Pressable>
+          )}
+          keyExtractor={item => String(item.id)}
+        />
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    // backgroundColor: 'pink',
+  },
+  courseArea: {
+    marginTop: '3.3%',
+    marginLeft: '12%',
+    paddingBottom: '3%',
+    flexDirection: 'row',
+  },
+  courseName: {
+    fontSize: 23,
+    fontFamily: Fonts.TRBold,
+    color: '#0077e6',
+  },
+  listArea: {
+    // backgroundColor: 'yellow',
+    alignItem: 'center',
+    justifyContent: 'center',
+  },
+  flatList: {
+    // width: screenWidth,
+    paddingVertical: '4%',
+    // alignItems: 'center',
+    // marginTop: 5,
+    justifyContent: 'center',
+    marginBottom: 10,
+    borderRadius: 8,
+    backgroundColor: '#bae6fd',
+    marginHorizontal: 10,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 10,
+          height: 10,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 10,
+      },
+      android: {
+        elevation: 3,
+      },
+    }),
+  },
+  classText: {
+    marginLeft: '5%',
+    fontSize: 20,
+    fontFamily: Fonts.TRBold,
+    color: 'black',
+  },
+  dateText: {
+    position: 'absolute',
+    right: 15,
+    fontSize: 17,
+    fontFamily: Fonts.TRBold,
+    color: 'gray',
   },
 });
 

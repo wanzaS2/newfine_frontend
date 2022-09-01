@@ -1,88 +1,132 @@
-import React, {useEffect, useState} from 'react';
-import Title from '../../components/Title';
-import Attendance from '../Attendance';
+import React, {useEffect} from 'react';
 import {
   FlatList,
   SafeAreaView,
   StyleSheet,
   View,
   Text,
-  StatusBar,
-  TouchableOpacity,
+  Pressable,
+  Dimensions,
+  Platform,
 } from 'react-native';
-// import {ranking} from '../slices/ranking';
-// import EachRanking from '../components/EachRanking';
-import Config from 'react-native-config';
-import axios from 'axios';
-import Listeners from './Listeners';
+import teacherCourseInfo from '../../assets/mock/teacherCourseInfo.json';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {TeacherParamList} from '../../../AppInner';
+import {Fonts} from '../../assets/Fonts';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
-function TeacherCourseInfo({route, navigation}) {
-  const [loading, setLoading] = useState(false);
+type TeacherCourseInfoScreenProps = NativeStackScreenProps<
+  TeacherParamList,
+  'TeacherCourseInfo'
+>;
 
+const screenHeight = Dimensions.get('window').height;
+
+function TeacherCourseInfo({route, navigation}: TeacherCourseInfoScreenProps) {
   useEffect(() => {
     console.log(route.params);
   }, []);
+
   return (
-    <View style={styles.container}>
-      <Title title={route.params.cname} />
-      <TouchableOpacity
-        onPress={() => navigation.navigate('Listeners', route.params)}>
-        <View style={styles.box}>
-          <Text style={styles.font}>학생정보</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => navigation.navigate('Attendance', route.params)}>
-        <View style={styles.box}>
-          <Text style={styles.font}>출석현황</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => navigation.navigate('TeacherAllTest', route.params)}>
-        <View style={styles.box}>
-          <Text style={styles.font}>테스트 결과</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() =>
-          navigation.navigate('BoardList', {courseId: route.params.id})
-        }>
-        <View style={styles.box}>
-          <Text style={styles.font}>과제</Text>
-        </View>
-      </TouchableOpacity>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.courseArea}>
+        <Text style={styles.courseName}> #{route.params.cname}</Text>
+      </View>
+      <View style={{flex: 1}}>
+        <FlatList
+          contentContainerStyle={{
+            // marginTop: 10,
+            flex: 1,
+            // backgroundColor: 'yellow',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          data={teacherCourseInfo}
+          renderItem={({item, index}) => (
+            <View style={styles.buttonArea}>
+              <Pressable
+                style={styles.button}
+                onPress={() => navigation.navigate(item.onPress, route.params)}>
+                <View style={{alignItems: 'center'}}>
+                  <FontAwesome5Icon
+                    name={item.icon}
+                    size={50}
+                    color={'white'}
+                    style={{position: 'absolute', bottom: 5}}
+                  />
+                  <Text style={styles.buttonText}>{item.name}</Text>
+                </View>
+              </Pressable>
+            </View>
+          )}
+          numColumns={2}
+        />
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    // backgroundColor: 'pink',
   },
-  header: {
-    height: 60,
-    backgroundColor: 'green',
+  courseArea: {
+    marginTop: '3%',
+    marginLeft: '40%',
+    paddingBottom: '5%',
+    // flex: 1,
+    // backgroundColor: 'blue',
   },
-  box: {
-    borderRadius: 10,
-    borderColor: '#b0e0e6',
-    borderWidth: 1,
-    padding: 10,
+  buttonArea: {
+    marginHorizontal: 10,
+    marginVertical: 10,
+    // marginVertical: 30,
+    width: '45%',
+    height: 270,
+    // backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  button: {
+    alignItems: 'center',
+    marginHorizontal: 10,
     marginBottom: 10,
-    backgroundColor: '#e0ffff',
     width: '100%',
-    height: 50,
-    alignItems: 'center',
+    height: '100%',
     justifyContent: 'center',
+    borderRadius: 20,
+    backgroundColor: '#fb923c',
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 10,
+          height: 10,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 10,
+      },
+      android: {
+        elevation: 7,
+      },
+    }),
   },
-
-  font: {
-    flex: 1,
-    fontSize: 20,
-    fontWeight: 'bold',
-    alignItems: 'center',
-    justifyContent: 'center',
+  buttonText: {
+    marginTop: 10,
+    fontSize: 25,
+    fontFamily: Fonts.TRBold,
+    color: 'white',
+    lineHeight: 33,
+    position: 'absolute',
+    top: 5,
+  },
+  courseName: {
+    fontSize: 23,
+    fontFamily: Fonts.TRBold,
+    color: '#0077e6',
+    // backgroundColor: 'lightyellow',
+    // marginRight: 250,
   },
 });
 

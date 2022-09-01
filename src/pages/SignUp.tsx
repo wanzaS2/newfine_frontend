@@ -79,7 +79,7 @@ function SignUp({navigation}: SignUpScreenProps) {
         deviceToken,
       });
       console.log('SignUp Response: ', response.data);
-      Alert.alert('알림', '회원가입 되었습니다.');
+      Alert.alert('알림', '회원가입 완료!!');
       navigation.navigate('SignIn');
     } catch (error) {
       const errorResponse = (error as AxiosError).response;
@@ -141,9 +141,8 @@ function SignUp({navigation}: SignUpScreenProps) {
             ref={passwordRef}
             onSubmitEditing={() => chkPasswordRef.current?.focus()}
           />
-          <View style={{margin: 5}} />
           <MyTextInput
-            placeholder="비밀번호 확인"
+            placeholder="비밀번호를 한 번 더 입력해주세요."
             placeholderTextColor="#666"
             onChangeText={onChangeChkPassword}
             value={chkPassword}
@@ -163,7 +162,7 @@ function SignUp({navigation}: SignUpScreenProps) {
           text="회원가입"
           onPress={onSubmit}
           canGoNext={canGoNext}
-          disable={!canGoNext || loading}
+          disabled={!canGoNext || loading}
         />
       </DismissKeyboardView>
     </SafeAreaView>
@@ -173,13 +172,19 @@ function SignUp({navigation}: SignUpScreenProps) {
 const styles = StyleSheet.create({
   container: {flex: 1},
   inputWrapper: {
-    paddingTop: 20,
-    padding: 10,
+    marginTop: 15,
+    // backgroundColor: 'pink',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
   },
   label: {
+    // backgroundColor: 'yellow',
+    fontFamily: Fonts.TRBold,
+    fontSize: 19,
+    color: 'black',
     // fontFamily: Fonts.TRBold,
-    fontFamily: 'TmoneyRoundWind-ExtraBold',
-    fontSize: 18,
+    // fontFamily: 'TmoneyRoundWind-ExtraBold',
+    // fontSize: 18,
     marginBottom: 15,
     marginHorizontal: 10,
   },
