@@ -35,25 +35,64 @@ export default function BoardSave({route, navigation}) {
   const [date2, onChangeDate2] = useState(new Date()); // 선택 날짜
   const [mode2, setMode2] = useState('date'); // 모달 유형
   const [visible2, setVisible2] = useState(false); // 모달 노출 여부
+  const [datecheck, setDateCheck] = useState(false);
+  const [timecheck, setTimeCheck] = useState(false);
+  const [timecheck2, setTimeCheck2] = useState(false);
 
+  function getYyyyMmDdMmSsToString(date) {
+    let dd = date.getDate();
+    let mm = date.getMonth() + 1; //January is 0!
+
+    let yyyy = date.getFullYear();
+    if (dd < 10) {
+      dd = '0' + dd;
+    }
+    if (mm < 10) {
+      mm = '0' + mm;
+    }
+
+    yyyy = yyyy.toString();
+    mm = mm.toString();
+    dd = dd.toString();
+
+    let m = date.getHours();
+    let s = date.getMinutes();
+
+    if (m < 10) {
+      m = '0' + m;
+    }
+    if (s < 10) {
+      s = '0' + s;
+    }
+    m = m.toString();
+    s = s.toString();
+
+    const s1 = yyyy + '-' + mm + '-' + dd + ' ' + m + ':' + s + ':00';
+    return s1;
+  }
   const onPressDate1 = () => {
     // 날짜 클릭 시
     setMode1('date'); // 모달 유형을 date로 변경
     setVisible1(true); // 모달 open
+    setTimeCheck(true);
   };
 
   const onPressTime1 = () => {
-    // 시간 클릭 시
-    setMode1('time'); // 모달 유형을 time으로 변경
-    setVisible1(true); // 모달 open
+    if (timecheck) {
+      setMode1('time'); // 모달 유형을 time으로 변경
+      setVisible1(true);
+    } else {
+      Alert.alert('날짜부터 설정해주세요.');
+    }
   };
 
   const onConfirm1 = selectedDate => {
-    // 날짜 또는 시간 선택 시
     setVisible1(false); // 모달 close
     onChangeDate1(selectedDate); // 선택한 날짜 변경
+    setDateCheck(true);
 
     console.log(date1);
+    // 날짜 또는 시간 선택 시
   };
 
   const onCancel1 = () => {
@@ -62,15 +101,27 @@ export default function BoardSave({route, navigation}) {
   };
 
   const onPressDate2 = () => {
-    // 날짜 클릭 시
-    setMode2('date'); // 모달 유형을 date로 변경
-    setVisible2(true); // 모달 open
+    if (datecheck) {
+      setMode2('date'); // 모달 유형을 date로 변경
+      setVisible2(true); // 모달 open
+      setTimeCheck2(true);
+    } else {
+      Alert.alert('1차 마감기한부터 설정해주세요.');
+    }
   };
 
   const onPressTime2 = () => {
+    if (!datecheck) {
+      Alert.alert('1차 마감기한부터 설정해주세요.');
+    } else if (!timecheck2) {
+      Alert.alert('날짜부터 설정해주세요.');
+    } else {
+      setMode2('time'); // 모달 유형을 date로 변경
+      setVisible2(true); // 모달 open
+    }
     // 시간 클릭 시
-    setMode2('time'); // 모달 유형을 time으로 변경
-    setVisible2(true); // 모달 open
+    // setMode2('time'); // 모달 유형을 time으로 변경
+    // setVisible2(true); // 모달 open
   };
 
   const onConfirm2 = selectedDate => {
@@ -93,19 +144,19 @@ export default function BoardSave({route, navigation}) {
       return;
     }
     setIsLoading(true);
-    let fdeadline = date1.toString();
+    let fdeadline = getYyyyMmDdMmSsToString(date1);
     console.log(fdeadline);
-    let sdeadline = date2.toString();
+    let sdeadline = getYyyyMmDdMmSsToString(date2);
     console.log(sdeadline);
     try {
       const response = await axios.post(
         `${Config.API_URL}/api/homework/post/${courseId}`,
         {
-          id: id,
-          title: title,
-          content: content,
-          fdeadline: fdeadline,
-          sdeadline: sdeadline,
+          id,
+          title,
+          content,
+          fdeadline,
+          sdeadline,
         },
         {
           headers: {
@@ -158,13 +209,6 @@ export default function BoardSave({route, navigation}) {
                 editable={false}
               />
             </TouchableOpacity>
-            <DateTimePickerModal
-              isVisible={visible1}
-              mode={mode1}
-              onConfirm={onConfirm1}
-              onCancel={onCancel1}
-              date={date1}
-            />
             <TouchableOpacity onPress={onPressTime1}>
               <TextInput
                 editable={false}
@@ -180,6 +224,8 @@ export default function BoardSave({route, navigation}) {
             onConfirm={onConfirm1}
             onCancel={onCancel1}
             date={date1}
+            // filterDate={isPossibleDay}
+            minimumDate={new Date()}
           />
           <View style={styles.datetime}>
             <Text style={styles.text2}>2차 마감기한:</Text>
@@ -204,6 +250,7 @@ export default function BoardSave({route, navigation}) {
             onConfirm={onConfirm2}
             onCancel={onCancel2}
             date={date2}
+            minimumDate={date1}
           />
           <MyButton
             text="Save"

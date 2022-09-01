@@ -59,7 +59,7 @@ import StudentAllTestResult from './src/pages/Student/StudentAllTestResult';
 import TeacherAllTest from './src/pages/Teacher/TeacherAllTest';
 import TeacherTest from './src/pages/Teacher/TeacherTest';
 import TestRank from './src/pages/Teacher/TestRank';
-import messaging from '@react-native-firebase/messaging';
+// import messaging from '@react-native-firebase/messaging';  // 푸시알림 추가할 것!!
 // import isMockFunction = jest.isMockFunction;
 
 export type LoggedInParamList = {
@@ -92,7 +92,7 @@ function AppInner() {
   const authority = useSelector((state: RootState) => state.user.authority);
   console.log('으아가ㅏ아갇아가가ㅏ아ㅏ가가ㅏ아가: ', authority);
   const access = useSelector((state: RootState) => state.user.accessToken);
-  const deviceToken = useSelector((state: RootState) => state.user.deviceToken);
+  // const deviceToken = useSelector((state: RootState) => state.user.deviceToken); //푸시알림 추가할 것 !!
 
   // const changeA = () => {
   //   setAuthority1(a => !a);
@@ -121,13 +121,13 @@ function AppInner() {
           '\naccessToken: ',
           accessToken,
         );
-        if (!messaging().isDeviceRegisteredForRemoteMessages) {
-          await messaging().registerDeviceForRemoteMessages();
-        }
-        const token = await messaging().getToken();
-        console.log('phone token', token);
-        dispatch(userSlice.actions.setDeviceToken({deviceToken: token}));
-
+        // if (!messaging().isDeviceRegisteredForRemoteMessages) {
+        //   await messaging().registerDeviceForRemoteMessages();
+        // }
+        // const token = await messaging().getToken();
+        // console.log('phone token', token);
+        // dispatch(userSlice.actions.setDeviceToken({deviceToken: token}));
+        //if문 부터 푸시알림 추가할 것 !!!!
         if (!(refreshToken && accessToken)) {
           SplashScreen.hide();
           return;

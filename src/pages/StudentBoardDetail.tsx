@@ -22,6 +22,28 @@ export default function StudentBoardDetail({route, navigation}) {
   const courseId = route.params.courseId;
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
 
+  // setInterval(function () {
+  //   let dday = new Date('2022-')
+  //   let today = new Date().getTime();
+  //   let gap = dday - today;
+  //   let day = Math.ceil(gap / (1000 * 60 * 60 * 24));
+  //   let hour = Math.ceil((gap % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  //   let min = Math.ceil((gap % (1000 * 60 * 60)) / (1000 * 60));
+  //   let sec = Math.ceil((gap % (1000 * 60)) / 1000);
+  //
+  //   console.log(
+  //     'D-DAY까지 ',
+  //     day,
+  //     '일 ',
+  //     hour,
+  //     '시간 ',
+  //     min,
+  //     '분 ',
+  //     sec,
+  //     '초 남았습니다.',
+  //   );
+  // }, 1000);
+
   useEffect(() => {
     console.log('받은 param', id);
     axios

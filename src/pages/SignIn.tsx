@@ -22,6 +22,7 @@ import MyTextInput from '../components/MyTextInput';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store/reducer';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PushNotification from 'react-native-push-notification';
 import messaging from "@react-native-firebase/messaging";
@@ -349,7 +350,8 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   label: {
-    fontFamily: Fonts.TRBold,
+    // fontFamily: Fonts.TRBold,
+    fontFamily: 'TmoneyRoundWind-ExtraBold',
     fontSize: 17,
     marginBottom: 15,
   },

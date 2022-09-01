@@ -177,7 +177,8 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   label: {
-    fontFamily: Fonts.TRBold,
+    // fontFamily: Fonts.TRBold,
+    fontFamily: 'TmoneyRoundWind-ExtraBold',
     fontSize: 18,
     marginBottom: 15,
     marginHorizontal: 10,

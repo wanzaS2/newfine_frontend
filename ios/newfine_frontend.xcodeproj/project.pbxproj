@@ -34,19 +34,18 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = newfine_frontend/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = newfine_frontend/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = newfine_frontend/main.m; sourceTree = "<group>"; };
-		1D5E25DC25F34BB38D5C896F /* TmoneyRoundWindRegular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = TmoneyRoundWindRegular.ttf; path = ../src/assets/fonts/TmoneyRoundWindRegular.ttf; sourceTree = "<group>"; };
 		3454C1D8FB4ACCD1A6283B27 /* Pods-newfine_frontend-newfine_frontendTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-newfine_frontend-newfine_frontendTests.release.xcconfig"; path = "Target Support Files/Pods-newfine_frontend-newfine_frontendTests/Pods-newfine_frontend-newfine_frontendTests.release.xcconfig"; sourceTree = "<group>"; };
 		51A1F6B98C24D11D30C5F4F9 /* Pods-newfine_frontend.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-newfine_frontend.debug.xcconfig"; path = "Target Support Files/Pods-newfine_frontend/Pods-newfine_frontend.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = newfine_frontend/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		95ABC479300245AFB53775BE /* TmoneyRoundWindRegular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = TmoneyRoundWindRegular.otf; path = ../src/assets/fonts/TmoneyRoundWindRegular.otf; sourceTree = "<group>"; };
-		C8624ABFAA9E45B3BA77774B /* TmoneyRoundWindExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = TmoneyRoundWindExtraBold.ttf; path = ../src/assets/fonts/TmoneyRoundWindExtraBold.ttf; sourceTree = "<group>"; };
+		AE3D5CA728C01FC700F0F194 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
+		AE75300F28C02CA4001DD935 /* TmoneyRoundWind-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "TmoneyRoundWind-ExtraBold.ttf"; path = "Fonts/TmoneyRoundWind-ExtraBold.ttf"; sourceTree = "<group>"; };
+		AE75301028C02CB1001DD935 /* TmoneyRoundWind-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "TmoneyRoundWind-Regular.ttf"; path = "Fonts/TmoneyRoundWind-Regular.ttf"; sourceTree = "<group>"; };
 		D3DB0F433BFA9D8ED0E10A09 /* libPods-newfine_frontend-newfine_frontendTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-newfine_frontend-newfine_frontendTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8FFE8D685B88217BC7928DF /* Pods-newfine_frontend.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-newfine_frontend.release.xcconfig"; path = "Target Support Files/Pods-newfine_frontend/Pods-newfine_frontend.release.xcconfig"; sourceTree = "<group>"; };
 		EC9A3735283052AC0004F904 /* SplashScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED57793048AC34120F2CA804 /* Pods-newfine_frontend-newfine_frontendTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-newfine_frontend-newfine_frontendTests.debug.xcconfig"; path = "Target Support Files/Pods-newfine_frontend-newfine_frontendTests/Pods-newfine_frontend-newfine_frontendTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F69CE0724F25534D3B6375FB /* libPods-newfine_frontend.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-newfine_frontend.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F6D43ADC1BF9471AA77299DE /* TmoneyRoundWindExtraBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = TmoneyRoundWindExtraBold.otf; path = ../src/assets/fonts/TmoneyRoundWindExtraBold.otf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +118,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				AE3D5CA728C01FC700F0F194 /* Fonts */,
 				EC9A3735283052AC0004F904 /* SplashScreen.storyboard */,
 				13B07FAE1A68108700A75B9A /* newfine_frontend */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -156,10 +156,8 @@
 		BD7F1C1A5DE94C0ABD5BCB2A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				F6D43ADC1BF9471AA77299DE /* TmoneyRoundWindExtraBold.otf */,
-				95ABC479300245AFB53775BE /* TmoneyRoundWindRegular.otf */,
-				C8624ABFAA9E45B3BA77774B /* TmoneyRoundWindExtraBold.ttf */,
-				1D5E25DC25F34BB38D5C896F /* TmoneyRoundWindRegular.ttf */,
+				AE75301028C02CB1001DD935 /* TmoneyRoundWind-Regular.ttf */,
+				AE75300F28C02CA4001DD935 /* TmoneyRoundWind-ExtraBold.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -216,7 +214,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1210;
+				LastUpgradeCheck = 1340;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
@@ -450,13 +448,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = ED57793048AC34120F2CA804 /* Pods-newfine_frontend-newfine_frontendTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = newfine_frontendTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -477,10 +476,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3454C1D8FB4ACCD1A6283B27 /* Pods-newfine_frontend-newfine_frontendTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = newfine_frontendTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -596,7 +596,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -660,7 +660,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",

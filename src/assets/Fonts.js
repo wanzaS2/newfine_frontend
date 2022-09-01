@@ -1,4 +1,4 @@
 export const Fonts = {
-  TRBold: 'TmoneyRoundWindExtraBold',
-  TRRegular: 'TmoneyRoundWindRegular',
+  TRBold: 'TmoneyRoundWind-ExtraBold',
+  TRRegular: 'TmoneyRoundWind-Regular',
 };

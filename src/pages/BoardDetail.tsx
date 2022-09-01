@@ -24,7 +24,7 @@ export default function BoardDetail({route, navigation}) {
   const [content, setContent] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [date1, setDate1] = useState(''); // 선택 날짜
-  const [date2, setDate2] = useState(new Date()); // 선택 날짜
+  const [date2, setDate2] = useState(''); // 선택 날짜
   const id = route.params.id;
   const courseId = route.params.courseId;
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
@@ -56,6 +56,11 @@ export default function BoardDetail({route, navigation}) {
     try {
       const response = await axios.delete(
         `${Config.API_URL}/api/homework/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
       );
       console.log(response.data);
       console.log(id);
@@ -111,20 +116,10 @@ export default function BoardDetail({route, navigation}) {
           <View style={styles.datetime}>
             <Text style={styles.text2}>1차 마감기한:</Text>
             <TextInput placeholder={date1} editable={false} />
-            <TextInput editable={false} placeholder={date1} />
           </View>
           <View style={styles.datetime}>
             <Text style={styles.text2}>2차 마감기한:</Text>
-            <TextInput
-              placeholder={format(new Date(date2), 'PPP', {locale: ko})}
-              editable={false}
-            />
-            <TextInput
-              editable={false}
-              placeholder={format(new Date(date2), 'p', {
-                locale: ko,
-              })}
-            />
+            <TextInput placeholder={date2} editable={false} />
           </View>
           <View style={styles.button}>
             <MyButton
