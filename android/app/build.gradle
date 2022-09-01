@@ -6,7 +6,7 @@ apply plugin: 'com.google.gms.google-services'
 import com.android.build.OutputFile
 import org.apache.tools.ant.taskdefs.condition.Os
 apply plugin: "kotlin-android"
-apply plugin: "kotlin-android-extensions"
+apply plugin: "kotlin-parcelize"
 
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets

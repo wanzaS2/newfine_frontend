@@ -14,55 +14,12 @@ import RoundButton from '../components/RoundButton';
 import axios from 'axios';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store/reducer';
-// import {LocalNotification} from '../lib/LocalNotification';
 
-export default function BoardList({route, navigation}) {
-  const [datalist, setDatalist] = useState([]);
+export default function StudentBoardList({route, navigation}) {
+  const [data, setData] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [datalength, setDatalength] = useState();
   const {courseId} = route.params;
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
-
-  function parse(str) {
-    let datetime = str.split(' ');
-    let datearr = datetime[0].split('-');
-    let timearr = datetime[1].split(':');
-
-    let date = new Date(
-      datearr[0],
-      datearr[1] - 1,
-      datearr[2],
-      timearr[0],
-      timearr[1],
-      timearr[2],
-    );
-
-    return date;
-    // eslint-disable-next-line no-unreachable
-    console.log(date);
-  }
-
-  // setInterval(function () {
-  //   let dday = new Date('2022-')
-  //   let today = new Date().getTime();
-  //   let gap = dday - today;
-  //   let day = Math.ceil(gap / (1000 * 60 * 60 * 24));
-  //   let hour = Math.ceil((gap % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  //   let min = Math.ceil((gap % (1000 * 60 * 60)) / (1000 * 60));
-  //   let sec = Math.ceil((gap % (1000 * 60)) / 1000);
-  //
-  //   console.log(
-  //     'D-DAY까지 ',
-  //     day,
-  //     '일 ',
-  //     hour,
-  //     '시간 ',
-  //     min,
-  //     '분 ',
-  //     sec,
-  //     '초 남았습니다.',
-  //   );
-  // }, 1000);
 
   const fetchItems = () => {
     if (!isRefreshing) {
@@ -77,10 +34,11 @@ export default function BoardList({route, navigation}) {
       .get(`${Config.API_URL}/api/homework/list/${courseId}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
         },
       })
       .then(response => {
-        setDatalist(response.data);
+        setData(response.data);
         console.log(response.data);
         console.log(courseId);
       })
@@ -90,7 +48,6 @@ export default function BoardList({route, navigation}) {
 
   useEffect(() => {
     getHomeworks();
-    // LocalNotification();
   }, []);
 
   return (
@@ -99,7 +56,7 @@ export default function BoardList({route, navigation}) {
         <ActivityIndicator />
       ) : (
         <FlatList
-          data={datalist}
+          data={data}
           onRefresh={fetchItems} // fetch로 데이터 호출
           refreshing={isRefreshing} // state
           keyExtractor={(item, index) => {
@@ -113,7 +70,7 @@ export default function BoardList({route, navigation}) {
                 style={styles.container}
                 key={index.toString()}
                 onPress={() =>
-                  navigation.navigate('BoardDetail', {
+                  navigation.navigate('StudentBoardDetail', {
                     id: item.id,
                     courseId: courseId,
                   })
@@ -124,31 +81,11 @@ export default function BoardList({route, navigation}) {
                   <Text style={styles.text}>1차 마감기한: {item.fdeadline}</Text>
                   <Text style={styles.text}>2차 마감기한: {item.sdeadline}</Text>
                 </View>
-                <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate('SHomeworkList', {
-                      thId: item.id,
-                    })
-                  }>
-                  <Image
-                    source={require('../assets/images/check.png')}
-                    style={{
-                      height: 40,
-                      width: 40,
-                      marginLeft: '60%',
-                      marginBottom: 5,
-                    }}
-                  />
-                </TouchableOpacity>
               </TouchableOpacity>
             );
           }}
         />
       )}
-      <RoundButton
-        text="+"
-        onPress={() => navigation.navigate('BoardSave', {courseId: courseId})}
-      />
     </View>
   );
 }

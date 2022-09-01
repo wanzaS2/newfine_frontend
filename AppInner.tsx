@@ -61,6 +61,8 @@ import TeacherTest from './src/pages/Teacher/TeacherTest';
 import TestRank from './src/pages/Teacher/TestRank';
 import TeacherRanking from './src/pages/Teacher/TeacherRanking';
 import MyPointList from './src/pages/Student/MyPointList';
+// import messaging from '@react-native-firebase/messaging';  // 푸시알림 추가할 것!!
+// import isMockFunction = jest.isMockFunction;
 
 export type LoggedInParamList = {
   Welcome: undefined;
@@ -122,6 +124,7 @@ function AppInner() {
   const isProfile = useSelector((state: RootState) => !!state.user.nickname);
   const authority = useSelector((state: RootState) => state.user.authority);
   const access = useSelector((state: RootState) => state.user.accessToken);
+  // const deviceToken = useSelector((state: RootState) => state.user.deviceToken); //푸시알림 추가할 것 !!
 
   console.log(access);
   console.log('isLoggedIn', isLoggedIn);
@@ -147,6 +150,13 @@ function AppInner() {
           '\naccessToken: ',
           accessToken,
         );
+        // if (!messaging().isDeviceRegisteredForRemoteMessages) {
+        //   await messaging().registerDeviceForRemoteMessages();
+        // }
+        // const token = await messaging().getToken();
+        // console.log('phone token', token);
+        // dispatch(userSlice.actions.setDeviceToken({deviceToken: token}));
+        //if문 부터 푸시알림 추가할 것 !!!!
         if (!(refreshToken && accessToken)) {
           SplashScreen.hide();
           return;

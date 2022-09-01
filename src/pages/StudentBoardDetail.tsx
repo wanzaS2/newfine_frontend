@@ -6,28 +6,43 @@ import {
   TextInput,
   ScrollView,
   Alert,
-  TouchableOpacity,
 } from 'react-native';
 import DismissKeyboardView from '../components/DismissKeyboardView';
 import MyButton from '../components/MyButton';
 import {Fonts} from '../assets/Fonts';
 import axios from 'axios';
 import Config from 'react-native-config';
-import {useSelector} from 'react-redux';
-import {RootState} from '../store/reducer';
-import {format} from 'date-fns';
-import ko from 'date-fns/esm/locale/ko/index.js';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { useSelector } from "react-redux";
+import { RootState } from "../store/reducer";
 
-export default function BoardDetail({route, navigation}) {
+export default function StudentBoardDetail({route, navigation}) {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [date1, setDate1] = useState(''); // 선택 날짜
-  const [date2, setDate2] = useState(''); // 선택 날짜
   const id = route.params.id;
   const courseId = route.params.courseId;
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
+
+  // setInterval(function () {
+  //   let dday = new Date('2022-')
+  //   let today = new Date().getTime();
+  //   let gap = dday - today;
+  //   let day = Math.ceil(gap / (1000 * 60 * 60 * 24));
+  //   let hour = Math.ceil((gap % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  //   let min = Math.ceil((gap % (1000 * 60 * 60)) / (1000 * 60));
+  //   let sec = Math.ceil((gap % (1000 * 60)) / 1000);
+  //
+  //   console.log(
+  //     'D-DAY까지 ',
+  //     day,
+  //     '일 ',
+  //     hour,
+  //     '시간 ',
+  //     min,
+  //     '분 ',
+  //     sec,
+  //     '초 남았습니다.',
+  //   );
+  // }, 1000);
 
   useEffect(() => {
     console.log('받은 param', id);
@@ -35,43 +50,20 @@ export default function BoardDetail({route, navigation}) {
       .get(`${Config.API_URL}/api/homework/${id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
         },
       })
       .then(res => {
         console.log(res.data.id);
         console.log(courseId);
-        console.log('content: ', res.data.content);
         setTitle(res.data.title);
         setContent(res.data.content);
-        setDate1(res.data.fdeadline);
-        setDate2(res.data.sdeadline);
       })
       .catch(err => {
         console.log(err);
       });
   });
 
-  const deleteBoard = async () => {
-    setIsLoading(true);
-    try {
-      const response = await axios.delete(
-        `${Config.API_URL}/api/homework/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        },
-      );
-      console.log(response.data);
-      console.log(id);
-      Alert.alert('삭제완료');
-      setIsLoading(false);
-      navigation.navigate('BoardList', {courseId: route.params.courseId});
-    } catch (error) {
-      Alert.alert('An error has occurred');
-      setIsLoading(false);
-    }
-  };
   /*useEffect(() => {
     const detailBoard = async () => {
       console.log({id});
@@ -113,34 +105,6 @@ export default function BoardDetail({route, navigation}) {
             style={styles.input}
             value={content}
           />
-          <View style={styles.datetime}>
-            <Text style={styles.text2}>1차 마감기한:</Text>
-            <TextInput placeholder={date1} editable={false} />
-          </View>
-          <View style={styles.datetime}>
-            <Text style={styles.text2}>2차 마감기한:</Text>
-            <TextInput placeholder={date2} editable={false} />
-          </View>
-          <View style={styles.button}>
-            <MyButton
-              text="Edit"
-              onPress={() =>
-                navigation.navigate('BoardUpdate', {
-                  id: id,
-                  courseId: route.params.courseId,
-                })
-              }
-            />
-            <MyButton text="Delete" onPress={() => deleteBoard()} />
-            <MyButton
-              text="List"
-              onPress={() =>
-                navigation.navigate('BoardList', {
-                  courseId: route.params.courseId,
-                })
-              }
-            />
-          </View>
         </ScrollView>
       </View>
     </DismissKeyboardView>
@@ -150,7 +114,7 @@ export default function BoardDetail({route, navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -186,17 +150,5 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
     marginTop: 18,
-  },
-  datetime: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text2: {
-    marginRight: 15,
-  },
-  input2: {
-    borderWidth: 2,
-    borderColor: '#777',
   },
 });
