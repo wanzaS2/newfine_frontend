@@ -29,14 +29,14 @@ function MyPointList() {
       for (let i = 0; i < response.data.data.length; i++) {
         list.push({
           contents: response.data.data[i].contents,
-          // date: response.data.data[i].date.substr(0, 10),
-          year: response.data.data[i].date[0],
-          month: response.data.data[i].date[1],
-          day: response.data.data[i].date[2],
-          hour: response.data.data[i].date[3],
-          minutes: response.data.data[i].date[4],
-          sec: response.data.data[i].date[5],
-          // time: response.data.data[i].date.substr(11, 5),
+          date: response.data.data[i].date.substring(0, 10),
+          // year: response.data.data[i].date[0],
+          // month: response.data.data[i].date[1],
+          // day: response.data.data[i].date[2],
+          // hour: response.data.data[i].date[3],
+          // minutes: response.data.data[i].date[4],
+          // sec: response.data.data[i].date[5],
+          time: response.data.data[i].date.substring(11),
           score: response.data.data[i].score,
           scoreSum: response.data.data[i].scoreSum,
         });
@@ -72,8 +72,7 @@ function MyPointList() {
           renderItem={({item, index}) => (
             <View style={styles.flatList}>
               <Text style={styles.textTop}>
-                {item.year}-{item.month}-{item.day} | {item.hour}:{item.minutes}
-                :{item.sec} | {item.contents} | {item.score}점
+                {item.date} | {item.time} | {item.contents} | {item.score}점
               </Text>
               <Text style={styles.textBottom}>
                 누적 포인트 : {item.scoreSum}

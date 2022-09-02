@@ -714,8 +714,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#0077e6',
     padding: 10,
     justifyContent: 'center',
-    borderRadius: 120,
-    paddingVertical: '5%',
+    borderRadius: 8,
+    paddingVertical: '3%',
   },
 });
 
