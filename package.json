@@ -32,6 +32,7 @@
     "native-base": "^3.4.13",
     "moment": "^2.29.4",
     "peer": "^0.6.1",
+    "push-notification": "^0.2.5",
     "react": "17.0.2",
     "react-native": "0.68.1",
     "react-native-bounceable": "^0.2.1",

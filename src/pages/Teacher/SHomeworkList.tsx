@@ -10,13 +10,13 @@ import {
   Image,
 } from 'react-native';
 import Config from 'react-native-config';
-import RoundButton from '../components/RoundButton';
+import RoundButton from '../../components/RoundButton';
 import axios from 'axios';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import MyButton from '../components/MyButton';
+import MyButton from '../../components/MyButton';
 import CheckBox from '@react-native-community/checkbox';
 import {useSelector} from 'react-redux';
-import {RootState} from '../store/reducer';
+import {RootState} from '../../store/reducer';
 
 export default function SHomeworkList(this: any, {route}) {
   const [data, setData] = useState([]);

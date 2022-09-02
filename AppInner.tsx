@@ -40,11 +40,11 @@ import MyPage from './src/pages/Student/MyPage';
 import {NavigationContainer} from '@react-navigation/native';
 import TeacherMain from './src/pages/Teacher/TeacherMain';
 import NewPassword from './src/pages/NewPassword';
-import BoardList from './src/pages/BoardList';
+import BoardList from './src/pages/Teacher/BoardList';
 import BoardSave from './src/pages/BoardSave';
 import BoardDetail from './src/pages/BoardDetail';
 import BoardUpdate from './src/pages/BoardUpdate';
-import SHomeworkList from './src/pages/SHomeworkList';
+import SHomeworkList from './src/pages/Teacher/SHomeworkList';
 import StudentBoardList from './src/pages/Student/StudentBoardList';
 // import StudentBoardDetail from './src/pages/Student/StudentBoardDetail';
 import StudentHomework from './src/pages/Student/StudentHomework';
@@ -108,9 +108,14 @@ export type TeacherParamList = {
   TeacherAllTest: undefined;
   TeacherTest: undefined;
   TestRank: undefined;
-  BoardList: {courseId: number};
   TeacherRanking: undefined;
   ApplyVideo: undefined;
+  BoardList: {courseId: number};
+  BoardDetail: {
+    id: number;
+    courseId: number;
+  };
+  SHomeworkList: {thId: number};
 };
 
 const Stack = createNativeStackNavigator();
@@ -681,7 +686,14 @@ function AppInner() {
         <Stack.Screen
           name="BoardList"
           component={BoardList}
-          options={{title: '과제 리스트'}}
+          options={{
+            title: '과제 리스트',
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="BoardSave"
@@ -706,7 +718,11 @@ function AppInner() {
         <Stack.Screen
           name="Listeners"
           component={Listeners}
-          options={{title: '', headerShown: true, headerTransparent: true}}
+          options={{
+            title: '수강생 리스트',
+            headerShown: true,
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="TeacherRanking"
@@ -736,7 +752,11 @@ function AppInner() {
         <Stack.Screen
           name="TeacherAllTest"
           component={TeacherAllTest}
-          options={{title: '', headerShown: true, headerTransparent: true}}
+          options={{
+            title: '테스트',
+            headerShown: true,
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="TeacherTest"

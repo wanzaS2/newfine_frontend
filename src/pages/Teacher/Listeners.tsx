@@ -77,53 +77,52 @@ function Listeners({route}: ListenersScreenProps) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.courseArea}>
-        <Text style={styles.courseName}>#{route.params.cname}</Text>
-        <Text style={{fontSize: 23, fontFamily: Fonts.TRBold, color: 'black'}}>
-          {'  '}
-          수강생 리스트
-        </Text>
-      </View>
-      <Divider
-        my="0"
-        _light={{
-          bg: 'teal.500',
-        }}
-        _dark={{
-          bg: 'muted.50',
-        }}
-      />
-      {/*<View style={{borderColor: '#b0e0e6', borderBottomWidth: 1}} />*/}
       <View>
-        <FlatList
-          ref={scrollRef}
-          data={Students}
-          onRefresh={fetchItems} // fetch로 데이터 호출
-          refreshing={isRefreshing} // state
-          renderItem={({item, index}) => (
-            <View style={styles.box_list}>
-              <Text style={styles.studentText}>
-                {index + 1}){'   '}
-                {item.name}
-              </Text>
-              <Divider
-                bg="indigo.200"
-                thickness="2"
-                mx="2"
-                orientation="vertical"
-                style={{
-                  position: 'absolute',
-                  right: '48%',
-                  bottom: '65%',
-                }}
-              />
-              <Text style={styles.phoneNumberText}>
-                {item.phone1}-{item.phone2}-{item.phone3}
-              </Text>
-            </View>
-          )}
-          keyExtractor={item => String(item.id)}
+        <View style={styles.courseArea}>
+          <Text style={styles.courseName}> #{route.params.cname}</Text>
+        </View>
+        <Divider
+          my="0"
+          _light={{
+            bg: 'teal.500',
+          }}
+          _dark={{
+            bg: 'muted.50',
+          }}
         />
+        {/*<View style={{borderColor: '#b0e0e6', borderBottomWidth: 1}} />*/}
+        <View>
+          <FlatList
+            ref={scrollRef}
+            data={Students}
+            onRefresh={fetchItems} // fetch로 데이터 호출
+            refreshing={isRefreshing} // state
+            style={{height: '90%'}}
+            renderItem={({item, index}) => (
+              <View style={styles.box_list}>
+                <Text style={styles.studentText}>
+                  {index + 1}){'   '}
+                  {item.name}
+                </Text>
+                <Divider
+                  bg="indigo.200"
+                  thickness="2"
+                  mx="2"
+                  orientation="vertical"
+                  style={{
+                    position: 'absolute',
+                    right: '48%',
+                    bottom: '65%',
+                  }}
+                />
+                <Text style={styles.phoneNumberText}>
+                  {item.phone1}-{item.phone2}-{item.phone3}
+                </Text>
+              </View>
+            )}
+            keyExtractor={item => String(item.id)}
+          />
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -135,15 +134,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   courseArea: {
-    marginTop: '3.3%',
-    marginLeft: '12%',
-    paddingBottom: '3%',
-    flexDirection: 'row',
+    marginTop: '3%',
+    marginLeft: '46%',
+    paddingBottom: '5%',
+    // flex: 1,
+    // backgroundColor: 'blue',
   },
   courseName: {
     fontSize: 23,
     fontFamily: Fonts.TRBold,
     color: '#0077e6',
+    // backgroundColor: 'lightyellow',
+    // marginRight: 250,
   },
   box_list: {
     // justifyContent: 'center',

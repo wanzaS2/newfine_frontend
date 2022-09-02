@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Title from '../../components/Title';
 import {
   FlatList,
@@ -29,6 +29,7 @@ function TeacherCourse({navigation}: TeacherCourseScreenProps) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const [courseList, setCourseList] = useState();
   const [listLength, setCourseLength] = useState();
+  const scrollRef = useRef();
 
   const getCourses = () => {
     axios
@@ -56,6 +57,7 @@ function TeacherCourse({navigation}: TeacherCourseScreenProps) {
       <SafeAreaView style={styles.container}>
         <View style={styles.listArea}>
           <FlatList
+            ref={scrollRef}
             data={courseList}
             renderItem={({item, index}) => (
               <Pressable
