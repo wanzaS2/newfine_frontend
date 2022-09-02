@@ -131,7 +131,7 @@ function StudentAttendance({route}: StudentAttendanceScreenProps) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{marginTop: '15%'}}>
+      <View style={{marginTop: '13%'}}>
         <View style={{borderColor: '#fde68a', borderBottomWidth: 3}} />
         <View>
           <FlatList

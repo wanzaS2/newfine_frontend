@@ -51,10 +51,6 @@ function TeacherAllTest({route, navigation}: TeacherAllTestScreenProps) {
     <SafeAreaView style={styles.container}>
       <View style={styles.courseArea}>
         <Text style={styles.courseName}> #{route.params.cname}</Text>
-        <Text style={{fontSize: 23, fontFamily: Fonts.TRBold, color: 'black'}}>
-          {'  '}
-          테스트
-        </Text>
       </View>
       <View style={styles.listArea}>
         <FlatList
@@ -91,15 +87,18 @@ const styles = StyleSheet.create({
     // backgroundColor: 'pink',
   },
   courseArea: {
-    marginTop: '3.3%',
-    marginLeft: '12%',
-    paddingBottom: '3%',
-    flexDirection: 'row',
+    marginTop: '3%',
+    marginLeft: '32%',
+    paddingBottom: '5%',
+    // flex: 1,
+    // backgroundColor: 'blue',
   },
   courseName: {
     fontSize: 23,
     fontFamily: Fonts.TRBold,
     color: '#0077e6',
+    // backgroundColor: 'lightyellow',
+    // marginRight: 250,
   },
   listArea: {
     // backgroundColor: 'yellow',
@@ -139,7 +138,7 @@ const styles = StyleSheet.create({
   },
   dateText: {
     position: 'absolute',
-    right: 15,
+    right: 40,
     fontSize: 17,
     fontFamily: Fonts.TRBold,
     color: 'gray',
