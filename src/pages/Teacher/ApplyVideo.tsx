@@ -20,7 +20,7 @@ import {Divider} from 'native-base';
 function ApplyVideo() {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const [videoList, setVideos] = useState();
-  const [listLength, setCourseLength] = useState();
+  const [listLength, setListLength] = useState();
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const fetchItems = () => {
@@ -38,7 +38,10 @@ function ApplyVideo() {
         // 버튼 배열
         {
           text: '네', // 버튼 제목
-          onPress: () => sendVideo(item), //onPress 이벤트시 콘솔창에 로그를 찍는다
+          onPress: () => {
+            sendVideo(item);
+            setListLength(listLength - 1);
+          }, //onPress 이벤트시 콘솔창에 로그를 찍는다
         },
         {text: '아니요', onPress: () => {}, style: 'cancel'}, //버튼 제목
         // 이벤트 발생시 로그를 찍는다
@@ -62,11 +65,13 @@ function ApplyVideo() {
             id: response.data[i].studentAttendance.sattendanceId,
             sname: response.data[i].student.name,
             cname: response.data[i].course.cname,
-            year: response.data[i].attendance.startTime[0],
-            month: response.data[i].attendance.startTime[1],
-            day: response.data[i].attendance.startTime[2],
-            hour: response.data[i].attendance.startTime[3],
-            minute: response.data[i].attendance.startTime[4],
+            date: response.data[i].attendance.startTime.substring(0, 10),
+            time: response.data[i].attendance.startTime.substring(11),
+            // year: response.data[i].attendance.startTime[0],
+            // month: response.data[i].attendance.startTime[1],
+            // day: response.data[i].attendance.startTime[2],
+            // hour: response.data[i].attendance.startTime[3],
+            // minute: response.data[i].attendance.startTime[4],
           });
         }
         setVideos(videos);
@@ -96,7 +101,7 @@ function ApplyVideo() {
   };
   useEffect(() => {
     getVideos();
-  }, [getVideos, listLength]);
+  }, [listLength]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -108,7 +113,7 @@ function ApplyVideo() {
           renderItem={({item, index}) => (
             <View style={styles.flatList}>
               <View style={{flexDirection: 'row'}}>
-                <Text style={styles.studentName}>{item.sname} </Text>
+                <Text style={styles.studentName}>{item.sname}</Text>
                 <Divider
                   bg="orange.400"
                   thickness="2"
@@ -116,8 +121,9 @@ function ApplyVideo() {
                   orientation="vertical"
                 />
                 <Text style={styles.dateText}>
-                  {' '}
-                  {item.year}.{item.month}.{item.day} {item.hour}:{item.minute}{' '}
+                  {item.date} {item.time}
+                  {/*{' '}*/}
+                  {/*{item.year}.{item.month}.{item.day} {item.hour}:{item.minute}{' '}*/}
                 </Text>
                 <Divider
                   bg="orange.400"
@@ -125,7 +131,7 @@ function ApplyVideo() {
                   mx="2"
                   orientation="vertical"
                 />
-                <Text style={styles.classText}> {item.cname} </Text>
+                <Text style={styles.classText}>{item.cname} </Text>
               </View>
               <TouchableOpacity onPress={() => showAlert(item.id)}>
                 <Icon

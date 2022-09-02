@@ -53,7 +53,10 @@ function Attendance({route, navigation}: AttendanceScreenProps) {
   return (
     <SafeAreaView style={styles.container}>
       {/*<ScrollView stickyHeaderIndices={[0]}>*/}
-      <View style={{marginTop: '15%'}}>
+      <View>
+        <View style={styles.courseArea}>
+          <Text style={styles.courseName}> #{route.params.cname}</Text>
+        </View>
         {/*<Divider*/}
         {/*  my="2"*/}
         {/*  _light={{*/}
@@ -76,8 +79,7 @@ function Attendance({route, navigation}: AttendanceScreenProps) {
                     }>
                     <View style={styles.box_list}>
                       <Text style={styles.dateText}>
-                        {item.startTime[0]}-{item.startTime[1]}-
-                        {item.startTime[2]}
+                        {item.startTime.substring(0, 10)}
                       </Text>
                       <Text style={styles.timeText}>
                         {item.course.start_time}
@@ -147,6 +149,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
+  },
+  courseArea: {
+    marginTop: '3%',
+    marginLeft: '43%',
+    paddingBottom: '3%',
+    // flex: 1,
+    // backgroundColor: 'blue',
+  },
+  courseName: {
+    fontSize: 23,
+    fontFamily: Fonts.TRBold,
+    color: '#0077e6',
+    // backgroundColor: 'lightyellow',
+    // marginRight: 250,
   },
   box_list: {
     justifyContent: 'center',

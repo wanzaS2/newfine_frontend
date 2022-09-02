@@ -94,6 +94,7 @@ function TestRank({route}: TestRankScreenProps) {
             <FlatList
               ref={scrollRef}
               data={TestList}
+              style={{height: '90%'}}
               renderItem={({item, index}) => (
                 <View style={styles.flatList}>
                   <Text style={styles.topRank}>{item.rank}위 </Text>
@@ -117,6 +118,7 @@ const styles = StyleSheet.create({
   },
   contentsContainer: {
     // justifyContent: 'flex-start',
+    height: '75%',
     marginTop: 10,
     marginBottom: '5%',
     paddingVertical: '5%',
