@@ -47,7 +47,6 @@ export default function SHomeworkList(this: any, {route}) {
         //   버튼 배열
         {
           text: '닫기', // 버튼 제목
-          onPress: () => saveGrade('A'), //onPress 이벤트시 콘솔창에 로그를 찍는다
         },
         {text: '1차', onPress: () => saveGrade('1차')}, //버튼 제목
         // 이벤트 발생시 로그를 찍는다
