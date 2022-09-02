@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   Alert,
   SafeAreaView,
@@ -18,6 +18,7 @@ import MyTextInput from '../components/MyTextInput';
 import RNPickerSelect from 'react-native-picker-select';
 import OTPTextView from 'react-native-otp-textinput';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import {CheckIcon, Select} from 'native-base';
 
 type SignUpAuthScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -35,12 +36,43 @@ function SignUpAuth({navigation}: SignUpAuthScreenProps) {
   const phoneNumberRef = useRef<TextInput | null>(null);
   // const authCodeRef = useRef<TextInput | null>(null);
   const [branch, setBranch] = useState('');
+  const [branchList, setBranchList] = useState();
+  const [branchListLength, setBranchListLength] = useState();
 
   const data = [
     {label: '대치', value: 1},
     {label: '반포', value: 2},
     {label: '압구정', value: 3},
   ];
+
+  const getBranch = async () => {
+    try {
+      const response = await axios.get(
+        `${Config.API_URL}/branch/getBranchList`,
+        {
+          // params: {},
+          // headers: {
+          //   // Authorization: `Bearer ${accessToken}`,
+          // },
+        },
+      );
+      console.log(response.data);
+      // setBranchList(response.data);
+      // setBranchListLength(response.data.length);
+    } catch (error) {
+      const errorResponse = (error as AxiosError).response;
+      console.error(errorResponse);
+      if (errorResponse) {
+        Alert.alert('알림', errorResponse.data.message);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getBranch();
+    console.log('\n\n\n\nbranchList : ', branchList);
+    console.log('branchListLength : ', branchListLength);
+  }, []);
 
   const onChangeBranch = value => {
     console.log(value);
@@ -132,18 +164,35 @@ function SignUpAuth({navigation}: SignUpAuthScreenProps) {
             style={{fontFamily: Fonts.TRBold, fontSize: 23, color: 'black'}}>
             분원을 선택해주세요.
           </Text>
-          <View>
-            <RNPickerSelect
-              textInputProps={{underlineColorAndroid: 'transparent'}}
-              fixAndroidTouchableBug={true} // 안드로이드 에러 방지
-              useNativeAndroidPickerStyle={false} // 기본 안드로이드 textInput 스타일 X, pickerSelect 스타일 O
-              placeholder={{label: '분원 선택'}}
-              value={branch}
-              onValueChange={value => onChangeBranch(value)}
-              items={data}
-              style={pickerSelectStyles}
-            />
-          </View>
+          {/*<View>*/}
+          {/*  <RNPickerSelect*/}
+          {/*    textInputProps={{underlineColorAndroid: 'transparent'}}*/}
+          {/*    fixAndroidTouchableBug={true} // 안드로이드 에러 방지*/}
+          {/*    useNativeAndroidPickerStyle={false} // 기본 안드로이드 textInput 스타일 X, pickerSelect 스타일 O*/}
+          {/*    placeholder={{label: '분원 선택'}}*/}
+          {/*    value={branch}*/}
+          {/*    onValueChange={value => onChangeBranch(value)}*/}
+          {/*    items={data}*/}
+          {/*    style={pickerSelectStyles}*/}
+          {/*  />*/}
+          {/*</View>*/}
+          <Select
+            selectedValue={branch}
+            minWidth="200"
+            accessibilityLabel="Choose Service"
+            placeholder="Choose Service"
+            _selectedItem={{
+              bg: 'teal.600',
+              endIcon: <CheckIcon size="5" />,
+            }}
+            mt={1}
+            onValueChange={itemValue => onChangeBranch(itemValue)}>
+            <Select.Item label="UX Research" value="ux" />
+            <Select.Item label="Web Development" value="web" />
+            <Select.Item label="Cross Platform Development" value="cross" />
+            <Select.Item label="UI Designing" value="ui" />
+            <Select.Item label="Backend Development" value="backend" />
+          </Select>
         </View>
         <View style={styles.inputWrapper}>
           <View style={styles.textArea}>
