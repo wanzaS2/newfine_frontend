@@ -78,6 +78,8 @@ export default function StudentBoardList({route, navigation}) {
                 <View>
                   <Text style={styles.title}>제목: {item.title}</Text>
                   <Text style={styles.text}>{item.modifiedDate}</Text>
+                  <Text style={styles.text}>1차 마감기한: {item.fdeadline}</Text>
+                  <Text style={styles.text}>2차 마감기한: {item.sdeadline}</Text>
                 </View>
               </TouchableOpacity>
             );

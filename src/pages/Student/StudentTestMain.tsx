@@ -12,7 +12,6 @@ import {LoggedInParamList} from '../../../AppInner';
 import axios from 'axios';
 import Config from 'react-native-config';
 // import Title from '../../components/Title';
-// import StudentAttendance from './StudentAttendance';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store/reducer';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -85,7 +84,7 @@ const styles = StyleSheet.create({
   },
   flatList: {
     // width: screenWidth,
-    height: 60,
+    paddingVertical: '4%',
     // alignItems: 'center',
     // marginTop: 5,
     justifyContent: 'center',

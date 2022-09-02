@@ -10,19 +10,16 @@ import {
   Image,
 } from 'react-native';
 import Config from 'react-native-config';
-import RoundButton from '../components/RoundButton';
+import RoundButton from '../../components/RoundButton';
 import axios from 'axios';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import MyButton from '../components/MyButton';
+import MyButton from '../../components/MyButton';
 import CheckBox from '@react-native-community/checkbox';
 import {useSelector} from 'react-redux';
-import {RootState} from '../store/reducer';
+import {RootState} from '../../store/reducer';
 
 export default function SHomeworkList(this: any, {route}) {
   const [data, setData] = useState([]);
-  // const [checklist, setChecklist] = useState([]);
-  // const [checklist, setChecklist] = useState([new Map()]);
-  const [checklist2, setChecklist2] = useState([new Map()]);
   const [datalength, setDatalength] = useState();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const {thId} = route.params;
@@ -49,13 +46,12 @@ export default function SHomeworkList(this: any, {route}) {
       [
         //   버튼 배열
         {
-          text: 'A', // 버튼 제목
+          text: '닫기', // 버튼 제목
           onPress: () => saveGrade('A'), //onPress 이벤트시 콘솔창에 로그를 찍는다
         },
-        {text: 'B', onPress: () => saveGrade('B')}, //버튼 제목
+        {text: '1차', onPress: () => saveGrade('1차')}, //버튼 제목
         // 이벤트 발생시 로그를 찍는다
-        {text: 'C', onPress: () => saveGrade('C')},
-        {text: '닫기'},
+        {text: '2차', onPress: () => saveGrade('2차')},
       ],
       {cancelable: true},
     );
@@ -63,7 +59,7 @@ export default function SHomeworkList(this: any, {route}) {
 
   const saveGrade = async (state: string) => {
     for (let c of checked) {
-      data[c - 1].grade = state;
+      data[c - 1].deadline = state;
       data[c - 1].disabled = true;
     }
     setData(data);
@@ -74,7 +70,7 @@ export default function SHomeworkList(this: any, {route}) {
     setIsRefreshing(true);
     console.log('checklist:', checklist);
     // console.log('data22: ', data22);
-    Alert.alert('', state + ' 등급 포인트 부여 완료!');
+    Alert.alert('', state + ' 포인트 부여 완료!');
 
     const axios = require('axios');
     const config = {
@@ -150,7 +146,7 @@ export default function SHomeworkList(this: any, {route}) {
             shId: response.data[i].shId,
             name: response.data[i].name,
             title: response.data[i].title,
-            grade: response.data[i].grade,
+            deadline: response.data[i].deadline,
             ischecked: response.data[i].ischecked,
             disabled: false,
           });
@@ -239,18 +235,6 @@ export default function SHomeworkList(this: any, {route}) {
   //     return newItem;
   //   });
   //   setData(newData);
-  // };
-
-  // const onShowItemSelected = () => {
-  //   const listSelected = data.filter(item => item.selected === true);
-  //   let contentAlert = '';
-  //   listSelected.forEach(item => {
-  //     checklist.push({id: item.shId});
-  //     console.log(checklist);
-  //     contentAlert = contentAlert + `${item.shId} + ` + item.title + '\n';
-  //   });
-  //   Alert.alert(contentAlert);
-  //   submitChecked();
   // };
 
   useEffect(() => {

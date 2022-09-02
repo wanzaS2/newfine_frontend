@@ -6,19 +6,25 @@ import {
   TextInput,
   ScrollView,
   Alert,
+  TouchableOpacity,
 } from 'react-native';
 import DismissKeyboardView from '../components/DismissKeyboardView';
 import MyButton from '../components/MyButton';
 import {Fonts} from '../assets/Fonts';
 import axios from 'axios';
 import Config from 'react-native-config';
-import { useSelector } from "react-redux";
-import { RootState } from "../store/reducer";
+import {useSelector} from 'react-redux';
+import {RootState} from '../store/reducer';
+import {format} from 'date-fns';
+import ko from 'date-fns/esm/locale/ko/index.js';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 export default function BoardDetail({route, navigation}) {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [date1, setDate1] = useState(''); // 선택 날짜
+  const [date2, setDate2] = useState(''); // 선택 날짜
   const id = route.params.id;
   const courseId = route.params.courseId;
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
@@ -26,7 +32,7 @@ export default function BoardDetail({route, navigation}) {
   useEffect(() => {
     console.log('받은 param', id);
     axios
-      .get(`${Config.API_URL}/api/homework/${id}`,{
+      .get(`${Config.API_URL}/api/homework/${id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -34,8 +40,11 @@ export default function BoardDetail({route, navigation}) {
       .then(res => {
         console.log(res.data.id);
         console.log(courseId);
+        console.log('content: ', res.data.content);
         setTitle(res.data.title);
         setContent(res.data.content);
+        setDate1(res.data.fdeadline);
+        setDate2(res.data.sdeadline);
       })
       .catch(err => {
         console.log(err);
@@ -47,6 +56,11 @@ export default function BoardDetail({route, navigation}) {
     try {
       const response = await axios.delete(
         `${Config.API_URL}/api/homework/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
       );
       console.log(response.data);
       console.log(id);
@@ -99,6 +113,14 @@ export default function BoardDetail({route, navigation}) {
             style={styles.input}
             value={content}
           />
+          <View style={styles.datetime}>
+            <Text style={styles.text2}>1차 마감기한:</Text>
+            <TextInput placeholder={date1} editable={false} />
+          </View>
+          <View style={styles.datetime}>
+            <Text style={styles.text2}>2차 마감기한:</Text>
+            <TextInput placeholder={date2} editable={false} />
+          </View>
           <View style={styles.button}>
             <MyButton
               text="Edit"
@@ -164,5 +186,17 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
     marginTop: 18,
+  },
+  datetime: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  text2: {
+    marginRight: 15,
+  },
+  input2: {
+    borderWidth: 2,
+    borderColor: '#777',
   },
 });

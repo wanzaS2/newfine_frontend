@@ -1,35 +1,34 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   Alert,
-  Button,
   FlatList,
-  Pressable,
   SafeAreaView,
-  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-
-import {Fonts} from '../../assets/Fonts';
-import LinearGradient from 'react-native-linear-gradient';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {LoggedInParamList} from '../../../AppInner';
 import axios from 'axios';
 import Config from 'react-native-config';
-import Title from '../../components/Title';
-import Attendance from '../Attendance';
-import Icon from 'react-native-vector-icons/AntDesign';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store/reducer';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {TeacherParamList} from '../../../AppInner';
+import {Fonts} from '../../assets/Fonts';
 
-function StudentAttendance({route, navigation}) {
+type StudentAttendanceScreenProps = NativeStackScreenProps<
+  TeacherParamList,
+  'StudentAttendance'
+>;
+
+function StudentAttendance({route}: StudentAttendanceScreenProps) {
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const [Students, setStudents] = useState([]);
   const [listLength, setStudentsLength] = useState();
-  const [loading, setLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const accessToken = useSelector((state: RootState) => state.user.accessToken);
+  const scrollRef = useRef();
+
   const fetchItems = () => {
     if (!isRefreshing) {
       getListeners();
@@ -129,56 +128,42 @@ function StudentAttendance({route, navigation}) {
     console.log('StudentAttendances : ', Students);
     console.log('listLength : ', listLength);
   }, [listLength]);
+
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      <Title title={route.params.startTime.slice(5, 10)} />
-      <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <View style={{marginTop: '13%'}}>
+        <View style={{borderColor: '#fde68a', borderBottomWidth: 3}} />
         <View>
           <FlatList
+            ref={scrollRef}
             data={Students}
             onRefresh={fetchItems} // fetch로 데이터 호출
             refreshing={isRefreshing} // state
             renderItem={({item, index}) => (
-              <View
-                style={{
-                  borderColor: '#eee8aa',
-                  borderWidth: 1,
-                  padding: 5,
-                  backgroundColor: '#ffffe0',
-                  flexDirection: 'row',
-                }}>
+              <View style={styles.box_list}>
+                <Text style={styles.nameText}>{item.name}</Text>
                 <Text
-                  style={{
-                    marginLeft: 30,
-                    fontSize: 22,
-                    color: 'black',
-                  }}>
-                  {item.name}
-                </Text>
-                <Text
-                  style={{
-                    marginLeft: 120,
-                    fontSize: 22,
-                    color: 'red',
-                  }}>
+                  style={
+                    item.attend === '출석'
+                      ? styles.attendanceText
+                      : item.attend === '결석'
+                      ? styles.absenceText
+                      : styles.tardyText
+                  }>
                   {item.attend}
                 </Text>
-                <TouchableOpacity onPress={() => showAlert(item.id)}>
-                  <Icon
-                    name="edit"
-                    size={24}
-                    color="black"
-                    style={{marginLeft: 10, marginTop: 2}}
-                  />
+                <TouchableOpacity
+                  onPress={() => showAlert(item.id)}
+                  style={styles.icon}>
+                  <Icon name="edit" size={25} color="black" />
                 </TouchableOpacity>
               </View>
             )}
             keyExtractor={item => String(item.id)}
           />
         </View>
-      </SafeAreaView>
-    </View>
+      </View>
+    </SafeAreaView>
   );
 }
 
@@ -186,6 +171,49 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
+  },
+  box_list: {
+    // justifyContent: 'center',
+    borderColor: '#fde68a',
+    borderBottomWidth: 1,
+    padding: 15,
+    backgroundColor: '#fffbeb',
+    flexDirection: 'row',
+  },
+  nameText: {
+    marginLeft: '5%',
+    fontSize: 20,
+    fontFamily: Fonts.TRBold,
+    color: 'black',
+  },
+  attendanceText: {
+    position: 'absolute',
+    right: 70,
+    bottom: 15,
+    fontSize: 20,
+    fontFamily: Fonts.TRBold,
+    color: '#0077e6',
+  },
+  absenceText: {
+    position: 'absolute',
+    right: 70,
+    bottom: 15,
+    fontSize: 20,
+    fontFamily: Fonts.TRBold,
+    color: '#ef4444',
+  },
+  tardyText: {
+    position: 'absolute',
+    right: 70,
+    bottom: 15,
+    fontSize: 20,
+    fontFamily: Fonts.TRBold,
+    color: '#16a34a',
+  },
+  icon: {
+    position: 'absolute',
+    right: 17,
+    bottom: 15,
   },
 });
 

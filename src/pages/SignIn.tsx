@@ -23,8 +23,11 @@ import MyTextInput from '../components/MyTextInput';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store/reducer';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PushNotification from 'react-native-push-notification';
+import messaging from "@react-native-firebase/messaging";
+// import user from '../slices/user';
 
 type SignInScreenProps = NativeStackScreenProps<RootStackParamList, 'SignIn'>;
 
@@ -40,6 +43,12 @@ function SignIn({navigation}: SignInScreenProps) {
   const phoneNumberRef = useRef<TextInput | null>(null);
   const passwordRef = useRef<TextInput | null>(null);
   // const isProfile = useSelector((state: RootState) => !!state.user.nickname);
+  const isProfile = useSelector((state: RootState) => !!state.user.nickname);
+
+  const a = useSelector((state: RootState) => state.user.accessToken);
+  const deviceToken = useSelector((state: RootState) => state.user.deviceToken);
+
+  // const authority = useSelector((state: RootState) => state.user.authority);
 
   const onChangePhoneNumber = useCallback(text => {
     setPhoneNumber(text.trim());
@@ -59,9 +68,11 @@ function SignIn({navigation}: SignInScreenProps) {
     }
     try {
       setLoading(true);
+      console.log('phoneToken: ', deviceToken);
       const responseT = await axios.post(`${Config.API_URL}/auth/login`, {
         phoneNumber,
         password,
+        deviceToken,
       });
       console.log(responseT.data); // 토큰 정보 출력
       dispatch(
@@ -271,6 +282,10 @@ const styles = StyleSheet.create({
     color: 'black',
     fontFamily: Fonts.TRBold,
     fontSize: 19,
+    // fontFamily: Fonts.TRBold,
+    // fontFamily: 'TmoneyRoundWind-ExtraBold',
+    // fontSize: 17,
+    marginBottom: 15,
   },
 });
 

@@ -1,35 +1,37 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
-  Button,
+  Alert,
   FlatList,
   Pressable,
   SafeAreaView,
   StatusBar,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
-
-import {Fonts} from '../../assets/Fonts';
-import LinearGradient from 'react-native-linear-gradient';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {LoggedInParamList} from '../../../AppInner';
+import {TeacherParamList} from '../../../AppInner';
 import axios from 'axios';
 import Config from 'react-native-config';
 import Title from '../../components/Title';
-import StudentAttendance from '../Student/StudentAttendance';
-import Attendance from '../Attendance';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store/reducer';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {Fonts} from '../../assets/Fonts';
+import {Divider} from 'native-base';
 
-function Listeners({route, navigation}) {
+type ListenersScreenProps = NativeStackScreenProps<
+  TeacherParamList,
+  'Listeners'
+>;
+
+function Listeners({route}: ListenersScreenProps) {
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const [Students, setStudents] = useState([]);
   const [listLength, setStudentsLength] = useState();
-  const [loading, setLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const accessToken = useSelector((state: RootState) => state.user.accessToken);
+  const scrollRef = useRef();
+
   const fetchItems = () => {
     if (!isRefreshing) {
       getListeners();
@@ -55,7 +57,9 @@ function Listeners({route, navigation}) {
           attendances.push({
             id: response.data[i].id,
             name: response.data[i].student.name,
-            phone: response.data[i].student.phoneNumber,
+            phone1: response.data[i].student.phoneNumber.substring(0, 3),
+            phone2: response.data[i].student.phoneNumber.substring(3, 7),
+            phone3: response.data[i].student.phoneNumber.substring(7, 12),
           });
         }
         setStudents(attendances);
@@ -66,52 +70,61 @@ function Listeners({route, navigation}) {
   console.log(route.params);
   useEffect(() => {
     getListeners();
+    console.log('학생: ', Students);
     console.log('StudentAttendances : ', Students);
     console.log('listLength : ', listLength);
   }, [listLength]);
+
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      <Title title={route.params.cname} />
-      <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <View>
+        <View style={styles.courseArea}>
+          <Text style={styles.courseName}> #{route.params.cname}</Text>
+        </View>
+        <Divider
+          my="0"
+          _light={{
+            bg: 'teal.500',
+          }}
+          _dark={{
+            bg: 'muted.50',
+          }}
+        />
+        {/*<View style={{borderColor: '#b0e0e6', borderBottomWidth: 1}} />*/}
         <View>
           <FlatList
+            ref={scrollRef}
             data={Students}
             onRefresh={fetchItems} // fetch로 데이터 호출
             refreshing={isRefreshing} // state
+            style={{height: '90%'}}
             renderItem={({item, index}) => (
-              <View
-                style={{
-                  borderColor: '#b0e0e6',
-                  borderWidth: 1,
-                  padding: 5,
-                  backgroundColor: '#e0ffff',
-                  flexDirection: 'row',
-                }}>
-                <Text
-                  style={{
-                    marginLeft: 30,
-                    fontSize: 20,
-                    color: 'black',
-                  }}>
+              <View style={styles.box_list}>
+                <Text style={styles.studentText}>
+                  {index + 1}){'   '}
                   {item.name}
                 </Text>
-                <Text
+                <Divider
+                  bg="indigo.200"
+                  thickness="2"
+                  mx="2"
+                  orientation="vertical"
                   style={{
-                    marginLeft: 100,
-                    fontSize: 18,
-                    color: 'gray',
-                    marginRight: 10,
-                  }}>
-                  {item.phone}
+                    position: 'absolute',
+                    right: '48%',
+                    bottom: '65%',
+                  }}
+                />
+                <Text style={styles.phoneNumberText}>
+                  {item.phone1}-{item.phone2}-{item.phone3}
                 </Text>
               </View>
             )}
             keyExtractor={item => String(item.id)}
           />
         </View>
-      </SafeAreaView>
-    </View>
+      </View>
+    </SafeAreaView>
   );
 }
 
@@ -119,6 +132,42 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
+  },
+  courseArea: {
+    marginTop: '3%',
+    marginLeft: '46%',
+    paddingBottom: '5%',
+    // flex: 1,
+    // backgroundColor: 'blue',
+  },
+  courseName: {
+    fontSize: 23,
+    fontFamily: Fonts.TRBold,
+    color: '#0077e6',
+    // backgroundColor: 'lightyellow',
+    // marginRight: 250,
+  },
+  box_list: {
+    // justifyContent: 'center',
+    borderColor: '#2dd4bf',
+    borderBottomWidth: 1,
+    padding: 15,
+    backgroundColor: 'white',
+    flexDirection: 'row',
+  },
+  studentText: {
+    marginLeft: '5%',
+    fontSize: 18,
+    fontFamily: Fonts.TRBold,
+    color: 'black',
+  },
+  phoneNumberText: {
+    position: 'absolute',
+    right: '8%',
+    bottom: '65%',
+    fontSize: 17,
+    fontFamily: Fonts.TRBold,
+    color: '#4f46e5',
   },
 });
 

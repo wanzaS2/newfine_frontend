@@ -22,8 +22,20 @@ import {RootState} from '../../store/reducer';
 import {Fonts} from '../../assets/Fonts';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {LineChart} from 'react-native-chart-kit';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {LoggedInParamList} from '../../../AppInner';
 
-function StudentAllTestResult({route, navigation}) {
+type StudentAllTestResultScreenProps = NativeStackScreenProps<
+  LoggedInParamList,
+  'StudentAllTestResult'
+>;
+
+const screenWidth = Dimensions.get('window').width;
+
+function StudentAllTestResult({
+  route,
+  navigation,
+}: StudentAllTestResultScreenProps) {
   const [TestList, setTestList] = useState();
   const [MyRank, setMyRank] = useState();
   const [MyScore, setMyScore] = useState();
@@ -40,7 +52,6 @@ function StudentAllTestResult({route, navigation}) {
   const [loading, setLoading] = useState(false);
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
 
-  const screenWidth = Dimensions.get('window').width;
   const getAllResults = () => {
     console.log(route.params);
     axios(`${Config.API_URL}/test/result/all/my`, {
@@ -147,204 +158,80 @@ function StudentAllTestResult({route, navigation}) {
   };
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <StatusBar style="auto" />
-        <SafeAreaView style={styles.container}>
-          <View style={styles.myinfo}>
-            <View style={styles.scorebox}>
-              <Text style={styles.rank}>순위 </Text>
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
+        <View style={{marginTop: '15%'}}>
+          <View style={{paddingBottom: '5%'}}>
+            {/*          <StatusBar style="auto" />*/}
+            <View style={styles.scoreBox}>
+              <Text style={styles.rankScore}>순위 </Text>
               <Text style={styles.number}> {MyRank}위</Text>
-              <Text style={styles.total}>/ {total} 명</Text>
+              <Text style={styles.totalAvg}>/ {total} 명</Text>
+            </View>
+            <View style={{paddingTop: '3%'}}>
+              <LineChart
+                data={rank_data}
+                width={screenWidth}
+                height={300}
+                chartConfig={chartConfig}
+                withHorizontalLines={true}
+                withOuterLines={true}
+                withInnerLines={false}
+                withDots={true}
+                fromZero={true}
+              />
             </View>
           </View>
-          <LineChart
-            data={rank_data}
-            width={screenWidth}
-            height={300}
-            chartConfig={chartConfig}
-            withHorizontalLines={true}
-            withOuterLines={true}
-            withInnerLines={false}
-            withDots={true}
-            fromZero={true}
-          />
-          <View style={styles.myinfo}>
-            <View style={styles.scorebox}>
-              <Text style={styles.score}>점수 </Text>
+          <View>
+            <View style={styles.scoreBox}>
+              <Text style={styles.rankScore}>점수 </Text>
               <Text style={styles.number}> {MyScore}점</Text>
-              <Text style={styles.avg}>/ 평균 {avg} 점</Text>
+              <Text style={styles.totalAvg}>/ 평균 {avg} 점</Text>
+            </View>
+            <View style={{alignItems: 'center'}}>
+              <LineChart
+                data={score_data}
+                width={screenWidth}
+                height={300}
+                chartConfig={chartConfig}
+                fromZero={true}
+              />
             </View>
           </View>
-          <LineChart
-            data={score_data}
-            width={screenWidth}
-            height={300}
-            chartConfig={chartConfig}
-            fromZero={true}
-          />
-        </SafeAreaView>
-      </View>
-    </ScrollView>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
-  button: {
-    alignItems: 'center',
-    backgroundColor: '#87cefa',
-    padding: 10,
-    justifyContent: 'center',
-    borderRadius: 100,
-    width: 320,
-    height: 60,
-  },
   container: {
-    flex: 3,
+    flex: 1,
     backgroundColor: '#f0f8ff',
-    fontFamily: Fonts.TRBold,
   },
-  myinfo: {
-    weight: 60,
-    height: 80,
+  scoreBox: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 20,
-    marginBottom: 20,
-  },
-  box_list: {
-    borderRadius: 15,
-    borderColor: '#87cefa',
-    borderWidth: 2,
-    padding: 7,
-    justifyContent: 'flex-start',
-    marginTop: 5,
-    backgroundColor: '#fff8dc',
-  },
-  killerbox_list: {
-    borderRadius: 15,
-    borderColor: '#87cefa',
-    borderWidth: 2,
-    padding: 7,
-    justifyContent: 'flex-start',
-    marginTop: 10,
-    backgroundColor: '#fff8dc',
-    height: 120,
-  },
-  box: {
     flexDirection: 'row',
-    flex: 1,
-    alignItems: 'center',
   },
-  killerbox_title: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  killerbox_content: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 26,
-  },
-  rank: {
+  rankScore: {
     alignItems: 'center',
     justifyContent: 'flex-start',
     fontSize: 30,
     fontFamily: Fonts.TRBold,
+    color: 'black',
   },
-  scorebox: {
-    marginTop: 7,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  score: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    fontSize: 30,
-    fontFamily: Fonts.TRBold,
-  },
-  avg: {
+  totalAvg: {
     marginTop: 8,
     paddingLeft: 10,
     // backgroundColor: 'yellow',
     borderRadius: 5,
     fontSize: 18,
-  },
-  total: {
-    marginTop: 8,
-    paddingLeft: 10,
-    // backgroundColor: 'yellow',
-    borderRadius: 5,
-    fontSize: 18,
+    color: 'black',
+    // fontFamily: Fonts.TRRegular,
   },
   number: {
-    color: '#87cefa',
+    color: '#0077e6',
     fontSize: 30,
-    fontFamily: Fonts.TRBold,
-  },
-  topfive: {
-    height: 360,
-    justifyContent: 'flex-start',
-    marginTop: 10,
-    borderRadius: 10,
-    borderColor: 'lightskyblue',
-    borderWidth: 8,
-    marginBottom: 20,
-    fontFamily: Fonts.TRBold,
-    backgroundColor: '#f0f8ff',
-    // backgroundColor: '#fafad2',
-  },
-  killerzone: {
-    height: 310,
-    justifyContent: 'flex-start',
-    marginTop: 10,
-    // borderRadius: 10,
-    // borderColor: 'lightskyblue',
-    // borderWidth: 8,
-    marginBottom: 20,
-    fontFamily: Fonts.TRBold,
-    backgroundColor: '#f0f8ff',
-    // backgroundColor: '#fafad2',
-  },
-  toptitle: {
-    marginTop: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    fontFamily: Fonts.TRRegular,
-    marginBottom: 4,
-  },
-  topfont: {
-    fontSize: 28,
-    fontFamily: Fonts.TRBold,
-    fontWeight: 'bold',
-    color: '#87cefa',
-  },
-  toprank: {
-    marginLeft: 15,
-    fontSize: 22,
-    fontWeight: '900',
-    color: '#87cefa',
-  },
-  killernum: {
-    marginLeft: 15,
-    fontSize: 22,
-    fontWeight: '900',
-    color: '#ffa07a',
-    fontFamily: Fonts.TRBold,
-  },
-  correct: {
-    marginLeft: 180,
-    position: 'absolute',
-    fontSize: 20,
-    color: '#ffa07a',
-    fontWeight: 'bold',
-  },
-  killercorrect: {
-    padding: 3,
-    position: 'absolute',
-    fontSize: 16,
-    color: '#87cefa',
-    fontWeight: 'bold',
-    marginLeft: 10,
     fontFamily: Fonts.TRBold,
   },
 });

@@ -13,9 +13,9 @@ import StudyIn from './src/pages/Student/StudyIn';
 import StudyOut from './src/pages/Student/StudyOut';
 import StudyWeb from './src/pages/Student/StudyWeb';
 import StudyTime from './src/pages/Student/StudyTime';
-import Attendance from './src/pages/Attendance';
+import Attendance from './src/pages/Teacher/Attendance';
 import MyAttendance from './src/pages/Student/MyAttendance';
-import StudentAttendance from './src/pages/Student/StudentAttendance';
+import StudentAttendance from './src/pages/Teacher/StudentAttendance';
 import QRCodeScanner from './src/pages/Student/QRCodeScanner';
 import AttendanceWeb from './src/pages/Student/AttendanceWeb';
 import * as React from 'react';
@@ -32,7 +32,7 @@ import Config from 'react-native-config';
 import userSlice from './src/slices/user';
 import {Alert} from 'react-native';
 import {useAppDispatch} from './src/store';
-import MyPointList from './src/pages/Student/MyPointList';
+import RankingPoint from './src/pages/Student/RankingPoint';
 import AllRanking from './src/pages/Student/AllRanking';
 import MyPage from './src/pages/Student/MyPage';
 
@@ -40,14 +40,14 @@ import MyPage from './src/pages/Student/MyPage';
 import {NavigationContainer} from '@react-navigation/native';
 import TeacherMain from './src/pages/Teacher/TeacherMain';
 import NewPassword from './src/pages/NewPassword';
-import BoardList from './src/pages/BoardList';
+import BoardList from './src/pages/Teacher/BoardList';
 import BoardSave from './src/pages/BoardSave';
 import BoardDetail from './src/pages/BoardDetail';
 import BoardUpdate from './src/pages/BoardUpdate';
-import SHomeworkList from './src/pages/SHomeworkList';
-import StudentBoardList from './src/pages/StudentBoardList';
-import StudentBoardDetail from './src/pages/StudentBoardDetail';
-import StudentHomework from './src/pages/StudentHomework';
+import SHomeworkList from './src/pages/Teacher/SHomeworkList';
+import StudentBoardList from './src/pages/Student/StudentBoardList';
+// import StudentBoardDetail from './src/pages/Student/StudentBoardDetail';
+import StudentHomework from './src/pages/Student/StudentHomework';
 import VideoList from './src/pages/Student/VideoList';
 import AttendanceInfo from './src/pages/Student/AttendanceInfo';
 import VideoAuth from './src/pages/Student/VideoAuth';
@@ -59,12 +59,17 @@ import StudentAllTestResult from './src/pages/Student/StudentAllTestResult';
 import TeacherAllTest from './src/pages/Teacher/TeacherAllTest';
 import TeacherTest from './src/pages/Teacher/TeacherTest';
 import TestRank from './src/pages/Teacher/TestRank';
+import TeacherRanking from './src/pages/Teacher/TeacherRanking';
+import MyPointList from './src/pages/Student/MyPointList';
+// import messaging from '@react-native-firebase/messaging';  // 푸시알림 추가할 것!!
+// import isMockFunction = jest.isMockFunction;
 
 export type LoggedInParamList = {
   Welcome: undefined;
   StudentMain: undefined;
-  MyPointList: undefined;
+  RankingPoint: undefined;
   AllRanking: undefined;
+  MyPointList: undefined;
   MyPage: undefined;
   StudentCourse: undefined;
   StudentCourseInfo: undefined;
@@ -78,8 +83,12 @@ export type LoggedInParamList = {
   StudyTime: undefined;
   StudentTestMain: undefined;
   StudentTestResult: undefined;
+  StudentAllTestResult: undefined;
   MyAttendance: undefined;
   StudentBoardList: undefined;
+  StudentBoardDetail: {id: number; courseId: number};
+  StudentHomework: undefined;
+  CarouselPage1: undefined;
 };
 
 export type RootStackParamList = {
@@ -91,6 +100,22 @@ export type RootStackParamList = {
 
 export type TeacherParamList = {
   TeacherMain: undefined;
+  TeacherCourse: undefined;
+  TeacherCourseInfo: undefined;
+  Listeners: undefined;
+  Attendance: undefined;
+  StudentAttendance: undefined;
+  TeacherAllTest: undefined;
+  TeacherTest: undefined;
+  TestRank: undefined;
+  TeacherRanking: undefined;
+  ApplyVideo: undefined;
+  BoardList: {courseId: number};
+  BoardDetail: {
+    id: number;
+    courseId: number;
+  };
+  SHomeworkList: {thId: number};
 };
 
 const Stack = createNativeStackNavigator();
@@ -104,6 +129,7 @@ function AppInner() {
   const isProfile = useSelector((state: RootState) => !!state.user.nickname);
   const authority = useSelector((state: RootState) => state.user.authority);
   const access = useSelector((state: RootState) => state.user.accessToken);
+  // const deviceToken = useSelector((state: RootState) => state.user.deviceToken); //푸시알림 추가할 것 !!
 
   console.log(access);
   console.log('isLoggedIn', isLoggedIn);
@@ -129,6 +155,13 @@ function AppInner() {
           '\naccessToken: ',
           accessToken,
         );
+        // if (!messaging().isDeviceRegisteredForRemoteMessages) {
+        //   await messaging().registerDeviceForRemoteMessages();
+        // }
+        // const token = await messaging().getToken();
+        // console.log('phone token', token);
+        // dispatch(userSlice.actions.setDeviceToken({deviceToken: token}));
+        //if문 부터 푸시알림 추가할 것 !!!!
         if (!(refreshToken && accessToken)) {
           SplashScreen.hide();
           return;
@@ -363,6 +396,16 @@ function AppInner() {
           options={{title: '메인', headerShown: false}}
         />
         <Stack.Screen
+          name="RankingPoint"
+          component={RankingPoint}
+          options={{title: '', headerShown: false}}
+        />
+        <Stack.Screen
+          name="AllRanking"
+          component={AllRanking}
+          options={{title: '', headerShown: false}}
+        />
+        <Stack.Screen
           name="MyPointList"
           component={MyPointList}
           options={{title: '', headerShown: false}}
@@ -442,15 +485,23 @@ function AppInner() {
             headerTransparent: true,
           }}
         />
-        <Stack.Screen
-          name="StudentBoardDetail"
-          component={StudentBoardDetail}
-          options={{title: '과제 상세보기'}}
-        />
+        {/*<Stack.Screen*/}
+        {/*  name="StudentBoardDetail"*/}
+        {/*  component={StudentBoardDetail}*/}
+        {/*  options={{title: '', headerTransparent: true}}*/}
+        {/*/>*/}
         <Stack.Screen
           name="StudentHomework"
           component={StudentHomework}
-          options={{title: '과제 제출확인 현황'}}
+          options={{
+            title: '과제 현황',
+            headerShown: true,
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="Study"
@@ -561,7 +612,15 @@ function AppInner() {
         <Stack.Screen
           name="StudentAllTestResult"
           component={StudentAllTestResult}
-          options={{title: '전회차 분석', headerShown: true}}
+          options={{
+            title: '전회차 분석',
+            headerShown: true,
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
       </Stack.Navigator>
     );
@@ -573,32 +632,68 @@ function AppInner() {
         <Stack.Screen
           name="TeacherMain"
           component={TeacherMain}
-          options={{title: 'TeacherMain', headerShown: true}}
+          options={{title: 'TeacherMain', headerShown: false}}
         />
         <Stack.Screen
           name="TeacherCourse"
           component={TeacherCourse}
-          options={{title: '내 강의', headerShown: true}}
+          options={{
+            title: '내 강의',
+            headerShown: true,
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="Attendance"
           component={Attendance}
-          options={{title: '수업 출석부'}}
+          options={{
+            title: '수업 출석부',
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="StudentAttendance"
           component={StudentAttendance}
-          options={{title: '강의'}}
+          options={{
+            title: '출석 체크',
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="TeacherCourseInfo"
           component={TeacherCourseInfo}
-          options={{title: '강의정보'}}
+          options={{
+            title: '강의정보',
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="BoardList"
           component={BoardList}
-          options={{title: '과제 리스트'}}
+          options={{
+            title: '과제 리스트',
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="BoardSave"
@@ -623,32 +718,71 @@ function AppInner() {
         <Stack.Screen
           name="Listeners"
           component={Listeners}
-          options={{title: '수강생'}}
+          options={{
+            title: '수강생 리스트',
+            headerShown: true,
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
-          name="AllRanking"
-          component={AllRanking}
-          options={{title: '전체 랭킹'}}
+          name="TeacherRanking"
+          component={TeacherRanking}
+          options={{
+            title: '학생 랭킹',
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="ApplyVideo"
           component={ApplyVideo}
-          options={{title: '동영상신청리스트', headerShown: true}}
+          options={{
+            title: '동영상 신청 리스트',
+            headerShown: true,
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="TeacherAllTest"
           component={TeacherAllTest}
-          options={{title: '테스트', headerShown: true}}
+          options={{
+            title: '테스트',
+            headerShown: true,
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="TeacherTest"
           component={TeacherTest}
-          options={{title: '테스트', headerShown: true}}
+          options={{
+            title: '테스트 분석',
+            headerShown: true,
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="TestRank"
           component={TestRank}
-          options={{title: '순위', headerShown: true}}
+          options={{
+            title: '테스트 랭킹',
+            headerShown: true,
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
       </Stack.Navigator>
     );

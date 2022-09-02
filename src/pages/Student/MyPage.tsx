@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   Alert,
   Image,
@@ -20,17 +20,13 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 import MyTextInput from '../../components/MyTextInput';
 import ImageResizer from 'react-native-image-resizer';
 import ImagePicker from 'react-native-image-crop-picker';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {LoggedInParamList} from '../../../AppInner';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 import {Fonts} from '../../assets/Fonts';
-import RoundButton from '../../components/RoundButton';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import MyButton from '../../components/MyButton';
+import {Actionsheet, Box, useDisclose} from 'native-base';
 
-type MyPageScreenProps = NativeStackScreenProps<LoggedInParamList, 'MyPage'>;
-
-function MyPage({navigation}: MyPageScreenProps) {
+function MyPage() {
   const dispatch = useAppDispatch();
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const originalNickname = useSelector(
@@ -45,7 +41,6 @@ function MyPage({navigation}: MyPageScreenProps) {
   const [visiblePwInput, setVisiblePwInput] = useState<boolean>(false);
   const nicknameRef = useRef<TextInput | null>(null);
   const passwordRef = useRef<TextInput | null>(null);
-
   const [image, setImage] = useState<{
     uri: string;
     name: string;
@@ -54,7 +49,9 @@ function MyPage({navigation}: MyPageScreenProps) {
   const photoUrl = useSelector((state: RootState) => state.user.photoURL);
   const [changeImage, setChangeImage] = useState(false);
 
-  const onResponse = useCallback(async response => {
+  const {isOpen, onOpen, onClose} = useDisclose();
+
+  const onResponse = useCallback(response => {
     console.log(response.width, response.height, response.exif);
     const orientation = (response.exif as any)?.Orientation;
     console.log('orientation', orientation);
@@ -65,16 +62,28 @@ function MyPage({navigation}: MyPageScreenProps) {
       response.mime.includes('jpeg') ? 'JPEG' : 'PNG',
       100,
       0,
-    ).then(r => {
-      console.log(r.uri, r.name);
-
-      setImage({
-        uri: r.uri,
-        name: r.name,
-        type: response.mime,
+    )
+      .then(r => {
+        console.log(r.uri, r.name);
+        setImage({
+          uri: r.uri,
+          name: r.name,
+          type: response.mime,
+        });
+        console.log('이미지-: ', image);
+      })
+      .then(() => {
+        console.log('이미지 업로드 ㄱ-ㄱ-ㄱ-ㄱ-ㄱ-ㄱ-ㄱ-: ', image);
       });
-    });
+    // .then(() => {
+    //   onUpdateImage();
+    // });
   }, []);
+
+  useEffect(() => {
+    console.log('되어라 쫌: ', image);
+    onUpdateImage();
+  }, [image]);
 
   const onChangeFile = useCallback(() => {
     return ImagePicker.openPicker({
@@ -112,11 +121,80 @@ function MyPage({navigation}: MyPageScreenProps) {
   const showImage = () => {
     console.log(image);
     if (!image) {
+      // if (photoUrl) {
       return (
         <View style={styles.imageWrapper}>
-          <Pressable onPress={onChangeFile}>
+          <Pressable
+            onPress={onOpen}
+            style={{
+              // backgroundColor: 'pink',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            {!photoUrl ? (
+              <View
+                style={{
+                  backgroundColor: 'darkgray',
+                  width: 150,
+                  height: 150,
+                  borderRadius: 16,
+                  borderColor: '#e0f2fe',
+                  borderWidth: 4,
+                }}
+              />
+            ) : (
+              <Image
+                source={{uri: photoUrl}}
+                style={{
+                  width: 150,
+                  height: 150,
+                  borderRadius: 16,
+                  borderColor: '#e0f2fe',
+                  borderWidth: 4,
+                }}
+              />
+            )}
+            <FontAwesome5Icon
+              name={'camera'}
+              size={50}
+              color={'lightgray'}
+              style={{position: 'absolute'}}
+            />
+          </Pressable>
+          <Actionsheet isOpen={isOpen} onClose={onClose}>
+            <Actionsheet.Content>
+              <Actionsheet.Item
+                onPress={onChangeFile}
+                startIcon={
+                  <FontAwesome5Icon name={'poo'} size={22} color={'black'} />
+                }>
+                새로운 사진 선택
+              </Actionsheet.Item>
+              <Actionsheet.Item
+                onPress={removeImage}
+                // style={{backgroundColor: 'yellow'}}
+                startIcon={
+                  <FontAwesome5Icon name={'times'} size={22} color={'black'} />
+                }>
+                현재 사진 삭제
+              </Actionsheet.Item>
+            </Actionsheet.Content>
+          </Actionsheet>
+        </View>
+      );
+    } else {
+      // 새로 선택한 이미지 O
+      return (
+        <View style={styles.imageWrapper}>
+          <Pressable
+            onPress={onOpen}
+            style={{
+              // backgroundColor: 'pink',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
             <Image
-              source={{uri: photoUrl}}
+              source={{uri: image.uri}}
               style={{
                 width: 150,
                 height: 150,
@@ -125,56 +203,32 @@ function MyPage({navigation}: MyPageScreenProps) {
                 borderWidth: 4,
               }}
             />
-          </Pressable>
-          <Pressable
-            style={{
-              position: 'absolute',
-              right: -150,
-              backgroundColor: 'green',
-            }}
-            onPress={() => {
-              removeImage();
-            }}>
-            <FontAwesome5Icon
-              name={'times-circle'}
-              size={30}
-              color={'lightgray'}
-            />
-            {/*<Image*/}
-            {/*  source={require('../../assets/images/delete.png')}*/}
-            {/*  style={{width: 15, height: 15}}*/}
+            {/*<FontAwesome5Icon*/}
+            {/*  name={'camera'}*/}
+            {/*  size={50}*/}
+            {/*  color={'lightgray'}*/}
+            {/*  style={{position: 'absolute'}}*/}
             {/*/>*/}
           </Pressable>
-        </View>
-      );
-    } else {
-      return (
-        <View style={styles.imageWrapper}>
-          <Pressable onPress={onChangeFile}>
-            <Image
-              source={{uri: image.uri}}
-              style={{
-                width: 150,
-                height: 150,
-                borderRadius: 15,
-                borderColor: '#e0f2fe',
-                borderWidth: 5,
-              }}
-            />
-          </Pressable>
-          <Pressable
-            style={{
-              position: 'absolute',
-              right: 0,
-            }}
-            onPress={() => {
-              removeImage();
-            }}
-          />
-          {/*<Image*/}
-          {/*  source={require('../assets/images/delete.png')}*/}
-          {/*  style={{width: 15, height: 15}}*/}
-          {/*/>*/}
+          <Actionsheet isOpen={isOpen} onClose={onClose}>
+            <Actionsheet.Content>
+              <Actionsheet.Item
+                onPress={onChangeFile}
+                startIcon={
+                  <FontAwesome5Icon name={'poo'} size={22} color={'black'} />
+                }>
+                새로운 사진 선택
+              </Actionsheet.Item>
+              <Actionsheet.Item
+                onPress={removeImage}
+                // style={{backgroundColor: 'yellow'}}
+                startIcon={
+                  <FontAwesome5Icon name={'times'} size={22} color={'black'} />
+                }>
+                현재 사진 삭제
+              </Actionsheet.Item>
+            </Actionsheet.Content>
+          </Actionsheet>
         </View>
       );
     }
@@ -182,7 +236,8 @@ function MyPage({navigation}: MyPageScreenProps) {
 
   const onUpdateImage = useCallback(async () => {
     if (!image) {
-      return Alert.alert('알림', '이미지를 선택해주세요.');
+      // return Alert.alert('알림', '이미지를 선택해주세요.');
+      return;
     }
     const formData = new FormData();
     formData.append('image', image);
@@ -374,18 +429,18 @@ function MyPage({navigation}: MyPageScreenProps) {
         </View>
         <View style={styles.inputWrapper}>
           <View style={{alignItems: 'center'}}>{showImage()}</View>
-          <Pressable onPress={onUpdateImage} style={styles.button}>
-            <View style={{alignItems: 'center'}}>
-              <Text
-                style={{
-                  color: 'black',
-                  fontFamily: Fonts.TRBold,
-                  fontSize: 19,
-                }}>
-                사진 변경
-              </Text>
-            </View>
-          </Pressable>
+          {/*<Pressable onPress={onUpdateImage} style={styles.button}>*/}
+          {/*  <View style={{alignItems: 'center'}}>*/}
+          {/*    <Text*/}
+          {/*      style={{*/}
+          {/*        color: 'black',*/}
+          {/*        fontFamily: Fonts.TRBold,*/}
+          {/*        fontSize: 19,*/}
+          {/*      }}>*/}
+          {/*      사진 변경*/}
+          {/*    </Text>*/}
+          {/*  </View>*/}
+          {/*</Pressable>*/}
         </View>
         <View style={styles.inputWrapper}>
           <Pressable

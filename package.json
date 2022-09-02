@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@bam.tech/react-native-make": "^3.0.3",
+    "@freakycoder/react-native-bounceable": "^1.0.3",
     "@react-native-async-storage/async-storage": "^1.17.4",
     "@react-native-community/checkbox": "^0.5.12",
     "@react-native-community/datetimepicker": "^6.3.2",
@@ -29,14 +30,17 @@
     "http-proxy-middleware": "^2.0.6",
     "install": "^0.13.0",
     "native-base": "^3.4.13",
+    "moment": "^2.29.4",
     "peer": "^0.6.1",
     "push-notification": "^0.2.5",
     "react": "17.0.2",
     "react-native": "0.68.1",
+    "react-native-bounceable": "^0.2.1",
     "react-native-bouncy-checkbox": "^3.0.2",
     "react-native-calendars": "^1.1288.2",
     "react-native-camera-kit": "^12.1.0",
     "react-native-chart-kit": "^6.12.0",
+    "react-native-colorful-card": "^0.1.5",
     "react-native-config": "^1.4.6",
     "react-native-elements": "^3.4.2",
     "react-native-encrypted-storage": "^4.0.2",
@@ -63,7 +67,9 @@
     "react-redux": "^8.0.2",
     "redux-flipper": "^2.0.2",
     "rn-async-storage-flipper": "^0.0.10",
-    "socket.io-client": "^4.5.0"
+    "socket.io-client": "^4.5.0",
+    "styled-component": "^2.8.0",
+    "styled-components": "^5.3.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

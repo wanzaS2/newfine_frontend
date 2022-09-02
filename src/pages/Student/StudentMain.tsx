@@ -94,7 +94,7 @@ function StudentMain({navigation}: MainScreenProps) {
             styles.bigButton,
           ]}
           onPress={() => {
-            navigation.navigate('MyPointList');
+            navigation.navigate('RankingPoint');
           }}>
           <View style={{flexDirection: 'row', width: '100%', height: '70%'}}>
             {showImage()}

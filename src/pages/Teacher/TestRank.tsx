@@ -1,37 +1,33 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
-  Alert,
   FlatList,
-  Pressable,
   SafeAreaView,
-  StatusBar,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
-  ScrollView,
-  Button,
+  Platform,
 } from 'react-native';
-
 import axios from 'axios';
 import Config from 'react-native-config';
-import Title from '../../components/Title';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store/reducer';
 import {Fonts} from '../../assets/Fonts';
-import Icon from 'react-native-vector-icons/AntDesign';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {TeacherParamList} from '../../../AppInner';
 
-function TestRank({route, navigation}) {
-  console.log('전달받은 것', route.params);
+type TestRankScreenProps = NativeStackScreenProps<TeacherParamList, 'TestRank'>;
+
+function TestRank({route}: TestRankScreenProps) {
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const [TestList, setTestList] = useState();
   const [highest, sethighest] = useState();
   const [lowest, setlowest] = useState();
   const [avg, setAvg] = useState();
-  const [top5, settop5] = useState();
   const [listLength, setAttendanceLength] = useState();
   const [ranklen, setRankLength] = useState();
   const [loading, setLoading] = useState(false);
-  const accessToken = useSelector((state: RootState) => state.user.accessToken);
+  const scrollRef = useRef();
+
   console.log('전달받은 것', route.params);
   const getAttendances = () => {
     console.log(route.params);
@@ -74,115 +70,80 @@ function TestRank({route, navigation}) {
     console.log('AttendanceList : ', TestList);
     console.log('listLength : ', listLength);
   }, [listLength]);
+
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <StatusBar style="auto" />
-        <SafeAreaView style={styles.container}>
-          <View style={styles.myinfo}>
-            <View style={styles.scorebox}>
-              <Text style={styles.rank}>평균 </Text>
-              <Text style={styles.number}> {avg}점</Text>
-            </View>
-            <View style={styles.scorebox}>
-              <Text style={styles.avg}>최고 {highest} 점</Text>
-              <Text style={styles.avg}>/ 최저 {lowest} 점</Text>
-            </View>
+    <SafeAreaView style={styles.container}>
+      <View style={{marginTop: '10%'}}>
+        {/*<ScrollView>*/}
+        <View style={styles.myInfo}>
+          <View style={styles.scoreBox}>
+            <Text style={styles.rank}>평균 </Text>
+            <Text style={styles.number}> {avg}점</Text>
           </View>
-          <View style={styles.topfive}>
-            <View style={styles.toptitle}>
-              <Text style={styles.topfont}>순위</Text>
-            </View>
+          <View style={styles.scoreBox}>
+            <Text style={styles.avg}>최고 {highest} 점</Text>
+            <Text style={styles.avg}>/ 최저 {lowest} 점</Text>
+          </View>
+        </View>
+
+        <View style={styles.contentsContainer}>
+          <View style={styles.topTitle}>
+            <Text style={styles.topFont}>순위</Text>
+          </View>
+          <View style={styles.listArea}>
             <FlatList
+              ref={scrollRef}
               data={TestList}
+              style={{height: '90%'}}
               renderItem={({item, index}) => (
-                <View style={styles.box_list}>
-                  <View style={styles.box}>
-                    <Text style={styles.toprank}>{item.rank}위 </Text>
-                    <Text
-                      style={{
-                        marginLeft: 135,
-                        position: 'absolute',
-                        fontSize: 20,
-                        fontWeight: 'bold',
-                        color: '#87cefa',
-                      }}>
-                      {item.name}
-                    </Text>
-                    <Text
-                      style={{
-                        marginTop: 4,
-                        marginLeft: 225,
-                        position: 'absolute',
-                        fontSize: 18,
-                      }}>
-                      {item.score}점
-                    </Text>
-                  </View>
+                <View style={styles.flatList}>
+                  <Text style={styles.topRank}>{item.rank}위 </Text>
+                  <Text style={styles.nameText}>{item.name}</Text>
+                  <Text style={styles.score}>{item.score}점</Text>
                 </View>
               )}
               keyExtractor={(item, index) => index.toString()}
             />
           </View>
-        </SafeAreaView>
+        </View>
+        {/*</ScrollView>*/}
       </View>
-    </ScrollView>
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
-  button: {
-    alignItems: 'center',
-    backgroundColor: '#87cefa',
-    padding: 10,
-    justifyContent: 'center',
-    borderRadius: 100,
-    width: 320,
-    height: 60,
-  },
   container: {
     flex: 1,
-    backgroundColor: '#f0f8ff',
-    fontFamily: Fonts.TRBold,
+    backgroundColor: 'white',
   },
-  myinfo: {
-    weight: 60,
-    height: 80,
+  contentsContainer: {
+    // justifyContent: 'flex-start',
+    height: '75%',
+    marginTop: 10,
+    marginBottom: '5%',
+    paddingVertical: '5%',
+    fontFamily: Fonts.TRBold,
+    backgroundColor: '#e0f2fe',
+    // backgroundColor: '#fafad2',
+  },
+  myInfo: {
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 20,
     marginBottom: 20,
   },
-  box_list: {
-    borderRadius: 15,
-    borderColor: '#87cefa',
-    borderWidth: 2,
-    padding: 7,
-    justifyContent: 'flex-start',
-    marginTop: 5,
-    backgroundColor: '#fff8dc',
-  },
-  box: {
+  scoreBox: {
+    marginTop: 7,
     flexDirection: 'row',
-    flex: 1,
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   rank: {
     alignItems: 'center',
     justifyContent: 'flex-start',
     fontSize: 30,
     fontFamily: Fonts.TRBold,
-  },
-  scorebox: {
-    marginTop: 7,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  score: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    fontSize: 30,
-    fontFamily: Fonts.TRBold,
+    color: 'black',
   },
   avg: {
     marginTop: 8,
@@ -190,64 +151,77 @@ const styles = StyleSheet.create({
     // backgroundColor: 'yellow',
     borderRadius: 5,
     fontSize: 18,
-  },
-  total: {
-    marginTop: 8,
-    paddingLeft: 10,
-    // backgroundColor: 'yellow',
-    borderRadius: 5,
-    fontSize: 18,
+    color: 'black',
+    fontFamily: Fonts.TRRegular,
   },
   number: {
-    color: '#87cefa',
+    color: '#0077e6',
     fontSize: 30,
     fontFamily: Fonts.TRBold,
   },
-  topfive: {
-    height: 2680,
-    justifyContent: 'flex-start',
-    marginTop: 10,
-    borderRadius: 10,
-    borderColor: 'lightskyblue',
-    borderWidth: 8,
-    marginBottom: 10,
-    // fontFamily: Fonts.TRBold,
-    backgroundColor: '#f0f8ff',
-    // backgroundColor: '#fafad2',
-  },
-  toptitle: {
-    marginTop: 8,
+  topTitle: {
+    // marginTop: 8,
+    // backgroundColor: 'yellow',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 4,
+    marginBottom: '3%',
   },
-  topfont: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#ffa07a',
-    // fontFamily: Fonts.TRBold,
+  topFont: {
+    fontSize: 30,
+    fontFamily: Fonts.TRBold,
+    color: '#f97316',
   },
-  toprank: {
-    marginLeft: 50,
+  listArea: {
+    // backgroundColor: 'yellow',
+    alignItem: 'center',
+    justifyContent: 'center',
+  },
+  flatList: {
+    // width: screenWidth,
+    paddingVertical: '5%',
+    // alignItems: 'center',
+    // marginTop: 5,
+    justifyContent: 'center',
+    marginBottom: 10,
+    borderRadius: 8,
+    backgroundColor: '#fff7ed',
+    marginHorizontal: 25,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 10,
+          height: 10,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 10,
+      },
+      android: {
+        elevation: 3,
+      },
+    }),
+  },
+  topRank: {
+    marginLeft: 30,
+    position: 'absolute',
+    fontFamily: Fonts.TRBold,
     fontSize: 22,
-    fontWeight: '900',
-    color: '#ffa07a',
+    color: '#f97316',
   },
-  correct: {
-    marginLeft: 180,
+  nameText: {
+    left: 100,
     position: 'absolute',
     fontSize: 20,
-    color: '#ffa07a',
-    fontWeight: 'bold',
-  },
-  killercorrect: {
-    padding: 3,
-    position: 'absolute',
-    fontSize: 16,
-    color: '#87cefa',
-    fontWeight: 'bold',
-    marginLeft: 10,
     fontFamily: Fonts.TRBold,
+    color: 'black',
+  },
+  score: {
+    position: 'absolute',
+    fontSize: 18,
+    color: 'black',
+    right: 30,
+    bottom: -1,
+    fontFamily: Fonts.TRRegular,
   },
 });
 
