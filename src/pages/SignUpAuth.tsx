@@ -57,8 +57,8 @@ function SignUpAuth({navigation}: SignUpAuthScreenProps) {
         },
       );
       console.log(response.data);
-      // setBranchList(response.data);
-      // setBranchListLength(response.data.length);
+      setBranchList(response.data);
+      setBranchListLength(response.data.length);
     } catch (error) {
       const errorResponse = (error as AxiosError).response;
       console.error(errorResponse);
@@ -71,8 +71,18 @@ function SignUpAuth({navigation}: SignUpAuthScreenProps) {
   useEffect(() => {
     getBranch();
     console.log('\n\n\n\nbranchList : ', branchList);
+    // console.log('branchList : ', branchList[0].branchName);
     console.log('branchListLength : ', branchListLength);
   }, []);
+
+  const branchItem = () => {
+    console.log('안에 들어가라이 ', branchList);
+    for (let i = 0; i < branchListLength; i++) {
+      console.log('안에 들어가라이 ', branchList[i].branchName);
+      console.log(i);
+      return <Select.Item label={branchList[i].branchName} value={i} />;
+    }
+  };
 
   const onChangeBranch = value => {
     console.log(value);
@@ -179,19 +189,22 @@ function SignUpAuth({navigation}: SignUpAuthScreenProps) {
           <Select
             selectedValue={branch}
             minWidth="200"
-            accessibilityLabel="Choose Service"
-            placeholder="Choose Service"
+            accessibilityLabel="Choose Your Branch"
+            placeholder="Choose Your Branch"
             _selectedItem={{
               bg: 'teal.600',
               endIcon: <CheckIcon size="5" />,
             }}
             mt={1}
             onValueChange={itemValue => onChangeBranch(itemValue)}>
-            <Select.Item label="UX Research" value="ux" />
-            <Select.Item label="Web Development" value="web" />
-            <Select.Item label="Cross Platform Development" value="cross" />
-            <Select.Item label="UI Designing" value="ui" />
-            <Select.Item label="Backend Development" value="backend" />
+            {/*<Select.Item label="UX Research" value="ux" />*/}
+            {/*<Select.Item label="Web Development" value="web" />*/}
+            {/*<Select.Item label="Cross Platform Development" value="cross" />*/}
+            {/*<Select.Item label="UI Designing" value="ui" />*/}
+            {/*<Select.Item label="Backend Development" value="backend" />*/}
+            {branchList.map((content, i) => {
+              return <Select.Item label={content.branchName} value={i} />;
+            })}
           </Select>
         </View>
         <View style={styles.inputWrapper}>
