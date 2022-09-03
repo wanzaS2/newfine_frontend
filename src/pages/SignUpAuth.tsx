@@ -15,10 +15,10 @@ import DismissKeyboardView from '../components/DismissKeyboardView';
 import {Fonts} from '../assets/Fonts';
 import MyButton from '../components/MyButton';
 import MyTextInput from '../components/MyTextInput';
-import RNPickerSelect from 'react-native-picker-select';
+// import RNPickerSelect from 'react-native-picker-select';
 import OTPTextView from 'react-native-otp-textinput';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import {CheckIcon, Select} from 'native-base';
+import {useFocusEffect} from '@react-navigation/native';
 
 type SignUpAuthScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -34,16 +34,9 @@ function SignUpAuth({navigation}: SignUpAuthScreenProps) {
   const [chkAuthCode, setChkAuthCode] = useState('');
   const [visible, setVisible] = useState<boolean>(false);
   const phoneNumberRef = useRef<TextInput | null>(null);
-  // const authCodeRef = useRef<TextInput | null>(null);
   const [branch, setBranch] = useState('');
   const [branchList, setBranchList] = useState();
   const [branchListLength, setBranchListLength] = useState();
-
-  const data = [
-    {label: '대치', value: 1},
-    {label: '반포', value: 2},
-    {label: '압구정', value: 3},
-  ];
 
   const getBranch = async () => {
     try {
@@ -56,9 +49,10 @@ function SignUpAuth({navigation}: SignUpAuthScreenProps) {
           // },
         },
       );
-      console.log(response.data);
+      console.log('set 전: ', response.data);
       setBranchList(response.data);
       setBranchListLength(response.data.length);
+      console.log('set 후: ', branchList);
     } catch (error) {
       const errorResponse = (error as AxiosError).response;
       console.error(errorResponse);
@@ -68,19 +62,30 @@ function SignUpAuth({navigation}: SignUpAuthScreenProps) {
     }
   };
 
+  // useEffect(() => {
+  //   getBranch();
+  //   console.log('branchList : ', branchList);
+  // }, []);
+  //
+  // useEffect(() => {
+  //   console.log('\n\n\n\nbranchList : ', branchList);
+  // }, [branchList]);
+
   useEffect(() => {
     getBranch();
     console.log('\n\n\n\nbranchList : ', branchList);
     // console.log('branchList : ', branchList[0].branchName);
     console.log('branchListLength : ', branchListLength);
-  }, []);
+    // branchItem();
+  }, [branchListLength]);
 
   const branchItem = () => {
-    console.log('안에 들어가라이 ', branchList);
-    for (let i = 0; i < branchListLength; i++) {
-      console.log('안에 들어가라이 ', branchList[i].branchName);
-      console.log(i);
-      return <Select.Item label={branchList[i].branchName} value={i} />;
+    {
+      branchList.map((content, i) => {
+        console.log(content);
+        // console.log(content);
+        return <Select.Item label={content.branchName} value={i} />;
+      });
     }
   };
 
@@ -202,9 +207,11 @@ function SignUpAuth({navigation}: SignUpAuthScreenProps) {
             {/*<Select.Item label="Cross Platform Development" value="cross" />*/}
             {/*<Select.Item label="UI Designing" value="ui" />*/}
             {/*<Select.Item label="Backend Development" value="backend" />*/}
-            {branchList.map((content, i) => {
-              return <Select.Item label={content.branchName} value={i} />;
-            })}
+            {branchList &&
+              branchList.map((content, i) => {
+                console.log(content);
+                return <Select.Item label={content.branchName} value={i} />;
+              })}
           </Select>
         </View>
         <View style={styles.inputWrapper}>
