@@ -38,6 +38,7 @@ export default function BoardSave({route, navigation}) {
   const [datecheck, setDateCheck] = useState(false);
   const [timecheck, setTimeCheck] = useState(false);
   const [timecheck2, setTimeCheck2] = useState(false);
+  const [dstate, setdState] = useState(false);
 
   function getYyyyMmDdMmSsToString(date) {
     let dd = date.getDate();
@@ -75,6 +76,7 @@ export default function BoardSave({route, navigation}) {
     setMode1('date'); // 모달 유형을 date로 변경
     setVisible1(true); // 모달 open
     setTimeCheck(true);
+    console.log(timecheck);
   };
 
   const onPressTime1 = () => {
@@ -90,6 +92,8 @@ export default function BoardSave({route, navigation}) {
     setVisible1(false); // 모달 close
     onChangeDate1(selectedDate); // 선택한 날짜 변경
     setDateCheck(true);
+    setdState(true);
+    console.log(datecheck);
 
     console.log(date1);
     // 날짜 또는 시간 선택 시
@@ -105,6 +109,7 @@ export default function BoardSave({route, navigation}) {
       setMode2('date'); // 모달 유형을 date로 변경
       setVisible2(true); // 모달 open
       setTimeCheck2(true);
+      console.log(timecheck2);
     } else {
       Alert.alert('1차 마감기한부터 설정해주세요.');
     }
@@ -143,6 +148,11 @@ export default function BoardSave({route, navigation}) {
       Alert.alert('제목 또는 내용이 없습니다.');
       return;
     }
+    if (!dstate) {
+      Alert.alert('마감기한을 설정해주세요.');
+      return;
+    }
+
     setIsLoading(true);
     let fdeadline = getYyyyMmDdMmSsToString(date1);
     console.log(fdeadline);

@@ -19,7 +19,7 @@ import MyTextInput from '../components/MyTextInput';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import { useSelector } from "react-redux";
 import { RootState } from "../store/reducer";
-import messaging from '@react-native-firebase/messaging';
+// import messaging from '@react-native-firebase/messaging';
 import userSlice from '../slices/user';
 import { useAppDispatch } from "../store";
 
