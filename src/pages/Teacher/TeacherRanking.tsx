@@ -31,10 +31,20 @@ function TeacherRanking() {
   const scrollRef = useRef();
 
   const [showModal, setShowModal] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
   // const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [modalName, setModalName] = useState('');
   const [modalNickname, setModalNickname] = useState('');
   const [modalPhoneNumber, setModalPhoneNumber] = useState('');
+
+  const handleOnSelectItem = item => {
+    setSelectedItem(item);
+    console.log('\n\n\n\n\n셀아: ', selectedItem);
+  };
+
+  const handleOnCloseModal = () => {
+    setSelectedItem(null);
+  };
 
   const getStudentInfo = async ({...props}) => {
     try {
@@ -138,6 +148,7 @@ function TeacherRanking() {
                 onPress={() => {
                   console.log('네: ', item.nickname);
                   getStudentInfo({nickname: item.nickname});
+                  handleOnSelectItem(item);
                   setShowModal(true);
                   // setModalVisible(true);
                 }}>
@@ -147,61 +158,65 @@ function TeacherRanking() {
                     {item.nickname}님 {item.score}점
                   </Text>
                 </View>
-                <Modal
-                  isOpen={showModal}
-                  onClose={() => setShowModal(false)}
-                  size={'md'}>
-                  <Modal.Content maxWidth="400px">
-                    <Modal.CloseButton />
-                    <Modal.Header>
-                      <Text
-                        style={{
-                          fontFamily: Fonts.TRBold,
-                          color: '#0077e6',
-                          fontSize: 20,
-                        }}>
-                        {modalNickname}
-                      </Text>
-                    </Modal.Header>
-                    <Modal.Body>
-                      <Text
-                        style={{
-                          fontFamily: Fonts.TRRegular,
-                          color: 'black',
-                          fontSize: 16,
-                        }}>
-                        이름: {modalName}
-                      </Text>
-                      <Text
-                        style={{
-                          fontFamily: Fonts.TRRegular,
-                          color: 'black',
-                          fontSize: 16,
-                        }}>
-                        전화번호: {modalPhoneNumber}
-                      </Text>
-                    </Modal.Body>
-                    <Modal.Footer>
-                      <Pressable
-                        onPress={() => {
-                          setShowModal(false);
-                        }}>
-                        <Text
-                          style={{
-                            fontFamily: Fonts.TRBold,
-                            color: '#0077e6',
-                            fontSize: 18,
-                          }}>
-                          확인
-                        </Text>
-                      </Pressable>
-                    </Modal.Footer>
-                  </Modal.Content>
-                </Modal>
               </Pressable>
             </View>
           )}
         />
+        <Modal
+          isOpen={showModal}
+          onClose={() => {
+            setShowModal(false);
+            handleOnCloseModal();
+          }}
+          size={'md'}>
+          <Modal.Content maxWidth="400px">
+            <Modal.CloseButton />
+            <Modal.Header>
+              <Text
+                style={{
+                  fontFamily: Fonts.TRBold,
+                  color: '#0077e6',
+                  fontSize: 20,
+                }}>
+                {modalNickname}
+              </Text>
+            </Modal.Header>
+            <Modal.Body>
+              <Text
+                style={{
+                  fontFamily: Fonts.TRRegular,
+                  color: 'black',
+                  fontSize: 16,
+                }}>
+                이름: {modalName}
+              </Text>
+              <Text
+                style={{
+                  fontFamily: Fonts.TRRegular,
+                  color: 'black',
+                  fontSize: 16,
+                }}>
+                전화번호: {modalPhoneNumber}
+              </Text>
+            </Modal.Body>
+            <Modal.Footer>
+              <Pressable
+                onPress={() => {
+                  setShowModal(false);
+                  handleOnCloseModal();
+                }}>
+                <Text
+                  style={{
+                    fontFamily: Fonts.TRBold,
+                    color: '#0077e6',
+                    fontSize: 18,
+                  }}>
+                  확인
+                </Text>
+              </Pressable>
+            </Modal.Footer>
+          </Modal.Content>
+        </Modal>
       </View>
     </SafeAreaView>
   );

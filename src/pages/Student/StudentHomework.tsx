@@ -6,33 +6,29 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  Alert,
-  Image,
   SafeAreaView,
+  Platform,
 } from 'react-native';
 import Config from 'react-native-config';
-import RoundButton from '../../components/RoundButton';
 import axios from 'axios';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store/reducer';
-import {ExpandableListView} from 'react-native-expandable-listview';
-import Title from '../components/Title';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {LoggedInParamList} from '../../../AppInner';
+import {Fonts} from '../../assets/Fonts';
+import {Modal, Pressable} from 'native-base';
 
 type StudentHomeworkScreenProps = NativeStackScreenProps<
   LoggedInParamList,
   'StudentHomework'
 >;
 
-export default function StudentHomework({
-  route,
-  navigation,
-}: StudentHomeworkScreenProps) {
-  const [toggle, onToggle] = useState('');
+export default function StudentHomework({route}: StudentHomeworkScreenProps) {
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
+  // const [toggle, onToggle] = useState('');
   const [data, setData] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const accessToken = useSelector((state: RootState) => state.user.accessToken);
+  // const [showModal, setShowModal] = useState(false);
 
   const fetchItems = () => {
     if (!isRefreshing) {
@@ -68,41 +64,85 @@ export default function StudentHomework({
         {isRefreshing ? (
           <ActivityIndicator />
         ) : (
-          <View>
-            <View>
-              <Text>확인 완료 된 과제</Text>
+          <View style={{marginTop: '15%'}}>
+            <View style={styles.completedHomework}>
+              <Text style={styles.completedHomeworkText}>
+                확인완료된 과제입니다~!
+              </Text>
             </View>
-            <FlatList
-              data={data}
-              onRefresh={fetchItems} // fetch로 데이터 호출
-              refreshing={isRefreshing} // state
-              keyExtractor={(item, index) => {
-                // console.log("index", index)
-                return index.toString();
-              }}
-              renderItem={({item, index}) => {
-                console.log('item', item);
-                return (
-                  <TouchableOpacity
-                    style={styles.container}
-                    key={index.toString()}
-                    onPress={() =>
-                      navigation.navigate('StudentBoardDetail', {
-                        id: item.thId,
-                      })
-                    }>
-                    <View>
-                      <Text style={styles.title}>
-                        {item.course} / {item.title} / {item.grade}
-                      </Text>
-                      <Text style={styles.text}>
-                        확인일시: {item.checkedDate}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                );
-              }}
-            />
+            <View style={styles.listArea}>
+              <FlatList
+                data={data}
+                onRefresh={fetchItems} // fetch로 데이터 호출
+                refreshing={isRefreshing} // state
+                keyExtractor={(item, index) => {
+                  // console.log("index", index)
+                  return index.toString();
+                }}
+                renderItem={({item, index}) => {
+                  console.log('item', item);
+                  return (
+                    <Pressable
+                      style={styles.flatList}
+                      key={index.toString()}
+                      // onPress={() => setShowModal(true)}>
+                    >
+                      <View>
+                        <Text style={styles.title}>
+                          {item.course} : {item.title} ({item.deadline})
+                        </Text>
+                        <Text style={styles.text}>
+                          확인 일시: {item.checkedDate}
+                        </Text>
+                      </View>
+                      {/*<Modal*/}
+                      {/*  isOpen={showModal}*/}
+                      {/*  onClose={() => setShowModal(false)}*/}
+                      {/*  size={'lg'}>*/}
+                      {/*  <Modal.Content maxWidth="400px" height={'60%'}>*/}
+                      {/*    <Modal.CloseButton />*/}
+                      {/*    <Modal.Header>*/}
+                      {/*      <Text*/}
+                      {/*        style={{*/}
+                      {/*          fontFamily: Fonts.TRBold,*/}
+                      {/*          color: '#0077e6',*/}
+                      {/*          fontSize: 20,*/}
+                      {/*        }}>*/}
+                      {/*        {item.title}*/}
+                      {/*      </Text>*/}
+                      {/*    </Modal.Header>*/}
+                      {/*    <Modal.Body>*/}
+                      {/*      <Text*/}
+                      {/*        style={{*/}
+                      {/*          fontFamily: Fonts.TRRegular,*/}
+                      {/*          color: 'black',*/}
+                      {/*          fontSize: 16,*/}
+                      {/*        }}>*/}
+                      {/*        {item.content}*/}
+                      {/*      </Text>*/}
+                      {/*    </Modal.Body>*/}
+                      {/*    <Modal.Footer>*/}
+                      {/*      <Pressable*/}
+                      {/*        onPress={() => {*/}
+                      {/*          setShowModal(false);*/}
+                      {/*        }}>*/}
+                      {/*        <Text*/}
+                      {/*          style={{*/}
+                      {/*            fontFamily: Fonts.TRBold,*/}
+                      {/*            color: '#0077e6',*/}
+                      {/*            fontSize: 18,*/}
+                      {/*          }}>*/}
+                      {/*          확인*/}
+                      {/*        </Text>*/}
+                      {/*      </Pressable>*/}
+                      {/*    </Modal.Footer>*/}
+                      {/*  </Modal.Content>*/}
+                      {/*</Modal>*/}
+                    </Pressable>
+                  );
+                }}
+              />
+            </View>
           </View>
         )}
       </View>
@@ -112,30 +152,59 @@ export default function StudentHomework({
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 10,
-    borderColor: '#b0e0e6',
-    borderWidth: 1,
-    padding: 15,
+    flex: 1,
+    // backgroundColor: 'pink',
+  },
+  completedHomework: {
+    alignItems: 'center',
+    // backgroundColor: 'yellow',
+    paddingBottom: 20,
+  },
+  completedHomeworkText: {
+    fontFamily: Fonts.TRBold,
+    fontSize: 20,
+  },
+  listArea: {
+    // backgroundColor: 'yellow',
+    alignItem: 'center',
+    justifyContent: 'center',
+  },
+  flatList: {
+    // width: screenWidth,
+    paddingVertical: '4%',
+    // alignItems: 'center',
+    // marginTop: 5,
+    justifyContent: 'center',
     marginBottom: 10,
-    color: 'white',
-    //backgroundColor: 'rgba(50,50,50,1)',
-    backgroundColor: '#e0ffff',
-    flexDirection: 'row',
-    justifyContent: 'space-between', //space-around
+    borderRadius: 8,
+    backgroundColor: '#bae6fd',
+    marginHorizontal: 10,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 10,
+          height: 10,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 10,
+      },
+      android: {
+        elevation: 3,
+      },
+    }),
   },
   title: {
+    marginLeft: '5%',
+    marginBottom: '3%',
+    fontSize: 17,
+    fontFamily: Fonts.TRBold,
     color: 'black',
-    fontSize: 15,
-    fontWeight: 'bold',
-    marginBottom: 3,
   },
   text: {
+    marginLeft: '5%',
+    fontSize: 15,
+    fontFamily: Fonts.TRBold,
     color: 'gray',
-    fontSize: 13,
-    fontWeight: 'bold',
-  },
-  itemSeparator: {
-    backgroundColor: 'green',
-    height: 1,
   },
 });
