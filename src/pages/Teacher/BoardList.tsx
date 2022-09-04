@@ -16,11 +16,10 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../store/reducer';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {TeacherParamList} from '../../../AppInner';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import {Button, FormControl, Input, Modal, TextArea} from 'native-base';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import {Fonts} from '../../assets/Fonts';
 import HomeworkSaveModal from '../../components/HomeworkSaveModal';
+import HomeworkDetailModal from '../../components/HomeworkDetailModal';
 // import {LocalNotification} from '../lib/LocalNotification';
 
 type BoardListScreenProps = NativeStackScreenProps<
@@ -32,11 +31,23 @@ export default function BoardList({route, navigation}: BoardListScreenProps) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const [datalist, setDatalist] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [modalVisible, setModalVisible] = React.useState(false);
-  const initialRef = React.useRef(null);
-  const finalRef = React.useRef(null);
-  const scrollRef = useRef();
   const courseId = route.params.id;
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const scrollRef = useRef();
+
+  const handleOnSelectItem = item => {
+    setSelectedItem(item);
+    console.log('\n\n\n\n\n셀아: ', selectedItem);
+  };
+
+  const handleOnCloseModal = () => {
+    setSelectedItem(null);
+  };
+
+  useEffect(() => {
+    console.log('\n\n\n\n\n\n\n모달????: ', modalVisible);
+  }, [modalVisible]);
 
   function parse(str) {
     let datetime = str.split(' ');
@@ -53,31 +64,8 @@ export default function BoardList({route, navigation}: BoardListScreenProps) {
     );
 
     return date;
-    // eslint-disable-next-line no-unreachable
-    console.log(date);
+    // console.log(date);
   }
-
-  // setInterval(function () {
-  //   let dday = new Date('2022-')
-  //   let today = new Date().getTime();
-  //   let gap = dday - today;
-  //   let day = Math.ceil(gap / (1000 * 60 * 60 * 24));
-  //   let hour = Math.ceil((gap % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  //   let min = Math.ceil((gap % (1000 * 60 * 60)) / (1000 * 60));
-  //   let sec = Math.ceil((gap % (1000 * 60)) / 1000);
-  //
-  //   console.log(
-  //     'D-DAY까지 ',
-  //     day,
-  //     '일 ',
-  //     hour,
-  //     '시간 ',
-  //     min,
-  //     '분 ',
-  //     sec,
-  //     '초 남았습니다.',
-  //   );
-  // }, 1000);
 
   const fetchItems = () => {
     if (!isRefreshing) {
@@ -139,15 +127,14 @@ export default function BoardList({route, navigation}: BoardListScreenProps) {
               }}
               renderItem={({item, index}) => {
                 console.log('item', item);
+                const thId = item.id;
                 return (
                   <Pressable
                     key={index.toString()}
-                    onPress={() =>
-                      navigation.navigate('BoardDetail', {
-                        id: item.id,
-                        courseId: courseId,
-                      })
-                    }>
+                    onPress={() => {
+                      handleOnSelectItem(item);
+                      setModalVisible(true);
+                    }}>
                     <View style={styles.flatList}>
                       <View style={{flexDirection: 'row'}}>
                         <Text style={styles.title}>과제) {item.title} </Text>
@@ -165,6 +152,7 @@ export default function BoardList({route, navigation}: BoardListScreenProps) {
                         onPress={() =>
                           navigation.navigate('SHomeworkList', {
                             thId: item.id,
+                            courseName: route.params.cname,
                           })
                         }>
                         <FontAwesome5Icon
@@ -179,6 +167,15 @@ export default function BoardList({route, navigation}: BoardListScreenProps) {
               }}
             />
           </View>
+        )}
+        {modalVisible && (
+          <HomeworkDetailModal
+            thId={selectedItem.id}
+            courseId={courseId}
+            setModalVisible={setModalVisible}
+            onClose={handleOnCloseModal}
+            // showModal={modalVisible}
+          />
         )}
       </View>
     </SafeAreaView>
