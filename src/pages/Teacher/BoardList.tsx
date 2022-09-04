@@ -151,7 +151,9 @@ export default function BoardList({route, navigation}: BoardListScreenProps) {
                     <View style={styles.flatList}>
                       <View style={{flexDirection: 'row'}}>
                         <Text style={styles.title}>과제) {item.title} </Text>
-                        <Text style={styles.text}>({item.modifiedDate})</Text>
+                        <Text style={styles.text}>
+                          ({item.modifiedDate.substring(0, 10)})
+                        </Text>
                       </View>
                       <Text style={styles.text}>
                         1차 마감기한: {item.fdeadline}
