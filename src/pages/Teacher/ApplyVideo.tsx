@@ -57,7 +57,6 @@ function ApplyVideo() {
     })
       .then(response => {
         console.log(response.data);
-        console.log(response.data[0].attendance.startTime);
         let videos = [];
         for (let i = 0; i < response.data.length; i++) {
           // 결석
