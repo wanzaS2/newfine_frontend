@@ -92,7 +92,7 @@ export default function StudentBoardList({
                     }>
                     <View style={styles.flatList}>
                       <Text style={styles.title}>{item.title}</Text>
-                      <Text style={styles.text}>{item.modifiedDate}</Text>
+                      <Text style={styles.text}>{item.modifiedDate.substring(0, 10)}</Text>
                       <FontAwesome5Icon
                         name={'chevron-circle-right'}
                         size={35}
