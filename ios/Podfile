@@ -26,6 +26,8 @@ target 'newfine_frontend' do
   pod 'react-native-webview', :path => '../node_modules/react-native-webview'
 
 
+  pod 'react-native-material-kit', :path => '../node_modules/react-native-material-kit'
+
   target 'newfine_frontendTests' do
     inherit! :complete
     # Pods for testing
