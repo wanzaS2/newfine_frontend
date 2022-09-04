@@ -372,8 +372,6 @@ PODS:
     - React-Core
   - react-native-image-resizer (1.4.5):
     - React-Core
-  - react-native-material-kit (0.6.0-beta.1):
-    - React
   - react-native-safe-area-context (4.3.3):
     - RCT-Folly
     - RCTRequired
@@ -546,7 +544,6 @@ DEPENDENCIES:
   - react-native-flipper (from `../node_modules/react-native-flipper`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-image-resizer (from `../node_modules/react-native-image-resizer`)
-  - react-native-material-kit (from `../node_modules/react-native-material-kit`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - "react-native-segmented-control (from `../node_modules/@react-native-segmented-control/segmented-control`)"
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
@@ -657,8 +654,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-image-picker"
   react-native-image-resizer:
     :path: "../node_modules/react-native-image-resizer"
-  react-native-material-kit:
-    :path: "../node_modules/react-native-material-kit"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-segmented-control:
@@ -769,7 +764,6 @@ SPEC CHECKSUMS:
   react-native-flipper: 1b78844db5b0de19bd64847c3b88cafc6cc119ba
   react-native-image-picker: cffb727cf2f59bd5c0408e30b3dbe0b935f88835
   react-native-image-resizer: d9fb629a867335bdc13230ac2a58702bb8c8828f
-  react-native-material-kit: fcd29a6ad901670f8073433d382df2abaadb831f
   react-native-safe-area-context: b456e1c40ec86f5593d58b275bd0e9603169daca
   react-native-segmented-control: 06607462630512ff8eef652ec560e6235a30cc3e
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
@@ -804,6 +798,6 @@ SPEC CHECKSUMS:
   Yoga: 17cd9a50243093b547c1e539c749928dd68152da
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: c10b8d66e761c4220b2e5c00a57b4a839980e7ad
+PODFILE CHECKSUM: be9b5f6890ac7eb10e06577ae11c95c80db8643b
 
 COCOAPODS: 1.11.3
