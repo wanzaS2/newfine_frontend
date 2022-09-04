@@ -10,17 +10,14 @@ import {
   TouchableOpacity,
   View,
   ScrollView,
-  Button,
   Dimensions,
 } from 'react-native';
 
 import axios from 'axios';
 import Config from 'react-native-config';
-import Title from '../../components/Title';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store/reducer';
 import {Fonts} from '../../assets/Fonts';
-import Icon from 'react-native-vector-icons/AntDesign';
 import {LineChart} from 'react-native-chart-kit';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {LoggedInParamList} from '../../../AppInner';
@@ -41,53 +38,35 @@ function StudentAllTestResult({
   const [MyScore, setMyScore] = useState();
   const [total, setTotal] = useState();
   const [avg, setAvg] = useState();
-  const [top5, settop5] = useState();
   const [listLength, setAttendanceLength] = useState();
-  const [qnum, setQnum] = useState();
-  const [scores, setScores] = useState();
-  const [rdata, setRData] = useState();
-  const [sdata, setSData] = useState();
+  const [qnum, setQnum] = useState([]);
+  const [scores, setScores] = useState([]);
   const [new_ranks, setRanks] = useState();
   const [resultlen, setResultLength] = useState();
   const [loading, setLoading] = useState(false);
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
-
-  const getAllResults = () => {
-    console.log(route.params);
-    axios(`${Config.API_URL}/test/result/all/my`, {
-      params: {id: route.params},
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
+  const [RData, setRData] = useState({
+    labels: qnum,
+    datasets: [
+      {
+        data: [7],
+        color: (opacity = 0.6) => '#87cefa',
+        strokeWidth: 5, // optional
       },
-    })
-      .then(response => {
-        console.log('전체결과', response.data);
-        console.log(response.data.length);
-        let qnum = [];
-        let scores = [];
-        let new_ranks = [];
-        for (let i = 0; i < response.data.length; i++) {
-          // 내가 이 문제를 틀렸다면
-          qnum.push(`${response.data[i].test_num}회`);
-          scores.push(response.data[i].score);
-          new_ranks.push(response.data[i].rank);
-        }
-
-        setQnum(qnum);
-        setRanks(new_ranks);
-        setScores(scores);
-        setResultLength(response.data.length);
-        console.log('qnum', qnum);
-        console.log('scores', scores);
-        console.log('ranks', new_ranks);
-      })
-      .catch(error => console.error(error))
-      .finally(() => setLoading(false));
-  };
-  useEffect(() => {
-    getAttendances();
-    getAllResults();
-  }, [listLength]);
+    ],
+    legend: ['내 순위'], // optional
+  });
+  const [SData, setSData] = useState({
+    labels: qnum,
+    datasets: [
+      {
+        data: [39],
+        color: (opacity = 0.6) => '#87cefa',
+        strokeWidth: 5, // optional
+      },
+    ],
+    legend: ['내 점수'], // optional
+  });
   const chartConfig = {
     backgroundGradientFrom: '#f0f8ff',
     backgroundGradientFromOpacity: 0,
@@ -107,33 +86,48 @@ function StudentAllTestResult({
     },
     decimalPlaces: 0, // 정수로 바꾸는 부분
   };
-  const r_val = () => console.log('rank', new_ranks);
-  // rank.forEach(item => {
-  //   return item;
-  // });
 
-  const rank_data = {
-    labels: qnum,
-    datasets: [
-      {
-        data: [8],
-        color: (opacity = 0.6) => '#87cefa',
-        strokeWidth: 5, // optional
+  const getAllResults = () => {
+    console.log(route.params);
+    axios(`${Config.API_URL}/test/result/all/my`, {
+      params: {id: route.params},
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
       },
-    ],
-    legend: ['내 순위'], // optional
+    })
+      .then(response => {
+        console.log('전체결과', response.data);
+        console.log(response.data.length);
+        let qnum = [];
+        let scores = [];
+        let new_ranks = [];
+        for (let i = 0; i < response.data.length; i++) {
+          // 시험마다 내 점수 , 순위 넣기
+          qnum.push(`${response.data[i].test_num}회`); // 회차
+          scores.push(response.data[i].score);
+          new_ranks.push(response.data[i].rank);
+        }
+
+        setQnum(qnum);
+        setRanks(new_ranks);
+        setScores(scores);
+        setResultLength(response.data.length);
+        console.log('qnum', qnum);
+        console.log('scores', scores);
+        console.log('ranks', new_ranks);
+        RData.labels = qnum;
+        SData.labels = qnum;
+        RData.datasets[0].data = new_ranks;
+        SData.datasets[0].data = scores;
+      })
+      .catch(error => console.error(error))
+      .finally(() => setLoading(false));
   };
-  const score_data = {
-    labels: qnum,
-    datasets: [
-      {
-        data: [39],
-        color: (opacity = 0.6) => '#87cefa',
-        strokeWidth: 5, // optional
-      },
-    ],
-    legend: ['내 점수'], // optional
-  };
+  useEffect(() => {
+    console.log('useeffect 살행');
+    getAttendances();
+    getAllResults();
+  }, [listLength]);
 
   const getAttendances = () => {
     console.log(route.params);
@@ -150,7 +144,6 @@ function StudentAllTestResult({
         setMyRank(response.data.rank);
         setMyScore(response.data.myScore);
         setTotal(response.data.total);
-        console.log('처음 top5', top5);
         setAttendanceLength(response.data.length);
       })
       .catch(error => console.error(error))
@@ -170,7 +163,7 @@ function StudentAllTestResult({
             </View>
             <View style={{paddingTop: '3%'}}>
               <LineChart
-                data={rank_data}
+                data={RData}
                 width={screenWidth}
                 height={300}
                 chartConfig={chartConfig}
@@ -190,7 +183,7 @@ function StudentAllTestResult({
             </View>
             <View style={{alignItems: 'center'}}>
               <LineChart
-                data={score_data}
+                data={SData}
                 width={screenWidth}
                 height={300}
                 chartConfig={chartConfig}
