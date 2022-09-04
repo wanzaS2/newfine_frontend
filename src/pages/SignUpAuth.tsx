@@ -18,7 +18,6 @@ import MyTextInput from '../components/MyTextInput';
 // import RNPickerSelect from 'react-native-picker-select';
 import OTPTextView from 'react-native-otp-textinput';
 import {CheckIcon, Select} from 'native-base';
-import {useFocusEffect} from '@react-navigation/native';
 
 type SignUpAuthScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -42,12 +41,7 @@ function SignUpAuth({navigation}: SignUpAuthScreenProps) {
     try {
       const response = await axios.get(
         `${Config.API_URL}/branch/getBranchList`,
-        {
-          // params: {},
-          // headers: {
-          //   // Authorization: `Bearer ${accessToken}`,
-          // },
-        },
+        {},
       );
       console.log('set 전: ', response.data);
       setBranchList(response.data);
@@ -62,36 +56,17 @@ function SignUpAuth({navigation}: SignUpAuthScreenProps) {
     }
   };
 
-  // useEffect(() => {
-  //   getBranch();
-  //   console.log('branchList : ', branchList);
-  // }, []);
-  //
-  // useEffect(() => {
-  //   console.log('\n\n\n\nbranchList : ', branchList);
-  // }, [branchList]);
-
   useEffect(() => {
     getBranch();
     console.log('\n\n\n\nbranchList : ', branchList);
     // console.log('branchList : ', branchList[0].branchName);
     console.log('branchListLength : ', branchListLength);
-    // branchItem();
   }, [branchListLength]);
-
-  const branchItem = () => {
-    {
-      branchList.map((content, i) => {
-        console.log(content);
-        // console.log(content);
-        return <Select.Item label={content.branchName} value={i} />;
-      });
-    }
-  };
 
   const onChangeBranch = value => {
     console.log(value);
     setBranch(value);
+    console.log('브랜치: ', branch);
   };
 
   const onChangePhoneNumber = useCallback(text => {
@@ -115,7 +90,10 @@ function SignUpAuth({navigation}: SignUpAuthScreenProps) {
     if (loading) {
       return;
     }
-    if (!branch) {
+
+    console.log('branch:   ', branch);
+    console.log('!branch:   ', branch === '');
+    if (branch === '') {
       return Alert.alert('알림', '분원을 선택해주세요.');
     }
     if (!/^[0-9].{0,11}$/.test(phoneNumber)) {
@@ -202,15 +180,11 @@ function SignUpAuth({navigation}: SignUpAuthScreenProps) {
             }}
             mt={1}
             onValueChange={itemValue => onChangeBranch(itemValue)}>
-            {/*<Select.Item label="UX Research" value="ux" />*/}
-            {/*<Select.Item label="Web Development" value="web" />*/}
-            {/*<Select.Item label="Cross Platform Development" value="cross" />*/}
-            {/*<Select.Item label="UI Designing" value="ui" />*/}
-            {/*<Select.Item label="Backend Development" value="backend" />*/}
             {branchList &&
               branchList.map((content, i) => {
+                console.log(branch);
                 console.log(content);
-                return <Select.Item label={content.branchName} value={i} />;
+                return <Select.Item label={content.branchName} value={i + 1} />;
               })}
           </Select>
         </View>
