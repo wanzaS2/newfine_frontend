@@ -6,8 +6,9 @@ import {
   StyleSheet,
   Text,
   View,
-  ScrollView,
+  // ScrollView,
   Dimensions,
+  ScrollView,
 } from 'react-native';
 import axios from 'axios';
 import Config from 'react-native-config';
@@ -16,58 +17,53 @@ import {RootState} from '../../store/reducer';
 import {Fonts} from '../../assets/Fonts';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {LoggedInParamList} from '../../../AppInner';
-import Carousel from '../../components/Carousel';
-import MyPage from './MyPage';
-import {useNavigation} from '@react-navigation/native';
-import Attendance from '../Attendance';
-import AttendanceInfo from './AttendanceInfo';
-import AllRanking from './AllRanking';
-import RankingPoint from './MyPointList';
+// import Carousel from '../../components/Carousel';
 
 type StudentTestResultScreenProps = NativeStackScreenProps<
   LoggedInParamList,
   'StudentTestResult'
 >;
 
-const CarouselPage = ({
-  item,
-}: {
-  item: {
-    id: number;
-    color: string;
-  };
-}) => {
-  if (item.id === 0) {
-    return (
-      <View>
-        <View
-          style={{
-            width: screenWidth - 20,
-            height: '100%',
-            backgroundColor: item.color,
-          }}
-        />
-        {/*<CarouselPage1 />*/}
-      </View>
-    );
-  } else {
-    return (
-      <View
-        style={{
-          width: screenWidth - 20,
-          height: '100%',
-          backgroundColor: item.color,
-        }}
-      />
-    );
-  }
-};
+// const CarouselPage = ({
+//   item,
+// }: {
+//   item: {
+//     id: number;
+//     color: string;
+//   };
+// }) => {
+//   if (item.id === 0) {
+//     return (
+//       <View>
+//         <View
+//           style={{
+//             width: screenWidth - 20,
+//             height: '100%',
+//             backgroundColor: item.color,
+//           }}
+//         />
+//         {/*<StudentMain />*/}
+//         {/*<CarouselPage1 />*/}
+//       </View>
+//     );
+//   } else {
+//     return (
+//       <View
+//         style={{
+//           width: screenWidth - 20,
+//           height: '100%',
+//           backgroundColor: item.color,
+//         }}
+//       />
+//     );
+//   }
+// };
 
-const Sheet = [
-  {id: 0, color: '#e0f2fe'},
-  {id: 1, color: '#e0f2fe'},
-  {id: 2, color: '#e0f2fe'},
-];
+// const Sheet = [
+//   {id: 0, color: '#e0f2fe'},
+//   {id: 1, color: '#e0f2fe'},
+//   {id: 2, color: '#e0f2fe'},
+// ];
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -219,148 +215,150 @@ function StudentTestResult({route, navigation}: StudentTestResultScreenProps) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/*<ScrollView>*/}
-      {/*<StatusBar style="auto" />*/}
-      <View style={{marginTop: '10%'}}>
-        <View style={styles.myInfo}>
-          <View style={styles.scoreBox}>
-            <Text style={styles.rankScore}>순위 </Text>
-            <Text style={styles.number}> {MyRank}위</Text>
-            <Text style={styles.totalAvg}>/ {total} 명</Text>
-          </View>
-          <View style={styles.scoreBox}>
-            <Text style={styles.rankScore}>점수 </Text>
-            <Text style={styles.number}> {MyScore}점</Text>
-            <Text style={styles.totalAvg}>/ 평균 {avg} 점</Text>
-          </View>
-        </View>
-        <Carousel
-          page={page}
-          setPage={setPage}
-          gap={16}
-          data={Sheet}
-          pageWidth={screenWidth - 20}
-          RenderItem={CarouselPage}
-        />
+      <View>
+        <ScrollView>
+          {/*<StatusBar style="auto" />*/}
+          <View style={{marginTop: '10%'}}>
+            <View style={styles.myInfo}>
+              <View style={styles.scoreBox}>
+                <Text style={styles.rankScore}>순위 </Text>
+                <Text style={styles.number}> {MyRank}위</Text>
+                <Text style={styles.totalAvg}>/ {total} 명</Text>
+              </View>
+              <View style={styles.scoreBox}>
+                <Text style={styles.rankScore}>점수 </Text>
+                <Text style={styles.number}> {MyScore}점</Text>
+                <Text style={styles.totalAvg}>/ 평균 {avg} 점</Text>
+              </View>
+            </View>
+            {/*<Carousel*/}
+            {/*  page={page}*/}
+            {/*  setPage={setPage}*/}
+            {/*  gap={16}*/}
+            {/*  data={Sheet}*/}
+            {/*  pageWidth={screenWidth - 20}*/}
+            {/*  RenderItem={CarouselPage}*/}
+            {/*/>*/}
 
-        {/*<View style={styles.contentsContainer}>*/}
-        {/*  <View style={styles.topTitle}>*/}
-        {/*    <Text style={styles.topFont}>오답률 Top 5</Text>*/}
-        {/*  </View>*/}
-        {/*  <FlatList*/}
-        {/*    data={top5}*/}
-        {/*    renderItem={({item, index}) => (*/}
-        {/*      <View style={styles.contentList}>*/}
-        {/*        <Text style={styles.topRank}>{item.rank}위 </Text>*/}
-        {/*        <Text style={styles.probNum}>{item.q_num}번</Text>*/}
-        {/*        <Text*/}
-        {/*          style={{*/}
-        {/*            marginTop: 4,*/}
-        {/*            marginLeft: 110,*/}
-        {/*            position: 'absolute',*/}
-        {/*            fontSize: 16,*/}
-        {/*            color: 'black',*/}
-        {/*          }}>*/}
-        {/*          ({item.rate}%)*/}
-        {/*        </Text>*/}
-        {/*        <Text*/}
-        {/*          style={*/}
-        {/*            item.correct === 'O'*/}
-        {/*              ? StyleSheet.compose(styles.wrong, styles.correct)*/}
-        {/*              : styles.wrong*/}
-        {/*          }>*/}
-        {/*          {item.correct}*/}
-        {/*        </Text>*/}
-        {/*        <Text*/}
-        {/*          style={{*/}
-        {/*            marginLeft: 230,*/}
-        {/*            position: 'absolute',*/}
-        {/*            fontSize: 16,*/}
-        {/*            color: 'black',*/}
-        {/*          }}>*/}
-        {/*          {item.my_ans} {item.ans}*/}
-        {/*        </Text>*/}
-        {/*      </View>*/}
-        {/*    )}*/}
-        {/*    keyExtractor={(item, index) => index.toString()}*/}
-        {/*  />*/}
-        {/*</View>*/}
-        {/*<View style={styles.contentsContainer}>*/}
-        {/*  <View style={styles.topTitle}>*/}
-        {/*    <Text style={styles.topFont}>킬러문항 분석</Text>*/}
-        {/*  </View>*/}
-        {/*  <FlatList*/}
-        {/*    data={Bkiller}*/}
-        {/*    renderItem={({item, index}) => (*/}
-        {/*      <View style={styles.killerBox_list}>*/}
-        {/*        <View style={styles.killerBox_title}>*/}
-        {/*          <Text style={styles.topRank}> 문제 {item.q_num}번 </Text>*/}
-        {/*          <Text style={styles.wrongRate}>*/}
-        {/*            정답: {item.right_ans}번 | 오답률 ({item.rate}%)*/}
-        {/*          </Text>*/}
-        {/*        </View>*/}
-        {/*        <View style={styles.killerBox_content}>*/}
-        {/*          <Text style={styles.killerExplain}>*/}
-        {/*            {item.iscorrect}*/}
-        {/*            {'\n'}*/}
-        {/*            {item.mostchosen}*/}
-        {/*          </Text>*/}
-        {/*        </View>*/}
-        {/*      </View>*/}
-        {/*    )}*/}
-        {/*    keyExtractor={(item, index) => index.toString()}*/}
-        {/*  />*/}
-        {/*</View>*/}
-        {/*<View style={styles.contentsContainer}>*/}
-        {/*  <View style={styles.topTitle}>*/}
-        {/*    <Text style={styles.topFont}>준킬러문항 분석</Text>*/}
-        {/*  </View>*/}
-        {/*  <FlatList*/}
-        {/*    data={killer}*/}
-        {/*    renderItem={({item, index}) => (*/}
-        {/*      <View style={styles.killerBox_list}>*/}
-        {/*        <View style={styles.killerBox_title}>*/}
-        {/*          <Text style={styles.topRank}> 문제 {item.q_num}번 </Text>*/}
-        {/*          <Text style={styles.wrongRate}>*/}
-        {/*            정답: {item.right_ans}번 | 오답률 ({item.rate}%)*/}
-        {/*          </Text>*/}
-        {/*        </View>*/}
-        {/*        <View style={styles.killerBox_content}>*/}
-        {/*          <Text style={styles.killerExplain}>*/}
-        {/*            {item.iscorrect}*/}
-        {/*            {'\n'}*/}
-        {/*            {item.mostchosen}*/}
-        {/*          </Text>*/}
-        {/*        </View>*/}
-        {/*      </View>*/}
-        {/*    )}*/}
-        {/*    keyExtractor={(item, index) => index.toString()}*/}
-        {/*  />*/}
-        {/*</View>*/}
-        <View
-          style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            paddingVertical: 30,
-            // backgroundColor: 'pink',
-          }}>
-          <Pressable
-            style={styles.button}
-            onPress={() =>
-              navigation.navigate('StudentAllTestResult', route.params)
-            }>
-            <Text
+            <View style={styles.contentsContainer}>
+              <View style={styles.topTitle}>
+                <Text style={styles.topFont}>오답률 Top 5</Text>
+              </View>
+              <FlatList
+                data={top5}
+                renderItem={({item, index}) => (
+                  <View style={styles.contentList}>
+                    <Text style={styles.topRank}>{item.rank}위 </Text>
+                    <Text style={styles.probNum}>{item.q_num}번</Text>
+                    <Text
+                      style={{
+                        marginTop: 4,
+                        marginLeft: 110,
+                        position: 'absolute',
+                        fontSize: 16,
+                        color: 'black',
+                      }}>
+                      ({item.rate}%)
+                    </Text>
+                    <Text
+                      style={
+                        item.correct === 'O'
+                          ? StyleSheet.compose(styles.wrong, styles.correct)
+                          : styles.wrong
+                      }>
+                      {item.correct}
+                    </Text>
+                    <Text
+                      style={{
+                        marginLeft: 230,
+                        position: 'absolute',
+                        fontSize: 16,
+                        color: 'black',
+                      }}>
+                      {item.my_ans} {item.ans}
+                    </Text>
+                  </View>
+                )}
+                keyExtractor={(item, index) => index.toString()}
+              />
+            </View>
+            <View style={styles.contentsContainer}>
+              <View style={styles.topTitle}>
+                <Text style={styles.topFont}>킬러문항 분석</Text>
+              </View>
+              <FlatList
+                data={Bkiller}
+                renderItem={({item, index}) => (
+                  <View style={styles.killerBox_list}>
+                    <View style={styles.killerBox_title}>
+                      <Text style={styles.topRank}> 문제 {item.q_num}번 </Text>
+                      <Text style={styles.wrongRate}>
+                        정답: {item.right_ans}번 | 오답률 ({item.rate}%)
+                      </Text>
+                    </View>
+                    <View style={styles.killerBox_content}>
+                      <Text style={styles.killerExplain}>
+                        {item.iscorrect}
+                        {'\n'}
+                        {item.mostchosen}
+                      </Text>
+                    </View>
+                  </View>
+                )}
+                keyExtractor={(item, index) => index.toString()}
+              />
+            </View>
+            <View style={styles.contentsContainer}>
+              <View style={styles.topTitle}>
+                <Text style={styles.topFont}>준킬러문항 분석</Text>
+              </View>
+              <FlatList
+                data={killer}
+                renderItem={({item, index}) => (
+                  <View style={styles.killerBox_list}>
+                    <View style={styles.killerBox_title}>
+                      <Text style={styles.topRank}> 문제 {item.q_num}번 </Text>
+                      <Text style={styles.wrongRate}>
+                        정답: {item.right_ans}번 | 오답률 ({item.rate}%)
+                      </Text>
+                    </View>
+                    <View style={styles.killerBox_content}>
+                      <Text style={styles.killerExplain}>
+                        {item.iscorrect}
+                        {'\n'}
+                        {item.mostchosen}
+                      </Text>
+                    </View>
+                  </View>
+                )}
+                keyExtractor={(item, index) => index.toString()}
+              />
+            </View>
+            <View
               style={{
-                fontSize: 20,
-                color: 'white',
-                fontFamily: Fonts.TRBold,
+                alignItems: 'center',
+                justifyContent: 'center',
+                paddingVertical: 30,
+                // backgroundColor: 'pink',
               }}>
-              전회차 분석 보러가기
-            </Text>
-          </Pressable>
-        </View>
+              <Pressable
+                style={styles.button}
+                onPress={() =>
+                  navigation.navigate('StudentAllTestResult', route.params)
+                }>
+                <Text
+                  style={{
+                    fontSize: 20,
+                    color: 'white',
+                    fontFamily: Fonts.TRBold,
+                  }}>
+                  전회차 분석 보러가기
+                </Text>
+              </Pressable>
+            </View>
+          </View>
+        </ScrollView>
       </View>
-      {/*</ScrollView>*/}
     </SafeAreaView>
   );
 }

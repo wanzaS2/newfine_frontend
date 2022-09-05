@@ -29,7 +29,7 @@ const AttendanceWeb = ({route, navigation}) => {
         {
           text: '출석',
           onPress: () => {
-            navigation.navigate('Main');
+            navigation.navigate('StudentMain');
           },
         }, //alert 버튼 작성
       ],

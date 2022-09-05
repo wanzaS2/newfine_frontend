@@ -548,6 +548,7 @@ function MyPage() {
             </View>
           </Pressable>
         </View>
+        <View style={{marginBottom: 30}} />
       </KeyboardAwareScrollView>
     </SafeAreaView>
   );

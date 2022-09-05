@@ -15,9 +15,8 @@ import DismissKeyboardView from '../components/DismissKeyboardView';
 import {Fonts} from '../assets/Fonts';
 import MyButton from '../components/MyButton';
 import MyTextInput from '../components/MyTextInput';
-import RNPickerSelect from 'react-native-picker-select';
+// import RNPickerSelect from 'react-native-picker-select';
 import OTPTextView from 'react-native-otp-textinput';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import {CheckIcon, Select} from 'native-base';
 
 type SignUpAuthScreenProps = NativeStackScreenProps<
@@ -34,31 +33,20 @@ function SignUpAuth({navigation}: SignUpAuthScreenProps) {
   const [chkAuthCode, setChkAuthCode] = useState('');
   const [visible, setVisible] = useState<boolean>(false);
   const phoneNumberRef = useRef<TextInput | null>(null);
-  // const authCodeRef = useRef<TextInput | null>(null);
   const [branch, setBranch] = useState('');
   const [branchList, setBranchList] = useState();
   const [branchListLength, setBranchListLength] = useState();
-
-  const data = [
-    {label: '대치', value: 1},
-    {label: '반포', value: 2},
-    {label: '압구정', value: 3},
-  ];
 
   const getBranch = async () => {
     try {
       const response = await axios.get(
         `${Config.API_URL}/branch/getBranchList`,
-        {
-          // params: {},
-          // headers: {
-          //   // Authorization: `Bearer ${accessToken}`,
-          // },
-        },
+        {},
       );
-      console.log(response.data);
-      // setBranchList(response.data);
-      // setBranchListLength(response.data.length);
+      console.log('set 전: ', response.data);
+      setBranchList(response.data);
+      setBranchListLength(response.data.length);
+      console.log('set 후: ', branchList);
     } catch (error) {
       const errorResponse = (error as AxiosError).response;
       console.error(errorResponse);
@@ -71,12 +59,14 @@ function SignUpAuth({navigation}: SignUpAuthScreenProps) {
   useEffect(() => {
     getBranch();
     console.log('\n\n\n\nbranchList : ', branchList);
+    // console.log('branchList : ', branchList[0].branchName);
     console.log('branchListLength : ', branchListLength);
-  }, []);
+  }, [branchListLength]);
 
   const onChangeBranch = value => {
     console.log(value);
     setBranch(value);
+    console.log('브랜치: ', branch);
   };
 
   const onChangePhoneNumber = useCallback(text => {
@@ -100,7 +90,10 @@ function SignUpAuth({navigation}: SignUpAuthScreenProps) {
     if (loading) {
       return;
     }
-    if (!branch) {
+
+    console.log('branch:   ', branch);
+    console.log('!branch:   ', branch === '');
+    if (branch === '') {
       return Alert.alert('알림', '분원을 선택해주세요.');
     }
     if (!/^[0-9].{0,11}$/.test(phoneNumber)) {
@@ -179,19 +172,20 @@ function SignUpAuth({navigation}: SignUpAuthScreenProps) {
           <Select
             selectedValue={branch}
             minWidth="200"
-            accessibilityLabel="Choose Service"
-            placeholder="Choose Service"
+            accessibilityLabel="Choose Your Branch"
+            placeholder="Choose Your Branch"
             _selectedItem={{
               bg: 'teal.600',
               endIcon: <CheckIcon size="5" />,
             }}
             mt={1}
             onValueChange={itemValue => onChangeBranch(itemValue)}>
-            <Select.Item label="UX Research" value="ux" />
-            <Select.Item label="Web Development" value="web" />
-            <Select.Item label="Cross Platform Development" value="cross" />
-            <Select.Item label="UI Designing" value="ui" />
-            <Select.Item label="Backend Development" value="backend" />
+            {branchList &&
+              branchList.map((content, i) => {
+                console.log(branch);
+                console.log(content);
+                return <Select.Item label={content.branchName} value={i + 1} />;
+              })}
           </Select>
         </View>
         <View style={styles.inputWrapper}>

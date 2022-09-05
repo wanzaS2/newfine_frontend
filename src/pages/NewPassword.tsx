@@ -18,6 +18,7 @@ import OTPTextView from 'react-native-otp-textinput';
 import Modal from 'react-native-modal';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../AppInner';
+import {PresenceTransition} from 'native-base';
 
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
@@ -177,7 +178,17 @@ function NewPassword({navigation}: SignUpScreenProps) {
             returnKeyType="send"
             clearButtonMode="while-editing"
             ref={phoneNumberRef}
-            onSubmitEditing={onSubmitPhoneNumber}
+            onSubmitEditing={() => {
+              console.log(!/^[0-9].{11}$/.test(phoneNumber));
+              if (!/^[0-9].{11}$/.test(phoneNumber)) {
+                return Alert.alert(
+                  '알림',
+                  '하이픈 없이 11자리 전화번호를 입력해주세요.',
+                );
+              } else {
+                onSubmitPhoneNumber();
+              }
+            }}
             blurOnSubmit={false}
           />
         </View>
@@ -188,41 +199,90 @@ function NewPassword({navigation}: SignUpScreenProps) {
           canGoNext={canGoNextP}
           disabled={!canGoNextP || loadingP}
         />
-        <Modal
-          isVisible={visible}
-          //아이폰에서 모달창 동작시 깜박임이 있었는데, useNativeDriver Props를 True로 주니 해결되었다.
-          useNativeDriver={true}
-          hideModalContentWhileAnimating={true}
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
+        <PresenceTransition
+          visible={visible}
+          initial={{
+            opacity: 0,
+            scale: 0,
+          }}
+          animate={{
+            opacity: 1,
+            scale: 1,
+            transition: {
+              duration: 250,
+            },
           }}>
-          <View style={styles.modalContainer}>
-            <View style={styles.modalWrapper}>
-              <Text style={styles.modalWrapperText}>인증번호 입력</Text>
-            </View>
-            <View style={styles.inputWrapper}>
-              <View style={styles.OtpArea}>
-                <OTPTextView
-                  containerStyle={styles.textInputContainer}
-                  tintColor={'darkblue'}
-                  offTintColor={'lightgray'}
-                  handleTextChange={onChangeAuthCode}
-                  textInputStyle={styles.roundedTextInput}
-                  inputCount={4}
+          <Modal
+            isVisible={visible}
+            //아이폰에서 모달창 동작시 깜박임이 있었는데, useNativeDriver Props를 True로 주니 해결되었다.
+            useNativeDriver={true}
+            hideModalContentWhileAnimating={true}
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <View style={styles.modalContainer}>
+              <View style={styles.modalWrapper}>
+                <Text style={styles.modalWrapperText}>인증번호 입력</Text>
+              </View>
+              <View style={styles.inputWrapper}>
+                <View style={styles.OtpArea}>
+                  <OTPTextView
+                    containerStyle={styles.textInputContainer}
+                    tintColor={'darkblue'}
+                    offTintColor={'lightgray'}
+                    handleTextChange={onChangeAuthCode}
+                    textInputStyle={styles.roundedTextInput}
+                    inputCount={4}
+                  />
+                </View>
+                <MyButton
+                  loading={loadingA}
+                  text="확인"
+                  onPress={onSubmitAuthCode}
+                  canGoNext={authButtonReady}
+                  disabled={!canGoNextA}
                 />
               </View>
-              <MyButton
-                loading={loadingA}
-                text="확인"
-                onPress={onSubmitAuthCode}
-                canGoNext={authButtonReady}
-                disabled={!canGoNextA}
-              />
             </View>
-          </View>
-        </Modal>
+          </Modal>
+        </PresenceTransition>
+        {/*<Modal*/}
+        {/*  isVisible={visible}*/}
+        {/*  //아이폰에서 모달창 동작시 깜박임이 있었는데, useNativeDriver Props를 True로 주니 해결되었다.*/}
+        {/*  useNativeDriver={true}*/}
+        {/*  hideModalContentWhileAnimating={true}*/}
+        {/*  style={{*/}
+        {/*    flex: 1,*/}
+        {/*    justifyContent: 'center',*/}
+        {/*    alignItems: 'center',*/}
+        {/*  }}>*/}
+        {/*  <View style={styles.modalContainer}>*/}
+        {/*    <View style={styles.modalWrapper}>*/}
+        {/*      <Text style={styles.modalWrapperText}>인증번호 입력</Text>*/}
+        {/*    </View>*/}
+        {/*    <View style={styles.inputWrapper}>*/}
+        {/*      <View style={styles.OtpArea}>*/}
+        {/*        <OTPTextView*/}
+        {/*          containerStyle={styles.textInputContainer}*/}
+        {/*          tintColor={'darkblue'}*/}
+        {/*          offTintColor={'lightgray'}*/}
+        {/*          handleTextChange={onChangeAuthCode}*/}
+        {/*          textInputStyle={styles.roundedTextInput}*/}
+        {/*          inputCount={4}*/}
+        {/*        />*/}
+        {/*      </View>*/}
+        {/*      <MyButton*/}
+        {/*        loading={loadingA}*/}
+        {/*        text="확인"*/}
+        {/*        onPress={onSubmitAuthCode}*/}
+        {/*        canGoNext={authButtonReady}*/}
+        {/*        disabled={!canGoNextA}*/}
+        {/*      />*/}
+        {/*    </View>*/}
+        {/*  </View>*/}
+        {/*</Modal>*/}
         {passwordVisible && (
           <View>
             <View style={styles.inputWrapper}>

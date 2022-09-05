@@ -107,8 +107,19 @@ function VideoAuth({route, navigation}: VideoAuthScreenProps) {
     console.log(authCode, chkAuthCode);
     try {
       setLoading(true);
-      Alert.alert('알림', '전화번호 인증이 완료되었습니다.');
-      navigation.navigate('SignUp', {phoneNumber: phoneNumber});
+      const response = await axios.put(
+        `${Config.API_URL}/apply/video`,
+        {id: route.params.attendanceId},
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      );
+
+      console.log(response.data);
+      Alert.alert('알림', '동영상신청이 완료되었습니다.');
+      navigation.navigate('StudentMain');
     } catch (error) {
       const errorResponse = (error as AxiosError).response;
       console.error(errorResponse);

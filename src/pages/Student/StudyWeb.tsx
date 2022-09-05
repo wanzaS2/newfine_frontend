@@ -50,7 +50,7 @@ const StudyWeb = ({route, navigation}) => {
             {
               text: '확인',
               onPress: () => {
-                navigation.navigate('Study');
+                navigation.navigate('StudentMain');
               },
             }, //alert 버튼 작성
           ],
@@ -65,7 +65,7 @@ const StudyWeb = ({route, navigation}) => {
             {
               text: '확인',
               onPress: () => {
-                navigation.navigate('Study');
+                navigation.navigate('StudentMain');
               },
             }, //alert 버튼 작성
           ],
@@ -83,7 +83,7 @@ const StudyWeb = ({route, navigation}) => {
             {
               text: '확인',
               onPress: () => {
-                navigation.navigate('Main');
+                navigation.navigate('StudentMain');
               },
             }, //alert 버튼 작성
           ],
@@ -98,7 +98,7 @@ const StudyWeb = ({route, navigation}) => {
             {
               text: '확인',
               onPress: () => {
-                navigation.navigate('Study');
+                navigation.navigate('StudentMain');
               },
             }, //alert 버튼 작성
           ],

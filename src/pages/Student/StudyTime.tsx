@@ -65,10 +65,10 @@ function StudyTime({navigation}: StudyTimeScreenProps) {
               });
             }
           } else {
-            const totaltime = response.data[i].total;
-            const hour: number = min / 60;
+            let totaltime = response.data[i].total;
+            let hour: number = totaltime / 60;
             hour = parseInt(hour.toString());
-            const min = totaltime % 60;
+            let min = totaltime % 60;
             if (response.data[i].endTime == null) {
               time.push({
                 id: response.data[i].sstudyId,
@@ -106,8 +106,8 @@ function StudyTime({navigation}: StudyTimeScreenProps) {
         if (response.data < 60) {
           time = `${response.data} 분`;
         } else {
-          const totaltime = response.data;
-          const hour: number = min / 60;
+          let totaltime = response.data;
+          let hour = totaltime / 60;
           hour = parseInt(hour.toString());
 
           const min = totaltime % 60;
