@@ -5,11 +5,9 @@ import {
   Text,
   View,
   StyleSheet,
-  TouchableOpacity,
   SafeAreaView,
   Pressable,
   Platform,
-  Button,
 } from 'react-native';
 import Config from 'react-native-config';
 import axios from 'axios';
@@ -26,16 +24,22 @@ type StudentBoardListScreenProps = NativeStackScreenProps<
   'StudentBoardList'
 >;
 
-export default function StudentBoardList({
-  route,
-  navigation,
-}: StudentBoardListScreenProps) {
+export default function StudentBoardList({route}: StudentBoardListScreenProps) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const [data, setData] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [content, setContent] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
   const {courseId} = route.params;
+
+  const handleOnSelectItem = item => {
+    setSelectedItem(item);
+    console.log('\n\n\n\n\n셀아: ', selectedItem);
+  };
+
+  const handleOnCloseModal = () => {
+    setSelectedItem(null);
+  };
 
   const fetchItems = () => {
     if (!isRefreshing) {
@@ -82,20 +86,24 @@ export default function StudentBoardList({
                 <View>
                   <Pressable
                     key={index.toString()}
-                    onPress={
-                      () => setShowModal(true)
-                      // onPress={() =>
-                      //   navigation.navigate('StudentBoardDetail', {
-                      //     id: item.id,
-                      //     courseId: courseId,
-                      //   })
-                    }>
+                    onPress={() => {
+                      handleOnSelectItem(item);
+                      setShowModal(true);
+                    }}>
                     <View style={styles.flatList}>
                       <Text style={styles.title}>{item.title}</Text>
-                      <Text style={styles.text}>{item.modifiedDate.substring(0, 10)}</Text>
+                      <Text style={styles.text}>
+                        {item.modifiedDate.substring(0, 10)}
+                      </Text>
+                      <Text style={styles.text}>
+                        1차 마감기한: {item.fdeadline}
+                      </Text>
+                      <Text style={styles.text}>
+                        2차 마감기한: {item.sdeadline}
+                      </Text>
                       <FontAwesome5Icon
                         name={'chevron-circle-right'}
-                        size={35}
+                        size={30}
                         color={'white'}
                         style={{
                           position: 'absolute',
@@ -105,49 +113,6 @@ export default function StudentBoardList({
                       />
                     </View>
                   </Pressable>
-                  <Modal
-                    isOpen={showModal}
-                    onClose={() => setShowModal(false)}
-                    size={'lg'}>
-                    <Modal.Content maxWidth="400px" height={'60%'}>
-                      <Modal.CloseButton />
-                      <Modal.Header>
-                        <Text
-                          style={{
-                            fontFamily: Fonts.TRBold,
-                            color: '#0077e6',
-                            fontSize: 20,
-                          }}>
-                          {item.title}
-                        </Text>
-                      </Modal.Header>
-                      <Modal.Body>
-                        <Text
-                          style={{
-                            fontFamily: Fonts.TRRegular,
-                            color: 'black',
-                            fontSize: 16,
-                          }}>
-                          {item.content}
-                        </Text>
-                      </Modal.Body>
-                      <Modal.Footer>
-                        <Pressable
-                          onPress={() => {
-                            setShowModal(false);
-                          }}>
-                          <Text
-                            style={{
-                              fontFamily: Fonts.TRBold,
-                              color: '#0077e6',
-                              fontSize: 18,
-                            }}>
-                            확인
-                          </Text>
-                        </Pressable>
-                      </Modal.Footer>
-                    </Modal.Content>
-                  </Modal>
                 </View>
               );
             }}
@@ -156,6 +121,54 @@ export default function StudentBoardList({
             }}
           />
         )}
+        <Modal
+          // selectedItem={selectedItem}
+          isOpen={showModal}
+          onClose={() => {
+            setShowModal(false);
+            handleOnCloseModal();
+          }}
+          size={'lg'}>
+          <Modal.Content maxWidth="400px" height={'60%'}>
+            <Modal.CloseButton />
+            <Modal.Header>
+              <Text
+                style={{
+                  fontFamily: Fonts.TRBold,
+                  color: '#0077e6',
+                  fontSize: 20,
+                }}>
+                {selectedItem && selectedItem.title}
+              </Text>
+            </Modal.Header>
+            <Modal.Body>
+              <Text
+                style={{
+                  fontFamily: Fonts.TRRegular,
+                  color: 'black',
+                  fontSize: 16,
+                }}>
+                {selectedItem && selectedItem.content}
+              </Text>
+            </Modal.Body>
+            <Modal.Footer>
+              <Pressable
+                onPress={() => {
+                  setShowModal(false);
+                  handleOnCloseModal();
+                }}>
+                <Text
+                  style={{
+                    fontFamily: Fonts.TRBold,
+                    color: '#0077e6',
+                    fontSize: 18,
+                  }}>
+                  확인
+                </Text>
+              </Pressable>
+            </Modal.Footer>
+          </Modal.Content>
+        </Modal>
       </View>
     </SafeAreaView>
   );

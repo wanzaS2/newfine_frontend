@@ -41,12 +41,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import TeacherMain from './src/pages/Teacher/TeacherMain';
 import NewPassword from './src/pages/NewPassword';
 import BoardList from './src/pages/Teacher/BoardList';
-import BoardSave from './src/pages/BoardSave';
-import BoardDetail from './src/pages/BoardDetail';
-import BoardUpdate from './src/pages/BoardUpdate';
 import SHomeworkList from './src/pages/Teacher/SHomeworkList';
 import StudentBoardList from './src/pages/Student/StudentBoardList';
-// import StudentBoardDetail from './src/pages/Student/StudentBoardDetail';
 import StudentHomework from './src/pages/Student/StudentHomework';
 import VideoList from './src/pages/Student/VideoList';
 import AttendanceInfo from './src/pages/Student/AttendanceInfo';
@@ -86,7 +82,6 @@ export type LoggedInParamList = {
   StudentAllTestResult: undefined;
   MyAttendance: undefined;
   StudentBoardList: undefined;
-  StudentBoardDetail: {id: number; courseId: number};
   StudentHomework: undefined;
   CarouselPage1: undefined;
 };
@@ -111,11 +106,7 @@ export type TeacherParamList = {
   TeacherRanking: undefined;
   ApplyVideo: undefined;
   BoardList: {courseId: number};
-  BoardDetail: {
-    id: number;
-    courseId: number;
-  };
-  SHomeworkList: {thId: number};
+  SHomeworkList: {thId: number; courseName: string};
 };
 
 const Stack = createNativeStackNavigator();
@@ -449,13 +440,11 @@ function AppInner() {
             headerTransparent: true,
           }}
         />
-
         <Stack.Screen
           name="QRCodeScanner"
           component={QRCodeScanner}
           options={{title: 'QRcode', headerShown: false}}
         />
-
         <Stack.Screen
           name="AttendanceWeb"
           component={AttendanceWeb}
@@ -485,11 +474,6 @@ function AppInner() {
             headerTransparent: true,
           }}
         />
-        {/*<Stack.Screen*/}
-        {/*  name="StudentBoardDetail"*/}
-        {/*  component={StudentBoardDetail}*/}
-        {/*  options={{title: '', headerTransparent: true}}*/}
-        {/*/>*/}
         <Stack.Screen
           name="StudentHomework"
           component={StudentHomework}
@@ -696,24 +680,16 @@ function AppInner() {
           }}
         />
         <Stack.Screen
-          name="BoardSave"
-          component={BoardSave}
-          options={{title: '과제 작성'}}
-        />
-        <Stack.Screen
-          name="BoardUpdate"
-          component={BoardUpdate}
-          options={{title: '과제 작성'}}
-        />
-        <Stack.Screen
-          name="BoardDetail"
-          component={BoardDetail}
-          options={{title: '과제 상세보기'}}
-        />
-        <Stack.Screen
           name="SHomeworkList"
           component={SHomeworkList}
-          options={{title: '수강생 체크리스트'}}
+          options={{
+            title: '과제 체크',
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
+            headerTransparent: true,
+          }}
         />
         <Stack.Screen
           name="Listeners"

@@ -1,33 +1,45 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
   FlatList,
   Text,
   View,
   StyleSheet,
-  TouchableOpacity,
   Alert,
-  Image,
+  SafeAreaView,
+  Pressable,
 } from 'react-native';
 import Config from 'react-native-config';
-import RoundButton from '../../components/RoundButton';
 import axios from 'axios';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import MyButton from '../../components/MyButton';
-import CheckBox from '@react-native-community/checkbox';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store/reducer';
+import {Fonts} from '../../assets/Fonts';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {TeacherParamList} from '../../../AppInner';
+import {Button} from 'native-base';
+import HomeworkDetailModal from '../../components/HomeworkDetailModal';
 
-export default function SHomeworkList(this: any, {route}) {
+type SHomeworkListScreenProps = NativeStackScreenProps<
+  TeacherParamList,
+  'SHomeworkList'
+>;
+
+export default function SHomeworkList(
+  this: any,
+  {route}: SHomeworkListScreenProps,
+) {
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const [data, setData] = useState([]);
   const [datalength, setDatalength] = useState();
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const {thId} = route.params;
+  const thId = route.params.thId;
+  const courseName = route.params.courseName;
   const [checked, setChecked] = useState([]);
   const [checkedlist, setCheckedlist] = useState([]);
-  const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const jsonArray = new Array();
   const [checklist, setChecklist] = useState([]);
+  const scrollRef = useRef();
 
   let datalist2 = new Map();
   let cklist: string[] | ((prevState: never[]) => never[]) = [];
@@ -93,33 +105,6 @@ export default function SHomeworkList(this: any, {route}) {
         Alert.alert('An error has occurred');
         setIsRefreshing(false);
       });
-    // let checklist: {shId: string; grade: string}[];
-    // let check = data.map(({shId, grade}) => ({shId, grade}));
-    // console.log('result: ', check);
-    // setChecklist(JSON.stringify(check));
-    // console.log('result2: ', checklist);
-    // console.log('result: ', checklist);
-    // let checklist = JSON.stringify(data);
-    // try {
-    //   const response = await axios.put(
-    //     `${Config.API_URL}/api/sh/merge`,
-    //     {
-    //       data22,
-    //     },
-    //     {
-    //       headers: {
-    //         Authorization: `Bearer ${accessToken}`,
-    //         'Content-Type': 'application/json',
-    //       },
-    //     },
-    //   );
-    //   console.log(response.data);
-    //   setIsRefreshing(false);
-    // } catch (error) {
-    //   console.log(error);
-    //   Alert.alert('An error has occurred');
-    //   setIsRefreshing(false);
-    // }
   };
 
   const getSHomeworks = () => {
@@ -132,14 +117,10 @@ export default function SHomeworkList(this: any, {route}) {
         },
       })
       .then(response => {
-        //this.setState({data: response.data});
-        //console.log(this.state.data);
+        console.log(response);
         setDatalength(response.data.length);
         let datalist = [];
-        // const c: any[] | ((prevState: never[]) => never[]) = [];
-        // console.log(c);
         for (let i = 0; i < response.data.length; i++) {
-          // const json = new Object();
           datalist.push({
             id: i + 1,
             shId: response.data[i].shId,
@@ -149,64 +130,19 @@ export default function SHomeworkList(this: any, {route}) {
             ischecked: response.data[i].ischecked,
             disabled: false,
           });
-          // datalist2.set('id', i + 1);
-          // datalist2.set('shId', response.data[i].shId);
-          // datalist2.set('grade', response.data[i].grade);
-
-          // console.log(Object.fromEntries(datalist2));
-          // c.push(Object.fromEntries(datalist2));
-          // console.log('c: ', c);
-
-          // cklist.push(Object.fromEntries(datalist2));
-          // json.id = i + 1;
-          // json.shId = response.data[i].shId;
-          // json.name = response.data[i].name;
-          // json.title = response.data[i].title;
-          // json.grade = response.data[i].grade;
-          // json.ischecked = response.data[i].ischecked;
-          // json.disabled = false;
-          //
-          // console.log('json:', json);
-          // jsonArray.push(json);
-          // console.log('jsonArray:', jsonArray);
 
           if (datalist[i].ischecked == true) {
             datalist[i].disabled = true;
           }
         }
-        // check.push(checklist);
-        // setjsonArray(jsonArray);
-        // console.log('jsonArray:', jsonArray);
+
         setData(datalist);
-        // setChecklist(jsonArray);
-        // setChecklist2(c);
-        // setChecklist(cklist);
-        // setChecklist2(check);
-        // console.log('check:', check);
-        // setData2(checklist);
         console.log('datalist :', datalist);
-        // console.log('datalist2 :', datalist2);
-        // console.log('datalist2 object:', Object.fromEntries(datalist2));
-        // console.log('cklist: ', cklist);
-        // console.log('checklist: ', checklist);
-        // console.log('checklist2: ', checklist2);
         console.log(thId);
       })
       .catch(error => console.error(error))
       .finally(() => setIsRefreshing(false));
   };
-
-  // const onCheckedElement = useCallback(
-  //   (checked, id) => {
-  //     if (checked) {
-  //       setCheckedList([...checkedList, id]);
-  //       console.log(checkedList);
-  //     } else {
-  //       setCheckedList(checkedList.filter(el => el !== id));
-  //     }
-  //   },
-  //   [checkedList],
-  // );
 
   const submitChecked = async () => {
     console.log('보낼 값: ', checklist);
@@ -223,107 +159,122 @@ export default function SHomeworkList(this: any, {route}) {
     }
   };
 
-  // const onChangeValue = (item, index, newValue) => {
-  //   const newData = data.map(newItem => {
-  //     if (newItem.id == item.id) {
-  //       return {
-  //         ...newItem,
-  //         selected: newValue,
-  //       };
-  //     }
-  //     return newItem;
-  //   });
-  //   setData(newData);
-  // };
-
   useEffect(() => {
     getSHomeworks();
   }, [datalength]);
 
   return (
-    <View style={{flex: 1, padding: 24, backgroundColor: 'white'}}>
-      {isRefreshing ? (
-        <ActivityIndicator />
-      ) : (
-        <FlatList
-          data={data}
-          onRefresh={fetchItems} // fetch로 데이터 호출
-          refreshing={isRefreshing} // state
-          keyExtractor={item => item.id.toString()}
-          extraData={checked}
-          renderItem={({item, index}) => {
-            console.log('item', item);
-            return (
-              <TouchableOpacity style={styles.container} key={index.toString()}>
-                <View>
-                  <Text style={styles.title}>{item.name}</Text>
-                  <Text style={styles.text}>{item.title}</Text>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.courseArea}>
+        <Text style={styles.courseName}> #{courseName}</Text>
+      </View>
+      <View style={styles.listArea}>
+        {isRefreshing ? (
+          <ActivityIndicator />
+        ) : (
+          <FlatList
+            ref={scrollRef}
+            data={data}
+            onRefresh={fetchItems} // fetch로 데이터 호출
+            refreshing={isRefreshing} // state
+            keyExtractor={item => item.id.toString()}
+            extraData={checked}
+            style={{height: '80%'}}
+            renderItem={({item, index}) => {
+              console.log('item', item);
+              return (
+                <View style={styles.flatList} key={index.toString()}>
+                  <View>
+                    <Text style={styles.title}>{item.name}</Text>
+                    <Text style={styles.text}>{item.title}</Text>
+                  </View>
+                  <BouncyCheckbox
+                    isChecked={item.ischecked}
+                    disabled={item.disabled}
+                    size={25}
+                    fillColor="#ff4c4c"
+                    unfillColor="#FFFFFF"
+                    text="check"
+                    iconStyle={{borderColor: '#ff4c4c'}}
+                    textStyle={{fontFamily: 'JosefinSans-Regular'}}
+                    onPress={() => {
+                      const newIds = [...checked];
+                      const newshIds = [...checkedlist];
+                      const index = newIds.indexOf(item.id);
+                      const shindex = newshIds.indexOf(item.shId);
+                      if (index > -1) {
+                        newIds.splice(index, 1);
+                        newshIds.splice(shindex, 1);
+                        item.ischecked = false;
+                        console.log('index:', index);
+                        console.log('item 이미 존재:', newIds);
+                        console.log('item 이미 존재:', newshIds);
+                        console.log('selected:', item.ischecked);
+                      } else {
+                        newIds.push(item.id);
+                        newshIds.push(item.shId);
+                        item.ischecked = true;
+                        console.log('item 푸쉬', newIds);
+                        console.log('item 푸쉬', newshIds);
+                        console.log('selected:', item.ischecked);
+                      }
+                      newIds.sort();
+                      newshIds.sort();
+                      setChecked(newIds);
+                      setCheckedlist(newshIds);
+                      console.log('newIds', newIds);
+                      console.log('newshIds', newshIds);
+                    }}
+                  />
                 </View>
-                <BouncyCheckbox
-                  isChecked={item.ischecked}
-                  disabled={item.disabled}
-                  size={25}
-                  fillColor="#ff4c4c"
-                  unfillColor="#FFFFFF"
-                  text="check"
-                  iconStyle={{borderColor: '#ff4c4c'}}
-                  textStyle={{fontFamily: 'JosefinSans-Regular'}}
-                  onPress={() => {
-                    const newIds = [...checked];
-                    const newshIds = [...checkedlist];
-                    const index = newIds.indexOf(item.id);
-                    const shindex = newshIds.indexOf(item.shId);
-                    if (index > -1) {
-                      newIds.splice(index, 1);
-                      newshIds.splice(shindex, 1);
-                      item.ischecked = false;
-                      console.log('index:', index);
-                      console.log('item 이미 존재:', newIds);
-                      console.log('item 이미 존재:', newshIds);
-                      console.log('selected:', item.ischecked);
-                    } else {
-                      newIds.push(item.id);
-                      newshIds.push(item.shId);
-                      item.ischecked = true;
-                      console.log('item 푸쉬', newIds);
-                      console.log('item 푸쉬', newshIds);
-                      console.log('selected:', item.ischecked);
-                    }
-                    newIds.sort();
-                    newshIds.sort();
-                    setChecked(newIds);
-                    setCheckedlist(newshIds);
-                    console.log('newIds', newIds);
-                    console.log('newshIds', newshIds);
-                  }}
-                />
-              </TouchableOpacity>
-            );
-          }}
-        />
-      )}
-      <MyButton
-        text="과제 확인"
-        onPress={() => {
-          if (checkedlist.length == 0) {
-            Alert.alert('수강생을 선택해주세요.');
-          } else {
-            selectGrade();
-          }
-        }}
-      />
-    </View>
+              );
+            }}
+          />
+        )}
+        <Button
+          style={styles.button}
+          size="lg"
+          variant="subtle"
+          onPress={() => {
+            if (checkedlist.length == 0) {
+              Alert.alert('수강생을 선택해주세요.');
+            } else {
+              selectGrade();
+            }
+          }}>
+          과제 확인
+        </Button>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    backgroundColor: 'white',
+  },
+  courseArea: {
+    marginTop: '3%',
+    marginLeft: '40%',
+    paddingBottom: '3%',
+    // flex: 1,
+    // backgroundColor: 'blue',
+  },
+  courseName: {
+    fontSize: 23,
+    fontFamily: Fonts.TRBold,
+    color: '#0077e6',
+    // backgroundColor: 'lightyellow',
+    // marginRight: 250,
+  },
+  flatList: {
     borderRadius: 10,
     borderColor: '#b0e0e6',
     borderWidth: 1,
     padding: 15,
     marginBottom: 10,
-    color: 'white',
+    marginHorizontal: 25,
     //backgroundColor: 'rgba(50,50,50,1)',
     backgroundColor: '#e0ffff',
     flexDirection: 'row',
@@ -331,23 +282,17 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'black',
-    fontSize: 15,
-    fontWeight: 'bold',
+    fontSize: 18,
+    fontFamily: Fonts.TRBold,
     marginBottom: 3,
   },
   text: {
     color: 'gray',
-    fontSize: 13,
-    fontWeight: 'bold',
+    fontSize: 15,
+    fontFamily: Fonts.TRRegular,
   },
-  itemSeparator: {
-    backgroundColor: 'green',
-    height: 1,
-  },
-  ckItem: {
-    width: 20,
-    height: 20,
-    marginTop: 10,
-    marginRight: 10,
+  button: {
+    marginVertical: 15,
+    marginHorizontal: 150,
   },
 });

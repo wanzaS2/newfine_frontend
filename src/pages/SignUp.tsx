@@ -179,10 +179,10 @@ const styles = StyleSheet.create({
   },
   label: {
     // backgroundColor: 'yellow',
-    fontFamily: Fonts.TRBold,
+    // fontFamily: Fonts.TRBold,
     fontSize: 19,
     color: 'black',
-    // fontFamily: Fonts.TRBold,
+    fontFamily: Fonts.TRBold,
     // fontFamily: 'TmoneyRoundWind-ExtraBold',
     // fontSize: 18,
     marginBottom: 15,
