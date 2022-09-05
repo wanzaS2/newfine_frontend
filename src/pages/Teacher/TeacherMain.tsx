@@ -157,7 +157,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   value: {
-    fontFamily: Fonts.TRBold,
+    // fontFamily: Fonts.TRBold,
+    fontFamily: 'TmoneyRoundWind-ExtraBold',
     lineHeight: 35,
   },
 });
