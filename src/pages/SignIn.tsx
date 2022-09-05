@@ -280,10 +280,10 @@ const styles = StyleSheet.create({
   },
   label: {
     color: 'black',
-    fontFamily: Fonts.TRBold,
+    // fontFamily: Fonts.TRBold,
     fontSize: 19,
     // fontFamily: Fonts.TRBold,
-    // fontFamily: 'TmoneyRoundWind-ExtraBold',
+    fontFamily: 'TmoneyRoundWind-ExtraBold',
     // fontSize: 17,
     marginBottom: 15,
   },
