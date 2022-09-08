@@ -50,7 +50,7 @@ function StudentAllTestResult({
     datasets: [
       {
         data: [7],
-        color: (opacity = 1) => '#87cefa',
+        color: (opacity = 1) => '#0077e6',
         strokeWidth: 5, // optional
       },
     ],
@@ -61,7 +61,7 @@ function StudentAllTestResult({
     datasets: [
       {
         data: [39],
-        color: (opacity = 1) => '#87cefa',
+        color: (opacity = 1) => '#0077e6',
         strokeWidth: 5, // optional
       },
     ],
@@ -81,7 +81,7 @@ function StudentAllTestResult({
     },
     propsForDots: {
       r: '6',
-      strokeWidth: '2',
+      strokeWidth: '3',
       stroke: '#0077e6',
     },
     decimalPlaces: 0, // 정수로 바꾸는 부분
