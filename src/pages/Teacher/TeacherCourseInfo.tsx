@@ -54,7 +54,7 @@ function TeacherCourseInfo({route, navigation}: TeacherCourseInfoScreenProps) {
                     color={'white'}
                     style={{position: 'absolute', bottom: 5}}
                   />
-                  <Text style={styles.buttonText}>{item.name}</Text>
+                  <Text style={styles.buttonText}>{item.name} </Text>
                 </View>
               </Pressable>
             </View>
