@@ -50,7 +50,7 @@ function StudentAllTestResult({
     datasets: [
       {
         data: [7],
-        color: (opacity = 0.6) => '#87cefa',
+        color: (opacity = 1) => '#87cefa',
         strokeWidth: 5, // optional
       },
     ],
@@ -61,7 +61,7 @@ function StudentAllTestResult({
     datasets: [
       {
         data: [39],
-        color: (opacity = 0.6) => '#87cefa',
+        color: (opacity = 1) => '#87cefa',
         strokeWidth: 5, // optional
       },
     ],
@@ -69,10 +69,10 @@ function StudentAllTestResult({
   });
   const chartConfig = {
     backgroundGradientFrom: '#f0f8ff',
-    backgroundGradientFromOpacity: 0,
+    backgroundGradientFromOpacity: 0.6,
     backgroundGradientTo: '#f0f8ff',
     backgroundGradientToOpacity: 0.5,
-    color: (opacity = 0.6) => '#87cefa',
+    color: (opacity = 1) => '#0077e6',
     strokeWidth: 2, // optional, default 3
     barPercentage: 1,
     useShadowColorFromDataset: false, // optional
@@ -82,7 +82,7 @@ function StudentAllTestResult({
     propsForDots: {
       r: '6',
       strokeWidth: '2',
-      stroke: '#ffa726',
+      stroke: '#0077e6',
     },
     decimalPlaces: 0, // 정수로 바꾸는 부분
   };
@@ -167,10 +167,6 @@ function StudentAllTestResult({
                 width={screenWidth}
                 height={300}
                 chartConfig={chartConfig}
-                withHorizontalLines={true}
-                withOuterLines={true}
-                withInnerLines={false}
-                withDots={true}
                 fromZero={true}
               />
             </View>
