@@ -19,6 +19,7 @@ import Modal from 'react-native-modal';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../AppInner';
 import {PresenceTransition} from 'native-base';
+import {width, height} from '../config/globalStyles';
 
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
@@ -248,41 +249,6 @@ function NewPassword({navigation}: SignUpScreenProps) {
             </View>
           </Modal>
         </PresenceTransition>
-        {/*<Modal*/}
-        {/*  isVisible={visible}*/}
-        {/*  //아이폰에서 모달창 동작시 깜박임이 있었는데, useNativeDriver Props를 True로 주니 해결되었다.*/}
-        {/*  useNativeDriver={true}*/}
-        {/*  hideModalContentWhileAnimating={true}*/}
-        {/*  style={{*/}
-        {/*    flex: 1,*/}
-        {/*    justifyContent: 'center',*/}
-        {/*    alignItems: 'center',*/}
-        {/*  }}>*/}
-        {/*  <View style={styles.modalContainer}>*/}
-        {/*    <View style={styles.modalWrapper}>*/}
-        {/*      <Text style={styles.modalWrapperText}>인증번호 입력</Text>*/}
-        {/*    </View>*/}
-        {/*    <View style={styles.inputWrapper}>*/}
-        {/*      <View style={styles.OtpArea}>*/}
-        {/*        <OTPTextView*/}
-        {/*          containerStyle={styles.textInputContainer}*/}
-        {/*          tintColor={'darkblue'}*/}
-        {/*          offTintColor={'lightgray'}*/}
-        {/*          handleTextChange={onChangeAuthCode}*/}
-        {/*          textInputStyle={styles.roundedTextInput}*/}
-        {/*          inputCount={4}*/}
-        {/*        />*/}
-        {/*      </View>*/}
-        {/*      <MyButton*/}
-        {/*        loading={loadingA}*/}
-        {/*        text="확인"*/}
-        {/*        onPress={onSubmitAuthCode}*/}
-        {/*        canGoNext={authButtonReady}*/}
-        {/*        disabled={!canGoNextA}*/}
-        {/*      />*/}
-        {/*    </View>*/}
-        {/*  </View>*/}
-        {/*</Modal>*/}
         {passwordVisible && (
           <View>
             <View style={styles.inputWrapper}>
@@ -335,15 +301,15 @@ function NewPassword({navigation}: SignUpScreenProps) {
 const styles = StyleSheet.create({
   container: {flex: 1},
   inputWrapper: {
-    marginTop: 15,
+    marginTop: width * 15,
     // backgroundColor: 'pink',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingVertical: width * 10,
+    paddingHorizontal: width * 20,
   },
   label: {
     // backgroundColor: 'yellow',
     fontFamily: Fonts.TRBold,
-    fontSize: 19,
+    fontSize: width * 19,
     color: 'black',
   },
   OtpArea: {
@@ -351,8 +317,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     // backgroundColor: 'pink',
-    paddingVertical: 10,
-    marginTop: 15,
+    paddingVertical: width * 10,
+    marginTop: width * 15,
   },
   textInputContainer: {
     // marginBottom: 20,
@@ -367,21 +333,21 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     /* 모달창 크기 조절 */
-    width: 320,
-    height: 220,
+    width: width * 320,
+    height: width * 220,
     backgroundColor: 'white',
     borderRadius: 10,
   },
   modalWrapper: {
     flex: 1,
-    width: 320,
+    width: width * 320,
     justifyContent: 'center',
   },
   modalWrapperText: {
-    marginTop: 10,
+    marginTop: width * 10,
     alignSelf: 'center',
     fontFamily: Fonts.TRRegular,
-    fontSize: 25,
+    fontSize: width * 25,
   },
 });
 

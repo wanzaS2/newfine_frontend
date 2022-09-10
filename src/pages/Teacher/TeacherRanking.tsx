@@ -17,9 +17,7 @@ import {RootState} from '../../store/reducer';
 import {useFocusEffect} from '@react-navigation/native';
 import {Fonts} from '../../assets/Fonts';
 import {Modal} from 'native-base';
-
-const screenHeight = Dimensions.get('window').height;
-const screenWidth = Dimensions.get('window').width;
+import {width, height} from '../../config/globalStyles';
 
 function TeacherRanking() {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
@@ -32,7 +30,6 @@ function TeacherRanking() {
 
   const [showModal, setShowModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-  // const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [modalName, setModalName] = useState('');
   const [modalNickname, setModalNickname] = useState('');
   const [modalPhoneNumber, setModalPhoneNumber] = useState('');
@@ -176,7 +173,7 @@ function TeacherRanking() {
                 style={{
                   fontFamily: Fonts.TRBold,
                   color: '#0077e6',
-                  fontSize: 20,
+                  fontSize: width * 20,
                 }}>
                 {modalNickname}
               </Text>
@@ -186,7 +183,7 @@ function TeacherRanking() {
                 style={{
                   fontFamily: Fonts.TRRegular,
                   color: 'black',
-                  fontSize: 16,
+                  fontSize: width * 16,
                 }}>
                 이름: {modalName}
               </Text>
@@ -194,7 +191,7 @@ function TeacherRanking() {
                 style={{
                   fontFamily: Fonts.TRRegular,
                   color: 'black',
-                  fontSize: 16,
+                  fontSize: width * 16,
                 }}>
                 전화번호: {modalPhoneNumber}
               </Text>
@@ -209,7 +206,7 @@ function TeacherRanking() {
                   style={{
                     fontFamily: Fonts.TRBold,
                     color: '#0077e6',
-                    fontSize: 18,
+                    fontSize: width * 18,
                   }}>
                   확인
                 </Text>
@@ -237,11 +234,11 @@ const styles = StyleSheet.create({
   },
   flatList: {
     // width: screenWidth,
-    paddingVertical: 15,
+    paddingVertical: height * 15,
     alignItems: 'center',
     // marginTop: 5,
     justifyContent: 'center',
-    marginBottom: 10,
+    marginBottom: height * 10,
     borderRadius: 8,
     backgroundColor: '#fdba74',
     // backgroundColor:
@@ -252,13 +249,13 @@ const styles = StyleSheet.create({
     //             : rankNumber[index] === 3
     //                 ? 'tan'
     //                 : 'white',
-    marginHorizontal: 10,
+    marginHorizontal: width * 10,
     ...Platform.select({
       ios: {
         shadowColor: '#000',
         shadowOffset: {
-          width: 10,
-          height: 10,
+          width: width * 10,
+          height: height * 10,
         },
         shadowOpacity: 0.5,
         shadowRadius: 10,
@@ -268,7 +265,7 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  textTop: {fontFamily: Fonts.TRBold, fontSize: 18, color: 'black'},
-  textBottom: {fontFamily: Fonts.TRBold, fontSize: 20, color: 'black'},
+  textTop: {fontFamily: Fonts.TRBold, fontSize: width * 18, color: 'black'},
+  textBottom: {fontFamily: Fonts.TRBold, fontSize: width * 20, color: 'black'},
 });
 export default TeacherRanking;

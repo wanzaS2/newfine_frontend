@@ -119,6 +119,9 @@ export default function BoardList({route, navigation}: BoardListScreenProps) {
             <FlatList
               ref={scrollRef}
               data={datalist}
+              style={{
+                height: '80%',
+              }}
               onRefresh={fetchItems} // fetch로 데이터 호출
               refreshing={isRefreshing} // state
               keyExtractor={(item, index) => {

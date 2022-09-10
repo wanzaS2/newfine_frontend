@@ -25,6 +25,7 @@ import {Fonts} from '../../assets/Fonts';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import MyButton from '../../components/MyButton';
 import {Actionsheet, Box, useDisclose} from 'native-base';
+import {width, height} from '../../config/globalStyles';
 
 function MyPage() {
   const dispatch = useAppDispatch();
@@ -57,8 +58,8 @@ function MyPage() {
     console.log('orientation', orientation);
     return ImageResizer.createResizedImage(
       response.path,
-      600,
-      600,
+      width * 600,
+      height * 600,
       response.mime.includes('jpeg') ? 'JPEG' : 'PNG',
       100,
       0,
@@ -135,8 +136,8 @@ function MyPage() {
               <View
                 style={{
                   backgroundColor: 'darkgray',
-                  width: 150,
-                  height: 150,
+                  width: width * 150,
+                  height: height * 150,
                   borderRadius: 16,
                   borderColor: '#e0f2fe',
                   borderWidth: 4,
@@ -146,8 +147,8 @@ function MyPage() {
               <Image
                 source={{uri: photoUrl}}
                 style={{
-                  width: 150,
-                  height: 150,
+                  width: width * 150,
+                  height: height * 150,
                   borderRadius: 16,
                   borderColor: '#e0f2fe',
                   borderWidth: 4,
@@ -156,7 +157,7 @@ function MyPage() {
             )}
             <FontAwesome5Icon
               name={'camera'}
-              size={50}
+              size={width * 50}
               color={'lightgray'}
               style={{position: 'absolute'}}
             />
@@ -166,7 +167,11 @@ function MyPage() {
               <Actionsheet.Item
                 onPress={onChangeFile}
                 startIcon={
-                  <FontAwesome5Icon name={'poo'} size={22} color={'black'} />
+                  <FontAwesome5Icon
+                    name={'poo'}
+                    size={width * 22}
+                    color={'black'}
+                  />
                 }>
                 새로운 사진 선택
               </Actionsheet.Item>
@@ -174,7 +179,11 @@ function MyPage() {
                 onPress={removeImage}
                 // style={{backgroundColor: 'yellow'}}
                 startIcon={
-                  <FontAwesome5Icon name={'times'} size={22} color={'black'} />
+                  <FontAwesome5Icon
+                    name={'times'}
+                    size={width * 22}
+                    color={'black'}
+                  />
                 }>
                 현재 사진 삭제
               </Actionsheet.Item>
@@ -196,8 +205,8 @@ function MyPage() {
             <Image
               source={{uri: image.uri}}
               style={{
-                width: 150,
-                height: 150,
+                width: width * 150,
+                height: height * 150,
                 borderRadius: 16,
                 borderColor: '#e0f2fe',
                 borderWidth: 4,
@@ -215,7 +224,11 @@ function MyPage() {
               <Actionsheet.Item
                 onPress={onChangeFile}
                 startIcon={
-                  <FontAwesome5Icon name={'poo'} size={22} color={'black'} />
+                  <FontAwesome5Icon
+                    name={'poo'}
+                    size={width * 22}
+                    color={'black'}
+                  />
                 }>
                 새로운 사진 선택
               </Actionsheet.Item>
@@ -223,7 +236,11 @@ function MyPage() {
                 onPress={removeImage}
                 // style={{backgroundColor: 'yellow'}}
                 startIcon={
-                  <FontAwesome5Icon name={'times'} size={22} color={'black'} />
+                  <FontAwesome5Icon
+                    name={'times'}
+                    size={width * 22}
+                    color={'black'}
+                  />
                 }>
                 현재 사진 삭제
               </Actionsheet.Item>
@@ -429,18 +446,6 @@ function MyPage() {
         </View>
         <View style={styles.inputWrapper}>
           <View style={{alignItems: 'center'}}>{showImage()}</View>
-          {/*<Pressable onPress={onUpdateImage} style={styles.button}>*/}
-          {/*  <View style={{alignItems: 'center'}}>*/}
-          {/*    <Text*/}
-          {/*      style={{*/}
-          {/*        color: 'black',*/}
-          {/*        fontFamily: Fonts.TRBold,*/}
-          {/*        fontSize: 19,*/}
-          {/*      }}>*/}
-          {/*      사진 변경*/}
-          {/*    </Text>*/}
-          {/*  </View>*/}
-          {/*</Pressable>*/}
         </View>
         <View style={styles.inputWrapper}>
           <Pressable
@@ -502,9 +507,10 @@ function MyPage() {
                 style={{
                   color: 'gray',
                   fontFamily: Fonts.TRBold,
-                  fontSize: 19,
+                  fontSize: width * 19,
                 }}>
-                회원 탈퇴 <FontAwesome5Icon name={'angle-down'} size={17} />
+                회원 탈퇴{' '}
+                <FontAwesome5Icon name={'angle-down'} size={width * 17} />
               </Text>
             </View>
           </Pressable>
@@ -541,14 +547,14 @@ function MyPage() {
                 style={{
                   color: 'red',
                   fontFamily: Fonts.TRBold,
-                  fontSize: 19,
+                  fontSize: width * 19,
                 }}>
                 logout
               </Text>
             </View>
           </Pressable>
         </View>
-        <View style={{marginBottom: 30}} />
+        <View style={{marginBottom: height * 30}} />
       </KeyboardAwareScrollView>
     </SafeAreaView>
   );
@@ -567,29 +573,29 @@ const styles = StyleSheet.create({
   },
   imageWrapper: {
     // paddingTop: '2%',
-    paddingBottom: 20,
+    paddingBottom: height * 20,
     // backgroundColor: 'blue',
   },
   inputWrapper: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingVertical: height * 10,
+    paddingHorizontal: width * 20,
     // backgroundColor: 'yellowgreen',
   },
   textArea: {
     fontFamily: Fonts.TRBold,
-    fontSize: 25,
+    fontSize: width * 25,
   },
   button: {
     backgroundColor: '#bae6fd',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingHorizontal: width * 20,
+    paddingVertical: height * 10,
     borderRadius: 5,
     ...Platform.select({
       ios: {
         shadowColor: '#000',
         shadowOffset: {
-          width: 10,
-          height: 10,
+          width: width * 10,
+          height: height * 10,
         },
         shadowOpacity: 0.5,
         shadowRadius: 10,

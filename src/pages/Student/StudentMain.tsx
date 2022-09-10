@@ -3,7 +3,6 @@ import {
   Dimensions,
   Image,
   Platform,
-  Pressable,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -20,11 +19,10 @@ import Config from 'react-native-config';
 import ServiceList from '../../components/ServiceList';
 import services from '../../assets/mock/services.json';
 import Ionicons from 'react-native-vector-icons/FontAwesome5';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import RNBounceable from '@freakycoder/react-native-bounceable';
+import {width, height} from '../../config/globalStyles';
 
 type MainScreenProps = NativeStackScreenProps<LoggedInParamList, 'StudentMain'>;
-
-const screenWidth = Dimensions.get('window').width;
 
 function StudentMain({navigation}: MainScreenProps) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
@@ -32,6 +30,22 @@ function StudentMain({navigation}: MainScreenProps) {
   const nickname = useSelector((state: RootState) => state.user.nickname);
   const [myRank, setMyRank] = useState();
   const [myTier, setMyTier] = useState();
+
+  const words = [
+    '오늘도 화이팅!',
+    '아자아자!!',
+    '행복하세요~',
+    '넌 짱이야..',
+    '즐공~ 열공~ 빡공~',
+    '레쭈고! 레쭈고!! 레쭈고!!!',
+    '힘내',
+    '할 수 있다!!!!',
+    '100점 맞으세요',
+  ];
+
+  const getRandomIndex = function (length) {
+    return parseInt(Math.random() * length);
+  };
 
   const getMyRank = async () => {
     const response = await axios.get(`${Config.API_URL}/ranking/myRank`, {
@@ -55,7 +69,7 @@ function StudentMain({navigation}: MainScreenProps) {
     if (!photoUrl) {
       return (
         <View style={styles.imageArea}>
-          <Ionicons name={'laugh-wink'} size={130} color={'#e0f2fe'} />
+          <Ionicons name={'laugh-wink'} size={width * 130} color={'#e0f2fe'} />
         </View>
       );
     } else {
@@ -68,34 +82,24 @@ function StudentMain({navigation}: MainScreenProps) {
     }
   };
 
-  // const getPoint = async () => {
-  //   const response = await axios.post(
-  //     `${Config.API_URL}/member/point`,
-  //     {},
-  //     {
-  //       headers: {
-  //         Authorization: `Bearer ${accessToken}`,
-  //       },
-  //     },
-  //   );
-  //   console.log(response.data);
-  // };
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.upBlock}>
-        <Pressable
-          style={({pressed}) => [
-            {
-              backgroundColor: pressed ? '#f0f9ff' : 'white',
-              width: pressed ? 108 : 110,
-              height: pressed ? 108 : 110,
-            },
-            styles.bigButton,
-          ]}
-          onPress={() => {
-            navigation.navigate('RankingPoint');
-          }}>
+        {/*<Pressable*/}
+        {/*  style={({pressed}) => [*/}
+        {/*    {*/}
+        {/*      backgroundColor: pressed ? '#f0f9ff' : 'white',*/}
+        {/*      width: pressed ? 108 : 110,*/}
+        {/*      height: pressed ? 108 : 110,*/}
+        {/*    },*/}
+        {/*    styles.bigButton,*/}
+        {/*  ]}*/}
+        {/*  onPress={() => {*/}
+        {/*    navigation.navigate('RankingPoint');*/}
+        {/*  }}>*/}
+        <RNBounceable
+          onPress={() => navigation.navigate('RankingPoint')}
+          style={styles.bigButton}>
           <View style={{flexDirection: 'row', width: '100%', height: '70%'}}>
             {showImage()}
             {/*<Image source={{uri: photoUrl}} style={styles.profileImage} />*/}
@@ -110,7 +114,16 @@ function StudentMain({navigation}: MainScreenProps) {
                 <Text style={styles.smallText}> 위</Text>
               </Text>
               <Text style={{marginBottom: '10%'}}>
-                <Text style={styles.bigText}>TIER: {myTier}</Text>
+                <Text style={styles.bigText}>
+                  TIER{'\n'}
+                  <Text
+                    style={{
+                      fontSize:
+                        myTier === 'CHALLENGER' ? width * 25 : width * 25,
+                    }}>
+                    {myTier}
+                  </Text>
+                </Text>
               </Text>
             </View>
           </View>
@@ -120,15 +133,11 @@ function StudentMain({navigation}: MainScreenProps) {
               marginVertical: '8%',
               alignItems: 'center',
             }}>
-            <Text style={styles.bigText}>레쭈고 ~ ~ ~ ~ ~ ~ !</Text>
+            <Text style={styles.bigText}>
+              {words[getRandomIndex(words.length)]}
+            </Text>
           </View>
-        </Pressable>
-        {/*<Pressable*/}
-        {/*  onPress={() => {*/}
-        {/*    getPoint();*/}
-        {/*  }}>*/}
-        {/*  <Text>포인트!!</Text>*/}
-        {/*</Pressable>*/}
+        </RNBounceable>
       </View>
       <View style={styles.bottomBlock}>
         <ServiceList list={services} />
@@ -157,17 +166,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   bigButton: {
-    width: screenWidth - 40,
+    width: '90%',
     height: '90%',
-    // backgroundColor: 'green',
-    marginHorizontal: 10,
+    backgroundColor: 'white',
+    marginHorizontal: width * 10,
     borderRadius: 16,
     ...Platform.select({
       ios: {
         shadowColor: '#000',
         shadowOffset: {
-          width: 10,
-          height: 10,
+          width: width * 10,
+          height: height * 10,
         },
         shadowOpacity: 0.5,
         shadowRadius: 10,
@@ -192,35 +201,21 @@ const styles = StyleSheet.create({
     borderColor: '#e0f2fe',
     borderWidth: 4,
   },
-  // noProfileImage: {
-  //   // margin: '3%',
-  //   // width: '50%',
-  //   // height: '100%',
-  //   borderRadius: 16,
-  //   // width: 250,
-  //   // height: 250,
-  //   // borderRadius: 125,
-  //   borderColor: '#e0f2fe',
-  //   borderWidth: 4,
-  //   // alignItems: 'center',
-  //   // justifyContent: 'center',
-  // },
   textArea: {
     // backgroundColor: 'pink',
     width: '40%',
     justifyContent: 'center',
     height: '100%',
     marginVertical: '5%',
-    marginHorizontal: '2%',
   },
   bigText: {
     fontFamily: Fonts.TRBold,
-    fontSize: 25,
+    fontSize: width * 25,
     color: 'darkblue',
   },
   smallText: {
     fontFamily: Fonts.TRBold,
-    fontSize: 17,
+    fontSize: width * 17,
     color: 'black',
   },
 });

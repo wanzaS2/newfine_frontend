@@ -17,6 +17,7 @@ import {RootState} from '../../store/reducer';
 import {Fonts} from '../../assets/Fonts';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {LoggedInParamList} from '../../../AppInner';
+import {width, height} from '../../config/globalStyles';
 // import Carousel from '../../components/Carousel';
 
 type StudentTestResultScreenProps = NativeStackScreenProps<
@@ -64,9 +65,6 @@ type StudentTestResultScreenProps = NativeStackScreenProps<
 //   {id: 1, color: '#e0f2fe'},
 //   {id: 2, color: '#e0f2fe'},
 // ];
-
-const screenWidth = Dimensions.get('window').width;
-const screenHeight = Dimensions.get('window').height;
 
 function StudentTestResult({route, navigation}: StudentTestResultScreenProps) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
@@ -218,7 +216,8 @@ function StudentTestResult({route, navigation}: StudentTestResultScreenProps) {
       <View>
         <ScrollView>
           {/*<StatusBar style="auto" />*/}
-          <View style={{marginTop: '10%'}}>
+          <View>
+            {/*<View style={{marginTop: '10%'}}>*/}
             <View style={styles.myInfo}>
               <View style={styles.scoreBox}>
                 <Text style={styles.rankScore}>순위 </Text>
@@ -252,10 +251,10 @@ function StudentTestResult({route, navigation}: StudentTestResultScreenProps) {
                     <Text style={styles.probNum}>{item.q_num}번</Text>
                     <Text
                       style={{
-                        marginTop: 4,
-                        marginLeft: 110,
+                        marginTop: height * 4,
+                        marginLeft: width * 110,
                         position: 'absolute',
-                        fontSize: 16,
+                        fontSize: width * 16,
                         color: 'black',
                       }}>
                       ({item.rate}%)
@@ -270,9 +269,9 @@ function StudentTestResult({route, navigation}: StudentTestResultScreenProps) {
                     </Text>
                     <Text
                       style={{
-                        marginLeft: 230,
+                        marginLeft: width * 230,
                         position: 'absolute',
-                        fontSize: 16,
+                        fontSize: width * 16,
                         color: 'black',
                       }}>
                       {item.my_ans} {item.ans}
@@ -338,7 +337,7 @@ function StudentTestResult({route, navigation}: StudentTestResultScreenProps) {
               style={{
                 alignItems: 'center',
                 justifyContent: 'center',
-                paddingVertical: 30,
+                paddingVertical: height * 30,
                 // backgroundColor: 'pink',
               }}>
               <Pressable
@@ -348,7 +347,7 @@ function StudentTestResult({route, navigation}: StudentTestResultScreenProps) {
                 }>
                 <Text
                   style={{
-                    fontSize: 20,
+                    fontSize: width * 20,
                     color: 'white',
                     fontFamily: Fonts.TRBold,
                   }}>
@@ -580,7 +579,7 @@ const styles = StyleSheet.create({
   },
   contentsContainer: {
     // justifyContent: 'flex-start',
-    marginTop: 10,
+    marginTop: height * 10,
     marginBottom: '5%',
     paddingVertical: '5%',
     fontFamily: Fonts.TRBold,
@@ -590,11 +589,11 @@ const styles = StyleSheet.create({
   myInfo: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 20,
-    marginBottom: 20,
+    marginTop: height * 20,
+    marginBottom: height * 20,
   },
   scoreBox: {
-    marginTop: 7,
+    marginTop: height * 7,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -602,31 +601,31 @@ const styles = StyleSheet.create({
   rankScore: {
     alignItems: 'center',
     justifyContent: 'flex-start',
-    fontSize: 30,
+    fontSize: width * 30,
     fontFamily: Fonts.TRBold,
     color: 'black',
   },
   totalAvg: {
-    marginTop: 8,
-    paddingLeft: 10,
+    marginTop: height * 8,
+    paddingLeft: width * 10,
     // backgroundColor: 'yellow',
     borderRadius: 5,
-    fontSize: 18,
+    fontSize: width * 18,
     color: 'black',
     // fontFamily: Fonts.TRRegular,
   },
   number: {
     color: '#0077e6',
-    fontSize: 30,
+    fontSize: width * 30,
     fontFamily: Fonts.TRBold,
   },
   contentList: {
     borderRadius: 27,
     borderColor: '#1a91ff',
-    borderWidth: 2,
+    borderWidth: width * 2,
     justifyContent: 'center',
     paddingVertical: '5%',
-    marginVertical: 2,
+    marginVertical: height * 2,
     marginHorizontal: '4%',
     backgroundColor: 'white',
   },
@@ -638,35 +637,35 @@ const styles = StyleSheet.create({
     marginBottom: '3%',
   },
   topFont: {
-    fontSize: 28,
+    fontSize: width * 28,
     fontFamily: Fonts.TRBold,
     color: '#0077e6',
   },
   topRank: {
-    marginLeft: 15,
+    marginLeft: width * 15,
     position: 'absolute',
     fontFamily: Fonts.TRBold,
-    fontSize: 22,
+    fontSize: width * 22,
     color: '#f97316',
   },
   probNum: {
-    marginLeft: 60,
+    marginLeft: width * 60,
     position: 'absolute',
-    fontSize: 18,
+    fontSize: width * 18,
     fontFamily: Fonts.TRBold,
     color: '#fb923c',
   },
   correct: {
-    marginLeft: 190,
+    marginLeft: width * 190,
     position: 'absolute',
-    fontSize: 20,
+    fontSize: width * 20,
     color: '#0077e6',
     fontWeight: 'bold',
   },
   wrong: {
-    marginLeft: 190,
+    marginLeft: width * 190,
     position: 'absolute',
-    fontSize: 20,
+    fontSize: width * 20,
     color: '#ef4444',
     fontWeight: 'bold',
   },
@@ -676,7 +675,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     // justifyContent: 'center',
     paddingVertical: '5%',
-    marginVertical: 2,
+    marginVertical: height * 2,
     marginHorizontal: '4%',
     backgroundColor: 'white',
   },
@@ -694,15 +693,15 @@ const styles = StyleSheet.create({
   },
   killerExplain: {
     // padding: 3,
-    lineHeight: 30,
-    fontSize: 18,
+    lineHeight: width * 30,
+    fontSize: width * 18,
     color: 'black',
     fontFamily: Fonts.TRBold,
   },
   wrongRate: {
-    marginLeft: 120,
+    marginLeft: width * 120,
     // position: 'absolute',
-    fontSize: 18,
+    fontSize: width * 18,
     fontFamily: Fonts.TRBold,
     color: '#1a91ff',
   },
@@ -710,7 +709,7 @@ const styles = StyleSheet.create({
     width: '60%',
     alignItems: 'center',
     backgroundColor: '#0077e6',
-    padding: 10,
+    padding: width * 10,
     justifyContent: 'center',
     borderRadius: 8,
     paddingVertical: '3%',
