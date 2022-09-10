@@ -353,20 +353,18 @@ function HomeworkDetailModal({...props}) {
                 <View style={styles.datetime}>
                   <Text style={styles.text}>1차 마감기한:</Text>
                   <TouchableOpacity onPress={onPressDate1}>
-                    <TextInput
-                      placeholder={format(new Date(newDate1), 'PPP', {
+                    <Text>
+                      {format(new Date(newDate1), 'PPP', {
                         locale: ko,
                       })}
-                      editable={false}
-                    />
+                    </Text>
                   </TouchableOpacity>
                   <TouchableOpacity onPress={onPressTime1}>
-                    <TextInput
-                      editable={false}
-                      placeholder={format(new Date(newDate1), 'p', {
+                    <Text>
+                      {format(new Date(newDate1), 'p', {
                         locale: ko,
                       })}
-                    />
+                    </Text>
                   </TouchableOpacity>
                 </View>
                 <DateTimePickerModal
@@ -380,20 +378,16 @@ function HomeworkDetailModal({...props}) {
                 <View style={styles.datetime}>
                   <Text style={styles.text}>2차 마감기한:</Text>
                   <TouchableOpacity onPress={onPressDate2}>
-                    <TextInput
-                      placeholder={format(new Date(newDate2), 'PPP', {
-                        locale: ko,
-                      })}
-                      editable={false}
-                    />
+                    <Text>
+                      {format(new Date(newDate2), 'PPP', {locale: ko})}
+                    </Text>
                   </TouchableOpacity>
                   <TouchableOpacity onPress={onPressTime2}>
-                    <TextInput
-                      editable={false}
-                      placeholder={format(new Date(newDate2), 'p', {
+                    <Text>
+                      {format(new Date(newDate2), 'p', {
                         locale: ko,
                       })}
-                    />
+                    </Text>
                   </TouchableOpacity>
                 </View>
                 <DateTimePickerModal
