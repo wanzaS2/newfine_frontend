@@ -1,26 +1,21 @@
 import React, {useEffect, useState} from 'react';
 import {
-  Alert,
   FlatList,
   Pressable,
   SafeAreaView,
-  StatusBar,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
   ScrollView,
-  Button,
 } from 'react-native';
 import axios from 'axios';
 import Config from 'react-native-config';
-import Title from '../../components/Title';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store/reducer';
 import {Fonts} from '../../assets/Fonts';
-import Icon from 'react-native-vector-icons/AntDesign';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {TeacherParamList} from '../../../AppInner';
+import {width, height} from '../../config/globalStyles';
 
 type TeacherTestScreenProps = NativeStackScreenProps<
   TeacherParamList,
@@ -160,10 +155,10 @@ function TeacherTest({route, navigation}: TeacherTestScreenProps) {
                   <Text style={styles.probNum}>{item.q_num}번</Text>
                   <Text
                     style={{
-                      marginTop: 4,
-                      marginLeft: 110,
+                      marginTop: height * 4,
+                      marginLeft: width * 110,
                       position: 'absolute',
-                      fontSize: 16,
+                      fontSize: width * 16,
                       color: 'black',
                     }}>
                     ({item.rate}%)
@@ -179,9 +174,9 @@ function TeacherTest({route, navigation}: TeacherTestScreenProps) {
                   <Text
                     style={{
                       // marginLeft: 230,
-                      right: 20,
+                      right: width * 20,
                       position: 'absolute',
-                      fontSize: 16,
+                      fontSize: width * 16,
                       color: 'black',
                     }}>
                     {item.my_ans} {item.ans}
@@ -247,7 +242,7 @@ function TeacherTest({route, navigation}: TeacherTestScreenProps) {
             style={{
               alignItems: 'center',
               justifyContent: 'center',
-              paddingBottom: 20,
+              paddingBottom: height * 20,
               // backgroundColor: 'pink',
             }}>
             <Pressable
@@ -255,7 +250,7 @@ function TeacherTest({route, navigation}: TeacherTestScreenProps) {
               onPress={() => navigation.navigate('TestRank', route.params)}>
               <Text
                 style={{
-                  fontSize: 20,
+                  fontSize: width * 20,
                   color: 'white',
                   fontFamily: Fonts.TRBold,
                 }}>
@@ -276,12 +271,12 @@ const styles = StyleSheet.create({
   myInfo: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 20,
-    marginBottom: 20,
+    marginTop: height * 20,
+    marginBottom: height * 20,
   },
   contentsContainer: {
     // justifyContent: 'flex-start',
-    marginTop: 10,
+    marginTop: height * 10,
     marginBottom: '5%',
     paddingVertical: '5%',
     fontFamily: Fonts.TRBold,
@@ -289,7 +284,7 @@ const styles = StyleSheet.create({
     // backgroundColor: '#fafad2',
   },
   scoreBox: {
-    marginTop: 7,
+    marginTop: height * 7,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -297,31 +292,31 @@ const styles = StyleSheet.create({
   rank: {
     alignItems: 'center',
     justifyContent: 'flex-start',
-    fontSize: 30,
+    fontSize: width * 30,
     fontFamily: Fonts.TRBold,
     color: 'black',
   },
   avg: {
-    marginTop: 8,
-    paddingLeft: 10,
+    marginTop: height * 8,
+    paddingLeft: width * 10,
     // backgroundColor: 'yellow',
     borderRadius: 5,
-    fontSize: 18,
+    fontSize: width * 18,
     color: 'black',
     fontFamily: Fonts.TRRegular,
   },
   number: {
     color: '#0077e6',
-    fontSize: 30,
+    fontSize: width * 30,
     fontFamily: Fonts.TRBold,
   },
   contentList: {
     borderRadius: 27,
     borderColor: '#1a91ff',
-    borderWidth: 2,
+    borderWidth: width * 2,
     justifyContent: 'center',
     paddingVertical: '5%',
-    marginVertical: 2,
+    marginVertical: height * 2,
     marginHorizontal: '4%',
     backgroundColor: 'white',
   },
@@ -333,35 +328,35 @@ const styles = StyleSheet.create({
     marginBottom: '3%',
   },
   topFont: {
-    fontSize: 28,
+    fontSize: width * 28,
     fontFamily: Fonts.TRBold,
     color: '#0077e6',
   },
   topRank: {
-    marginLeft: 15,
+    marginLeft: width * 15,
     position: 'absolute',
     fontFamily: Fonts.TRBold,
-    fontSize: 22,
+    fontSize: width * 22,
     color: '#f97316',
   },
   probNum: {
-    marginLeft: 60,
+    marginLeft: width * 60,
     position: 'absolute',
-    fontSize: 18,
+    fontSize: width * 18,
     fontFamily: Fonts.TRBold,
     color: '#fb923c',
   },
   correct: {
-    marginLeft: 190,
+    marginLeft: width * 190,
     position: 'absolute',
-    fontSize: 20,
+    fontSize: width * 20,
     color: '#0077e6',
     fontWeight: 'bold',
   },
   wrong: {
-    marginLeft: 190,
+    marginLeft: width * 190,
     position: 'absolute',
-    fontSize: 20,
+    fontSize: width * 20,
     color: '#ef4444',
     fontWeight: 'bold',
   },
@@ -371,7 +366,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     // justifyContent: 'center',
     paddingVertical: '5%',
-    marginVertical: 2,
+    marginVertical: height * 2,
     marginHorizontal: '4%',
     backgroundColor: 'white',
   },
@@ -390,15 +385,15 @@ const styles = StyleSheet.create({
   },
   killerExplain: {
     // padding: 3,
-    lineHeight: 30,
-    fontSize: 18,
+    lineHeight: height * 30,
+    fontSize: width * 18,
     color: 'black',
     fontFamily: Fonts.TRBold,
   },
   wrongRate: {
-    marginLeft: 120,
+    marginLeft: width * 120,
     // position: 'absolute',
-    fontSize: 18,
+    fontSize: width * 18,
     fontFamily: Fonts.TRBold,
     color: '#1a91ff',
   },
@@ -406,7 +401,7 @@ const styles = StyleSheet.create({
     width: '60%',
     alignItems: 'center',
     backgroundColor: '#0077e6',
-    padding: 10,
+    paddingHorizontal: width * 10,
     justifyContent: 'center',
     borderRadius: 120,
     paddingVertical: '5%',

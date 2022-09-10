@@ -22,17 +22,9 @@ import MyButton from '../components/MyButton';
 import MyTextInput from '../components/MyTextInput';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store/reducer';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import PushNotification from 'react-native-push-notification';
-import messaging from "@react-native-firebase/messaging";
-// import user from '../slices/user';
+import {width, height} from '../config/globalStyles';
 
 type SignInScreenProps = NativeStackScreenProps<RootStackParamList, 'SignIn'>;
-
-const screenHeight = Dimensions.get('window').height;
-const screenWidth = Dimensions.get('window').width;
 
 function SignIn({navigation}: SignInScreenProps) {
   // const nav = useNavigation<NavigationProp<LoggedInParamList>>();
@@ -42,13 +34,7 @@ function SignIn({navigation}: SignInScreenProps) {
   const [password, setPassword] = useState('');
   const phoneNumberRef = useRef<TextInput | null>(null);
   const passwordRef = useRef<TextInput | null>(null);
-  // const isProfile = useSelector((state: RootState) => !!state.user.nickname);
-  const isProfile = useSelector((state: RootState) => !!state.user.nickname);
-
-  const a = useSelector((state: RootState) => state.user.accessToken);
   const deviceToken = useSelector((state: RootState) => state.user.deviceToken);
-
-  // const authority = useSelector((state: RootState) => state.user.authority);
 
   const onChangePhoneNumber = useCallback(text => {
     setPhoneNumber(text.trim());
@@ -93,10 +79,6 @@ function SignIn({navigation}: SignInScreenProps) {
 
       const accessToken = await EncryptedStorage.getItem('accessToken');
 
-      // console.log('response 받은 거: ', responseT.data.accessToken);
-      // console.log('로컬에서 꺼내온 거: ', accessToken);
-      // console.log('사인인페이지의 authority:      ', authority);
-
       if (responseT.data.authority === 'ROLE_USER') {
         const response = await axios.get(`${Config.API_URL}/member/me`, {
           params: {},
@@ -114,11 +96,6 @@ function SignIn({navigation}: SignInScreenProps) {
         );
         console.log(response.data);
         Alert.alert('알림', '로그인 되었습니다.');
-        // if (!isProfile) {
-        //   nav.navigate('Welcome');
-        // } else {
-        //   nav.navigate('Main');
-        // }
       } else {
         const response = await axios.get(`${Config.API_URL}/member/teacher`, {
           params: {},
@@ -159,22 +136,26 @@ function SignIn({navigation}: SignInScreenProps) {
           <Text
             style={{
               fontFamily: Fonts.TRBold,
-              fontSize: 40,
+              fontSize: width * 40,
               color: 'black',
               // lineHeight: 50,
             }}>
             Welcome!
           </Text>
           <Text
-            style={{fontFamily: Fonts.TRBold, fontSize: 40, color: 'black'}}>
+            style={{
+              fontFamily: Fonts.TRBold,
+              fontSize: width * 40,
+              color: 'black',
+            }}>
             <Text style={{color: 'darkblue'}}>New</Text>
             <Text style={{color: 'darkorange'}}>Fine</Text>
-            <Text style={{fontSize: 25, color: 'black'}}>과 함께</Text>
+            <Text style={{fontSize: width * 25, color: 'black'}}>과 함께</Text>
           </Text>
           <Text
             style={{
               fontFamily: Fonts.TRBold,
-              fontSize: 30,
+              fontSize: width * 30,
               color: 'black',
               // lineHeight: 35,
             }}>
@@ -230,7 +211,7 @@ function SignIn({navigation}: SignInScreenProps) {
                 style={{
                   fontFamily: Fonts.TRRegular,
                   textDecorationLine: 'underline',
-                  fontSize: 14,
+                  fontSize: width * 14,
                 }}>
                 회원가입
               </Text>
@@ -246,7 +227,7 @@ function SignIn({navigation}: SignInScreenProps) {
                   style={{
                     fontFamily: Fonts.TRRegular,
                     textDecorationLine: 'underline',
-                    fontSize: 14,
+                    fontSize: width * 14,
                   }}>
                   비밀번호를 잊어버리셨나요?
                 </Text>
@@ -274,18 +255,18 @@ const styles = StyleSheet.create({
     // backgroundColor: 'powderblue',
   },
   inputWrapper: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingVertical: width * 10,
+    paddingHorizontal: width * 20,
     // backgroundColor: 'white',
   },
   label: {
     color: 'black',
     // fontFamily: Fonts.TRBold,
-    fontSize: 19,
+    fontSize: width * 19,
     // fontFamily: Fonts.TRBold,
     fontFamily: 'TmoneyRoundWind-ExtraBold',
     // fontSize: 17,
-    marginBottom: 15,
+    marginBottom: width * 15,
   },
 });
 

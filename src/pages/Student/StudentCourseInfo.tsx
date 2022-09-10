@@ -13,6 +13,8 @@ import {LoggedInParamList} from '../../../AppInner';
 import {Box} from 'native-base';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import {Fonts} from '../../assets/Fonts';
+import {width, height} from '../../config/globalStyles';
+import RNBounceable from '@freakycoder/react-native-bounceable';
 
 type StudentCourseInfoScreenProps = NativeStackScreenProps<
   LoggedInParamList,
@@ -29,7 +31,7 @@ function StudentCourseInfo({route, navigation}: StudentCourseInfoScreenProps) {
       <View style={styles.buttonContainer}>
         <Title title={route.params.cname} />
         <View style={styles.buttonArea}>
-          <Pressable
+          <RNBounceable
             onPress={() => navigation.navigate('MyAttendance', route.params)}>
             <Box
               style={styles.button}
@@ -43,15 +45,19 @@ function StudentCourseInfo({route, navigation}: StudentCourseInfoScreenProps) {
               <Text style={styles.buttonText}>내 출석 현황</Text>
               <FontAwesome5Icon
                 name={'caret-right'}
-                size={50}
+                size={width * 50}
                 color={'black'}
-                style={{position: 'absolute', bottom: 10, right: 20}}
+                style={{
+                  position: 'absolute',
+                  bottom: height * 10,
+                  right: width * 20,
+                }}
               />
             </Box>
-          </Pressable>
+          </RNBounceable>
         </View>
         <View style={styles.buttonArea}>
-          <Pressable
+          <RNBounceable
             onPress={() =>
               navigation.navigate('StudentBoardList', {
                 courseId: route.params.id,
@@ -69,12 +75,16 @@ function StudentCourseInfo({route, navigation}: StudentCourseInfoScreenProps) {
               <Text style={styles.buttonText}>과제</Text>
               <FontAwesome5Icon
                 name={'caret-right'}
-                size={50}
+                size={width * 50}
                 color={'black'}
-                style={{position: 'absolute', bottom: 10, right: 20}}
+                style={{
+                  position: 'absolute',
+                  bottom: height * 10,
+                  right: width * 20,
+                }}
               />
             </Box>
-          </Pressable>
+          </RNBounceable>
         </View>
       </View>
     </SafeAreaView>
@@ -89,23 +99,24 @@ const styles = StyleSheet.create({
   buttonContainer: {
     // backgroundColor: 'blue',
     flex: 1,
-    marginTop: '12%',
+    marginTop: '15%',
   },
   buttonArea: {
     flex: 1,
+    justifyContent: 'center',
   },
   button: {
     // width: '50%',
-    height: '95%',
-    marginTop: 10,
-    marginHorizontal: 20,
+    height: '90%',
+    marginTop: height * 10,
+    marginHorizontal: width * 20,
     // marginBottom: 10,
     ...Platform.select({
       ios: {
         shadowColor: '#000',
         shadowOffset: {
-          width: 10,
-          height: 10,
+          width: width * 10,
+          height: height * 10,
         },
         shadowOpacity: 0.5,
         shadowRadius: 10,
@@ -116,10 +127,11 @@ const styles = StyleSheet.create({
     }),
   },
   buttonText: {
-    margin: 10,
+    marginHorizontal: width * 10,
+    marginVertical: height * 10,
     color: 'black',
     fontFamily: Fonts.TRBold,
-    fontSize: 40,
+    fontSize: width * 40,
     // mt="3" fontWeight="medium" fontSize="xl"
   },
 });

@@ -7,7 +7,6 @@ import {
   StyleSheet,
   Alert,
   SafeAreaView,
-  Pressable,
 } from 'react-native';
 import Config from 'react-native-config';
 import axios from 'axios';
@@ -18,6 +17,7 @@ import {Fonts} from '../../assets/Fonts';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {TeacherParamList} from '../../../AppInner';
 import {Button} from 'native-base';
+import {width, height} from '../../config/globalStyles';
 import HomeworkDetailModal from '../../components/HomeworkDetailModal';
 
 type SHomeworkListScreenProps = NativeStackScreenProps<
@@ -191,7 +191,7 @@ export default function SHomeworkList(
                   <BouncyCheckbox
                     isChecked={item.ischecked}
                     disabled={item.disabled}
-                    size={25}
+                    size={width * 25}
                     fillColor="#ff4c4c"
                     unfillColor="#FFFFFF"
                     text="check"
@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
     // backgroundColor: 'blue',
   },
   courseName: {
-    fontSize: 23,
+    fontSize: width * 23,
     fontFamily: Fonts.TRBold,
     color: '#0077e6',
     // backgroundColor: 'lightyellow',
@@ -272,9 +272,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: '#b0e0e6',
     borderWidth: 1,
-    padding: 15,
-    marginBottom: 10,
-    marginHorizontal: 25,
+    paddingHorizontal: width * 15,
+    paddingVertical: height * 15,
+    marginBottom: height * 10,
+    marginHorizontal: width * 25,
     //backgroundColor: 'rgba(50,50,50,1)',
     backgroundColor: '#e0ffff',
     flexDirection: 'row',
@@ -282,17 +283,17 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'black',
-    fontSize: 18,
+    fontSize: width * 18,
     fontFamily: Fonts.TRBold,
-    marginBottom: 3,
+    marginBottom: height * 3,
   },
   text: {
     color: 'gray',
-    fontSize: 15,
+    fontSize: width * 15,
     fontFamily: Fonts.TRRegular,
   },
   button: {
-    marginVertical: 15,
-    marginHorizontal: 150,
+    marginVertical: height * 15,
+    marginHorizontal: width * 150,
   },
 });

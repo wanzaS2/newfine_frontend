@@ -1,13 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {
-  Alert,
-  FlatList,
-  Pressable,
   SafeAreaView,
-  StatusBar,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
   ScrollView,
   Dimensions,
@@ -21,6 +16,7 @@ import {Fonts} from '../../assets/Fonts';
 import {LineChart} from 'react-native-chart-kit';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {LoggedInParamList} from '../../../AppInner';
+import {width, height} from '../../config/globalStyles';
 
 type StudentAllTestResultScreenProps = NativeStackScreenProps<
   LoggedInParamList,
@@ -29,10 +25,7 @@ type StudentAllTestResultScreenProps = NativeStackScreenProps<
 
 const screenWidth = Dimensions.get('window').width;
 
-function StudentAllTestResult({
-  route,
-  navigation,
-}: StudentAllTestResultScreenProps) {
+function StudentAllTestResult({route}: StudentAllTestResultScreenProps) {
   const [TestList, setTestList] = useState();
   const [MyRank, setMyRank] = useState();
   const [MyScore, setMyScore] = useState();
@@ -50,7 +43,7 @@ function StudentAllTestResult({
     datasets: [
       {
         data: [7],
-        color: (opacity = 0.6) => '#87cefa',
+        color: (opacity = 1) => '#0077e6',
         strokeWidth: 5, // optional
       },
     ],
@@ -61,7 +54,7 @@ function StudentAllTestResult({
     datasets: [
       {
         data: [39],
-        color: (opacity = 0.6) => '#87cefa',
+        color: (opacity = 1) => '#0077e6',
         strokeWidth: 5, // optional
       },
     ],
@@ -69,10 +62,10 @@ function StudentAllTestResult({
   });
   const chartConfig = {
     backgroundGradientFrom: '#f0f8ff',
-    backgroundGradientFromOpacity: 0,
+    backgroundGradientFromOpacity: 0.6,
     backgroundGradientTo: '#f0f8ff',
     backgroundGradientToOpacity: 0.5,
-    color: (opacity = 0.6) => '#87cefa',
+    color: (opacity = 1) => '#0077e6',
     strokeWidth: 2, // optional, default 3
     barPercentage: 1,
     useShadowColorFromDataset: false, // optional
@@ -81,8 +74,8 @@ function StudentAllTestResult({
     },
     propsForDots: {
       r: '6',
-      strokeWidth: '2',
-      stroke: '#ffa726',
+      strokeWidth: '3',
+      stroke: '#0077e6',
     },
     decimalPlaces: 0, // 정수로 바꾸는 부분
   };
@@ -153,7 +146,8 @@ function StudentAllTestResult({
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <View style={{marginTop: '15%'}}>
+        <View style={{marginTop: '5%'}}>
+          {/*<View style={{marginTop: '15%'}}>*/}
           <View style={{paddingBottom: '5%'}}>
             {/*          <StatusBar style="auto" />*/}
             <View style={styles.scoreBox}>
@@ -165,12 +159,8 @@ function StudentAllTestResult({
               <LineChart
                 data={RData}
                 width={screenWidth}
-                height={300}
+                height={height * 300}
                 chartConfig={chartConfig}
-                withHorizontalLines={true}
-                withOuterLines={true}
-                withInnerLines={false}
-                withDots={true}
                 fromZero={true}
               />
             </View>
@@ -185,7 +175,7 @@ function StudentAllTestResult({
               <LineChart
                 data={SData}
                 width={screenWidth}
-                height={300}
+                height={height * 300}
                 chartConfig={chartConfig}
                 fromZero={true}
               />
@@ -209,22 +199,22 @@ const styles = StyleSheet.create({
   rankScore: {
     alignItems: 'center',
     justifyContent: 'flex-start',
-    fontSize: 30,
+    fontSize: width * 30,
     fontFamily: Fonts.TRBold,
     color: 'black',
   },
   totalAvg: {
-    marginTop: 8,
-    paddingLeft: 10,
+    marginTop: height * 8,
+    paddingLeft: width * 10,
     // backgroundColor: 'yellow',
     borderRadius: 5,
-    fontSize: 18,
+    fontSize: width * 18,
     color: 'black',
     // fontFamily: Fonts.TRRegular,
   },
   number: {
     color: '#0077e6',
-    fontSize: 30,
+    fontSize: width * 30,
     fontFamily: Fonts.TRBold,
   },
 });

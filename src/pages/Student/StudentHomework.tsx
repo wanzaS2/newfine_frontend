@@ -1,11 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
   FlatList,
   Text,
   View,
   StyleSheet,
-  TouchableOpacity,
   SafeAreaView,
   Platform,
 } from 'react-native';
@@ -17,6 +16,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {LoggedInParamList} from '../../../AppInner';
 import {Fonts} from '../../assets/Fonts';
 import {Modal, Pressable} from 'native-base';
+import {width, height} from '../../config/globalStyles';
 
 type StudentHomeworkScreenProps = NativeStackScreenProps<
   LoggedInParamList,
@@ -28,7 +28,7 @@ export default function StudentHomework({route}: StudentHomeworkScreenProps) {
   // const [toggle, onToggle] = useState('');
   const [data, setData] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  // const [showModal, setShowModal] = useState(false);
+  const scrollRef = useRef();
 
   const fetchItems = () => {
     if (!isRefreshing) {
@@ -72,9 +72,11 @@ export default function StudentHomework({route}: StudentHomeworkScreenProps) {
             </View>
             <View style={styles.listArea}>
               <FlatList
+                ref={scrollRef}
                 data={data}
                 onRefresh={fetchItems} // fetch로 데이터 호출
                 refreshing={isRefreshing} // state
+                style={{height: '92%'}}
                 keyExtractor={(item, index) => {
                   // console.log("index", index)
                   return index.toString();
@@ -158,11 +160,11 @@ const styles = StyleSheet.create({
   completedHomework: {
     alignItems: 'center',
     // backgroundColor: 'yellow',
-    paddingBottom: 20,
+    paddingBottom: height * 20,
   },
   completedHomeworkText: {
     fontFamily: Fonts.TRBold,
-    fontSize: 20,
+    fontSize: width * 20,
   },
   listArea: {
     // backgroundColor: 'yellow',
@@ -175,16 +177,16 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     // marginTop: 5,
     justifyContent: 'center',
-    marginBottom: 10,
+    marginBottom: height * 10,
     borderRadius: 8,
     backgroundColor: '#bae6fd',
-    marginHorizontal: 10,
+    marginHorizontal: width * 10,
     ...Platform.select({
       ios: {
         shadowColor: '#000',
         shadowOffset: {
-          width: 10,
-          height: 10,
+          width: width * 10,
+          height: height * 10,
         },
         shadowOpacity: 0.5,
         shadowRadius: 10,
@@ -197,13 +199,13 @@ const styles = StyleSheet.create({
   title: {
     marginLeft: '5%',
     marginBottom: '3%',
-    fontSize: 17,
+    fontSize: width * 17,
     fontFamily: Fonts.TRBold,
     color: 'black',
   },
   text: {
     marginLeft: '5%',
-    fontSize: 15,
+    fontSize: width * 15,
     fontFamily: Fonts.TRBold,
     color: 'gray',
   },

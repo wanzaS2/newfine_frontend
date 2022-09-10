@@ -4,7 +4,6 @@ import {
   Platform,
   Pressable,
   SafeAreaView,
-  StatusBar,
   StyleSheet,
   Text,
   View,
@@ -16,6 +15,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../store/reducer';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Fonts} from '../../assets/Fonts';
+import {height, width} from '../../config/globalStyles';
 
 type VideoListScreenProps = NativeStackScreenProps<
   LoggedInParamList,
@@ -26,7 +26,6 @@ function VideoList({navigation}: VideoListScreenProps) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const [AttendanceList, setAttendanceList] = useState();
   const [listLength, setAttendanceLength] = useState();
-  const [loading, setLoading] = useState(false);
 
   const getAttendances = () => {
     axios(`${Config.API_URL}/attendances/my/now`, {
@@ -39,8 +38,7 @@ function VideoList({navigation}: VideoListScreenProps) {
         setAttendanceList(response.data);
         setAttendanceLength(response.data.length);
       })
-      .catch(error => console.error(error))
-      .finally(() => setLoading(false));
+      .catch(error => console.error(error));
   };
 
   useEffect(() => {
@@ -99,36 +97,36 @@ const styles = StyleSheet.create({
   subtitleBox: {
     // backgroundColor: 'pink',
     alignItems: 'center',
-    paddingVertical: 10,
+    paddingVertical: height * 10,
     marginTop: '15%',
     marginBottom: '5%',
   },
   subtitleX: {
-    fontSize: 17,
+    fontSize: width * 17,
     color: '#ef4444',
     fontFamily: Fonts.TRBold,
   },
   subtitle: {
-    fontSize: 17,
+    fontSize: width * 17,
     color: '#0077e6',
     fontFamily: Fonts.TRBold,
   },
   flatList: {
     // width: screenWidth,
-    paddingVertical: 15,
+    paddingVertical: height * 15,
     // alignItems: 'center',
     // marginTop: 5,
     justifyContent: 'center',
-    marginBottom: 10,
+    marginBottom: height * 10,
     borderRadius: 8,
     backgroundColor: '#bae6fd',
-    marginHorizontal: 10,
+    marginHorizontal: width * 10,
     ...Platform.select({
       ios: {
         shadowColor: '#000',
         shadowOffset: {
-          width: 10,
-          height: 10,
+          width: width * 10,
+          height: height * 10,
         },
         shadowOpacity: 0.5,
         shadowRadius: 10,
@@ -140,20 +138,20 @@ const styles = StyleSheet.create({
   },
   dateText: {
     marginLeft: '5%',
-    fontSize: 18,
+    fontSize: width * 18,
     fontFamily: Fonts.TRBold,
     color: 'black',
   },
   classText: {
     marginLeft: '5%',
-    fontSize: 20,
+    fontSize: width * 20,
     fontFamily: Fonts.TRBold,
     color: 'black',
   },
   timeText: {
     position: 'absolute',
-    right: 15,
-    fontSize: 17,
+    right: width * 15,
+    fontSize: width * 17,
     fontFamily: Fonts.TRBold,
     color: 'gray',
   },

@@ -18,6 +18,7 @@ import {LoggedInParamList} from '../../../AppInner';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import {Fonts} from '../../assets/Fonts';
 import {Modal} from 'native-base';
+import {width, height} from '../../config/globalStyles';
 
 type StudentBoardListScreenProps = NativeStackScreenProps<
   LoggedInParamList,
@@ -103,12 +104,12 @@ export default function StudentBoardList({route}: StudentBoardListScreenProps) {
                       </Text>
                       <FontAwesome5Icon
                         name={'chevron-circle-right'}
-                        size={30}
+                        size={width * 30}
                         color={'white'}
                         style={{
                           position: 'absolute',
                           justifyContent: 'center',
-                          right: 10,
+                          right: width * 10,
                         }}
                       />
                     </View>
@@ -136,7 +137,7 @@ export default function StudentBoardList({route}: StudentBoardListScreenProps) {
                 style={{
                   fontFamily: Fonts.TRBold,
                   color: '#0077e6',
-                  fontSize: 20,
+                  fontSize: width * 20,
                 }}>
                 {selectedItem && selectedItem.title}
               </Text>
@@ -146,7 +147,7 @@ export default function StudentBoardList({route}: StudentBoardListScreenProps) {
                 style={{
                   fontFamily: Fonts.TRRegular,
                   color: 'black',
-                  fontSize: 16,
+                  fontSize: width * 16,
                 }}>
                 {selectedItem && selectedItem.content}
               </Text>
@@ -161,7 +162,7 @@ export default function StudentBoardList({route}: StudentBoardListScreenProps) {
                   style={{
                     fontFamily: Fonts.TRBold,
                     color: '#0077e6',
-                    fontSize: 18,
+                    fontSize: width * 18,
                   }}>
                   확인
                 </Text>
@@ -201,16 +202,16 @@ const styles = StyleSheet.create({
     // marginTop: 5,
     paddingVertical: '3%',
     justifyContent: 'center',
-    marginBottom: 10,
+    marginBottom: height * 10,
     borderRadius: 8,
     backgroundColor: '#bae6fd',
-    marginHorizontal: 10,
+    marginHorizontal: width * 10,
     ...Platform.select({
       ios: {
         shadowColor: '#000',
         shadowOffset: {
-          width: 10,
-          height: 10,
+          width: width * 10,
+          height: height * 10,
         },
         shadowOpacity: 0.5,
         shadowRadius: 10,
@@ -248,13 +249,13 @@ const styles = StyleSheet.create({
   title: {
     marginLeft: '5%',
     marginBottom: '3%',
-    fontSize: 20,
+    fontSize: width * 20,
     fontFamily: Fonts.TRBold,
     color: 'black',
   },
   text: {
     marginLeft: '5%',
-    fontSize: 17,
+    fontSize: width * 17,
     fontFamily: Fonts.TRBold,
     color: 'gray',
   },

@@ -1,18 +1,13 @@
-import React, {useState} from 'react';
-import {
-  FlatList,
-  Pressable,
-  StyleSheet,
-  View,
-  Text,
-  Platform,
-} from 'react-native';
+import React from 'react';
+import {FlatList, StyleSheet, View, Text, Platform} from 'react-native';
 import {Services} from '../slices/interfaces';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import {Fonts} from '../assets/Fonts';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {LoggedInParamList} from '../../AppInner';
 import {useNavigation} from '@react-navigation/native';
+import RNBounceable from '@freakycoder/react-native-bounceable';
+import {width, height} from '../config/globalStyles';
 
 interface Props {
   list: Array<Services>;
@@ -34,26 +29,19 @@ function ServiceList({list}: Props, {navigation}: MainScreenProps) {
         data={list}
         renderItem={({item, index}) => (
           <View>
-            <Pressable
+            <RNBounceable
               onPress={() => {
                 navigation.navigate(item.next);
               }}
-              style={({pressed}) => [
-                {
-                  backgroundColor: pressed ? '#f0f9ff' : 'white',
-                  width: pressed ? 107 : 110, //  나중에 애니메이션으로
-                  height: pressed ? 107 : 110,
-                },
-                styles.button,
-              ]}>
+              style={styles.button}>
               <View style={styles.buttonDetail}>
                 <FontAwesome5Icon
                   name={item.icon}
-                  size={45}
+                  size={width * 45}
                   color={'darkblue'}
                 />
               </View>
-            </Pressable>
+            </RNBounceable>
             <View>
               <Text style={styles.text}>{item.name}</Text>
             </View>
@@ -72,12 +60,12 @@ const styles = StyleSheet.create({
     // backgroundColor: 'green',
   },
   button: {
-    // backgroundColor: 'yellow',
+    backgroundColor: 'white',
     alignItems: 'center',
-    marginHorizontal: 10,
-    marginBottom: 10,
-    // width: 110,
-    // height: 110,
+    marginHorizontal: width * 10,
+    marginBottom: height * 10,
+    width: width * 110,
+    height: height * 110,
     justifyContent: 'center',
     // alignItems: 'center',
     borderRadius: 16,
@@ -86,8 +74,8 @@ const styles = StyleSheet.create({
       ios: {
         shadowColor: '#000',
         shadowOffset: {
-          width: 10,
-          height: 10,
+          width: width * 10,
+          height: height * 10,
         },
         shadowOpacity: 0.5,
         shadowRadius: 10,
@@ -101,9 +89,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    marginBottom: 20,
+    marginBottom: height * 20,
     textAlign: 'center',
-    fontSize: 17,
+    fontSize: width * 17,
     fontFamily: Fonts.TRBold,
     color: 'darkblue',
     textTransform: 'capitalize',

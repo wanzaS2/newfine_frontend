@@ -1,6 +1,4 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {LoggedInParamList} from '../../../AppInner';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store/reducer';
 import axios, {AxiosError} from 'axios';
@@ -8,6 +6,7 @@ import Config from 'react-native-config';
 import {Alert, FlatList, Platform, StyleSheet, Text, View} from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
 import {Fonts} from '../../assets/Fonts';
+import {width, height} from '../../config/globalStyles';
 
 function MyPointList() {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
@@ -100,20 +99,20 @@ const styles = StyleSheet.create({
   },
   flatList: {
     // width: screenWidth,
-    height: 60,
+    height: height * 60,
     alignItems: 'center',
     // marginTop: 5,
     justifyContent: 'center',
-    marginBottom: 10,
+    marginBottom: height * 10,
     borderRadius: 8,
     backgroundColor: '#bae6fd',
-    marginHorizontal: 10,
+    marginHorizontal: width * 10,
     ...Platform.select({
       ios: {
         shadowColor: '#000',
         shadowOffset: {
-          width: 10,
-          height: 10,
+          width: width * 10,
+          height: height * 10,
         },
         shadowOpacity: 0.5,
         shadowRadius: 10,
@@ -123,8 +122,8 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  textTop: {fontFamily: Fonts.TRRegular, fontSize: 13},
-  textBottom: {fontFamily: Fonts.TRBold, fontSize: 17, color: 'black'},
+  textTop: {fontFamily: Fonts.TRRegular, fontSize: width * 13},
+  textBottom: {fontFamily: Fonts.TRBold, fontSize: width * 17, color: 'black'},
 });
 
 export default MyPointList;

@@ -8,22 +8,13 @@ import {
   Platform,
 } from 'react-native';
 import {Fonts} from '../../assets/Fonts';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {LoggedInParamList} from '../../../AppInner';
 // import {Switch} from 'native-base';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import AllRanking from './AllRanking';
 import MyPointList from './MyPointList';
+import {width, height} from '../../config/globalStyles';
 
-const screenHeight = Dimensions.get('window').height;
-const screenWidth = Dimensions.get('window').width;
-
-type MyPointListScreenProps = NativeStackScreenProps<
-  LoggedInParamList,
-  'MyPointList'
->;
-
-function RankingPoint({navigation}: MyPointListScreenProps) {
+function RankingPoint() {
   // const [textColor, setTextColor] = useState('#000');
   const [value, setValue] = useState('포인트 내역');
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -53,7 +44,7 @@ function RankingPoint({navigation}: MyPointListScreenProps) {
       <View style={styles.segmentContainer}>
         <SegmentedControl
           style={{
-            height: 50,
+            height: height * 50,
             backgroundColor: 'lightgray',
           }}
           tintColor="darkblue"
@@ -61,8 +52,8 @@ function RankingPoint({navigation}: MyPointListScreenProps) {
           selectedIndex={selectedIndex}
           onChange={_onChange}
           onValueChange={_onValueChange}
-          fontStyle={{fontSize: 16}}
-          activeFontStyle={{fontSize: 17}}
+          fontStyle={{fontSize: width * 16}}
+          activeFontStyle={{fontSize: width * 17}}
         />
       </View>
       {showList()}
@@ -94,9 +85,9 @@ const styles = StyleSheet.create({
   textBottom: {fontFamily: Fonts.TRBold, fontSize: 17, color: 'black'},
   segmentContainer: {
     backgroundColor: 'white',
-    paddingBottom: 10,
-    paddingTop: 20,
-    paddingHorizontal: 10,
+    paddingBottom: height * 10,
+    paddingTop: height * 20,
+    paddingHorizontal: width * 10,
   },
   listArea: {
     // backgroundColor: 'yellow',
@@ -105,20 +96,20 @@ const styles = StyleSheet.create({
   },
   flatList: {
     // width: screenWidth,
-    height: 60,
+    height: height * 60,
     alignItems: 'center',
     // marginTop: 5,
     justifyContent: 'center',
-    marginBottom: 10,
+    marginBottom: height * 10,
     borderRadius: 8,
     backgroundColor: '#bae6fd',
-    marginHorizontal: 10,
+    marginHorizontal: width * 10,
     ...Platform.select({
       ios: {
         shadowColor: '#000',
         shadowOffset: {
-          width: 10,
-          height: 10,
+          width: width * 10,
+          height: height * 10,
         },
         shadowOpacity: 0.5,
         shadowRadius: 10,

@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, TextInput, View} from 'react-native';
 import {Fonts} from '../assets/Fonts';
+import {height, width} from '../config/globalStyles';
 
 function MyTextInput({...props}, ref) {
   return (
@@ -28,12 +29,12 @@ function MyTextInput({...props}, ref) {
 }
 
 const styles = StyleSheet.create({
-  container: {width: '100%', paddingVertical: 10},
+  container: {width: '100%', paddingVertical: height * 10},
   textInput: {
     backgroundColor: 'lightgrey',
     fontFamily: Fonts.TRRegular,
-    fontSize: 14,
-    paddingHorizontal: 15,
+    fontSize: width * 14,
+    paddingHorizontal: width * 15,
     borderRadius: 5,
   },
 });

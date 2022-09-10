@@ -15,6 +15,7 @@ import Config from 'react-native-config';
 import {format} from 'date-fns';
 import ko from 'date-fns/esm/locale/ko/index.js';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import {width, height} from '../config/globalStyles';
 
 function HomeworkDetailModal({...props}) {
   console.log(props);
@@ -340,7 +341,7 @@ function HomeworkDetailModal({...props}) {
             <FormControl.Label>상세 내용</FormControl.Label>
             <TextArea
               editable={canUpdate ? true : false}
-              h={40}
+              h={height * 40}
               placeholder="Text Area Placeholder"
               value={content}
               onChangeText={onChangeContent}
@@ -462,7 +463,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   text: {
-    marginRight: 5,
+    marginRight: width * 5,
     color: '#0077e6',
   },
 });

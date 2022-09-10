@@ -16,6 +16,7 @@ import {RootState} from '../../store/reducer';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {TeacherParamList} from '../../../AppInner';
 import {Fonts} from '../../assets/Fonts';
+import {width, height} from '../../config/globalStyles';
 
 type StudentAttendanceScreenProps = NativeStackScreenProps<
   TeacherParamList,
@@ -139,6 +140,7 @@ function StudentAttendance({route}: StudentAttendanceScreenProps) {
             data={Students}
             onRefresh={fetchItems} // fetch로 데이터 호출
             refreshing={isRefreshing} // state
+            style={{height: '99.5%'}}
             renderItem={({item, index}) => (
               <View style={styles.box_list}>
                 <Text style={styles.nameText}>{item.name}</Text>
@@ -155,7 +157,7 @@ function StudentAttendance({route}: StudentAttendanceScreenProps) {
                 <TouchableOpacity
                   onPress={() => showAlert(item.id)}
                   style={styles.icon}>
-                  <Icon name="edit" size={25} color="black" />
+                  <Icon name="edit" size={width * 25} color="black" />
                 </TouchableOpacity>
               </View>
             )}
@@ -176,44 +178,45 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     borderColor: '#fde68a',
     borderBottomWidth: 1,
-    padding: 15,
+    paddingHorizontal: width * 15,
+    paddingVertical: height * 15,
     backgroundColor: '#fffbeb',
     flexDirection: 'row',
   },
   nameText: {
     marginLeft: '5%',
-    fontSize: 20,
+    fontSize: width * 20,
     fontFamily: Fonts.TRBold,
     color: 'black',
   },
   attendanceText: {
     position: 'absolute',
-    right: 70,
-    bottom: 15,
-    fontSize: 20,
+    right: width * 70,
+    bottom: height * 15,
+    fontSize: width * 20,
     fontFamily: Fonts.TRBold,
     color: '#0077e6',
   },
   absenceText: {
     position: 'absolute',
-    right: 70,
-    bottom: 15,
-    fontSize: 20,
+    right: width * 70,
+    bottom: height * 15,
+    fontSize: width * 20,
     fontFamily: Fonts.TRBold,
     color: '#ef4444',
   },
   tardyText: {
     position: 'absolute',
-    right: 70,
-    bottom: 15,
-    fontSize: 20,
+    right: width * 70,
+    bottom: height * 15,
+    fontSize: width * 20,
     fontFamily: Fonts.TRBold,
     color: '#16a34a',
   },
   icon: {
     position: 'absolute',
-    right: 17,
-    bottom: 15,
+    right: width * 17,
+    bottom: height * 15,
   },
 });
 

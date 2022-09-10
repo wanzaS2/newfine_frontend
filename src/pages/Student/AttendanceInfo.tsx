@@ -5,6 +5,8 @@ import {LoggedInParamList} from '../../../AppInner';
 import {Box, Pressable} from 'native-base';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import {Fonts} from '../../assets/Fonts';
+import {width, height} from '../../config/globalStyles';
+import RNBounceable from '@freakycoder/react-native-bounceable';
 
 type AttendanceInfoScreenProps = NativeStackScreenProps<
   LoggedInParamList,
@@ -16,7 +18,7 @@ function AttendanceInfo({navigation}: AttendanceInfoScreenProps) {
     <SafeAreaView style={styles.container}>
       <View style={styles.buttonContainer}>
         <View style={styles.buttonArea}>
-          <Pressable onPress={() => navigation.navigate('QRCodeScanner')}>
+          <RNBounceable onPress={() => navigation.navigate('QRCodeScanner')}>
             <Box
               style={styles.button}
               // maxW="96"
@@ -29,15 +31,19 @@ function AttendanceInfo({navigation}: AttendanceInfoScreenProps) {
               <Text style={styles.buttonText}>지금 출석하기</Text>
               <FontAwesome5Icon
                 name={'caret-right'}
-                size={50}
+                size={width * 50}
                 color={'black'}
-                style={{position: 'absolute', bottom: 10, right: 20}}
+                style={{
+                  position: 'absolute',
+                  bottom: height * 10,
+                  right: width * 20,
+                }}
               />
             </Box>
-          </Pressable>
+          </RNBounceable>
         </View>
         <View style={styles.buttonArea}>
-          <Pressable onPress={() => navigation.navigate('VideoList')}>
+          <RNBounceable onPress={() => navigation.navigate('VideoList')}>
             <Box
               style={styles.button}
               // maxW="96"
@@ -50,12 +56,16 @@ function AttendanceInfo({navigation}: AttendanceInfoScreenProps) {
               <Text style={styles.buttonText}>동영상 강의 신청</Text>
               <FontAwesome5Icon
                 name={'caret-right'}
-                size={50}
+                size={width * 50}
                 color={'black'}
-                style={{position: 'absolute', bottom: 10, right: 20}}
+                style={{
+                  position: 'absolute',
+                  bottom: height * 10,
+                  right: width * 20,
+                }}
               />
             </Box>
-          </Pressable>
+          </RNBounceable>
         </View>
       </View>
     </SafeAreaView>
@@ -69,23 +79,24 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 1,
-    marginTop: '12%',
+    marginTop: '15%',
+    justifyContent: 'center',
   },
   buttonArea: {
     flex: 1,
   },
   button: {
     // width: '50%',
-    height: '95%',
-    marginTop: 10,
-    marginHorizontal: 20,
+    height: '90%',
+    marginTop: height * 10,
+    marginHorizontal: width * 20,
     // marginBottom: 10,
     ...Platform.select({
       ios: {
         shadowColor: '#000',
         shadowOffset: {
-          width: 10,
-          height: 10,
+          width: width * 10,
+          height: height * 10,
         },
         shadowOpacity: 0.5,
         shadowRadius: 10,
@@ -96,10 +107,11 @@ const styles = StyleSheet.create({
     }),
   },
   buttonText: {
-    margin: 10,
+    marginHorizontal: width * 10,
+    marginVertical: height * 10,
     color: 'black',
     fontFamily: Fonts.TRBold,
-    fontSize: 40,
+    fontSize: width * 40,
     // mt="3" fontWeight="medium" fontSize="xl"
   },
 });
