@@ -6,6 +6,7 @@ import AppInner from './AppInner';
 import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import {SSRProvider} from '@react-aria/ssr';
 import {useEffect} from 'react';
 
 PushNotification.configure({
@@ -98,10 +99,10 @@ function App() {
       remoteMessage.notification?.title as string,
       remoteMessage.notification?.body,
     );
-    //  여기에 로직을 작성한다.
-    //  remoteMessage.data로 메세지에 접근가능
-    //  remoteMessage.from 으로 topic name 또는 message identifier
-    //  remoteMessage.messageId 는 메시지 고유값 id
+     // 여기에 로직을 작성한다.
+     // remoteMessage.data로 메세지에 접근가능
+     // remoteMessage.from 으로 topic name 또는 message identifier
+     // remoteMessage.messageId 는 메시지 고유값 id
     //  remoteMessage.notification 메시지와 함께 보내진 추가 데이터
     //  remoteMessage.sentTime 보낸시간
   });
@@ -117,11 +118,13 @@ function App() {
   });
 
   return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <AppInner />
-      </NavigationContainer>
-    </Provider>
+      <SSRProvider>
+        <Provider store={store}>
+          <NavigationContainer>
+            <AppInner />
+          </NavigationContainer>
+        </Provider>
+      </SSRProvider>
   );
 }
 

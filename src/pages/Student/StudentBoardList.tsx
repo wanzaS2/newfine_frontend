@@ -220,6 +220,31 @@ const styles = StyleSheet.create({
       },
     }),
   },
+  flatList2: {
+    // width: screenWidth,
+    // alignItems: 'center',
+    // marginTop: 5,
+    paddingVertical: '3%',
+    justifyContent: 'center',
+    marginBottom: 10,
+    borderRadius: 8,
+    backgroundColor: 'gray',
+    marginHorizontal: 10,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 10,
+          height: 10,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 10,
+      },
+      android: {
+        elevation: 3,
+      },
+    }),
+  },
   title: {
     marginLeft: '5%',
     marginBottom: '3%',

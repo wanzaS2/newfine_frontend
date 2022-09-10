@@ -8,7 +8,7 @@ import {
   SafeAreaView,
   Platform,
   Pressable,
-  TouchableOpacity,
+  TouchableOpacity, TextInput, Alert,
 } from 'react-native';
 import Config from 'react-native-config';
 import axios from 'axios';
@@ -20,6 +20,9 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import {Fonts} from '../../assets/Fonts';
 import HomeworkSaveModal from '../../components/HomeworkSaveModal';
 import HomeworkDetailModal from '../../components/HomeworkDetailModal';
+import {format} from "date-fns";
+import ko from "date-fns/esm/locale/ko/index.js";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 // import {LocalNotification} from '../lib/LocalNotification';
 
 type BoardListScreenProps = NativeStackScreenProps<

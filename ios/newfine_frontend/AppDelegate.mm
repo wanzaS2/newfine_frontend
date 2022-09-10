@@ -7,6 +7,9 @@
 #import <React/RCTRootView.h>
 
 #import <React/RCTAppSetupUtils.h>
+#import <FirebaseCore.h> // 윤아 추가
+#import <UserNotifications/UserNotifications.h> // 윤아 추가
+#import <RNCPushNotificationIOS.h> // 윤아 추가
 
 #if RCT_NEW_ARCH_ENABLED
 #import <React/CoreModulesPlugins.h>
@@ -18,6 +21,7 @@
 
 #import <react/config/ReactNativeConfig.h>
 
+
 @interface AppDelegate () <RCTCxxBridgeDelegate, RCTTurboModuleManagerDelegate> {
   RCTTurboModuleManager *_turboModuleManager;
   RCTSurfacePresenterBridgeAdapter *_bridgeAdapter;
@@ -28,10 +32,38 @@
 #endif
 
 @implementation AppDelegate
+// Required for the register event. 주석 처리 된 부분 쭉 윤아 추가
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+ [RNCPushNotificationIOS didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+// Required for the notification event. You must call the completion handler after handling the remote notification.
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+  [RNCPushNotificationIOS didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
+}
+// Required for the registrationError event.
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+ [RNCPushNotificationIOS didFailToRegisterForRemoteNotificationsWithError:error];
+}
+// Required for localNotification event
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+didReceiveNotificationResponse:(UNNotificationResponse *)response
+         withCompletionHandler:(void (^)(void))completionHandler
+{
+  [RNCPushNotificationIOS didReceiveNotificationResponse:response];
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   RCTAppSetupPrepareApp(application);
+
+  if ([FIRApp defaultApp] == nil) {
+    [FIRApp configure];
+  }
+ //윤아 추가
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
 
@@ -59,8 +91,18 @@
 
   [RNSplashScreen show];  // 문경 추가
 
-  return YES;
-}
+ // Define UNUserNotificationCenter 윤아 추가
+   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+   center.delegate = self;
+
+   return YES;
+ }
+
+ //Called when a notification is delivered to a foreground app. 윤아 추가
+ -(void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler
+ {
+   completionHandler(UNNotificationPresentationOptionSound | UNNotificationPresentationOptionAlert | UNNotificationPresentationOptionBadge);
+ }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
 {
