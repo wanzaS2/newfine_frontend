@@ -4,7 +4,6 @@ import {
   Platform,
   SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   View,
@@ -15,10 +14,8 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../store/reducer';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {LoggedInParamList} from '../../../AppInner';
-import {Calendar} from 'react-native-calendars/src';
-import {Pressable} from 'native-base';
 import {Fonts} from '../../assets/Fonts';
-import DismissKeyboardView from '../../components/DismissKeyboardView';
+import {width, height} from '../../config/globalStyles';
 
 type MyAttendanceScreenProps = NativeStackScreenProps<
   LoggedInParamList,
@@ -154,20 +151,20 @@ const styles = StyleSheet.create({
   },
   flatList: {
     // width: screenWidth,
-    paddingVertical: 15,
+    paddingVertical: height * 15,
     // alignItems: 'center',
     // marginTop: 5,
     justifyContent: 'center',
-    marginBottom: 10,
+    marginBottom: height * 10,
     borderRadius: 8,
     backgroundColor: '#bae6fd',
-    marginHorizontal: 10,
+    marginHorizontal: width * 10,
     ...Platform.select({
       ios: {
         shadowColor: '#000',
         shadowOffset: {
-          width: 10,
-          height: 10,
+          width: width * 10,
+          height: height * 10,
         },
         shadowOpacity: 0.5,
         shadowRadius: 10,
@@ -179,28 +176,28 @@ const styles = StyleSheet.create({
   },
   dateText: {
     marginLeft: '5%',
-    fontSize: 18,
+    fontSize: width * 18,
     fontFamily: Fonts.TRBold,
     color: 'black',
   },
   attendanceText: {
     position: 'absolute',
-    right: 15,
-    fontSize: 20,
+    right: width * 15,
+    fontSize: width * 20,
     fontFamily: Fonts.TRBold,
     color: '#0077e6',
   },
   absenceText: {
     position: 'absolute',
-    right: 15,
-    fontSize: 20,
+    right: width * 15,
+    fontSize: width * 20,
     fontFamily: Fonts.TRBold,
     color: '#ef4444',
   },
   tardyText: {
     position: 'absolute',
-    right: 15,
-    fontSize: 20,
+    right: width * 15,
+    fontSize: width * 20,
     fontFamily: Fonts.TRBold,
     color: '#16a34a',
   },

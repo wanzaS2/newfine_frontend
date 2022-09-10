@@ -19,6 +19,7 @@ import {RootState} from '../../store/reducer';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Fonts} from '../../assets/Fonts';
 import {Divider} from 'native-base';
+import {width, height} from '../../config/globalStyles';
 
 type ListenersScreenProps = NativeStackScreenProps<
   TeacherParamList,
@@ -141,7 +142,7 @@ const styles = StyleSheet.create({
     // backgroundColor: 'blue',
   },
   courseName: {
-    fontSize: 23,
+    fontSize: width * 23,
     fontFamily: Fonts.TRBold,
     color: '#0077e6',
     // backgroundColor: 'lightyellow',
@@ -151,7 +152,8 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     borderColor: '#2dd4bf',
     borderBottomWidth: 1,
-    padding: 15,
+    paddingHorizontal: width * 15,
+    paddingVertical: height * 15,
     backgroundColor: 'white',
     flexDirection: 'row',
   },
@@ -165,7 +167,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: '8%',
     bottom: '65%',
-    fontSize: 17,
+    fontSize: width * 17,
     fontFamily: Fonts.TRBold,
     color: '#4f46e5',
   },

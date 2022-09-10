@@ -14,6 +14,7 @@ import {RootState} from '../../store/reducer';
 import {Fonts} from '../../assets/Fonts';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {TeacherParamList} from '../../../AppInner';
+import {width, height} from '../../config/globalStyles';
 
 type TestRankScreenProps = NativeStackScreenProps<TeacherParamList, 'TestRank'>;
 
@@ -119,7 +120,7 @@ const styles = StyleSheet.create({
   contentsContainer: {
     // justifyContent: 'flex-start',
     height: '75%',
-    marginTop: 10,
+    marginTop: height * 10,
     marginBottom: '5%',
     paddingVertical: '5%',
     fontFamily: Fonts.TRBold,
@@ -129,11 +130,11 @@ const styles = StyleSheet.create({
   myInfo: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 20,
-    marginBottom: 20,
+    marginTop: height * 20,
+    marginBottom: height * 20,
   },
   scoreBox: {
-    marginTop: 7,
+    marginTop: height * 7,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -141,22 +142,22 @@ const styles = StyleSheet.create({
   rank: {
     alignItems: 'center',
     justifyContent: 'flex-start',
-    fontSize: 30,
+    fontSize: width * 30,
     fontFamily: Fonts.TRBold,
     color: 'black',
   },
   avg: {
-    marginTop: 8,
-    paddingLeft: 10,
+    marginTop: height * 8,
+    paddingLeft: width * 10,
     // backgroundColor: 'yellow',
     borderRadius: 5,
-    fontSize: 18,
+    fontSize: width * 18,
     color: 'black',
     fontFamily: Fonts.TRRegular,
   },
   number: {
     color: '#0077e6',
-    fontSize: 30,
+    fontSize: width * 30,
     fontFamily: Fonts.TRBold,
   },
   topTitle: {
@@ -167,7 +168,7 @@ const styles = StyleSheet.create({
     marginBottom: '3%',
   },
   topFont: {
-    fontSize: 30,
+    fontSize: width * 30,
     fontFamily: Fonts.TRBold,
     color: '#f97316',
   },
@@ -182,16 +183,16 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     // marginTop: 5,
     justifyContent: 'center',
-    marginBottom: 10,
+    marginBottom: height * 10,
     borderRadius: 8,
     backgroundColor: '#fff7ed',
-    marginHorizontal: 25,
+    marginHorizontal: width * 25,
     ...Platform.select({
       ios: {
         shadowColor: '#000',
         shadowOffset: {
-          width: 10,
-          height: 10,
+          width: width * 10,
+          height: height * 10,
         },
         shadowOpacity: 0.5,
         shadowRadius: 10,
@@ -202,25 +203,25 @@ const styles = StyleSheet.create({
     }),
   },
   topRank: {
-    marginLeft: 30,
+    marginLeft: width * 30,
     position: 'absolute',
     fontFamily: Fonts.TRBold,
-    fontSize: 22,
+    fontSize: width * 22,
     color: '#f97316',
   },
   nameText: {
-    left: 100,
+    left: width * 100,
     position: 'absolute',
-    fontSize: 20,
+    fontSize: width * 20,
     fontFamily: Fonts.TRBold,
     color: 'black',
   },
   score: {
     position: 'absolute',
-    fontSize: 18,
+    fontSize: width * 18,
     color: 'black',
-    right: 30,
-    bottom: -1,
+    right: width * 30,
+    bottom: height * -1,
     fontFamily: Fonts.TRRegular,
   },
 });

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   FlatList,
   Platform,
@@ -11,11 +11,11 @@ import {
 import {LoggedInParamList} from '../../../AppInner';
 import axios from 'axios';
 import Config from 'react-native-config';
-// import Title from '../../components/Title';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store/reducer';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Fonts} from '../../assets/Fonts';
+import {width, height} from '../../config/globalStyles';
 
 type StudentTestMainScreenProps = NativeStackScreenProps<
   LoggedInParamList,
@@ -26,6 +26,7 @@ function StudentTestMain({route, navigation}: StudentTestMainScreenProps) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const [TestList, setTestList] = useState();
   const [listLength, setAttendanceLength] = useState();
+  const scrollRef = useRef();
 
   const getTests = () => {
     console.log(route.params);
@@ -54,6 +55,7 @@ function StudentTestMain({route, navigation}: StudentTestMainScreenProps) {
       {/*<Title title="내 테스트" />*/}
       <View style={styles.listArea}>
         <FlatList
+          ref={scrollRef}
           data={TestList}
           renderItem={({item, index}) => (
             <Pressable
@@ -88,16 +90,16 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     // marginTop: 5,
     justifyContent: 'center',
-    marginBottom: 10,
+    marginBottom: height * 10,
     borderRadius: 8,
     backgroundColor: '#bae6fd',
-    marginHorizontal: 10,
+    marginHorizontal: width * 10,
     ...Platform.select({
       ios: {
         shadowColor: '#000',
         shadowOffset: {
-          width: 10,
-          height: 10,
+          width: width * 10,
+          height: height * 10,
         },
         shadowOpacity: 0.5,
         shadowRadius: 10,
@@ -109,14 +111,14 @@ const styles = StyleSheet.create({
   },
   classText: {
     marginLeft: '5%',
-    fontSize: 20,
+    fontSize: width * 20,
     fontFamily: Fonts.TRBold,
     color: 'black',
   },
   dateText: {
     position: 'absolute',
-    right: 15,
-    fontSize: 17,
+    right: width * 15,
+    fontSize: width * 17,
     fontFamily: Fonts.TRBold,
     color: 'gray',
   },

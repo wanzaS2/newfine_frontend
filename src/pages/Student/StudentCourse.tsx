@@ -1,16 +1,11 @@
 import React, {useEffect, useRef, useState} from 'react';
-// import Title from '../../components/Title';
-
 import {
   FlatList,
   SafeAreaView,
   StyleSheet,
   View,
   Text,
-  // StatusBar,
-  TouchableOpacity,
   Platform,
-  Dimensions,
 } from 'react-native';
 import Config from 'react-native-config';
 import axios from 'axios';
@@ -20,20 +15,16 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {LoggedInParamList} from '../../../AppInner';
 import {Badge, Box, Flex, HStack, Pressable} from 'native-base';
 import {Fonts} from '../../assets/Fonts';
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import {width, height} from '../../config/globalStyles';
 
 type StudentCourseScreenProps = NativeStackScreenProps<
   LoggedInParamList,
   'StudentCourse'
 >;
 
-const screenWidth = Dimensions.get('window').width;
-const screenHeight = Dimensions.get('window').height;
-
 function StudentCourse({navigation}: StudentCourseScreenProps) {
   const [courseList, setCourseList] = useState();
   const [listLength, setCourseLength] = useState();
-  const [loading, setLoading] = useState(false);
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const scrollRef = useRef();
 
@@ -48,8 +39,7 @@ function StudentCourse({navigation}: StudentCourseScreenProps) {
         setCourseList(response.data);
         setCourseLength(response.data.length);
       })
-      .catch(error => console.error(error))
-      .finally(() => setLoading(false));
+      .catch(error => console.error(error));
   };
 
   useEffect(() => {
@@ -98,20 +88,20 @@ const styles = StyleSheet.create({
   },
   flatList: {
     // width: screenWidth,
-    paddingVertical: 15,
+    paddingVertical: height * 15,
     // alignItems: 'center',
     // marginTop: 5,
     justifyContent: 'center',
-    marginBottom: 10,
+    marginBottom: height * 10,
     borderRadius: 8,
     backgroundColor: '#bae6fd',
-    marginHorizontal: 10,
+    marginHorizontal: width * 10,
     ...Platform.select({
       ios: {
         shadowColor: '#000',
         shadowOffset: {
-          width: 10,
-          height: 10,
+          width: width * 10,
+          height: height * 10,
         },
         shadowOpacity: 0.5,
         shadowRadius: 10,
@@ -123,14 +113,14 @@ const styles = StyleSheet.create({
   },
   classText: {
     marginLeft: '5%',
-    fontSize: 20,
+    fontSize: width * 20,
     fontFamily: Fonts.TRBold,
     color: 'black',
   },
   subjectText: {
     position: 'absolute',
-    right: 15,
-    fontSize: 17,
+    right: width * 15,
+    fontSize: width * 17,
     fontFamily: Fonts.TRBold,
     color: 'gray',
   },

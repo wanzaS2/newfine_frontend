@@ -7,6 +7,7 @@ import {
   View,
 } from 'react-native';
 import {Fonts} from '../assets/Fonts';
+import {height, width} from '../config/globalStyles';
 
 function MyButton({...props}) {
   return (
@@ -33,12 +34,12 @@ const styles = StyleSheet.create({
   buttonZone: {
     alignItems: 'center',
     // backgroundColor: 'pink',
-    paddingVertical: 10,
+    paddingVertical: height * 10,
   },
   myButton: {
     backgroundColor: 'gray',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingHorizontal: width * 20,
+    paddingVertical: height * 10,
     borderRadius: 5,
   },
   myButtonActive: {
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
   myButtonText: {
     fontFamily: Fonts.TRBold,
     color: 'white',
-    fontSize: 17,
+    fontSize: width * 17,
   },
 });
 

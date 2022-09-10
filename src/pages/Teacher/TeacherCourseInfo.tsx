@@ -14,13 +14,13 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {TeacherParamList} from '../../../AppInner';
 import {Fonts} from '../../assets/Fonts';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import {width, height} from '../../config/globalStyles';
+import RNBounceable from '@freakycoder/react-native-bounceable';
 
 type TeacherCourseInfoScreenProps = NativeStackScreenProps<
   TeacherParamList,
   'TeacherCourseInfo'
 >;
-
-const screenHeight = Dimensions.get('window').height;
 
 function TeacherCourseInfo({route, navigation}: TeacherCourseInfoScreenProps) {
   useEffect(() => {
@@ -44,19 +44,20 @@ function TeacherCourseInfo({route, navigation}: TeacherCourseInfoScreenProps) {
           data={teacherCourseInfo}
           renderItem={({item, index}) => (
             <View style={styles.buttonArea}>
-              <Pressable
+              <RNBounceable
+                bounceEffectIn={0.95}
                 style={styles.button}
                 onPress={() => navigation.navigate(item.onPress, route.params)}>
                 <View style={{alignItems: 'center'}}>
                   <FontAwesome5Icon
                     name={item.icon}
-                    size={50}
+                    size={width * 50}
                     color={'white'}
                     style={{position: 'absolute', bottom: 5}}
                   />
                   <Text style={styles.buttonText}>{item.name}</Text>
                 </View>
-              </Pressable>
+              </RNBounceable>
             </View>
           )}
           numColumns={2}
@@ -79,19 +80,19 @@ const styles = StyleSheet.create({
     // backgroundColor: 'blue',
   },
   buttonArea: {
-    marginHorizontal: 10,
-    marginVertical: 10,
+    marginHorizontal: width * 10,
+    marginVertical: height * 10,
     // marginVertical: 30,
     width: '45%',
-    height: 270,
+    height: height * 270,
     // backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },
   button: {
     alignItems: 'center',
-    marginHorizontal: 10,
-    marginBottom: 10,
+    marginHorizontal: width * 10,
+    marginBottom: height * 10,
     width: '100%',
     height: '100%',
     justifyContent: 'center',
@@ -101,8 +102,8 @@ const styles = StyleSheet.create({
       ios: {
         shadowColor: '#000',
         shadowOffset: {
-          width: 10,
-          height: 10,
+          width: width * 10,
+          height: height * 10,
         },
         shadowOpacity: 0.5,
         shadowRadius: 10,
@@ -113,16 +114,16 @@ const styles = StyleSheet.create({
     }),
   },
   buttonText: {
-    marginTop: 10,
-    fontSize: 25,
+    marginTop: height * 10,
+    fontSize: width * 25,
     fontFamily: Fonts.TRBold,
     color: 'white',
-    lineHeight: 33,
+    lineHeight: height * 33,
     position: 'absolute',
-    top: 5,
+    top: height * 5,
   },
   courseName: {
-    fontSize: 23,
+    fontSize: width * 23,
     fontFamily: Fonts.TRBold,
     color: '#0077e6',
     // backgroundColor: 'lightyellow',

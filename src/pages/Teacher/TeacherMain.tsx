@@ -19,8 +19,7 @@ import ColorfulCard from 'react-native-colorful-card';
 import {Fonts} from '../../assets/Fonts';
 import {TeacherParamList} from '../../../AppInner';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-// import Icon from 'react-native-vector-icons/FontAwesome';
-// import Ionicons from 'react-native-vector-icons/FontAwesome5';
+import {width, height} from '../../config/globalStyles';
 
 type TeacherMainScreenProps = NativeStackScreenProps<
   TeacherParamList,
@@ -91,7 +90,10 @@ function TeacherMain({navigation}: TeacherMainScreenProps) {
             renderItem={({item, index}) => (
               <ColorfulCard
                 title={item.title}
-                titleTextStyle={{fontFamily: Fonts.TRRegular, fontSize: 17}}
+                titleTextStyle={{
+                  fontFamily: Fonts.TRRegular,
+                  fontSize: width * 17,
+                }}
                 value={item.value}
                 valueTextStyle={styles.value}
                 // valuePostfix="h 42 m"
@@ -99,11 +101,11 @@ function TeacherMain({navigation}: TeacherMainScreenProps) {
                 // footerValue="3h 13m"
                 iconImageSource={require('../../assets/images/star.png')}
                 // ImageComponent={<Icon name={item.icon} color={'white'} />}
-                iconImageStyle={{tintColor: 'white', width: 25}}
+                iconImageStyle={{tintColor: 'white', width: width * 25}}
                 style={{
                   backgroundColor: item.backgroundColor,
-                  margin: 5,
-                  marginVertical: 10,
+                  marginHorizontal: width * 5,
+                  marginVertical: height * 10,
                 }}
                 onPress={() => {
                   console.log(item.value === '로그아웃');
@@ -130,36 +132,37 @@ const styles = StyleSheet.create({
   },
   textArea: {
     flex: 1,
-    paddingTop: 30,
+    paddingTop: height * 30,
     justifyContent: 'center',
     alignItems: 'center',
     // backgroundColor: 'pink',
   },
   welcomeText: {
     fontFamily: Fonts.TRBold,
-    fontSize: 30,
+    fontSize: width * 30,
     color: 'black',
   },
   nameText: {
     fontFamily: Fonts.TRBold,
-    fontSize: 32,
+    fontSize: width * 32,
     color: '#0077e6',
   },
   blockArea: {
     flex: 6,
     flexDirection: 'row',
-    marginBottom: 30,
+    marginBottom: height * 30,
     // backgroundColor: 'yellow',
   },
   inputWrapper: {
-    paddingTop: 20,
-    padding: 10,
+    paddingTop: height * 20,
+    paddingHorizontal: width * 10,
+    paddingVertical: height * 10,
     alignItems: 'center',
   },
   value: {
     // fontFamily: Fonts.TRBold,
     fontFamily: 'TmoneyRoundWind-ExtraBold',
-    lineHeight: 35,
+    lineHeight: height * 35,
   },
 });
 

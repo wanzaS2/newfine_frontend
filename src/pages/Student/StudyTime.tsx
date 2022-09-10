@@ -1,25 +1,33 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {
-  Alert,
+  // Alert,
   FlatList,
   Platform,
   Pressable,
   SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
-
 import axios from 'axios';
 import Config from 'react-native-config';
-import Title from '../../components/Title';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store/reducer';
 import {Fonts} from '../../assets/Fonts';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {LoggedInParamList} from '../../../AppInner';
+import {
+  Box,
+  VStack,
+  Text as NbText,
+  Alert,
+  IconButton,
+  CloseIcon,
+  Center,
+  HStack,
+  AlertDialog,
+} from 'native-base';
 
 type StudyTimeScreenProps = NativeStackScreenProps<
   LoggedInParamList,
@@ -29,7 +37,14 @@ type StudyTimeScreenProps = NativeStackScreenProps<
 function StudyTime({navigation}: StudyTimeScreenProps) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const [StudyList, setStudyList] = useState();
+  const [show, setShow] = useState(false);
+  const [alertStart, setAlertStart] = useState('');
+  const [alertEnd, setAlertEnd] = useState('');
   const [listLength, setLength] = useState();
+  const cancelRef = useRef(null);
+
+  const onClose = () => setShow(false);
+
   let [total, setTotal] = useState();
   const scrollRef = useRef();
 
@@ -140,14 +155,38 @@ function StudyTime({navigation}: StudyTimeScreenProps) {
             </Text>
           </View>
         </View>
+        {/*{show && (*/}
+        <Center>
+          <AlertDialog
+            leastDestructiveRef={cancelRef}
+            isOpen={show}
+            onClose={onClose}>
+            <AlertDialog.Content>
+              <AlertDialog.CloseButton />
+              <AlertDialog.Header>자습 시간</AlertDialog.Header>
+              <AlertDialog.Body>
+                <NbText>
+                  (시작) {alertStart}
+                  {'  '}~{'  '}(종료) {alertEnd}
+                </NbText>
+              </AlertDialog.Body>
+            </AlertDialog.Content>
+          </AlertDialog>
+        </Center>
+        {/*)}*/}
         <View>
           <FlatList
             ref={scrollRef}
             data={StudyList}
             renderItem={({item, index}) => (
               <Pressable
-                onPress={() =>
-                  Alert.alert('자습시간', `${item.startTime} ~ ${item.endTime}`)
+                onPress={
+                  () => {
+                    setShow(true);
+                    setAlertStart(item.startTime);
+                    setAlertEnd(item.endTime);
+                  }
+                  // Alert.alert('자습시간', `${item.startTime} ~ ${item.endTime}`)
                 }>
                 <View style={styles.box_list}>
                   <Text style={styles.dateText}>{item.when.slice(0, 10)}</Text>
@@ -157,37 +196,37 @@ function StudyTime({navigation}: StudyTimeScreenProps) {
             )}
             keyExtractor={item => String(item.id)}
           />
+          {/*</View>*/}
+          {/*<View style={styles.box_list}>*/}
+          {/*  <Text>dmdkr</Text>*/}
+          {/*</View>*/}
+          {/*<View style={styles.box_list}>*/}
+          {/*  <Text>dmdkr</Text>*/}
+          {/*</View>*/}
+          {/*<View style={styles.box_list}>*/}
+          {/*  <Text>dmdkr</Text>*/}
+          {/*</View>*/}
+          {/*<View style={styles.box_list}>*/}
+          {/*  <Text>dmdkr</Text>*/}
+          {/*</View>*/}
+          {/*<View style={styles.box_list}>*/}
+          {/*  <Text>dmdkr</Text>*/}
+          {/*</View>*/}
+          {/*<View style={styles.box_list}>*/}
+          {/*  <Text>dmdkr</Text>*/}
+          {/*</View>*/}
+          {/*<View style={styles.box_list}>*/}
+          {/*  <Text>dmdkr</Text>*/}
+          {/*</View>*/}
+          {/*<View style={styles.box_list}>*/}
+          {/*  <Text>dmdkr</Text>*/}
+          {/*</View>*/}
+          {/*<View style={styles.box_list}>*/}
+          {/*  <Text>dmdkr</Text>*/}
+          {/*</View>*/}
+          {/*<View style={styles.box_list}>*/}
+          {/*  <Text>dmdkr</Text>*/}
         </View>
-        {/*<View style={styles.box_list}>*/}
-        {/*  <Text>dmdkr</Text>*/}
-        {/*</View>*/}
-        {/*<View style={styles.box_list}>*/}
-        {/*  <Text>dmdkr</Text>*/}
-        {/*</View>*/}
-        {/*<View style={styles.box_list}>*/}
-        {/*  <Text>dmdkr</Text>*/}
-        {/*</View>*/}
-        {/*<View style={styles.box_list}>*/}
-        {/*  <Text>dmdkr</Text>*/}
-        {/*</View>*/}
-        {/*<View style={styles.box_list}>*/}
-        {/*  <Text>dmdkr</Text>*/}
-        {/*</View>*/}
-        {/*<View style={styles.box_list}>*/}
-        {/*  <Text>dmdkr</Text>*/}
-        {/*</View>*/}
-        {/*<View style={styles.box_list}>*/}
-        {/*  <Text>dmdkr</Text>*/}
-        {/*</View>*/}
-        {/*<View style={styles.box_list}>*/}
-        {/*  <Text>dmdkr</Text>*/}
-        {/*</View>*/}
-        {/*<View style={styles.box_list}>*/}
-        {/*  <Text>dmdkr</Text>*/}
-        {/*</View>*/}
-        {/*<View style={styles.box_list}>*/}
-        {/*  <Text>dmdkr</Text>*/}
-        {/*</View>*/}
       </ScrollView>
     </SafeAreaView>
   );

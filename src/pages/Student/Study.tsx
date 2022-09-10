@@ -12,6 +12,8 @@ import {LoggedInParamList} from '../../../AppInner';
 import {Fonts} from '../../assets/Fonts';
 import {Box} from 'native-base';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import {width, height} from '../../config/globalStyles';
+import RNBounceable from '@freakycoder/react-native-bounceable';
 
 type StudyScreenProps = NativeStackScreenProps<LoggedInParamList, 'Study'>;
 
@@ -20,7 +22,7 @@ function Study({navigation}: StudyScreenProps) {
     <SafeAreaView style={styles.container}>
       <View style={styles.buttonContainer}>
         <View style={styles.buttonArea}>
-          <Pressable
+          <RNBounceable
             onPress={() => {
               navigation.navigate('StudyIn');
             }}>
@@ -36,15 +38,19 @@ function Study({navigation}: StudyScreenProps) {
               <Text style={styles.buttonText}>입실</Text>
               <FontAwesome5Icon
                 name={'caret-right'}
-                size={50}
+                size={width * 50}
                 color={'black'}
-                style={{position: 'absolute', bottom: 10, right: 20}}
+                style={{
+                  position: 'absolute',
+                  bottom: height * 10,
+                  right: width * 20,
+                }}
               />
             </Box>
-          </Pressable>
+          </RNBounceable>
         </View>
         <View style={styles.buttonArea}>
-          <Pressable
+          <RNBounceable
             onPress={() => {
               navigation.navigate('StudyOut');
             }}>
@@ -60,15 +66,19 @@ function Study({navigation}: StudyScreenProps) {
               <Text style={styles.buttonText}>퇴실</Text>
               <FontAwesome5Icon
                 name={'caret-right'}
-                size={50}
+                size={width * 50}
                 color={'black'}
-                style={{position: 'absolute', bottom: 10, right: 20}}
+                style={{
+                  position: 'absolute',
+                  bottom: height * 10,
+                  right: width * 20,
+                }}
               />
             </Box>
-          </Pressable>
+          </RNBounceable>
         </View>
         <View style={styles.buttonArea}>
-          <Pressable
+          <RNBounceable
             onPress={() => {
               navigation.navigate('StudyTime');
             }}>
@@ -84,12 +94,16 @@ function Study({navigation}: StudyScreenProps) {
               <Text style={styles.buttonText}>총 자습 시간</Text>
               <FontAwesome5Icon
                 name={'caret-right'}
-                size={50}
+                size={width * 50}
                 color={'black'}
-                style={{position: 'absolute', bottom: 10, right: 20}}
+                style={{
+                  position: 'absolute',
+                  bottom: height * 10,
+                  right: width * 20,
+                }}
               />
             </Box>
-          </Pressable>
+          </RNBounceable>
         </View>
       </View>
     </SafeAreaView>
@@ -115,14 +129,14 @@ const styles = StyleSheet.create({
     // width: '50%',
     height: '95%',
     // marginTop: 10,
-    marginHorizontal: 20,
+    marginHorizontal: width * 20,
     // marginBottom: 10,
     ...Platform.select({
       ios: {
         shadowColor: '#000',
         shadowOffset: {
-          width: 10,
-          height: 10,
+          width: width * 10,
+          height: height * 10,
         },
         shadowOpacity: 0.5,
         shadowRadius: 10,
@@ -133,10 +147,11 @@ const styles = StyleSheet.create({
     }),
   },
   buttonText: {
-    margin: 10,
+    marginHorizontal: width * 10,
+    marginVerticalL: height * 10,
     color: 'black',
     fontFamily: Fonts.TRBold,
-    fontSize: 40,
+    fontSize: width * 40,
     // mt="3" fontWeight="medium" fontSize="xl"
   },
 });
