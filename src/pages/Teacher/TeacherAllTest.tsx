@@ -51,14 +51,14 @@ function TeacherAllTest({route, navigation}: TeacherAllTestScreenProps) {
   }, [listLength]);
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.courseArea}>
-        <Text style={styles.courseName}> #{route.params.cname}</Text>
-      </View>
+      {/*<View style={styles.courseArea}>*/}
+      {/*  <Text style={styles.courseName}> #{route.params.cname}</Text>*/}
+      {/*</View>*/}
       <View style={styles.listArea}>
         <FlatList
           ref={scrollRef}
           data={AttendanceList}
-          style={{height: '90%'}}
+          // style={{height: '90%'}}
           renderItem={({item, index}) => (
             <Pressable
               onPress={() => navigation.navigate('TeacherTest', item.id)}>
@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
     // marginRight: 250,
   },
   listArea: {
+    marginTop: '15%',
     // backgroundColor: 'yellow',
     alignItem: 'center',
     justifyContent: 'center',

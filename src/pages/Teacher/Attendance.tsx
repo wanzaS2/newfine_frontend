@@ -53,10 +53,10 @@ function Attendance({route, navigation}: AttendanceScreenProps) {
   return (
     <SafeAreaView style={styles.container}>
       {/*<ScrollView stickyHeaderIndices={[0]}>*/}
-      <View>
-        <View style={styles.courseArea}>
-          <Text style={styles.courseName}> #{route.params.cname}</Text>
-        </View>
+      <View style={{marginTop: '15%'}}>
+        {/*<View style={styles.courseArea}>*/}
+        {/*  <Text style={styles.courseName}> #{route.params.cname}</Text>*/}
+        {/*</View>*/}
         {/*<Divider*/}
         {/*  my="2"*/}
         {/*  _light={{*/}
