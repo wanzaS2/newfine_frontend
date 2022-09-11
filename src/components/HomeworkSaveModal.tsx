@@ -1,11 +1,8 @@
 import React, {useState} from 'react';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {TeacherParamList} from '../../AppInner';
 import {Button, FormControl, Input, Modal, TextArea} from 'native-base';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {
   Alert,
-  Platform,
   Pressable,
   StyleSheet,
   Text,
@@ -20,12 +17,14 @@ import Config from 'react-native-config';
 import {format} from 'date-fns';
 import ko from 'date-fns/esm/locale/ko/index.js';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import {width, height} from '../config/globalStyles';
+
 
 function HomeworkSaveModal({...props}) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const [id, setId] = useState('');
   const {courseId} = props;
-  const [datalength, setDatalength] = useState();
+  // const [datalength, setDatalength] = useState();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -39,7 +38,7 @@ function HomeworkSaveModal({...props}) {
   const [timecheck, setTimeCheck] = useState(false);
   const [timecheck2, setTimeCheck2] = useState(false);
   const [modalVisible, setModalVisible] = React.useState(false);
-  const [showModal2, setShowModal2] = useState(false);
+  // const [showModal2, setShowModal2] = useState(false);
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
 
@@ -75,6 +74,7 @@ function HomeworkSaveModal({...props}) {
     return s1;
   }
   const onPressDate1 = () => {
+    console.log("press !!");
     // 날짜 클릭 시
     setMode1('date'); // 모달 유형을 date로 변경
     setVisible1(true); // 모달 open
@@ -186,7 +186,7 @@ function HomeworkSaveModal({...props}) {
 
   return (
     <Pressable onPress={() => setModalVisible(true)}>
-      <AntDesign name={'pluscircle'} size={60} color={'#0077e6'} />
+      <AntDesign name={'pluscircle'} size={width * 60} color={'#0077e6'} />
       <Modal
         size={'xl'}
         height={'100%'}
@@ -209,31 +209,28 @@ function HomeworkSaveModal({...props}) {
             <FormControl mt="3">
               <FormControl.Label>상세 내용</FormControl.Label>
               <TextArea
-                h={40}
+                h={height * 40}
                 placeholder="Text Area Placeholder"
                 value={content}
                 onChangeText={val => setContent(val)}
               />
             </FormControl>
-            <View>
               <View style={styles.datetime}>
                 <Text style={styles.text}>1차 마감기한:</Text>
                 <TouchableOpacity onPress={onPressDate1}>
-                  <TextInput
-                    placeholder={format(new Date(date1), 'PPP', {locale: ko})}
-                    editable={false}
-                  />
+                  <Text>
+                    {format(new Date(date1), 'PPP', {locale: ko})}
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={onPressTime1}>
-                  <TextInput
-                    editable={false}
-                    placeholder={format(new Date(date1), 'p', {
+                  <Text>
+                      {format(new Date(date1), 'p', {
                       locale: ko,
                     })}
-                  />
+                  </Text>
                 </TouchableOpacity>
               </View>
-              <DateTimePickerModal
+              <DateTimePicker
                 isVisible={visible1}
                 mode={mode1}
                 onConfirm={onConfirm1}
@@ -245,21 +242,19 @@ function HomeworkSaveModal({...props}) {
               <View style={styles.datetime}>
                 <Text style={styles.text}>2차 마감기한:</Text>
                 <TouchableOpacity onPress={onPressDate2}>
-                  <TextInput
-                    placeholder={format(new Date(date2), 'PPP', {locale: ko})}
-                    editable={false}
-                  />
+                  <Text>
+                    {format(new Date(date2), 'PPP', {locale: ko})}
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={onPressTime2}>
-                  <TextInput
-                    editable={false}
-                    placeholder={format(new Date(date2), 'p', {
+                  <Text>
+                    {format(new Date(date2), 'p', {
                       locale: ko,
                     })}
-                  />
+                  </Text>
                 </TouchableOpacity>
               </View>
-              <DateTimePickerModal
+              <DateTimePicker
                 isVisible={visible2}
                 mode={mode2}
                 onConfirm={onConfirm2}
@@ -267,7 +262,6 @@ function HomeworkSaveModal({...props}) {
                 date={date2}
                 minimumDate={date1}
               />
-            </View>
           </Modal.Body>
           <Modal.Footer>
             {/*<Button*/}
@@ -326,7 +320,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   text: {
-    marginRight: 5,
+    marginRight: width * 5,
     color: '#0077e6',
   },
 });

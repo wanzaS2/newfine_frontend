@@ -16,6 +16,7 @@ import {RootState} from '../../store/reducer';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {Fonts} from '../../assets/Fonts';
 import {Divider} from 'native-base';
+import {width, height} from '../../config/globalStyles';
 
 function ApplyVideo() {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
@@ -135,7 +136,7 @@ function ApplyVideo() {
               <TouchableOpacity onPress={() => showAlert(item.id)}>
                 <Icon
                   name="check-circle"
-                  size={24}
+                  size={width * 24}
                   color="black"
                   style={styles.icon}
                 />
@@ -166,16 +167,16 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     // marginTop: 5,
     justifyContent: 'center',
-    marginBottom: 10,
+    marginBottom: height * 10,
     borderRadius: 8,
     backgroundColor: '#fde68a',
-    marginHorizontal: 10,
+    marginHorizontal: width * 10,
     ...Platform.select({
       ios: {
         shadowColor: '#000',
         shadowOffset: {
-          width: 10,
-          height: 10,
+          width: width * 10,
+          height: height * 10,
         },
         shadowOpacity: 0.5,
         shadowRadius: 10,
@@ -188,25 +189,25 @@ const styles = StyleSheet.create({
   studentName: {
     marginLeft: '3%',
     fontFamily: Fonts.TRBold,
-    fontSize: 18,
+    fontSize: width * 18,
     color: 'black',
   },
   dateText: {
     fontFamily: Fonts.TRRegular,
-    fontSize: 15,
+    fontSize: width * 15,
     color: 'black',
     // marginLeft: '3%',
   },
   classText: {
     // marginLeft: '3%',
-    fontSize: 18,
+    fontSize: width * 18,
     fontFamily: Fonts.TRBold,
     color: '#ef4444',
   },
   icon: {
     position: 'absolute',
-    right: 12,
-    bottom: 2,
+    right: width * 12,
+    bottom: height * 2,
   },
 });
 

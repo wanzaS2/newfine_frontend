@@ -24,8 +24,8 @@ import {Fonts} from '../assets/Fonts';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import Ionicons from 'react-native-vector-icons/FontAwesome5';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {width, height} from '../config/globalStyles';
 
-const screenWidth = Dimensions.get('window').width;
 type WelcomeScreenProps = NativeStackScreenProps<LoggedInParamList, 'Welcome'>;
 
 function SetUpProfile({navigation}: WelcomeScreenProps) {
@@ -50,8 +50,8 @@ function SetUpProfile({navigation}: WelcomeScreenProps) {
     console.log('orientation', orientation);
     return ImageResizer.createResizedImage(
       response.path,
-      600,
-      600,
+      width * 600,
+      height * 600,
       response.mime.includes('jpeg') ? 'JPEG' : 'PNG',
       100,
       0,
@@ -70,7 +70,11 @@ function SetUpProfile({navigation}: WelcomeScreenProps) {
     if (!image) {
       return (
         <View style={{alignItems: 'center'}}>
-          <Ionicons name={'grin-stars'} size={250} color={'lightgray'} />
+          <Ionicons
+            name={'grin-stars'}
+            size={width * 250}
+            color={'lightgray'}
+          />
         </View>
       );
     } else {
@@ -80,8 +84,8 @@ function SetUpProfile({navigation}: WelcomeScreenProps) {
           <Image
             source={{uri: image.uri}}
             style={{
-              width: 250,
-              height: 250,
+              width: width * 250,
+              height: height * 250,
               borderRadius: 125,
             }}
           />
@@ -93,7 +97,7 @@ function SetUpProfile({navigation}: WelcomeScreenProps) {
             onPress={() => {
               removeImage();
             }}>
-            <Icon name={'remove'} size={35} />
+            <Icon name={'remove'} size={width * 35} />
           </Pressable>
         </View>
       );
@@ -230,29 +234,29 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     // backgroundColor: 'green',
-    paddingVertical: 20,
+    paddingVertical: height * 20,
     width: '100%',
   },
   inputWrapper: {
-    paddingVertical: 10,
-    paddingHorizontal: 70,
+    paddingVertical: height * 10,
+    paddingHorizontal: width * 70,
     // backgroundColor: 'yellow',
   },
   buttonZone: {
     alignItems: 'center',
     // backgroundColor: 'pink',
-    paddingVertical: 10,
+    paddingVertical: height * 10,
   },
   selectPhotoButton: {
     backgroundColor: 'darkblue',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingHorizontal: width * 20,
+    paddingVertical: height * 10,
     borderRadius: 5,
   },
   selectPhotoButtonText: {
     fontFamily: Fonts.TRBold,
     color: 'white',
-    fontSize: 17,
+    fontSize: width * 17,
   },
 });
 export default SetUpProfile;

@@ -11,7 +11,10 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		93512F1EA2B54E77A18E43C3 /* TmoneyRoundWind-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F96264F311B1449EAB0DFB8C /* TmoneyRoundWind-ExtraBold.ttf */; };
-		AE998A6528C5F98500A00959 /* JosefinSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AE998A6428C5F94800A00959 /* JosefinSans-Regular.ttf */; };
+		AEB82EF928CD15FA003A9CE2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AEB82EF828CD15FA003A9CE2 /* GoogleService-Info.plist */; };
+		AEC7161828CA346E0000BCAE /* TmoneyRoundWind-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AEC7161428CA345D0000BCAE /* TmoneyRoundWind-ExtraBold.ttf */; };
+		AEC7161928CA346E0000BCAE /* JosefinSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AEC7161528CA345D0000BCAE /* JosefinSans-Regular.ttf */; };
+		AEC7161A28CA346E0000BCAE /* TmoneyRoundWind-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AEC7161628CA345D0000BCAE /* TmoneyRoundWind-Regular.ttf */; };
 		BFA25696C6586970E7DDB3FE /* libPods-newfine_frontend-newfine_frontendTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78028A471F416AD62EEF60AA /* libPods-newfine_frontend-newfine_frontendTests.a */; };
 		D13F1BD94FB84934BC90A71C /* TmoneyRoundWind-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FDE57691A0E34421AE67C67E /* TmoneyRoundWind-Regular.ttf */; };
 		EBEAAB22CEB0FD8C4188D99F /* libPods-newfine_frontend.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E76A0419A4E9C4EFBA36DE78 /* libPods-newfine_frontend.a */; };
@@ -41,9 +44,11 @@
 		6941FA1F728FDF36D724E9DF /* Pods-newfine_frontend.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-newfine_frontend.debug.xcconfig"; path = "Target Support Files/Pods-newfine_frontend/Pods-newfine_frontend.debug.xcconfig"; sourceTree = "<group>"; };
 		78028A471F416AD62EEF60AA /* libPods-newfine_frontend-newfine_frontendTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-newfine_frontend-newfine_frontendTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = newfine_frontend/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		AE998A6428C5F94800A00959 /* JosefinSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-Regular.ttf"; path = "../../../Library/Fonts/JosefinSans-Regular.ttf"; sourceTree = "<group>"; };
-		AEB8D5A328C5336F003C5428 /* TmoneyRoundWind-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "TmoneyRoundWind-ExtraBold.ttf"; path = "../../src/assets/fonts/TmoneyRoundWind-ExtraBold.ttf"; sourceTree = "<group>"; };
-		AEB8D5A428C5336F003C5428 /* TmoneyRoundWind-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "TmoneyRoundWind-Regular.ttf"; path = "../../src/assets/fonts/TmoneyRoundWind-Regular.ttf"; sourceTree = "<group>"; };
+		AEB82EF828CD15FA003A9CE2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		AEC7161428CA345D0000BCAE /* TmoneyRoundWind-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TmoneyRoundWind-ExtraBold.ttf"; sourceTree = "<group>"; };
+		AEC7161528CA345D0000BCAE /* JosefinSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JosefinSans-Regular.ttf"; sourceTree = "<group>"; };
+		AEC7161628CA345D0000BCAE /* TmoneyRoundWind-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TmoneyRoundWind-Regular.ttf"; sourceTree = "<group>"; };
+		AED4B4B628CCAAEB000D2A25 /* newfine_frontend.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = newfine_frontend.entitlements; path = newfine_frontend/newfine_frontend.entitlements; sourceTree = "<group>"; };
 		B6593F3C777932CA5A126A0C /* Pods-newfine_frontend-newfine_frontendTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-newfine_frontend-newfine_frontendTests.release.xcconfig"; path = "Target Support Files/Pods-newfine_frontend-newfine_frontendTests/Pods-newfine_frontend-newfine_frontendTests.release.xcconfig"; sourceTree = "<group>"; };
 		BCFF31BD699BB94F218AF25E /* Pods-newfine_frontend-newfine_frontendTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-newfine_frontend-newfine_frontendTests.debug.xcconfig"; path = "Target Support Files/Pods-newfine_frontend-newfine_frontendTests/Pods-newfine_frontend-newfine_frontendTests.debug.xcconfig"; sourceTree = "<group>"; };
 		E76A0419A4E9C4EFBA36DE78 /* libPods-newfine_frontend.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-newfine_frontend.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,6 +98,7 @@
 		13B07FAE1A68108700A75B9A /* newfine_frontend */ = {
 			isa = PBXGroup;
 			children = (
+				AED4B4B628CCAAEB000D2A25 /* newfine_frontend.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -123,7 +129,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				AEB8D5A228C53360003C5428 /* Fonts */,
+				AEB82EF828CD15FA003A9CE2 /* GoogleService-Info.plist */,
+				AEC7161328CA345D0000BCAE /* Fonts */,
 				EC9A3735283052AC0004F904 /* SplashScreen.storyboard */,
 				13B07FAE1A68108700A75B9A /* newfine_frontend */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -147,12 +154,12 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		AEB8D5A228C53360003C5428 /* Fonts */ = {
+		AEC7161328CA345D0000BCAE /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				AE998A6428C5F94800A00959 /* JosefinSans-Regular.ttf */,
-				AEB8D5A328C5336F003C5428 /* TmoneyRoundWind-ExtraBold.ttf */,
-				AEB8D5A428C5336F003C5428 /* TmoneyRoundWind-Regular.ttf */,
+				AEC7161428CA345D0000BCAE /* TmoneyRoundWind-ExtraBold.ttf */,
+				AEC7161528CA345D0000BCAE /* JosefinSans-Regular.ttf */,
+				AEC7161628CA345D0000BCAE /* TmoneyRoundWind-Regular.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -213,6 +220,7 @@
 				56C4E68F5BB9247E77C2C814 /* [CP] Embed Pods Frameworks */,
 				E71728E764E4FE31A4749BCA /* [CP] Copy Pods Resources */,
 				B287BA19B52DC99A3CCC760A /* [CP-User] [RNFB] Core Configuration */,
+				AEC7161728CA34660000BCAE /* Resources */,
 			);
 			buildRules = (
 			);
@@ -264,9 +272,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AE998A6528C5F98500A00959 /* JosefinSans-Regular.ttf in Resources */,
 				93512F1EA2B54E77A18E43C3 /* TmoneyRoundWind-ExtraBold.ttf in Resources */,
 				D13F1BD94FB84934BC90A71C /* TmoneyRoundWind-Regular.ttf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AEC7161728CA34660000BCAE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AEC7161828CA346E0000BCAE /* TmoneyRoundWind-ExtraBold.ttf in Resources */,
+				AEB82EF928CD15FA003A9CE2 /* GoogleService-Info.plist in Resources */,
+				AEC7161928CA346E0000BCAE /* JosefinSans-Regular.ttf in Resources */,
+				AEC7161A28CA346E0000BCAE /* TmoneyRoundWind-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -521,7 +539,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = newfine_frontend/newfine_frontend.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H64ML6YW9Z;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = newfine_frontend/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -547,7 +567,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = newfine_frontend/newfine_frontend.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H64ML6YW9Z;
 				INFOPLIST_FILE = newfine_frontend/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

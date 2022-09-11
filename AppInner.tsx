@@ -591,7 +591,7 @@ function AppInner() {
               fontFamily: Fonts.TRBold,
               fontSize: 22,
             },
-            headerTransparent: true,
+            // headerTransparent: true,
           }}
         />
         <Stack.Screen
@@ -604,7 +604,7 @@ function AppInner() {
               fontFamily: Fonts.TRBold,
               fontSize: 22,
             },
-            headerTransparent: true,
+            // headerTransparent: true
           }}
         />
       </Stack.Navigator>
@@ -660,7 +660,7 @@ function AppInner() {
           name="TeacherCourseInfo"
           component={TeacherCourseInfo}
           options={{
-            title: '강의정보',
+            title: '강의 정보',
             headerTitleStyle: {
               fontFamily: Fonts.TRBold,
               fontSize: 22,
@@ -732,6 +732,10 @@ function AppInner() {
           options={{
             title: '테스트',
             headerShown: true,
+            headerTitleStyle: {
+              fontFamily: Fonts.TRBold,
+              fontSize: 22,
+            },
             headerTransparent: true,
           }}
         />

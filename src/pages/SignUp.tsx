@@ -17,11 +17,12 @@ import {Fonts} from '../assets/Fonts';
 import MyButton from '../components/MyButton';
 import MyTextInput from '../components/MyTextInput';
 import {RouteProp, useRoute} from '@react-navigation/native';
-import { useSelector } from "react-redux";
-import { RootState } from "../store/reducer";
+import {useSelector} from 'react-redux';
+import {RootState} from '../store/reducer';
 // import messaging from '@react-native-firebase/messaging';
 import userSlice from '../slices/user';
-import { useAppDispatch } from "../store";
+import {useAppDispatch} from '../store';
+import {width, height} from '../config/globalStyles';
 
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
@@ -172,21 +173,21 @@ function SignUp({navigation}: SignUpScreenProps) {
 const styles = StyleSheet.create({
   container: {flex: 1},
   inputWrapper: {
-    marginTop: 15,
+    marginTop: width * 15,
     // backgroundColor: 'pink',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingVertical: width * 10,
+    paddingHorizontal: width * 20,
   },
   label: {
     // backgroundColor: 'yellow',
     // fontFamily: Fonts.TRBold,
-    fontSize: 19,
+    fontSize: width * 19,
     color: 'black',
     fontFamily: Fonts.TRBold,
     // fontFamily: 'TmoneyRoundWind-ExtraBold',
     // fontSize: 18,
-    marginBottom: 15,
-    marginHorizontal: 10,
+    marginBottom: width * 15,
+    marginHorizontal: width * 10,
   },
 });
 

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   FlatList,
   Platform,
@@ -16,6 +16,7 @@ import {RootState} from '../../store/reducer';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {TeacherParamList} from '../../../AppInner';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import {width, height} from '../../config/globalStyles';
 
 type TeacherAllTestScreenProps = NativeStackScreenProps<
   TeacherParamList,
@@ -26,6 +27,7 @@ function TeacherAllTest({route, navigation}: TeacherAllTestScreenProps) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const [AttendanceList, setAttendanceList] = useState();
   const [listLength, setAttendanceLength] = useState();
+  const scrollRef = useRef();
 
   const getTests = () => {
     console.log(route.params);
@@ -54,7 +56,9 @@ function TeacherAllTest({route, navigation}: TeacherAllTestScreenProps) {
       </View>
       <View style={styles.listArea}>
         <FlatList
+          ref={scrollRef}
           data={AttendanceList}
+          style={{height: '90%'}}
           renderItem={({item, index}) => (
             <Pressable
               onPress={() => navigation.navigate('TeacherTest', item.id)}>
@@ -64,12 +68,12 @@ function TeacherAllTest({route, navigation}: TeacherAllTestScreenProps) {
               </View>
               <FontAwesome5Icon
                 name={'caret-right'}
-                size={30}
+                size={width * 30}
                 color={'black'}
                 style={{
                   position: 'absolute',
-                  bottom: 22,
-                  right: 25,
+                  bottom: height * 22,
+                  right: width * 25,
                 }}
               />
             </Pressable>
@@ -94,7 +98,7 @@ const styles = StyleSheet.create({
     // backgroundColor: 'blue',
   },
   courseName: {
-    fontSize: 23,
+    fontSize: width * 23,
     fontFamily: Fonts.TRBold,
     color: '#0077e6',
     // backgroundColor: 'lightyellow',
@@ -111,16 +115,16 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     // marginTop: 5,
     justifyContent: 'center',
-    marginBottom: 10,
+    marginBottom: height * 10,
     borderRadius: 8,
     backgroundColor: '#bae6fd',
-    marginHorizontal: 10,
+    marginHorizontal: width * 10,
     ...Platform.select({
       ios: {
         shadowColor: '#000',
         shadowOffset: {
-          width: 10,
-          height: 10,
+          width: width * 10,
+          height: height * 10,
         },
         shadowOpacity: 0.5,
         shadowRadius: 10,
@@ -132,14 +136,14 @@ const styles = StyleSheet.create({
   },
   classText: {
     marginLeft: '5%',
-    fontSize: 20,
+    fontSize: width * 20,
     fontFamily: Fonts.TRBold,
     color: 'black',
   },
   dateText: {
     position: 'absolute',
-    right: 40,
-    fontSize: 17,
+    right: width * 40,
+    fontSize: width * 17,
     fontFamily: Fonts.TRBold,
     color: 'gray',
   },

@@ -1,13 +1,10 @@
 import React, {useEffect, useRef, useState} from 'react';
-import Title from '../../components/Title';
 import {
   FlatList,
   SafeAreaView,
   StyleSheet,
   View,
   Text,
-  StatusBar,
-  TouchableOpacity,
   Platform,
   Pressable,
 } from 'react-native';
@@ -19,6 +16,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {TeacherParamList} from '../../../AppInner';
 import {Fonts} from '../../assets/Fonts';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import {width, height} from '../../config/globalStyles';
 
 type TeacherCourseScreenProps = NativeStackScreenProps<
   TeacherParamList,
@@ -68,12 +66,12 @@ function TeacherCourse({navigation}: TeacherCourseScreenProps) {
                   </Text>
                   <FontAwesome5Icon
                     name={'caret-right'}
-                    size={30}
+                    size={width * 30}
                     // color={'black'}
                     style={{
                       position: 'absolute',
                       justifyContent: 'center',
-                      right: 15,
+                      right: width * 15,
                     }}
                   />
                 </View>
@@ -104,16 +102,16 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     // marginTop: 5,
     justifyContent: 'center',
-    marginBottom: 10,
+    marginBottom: height * 10,
     borderRadius: 8,
     backgroundColor: '#bae6fd',
-    marginHorizontal: 10,
+    marginHorizontal: width * 10,
     ...Platform.select({
       ios: {
         shadowColor: '#000',
         shadowOffset: {
-          width: 10,
-          height: 10,
+          width: width * 10,
+          height: height * 10,
         },
         shadowOpacity: 0.5,
         shadowRadius: 10,
@@ -125,7 +123,7 @@ const styles = StyleSheet.create({
   },
   classText: {
     marginLeft: '5%',
-    fontSize: 20,
+    fontSize: width * 20,
     fontFamily: Fonts.TRBold,
     color: 'black',
   },

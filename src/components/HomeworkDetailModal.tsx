@@ -15,6 +15,7 @@ import Config from 'react-native-config';
 import {format} from 'date-fns';
 import ko from 'date-fns/esm/locale/ko/index.js';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import {width, height} from '../config/globalStyles';
 
 function HomeworkDetailModal({...props}) {
   console.log(props);
@@ -340,7 +341,7 @@ function HomeworkDetailModal({...props}) {
             <FormControl.Label>상세 내용</FormControl.Label>
             <TextArea
               editable={canUpdate ? true : false}
-              h={40}
+              h={height * 40}
               placeholder="Text Area Placeholder"
               value={content}
               onChangeText={onChangeContent}
@@ -352,20 +353,18 @@ function HomeworkDetailModal({...props}) {
                 <View style={styles.datetime}>
                   <Text style={styles.text}>1차 마감기한:</Text>
                   <TouchableOpacity onPress={onPressDate1}>
-                    <TextInput
-                      placeholder={format(new Date(newDate1), 'PPP', {
+                    <Text>
+                      {format(new Date(newDate1), 'PPP', {
                         locale: ko,
                       })}
-                      editable={false}
-                    />
+                    </Text>
                   </TouchableOpacity>
                   <TouchableOpacity onPress={onPressTime1}>
-                    <TextInput
-                      editable={false}
-                      placeholder={format(new Date(newDate1), 'p', {
+                    <Text>
+                      {format(new Date(newDate1), 'p', {
                         locale: ko,
                       })}
-                    />
+                    </Text>
                   </TouchableOpacity>
                 </View>
                 <DateTimePickerModal
@@ -379,20 +378,16 @@ function HomeworkDetailModal({...props}) {
                 <View style={styles.datetime}>
                   <Text style={styles.text}>2차 마감기한:</Text>
                   <TouchableOpacity onPress={onPressDate2}>
-                    <TextInput
-                      placeholder={format(new Date(newDate2), 'PPP', {
-                        locale: ko,
-                      })}
-                      editable={false}
-                    />
+                    <Text>
+                      {format(new Date(newDate2), 'PPP', {locale: ko})}
+                    </Text>
                   </TouchableOpacity>
                   <TouchableOpacity onPress={onPressTime2}>
-                    <TextInput
-                      editable={false}
-                      placeholder={format(new Date(newDate2), 'p', {
+                    <Text>
+                      {format(new Date(newDate2), 'p', {
                         locale: ko,
                       })}
-                    />
+                    </Text>
                   </TouchableOpacity>
                 </View>
                 <DateTimePickerModal
@@ -468,7 +463,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   text: {
-    marginRight: 5,
+    marginRight: width * 5,
     color: '#0077e6',
   },
 });

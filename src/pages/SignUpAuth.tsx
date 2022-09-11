@@ -15,9 +15,9 @@ import DismissKeyboardView from '../components/DismissKeyboardView';
 import {Fonts} from '../assets/Fonts';
 import MyButton from '../components/MyButton';
 import MyTextInput from '../components/MyTextInput';
-// import RNPickerSelect from 'react-native-picker-select';
 import OTPTextView from 'react-native-otp-textinput';
 import {CheckIcon, Select} from 'native-base';
+import {width, height} from '../config/globalStyles';
 
 type SignUpAuthScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -157,18 +157,6 @@ function SignUpAuth({navigation}: SignUpAuthScreenProps) {
             style={{fontFamily: Fonts.TRBold, fontSize: 23, color: 'black'}}>
             분원을 선택해주세요.
           </Text>
-          {/*<View>*/}
-          {/*  <RNPickerSelect*/}
-          {/*    textInputProps={{underlineColorAndroid: 'transparent'}}*/}
-          {/*    fixAndroidTouchableBug={true} // 안드로이드 에러 방지*/}
-          {/*    useNativeAndroidPickerStyle={false} // 기본 안드로이드 textInput 스타일 X, pickerSelect 스타일 O*/}
-          {/*    placeholder={{label: '분원 선택'}}*/}
-          {/*    value={branch}*/}
-          {/*    onValueChange={value => onChangeBranch(value)}*/}
-          {/*    items={data}*/}
-          {/*    style={pickerSelectStyles}*/}
-          {/*  />*/}
-          {/*</View>*/}
           <Select
             selectedValue={branch}
             minWidth="200"
@@ -254,17 +242,17 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     // backgroundColor: 'pink',
-    paddingVertical: 20,
-    marginTop: 20,
+    paddingVertical: width * 20,
+    marginTop: width * 20,
   },
   inputWrapper: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingVertical: width * 10,
+    paddingHorizontal: width * 20,
     // backgroundColor: 'yellow',
   },
   textArea: {
     justifyContent: 'center',
-    marginBottom: 5,
+    marginBottom: width * 5,
     // backgroundColor: 'green',
   },
   OtpArea: {
@@ -272,8 +260,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     // backgroundColor: 'pink',
-    paddingVertical: 10,
-    marginTop: 15,
+    paddingVertical: width * 10,
+    marginTop: width * 15,
   },
   textInputContainer: {
     // marginBottom: 20,
@@ -283,38 +271,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 4,
     fontFamily: Fonts.TRBold,
-  },
-});
-
-const pickerSelectStyles = StyleSheet.create({
-  inputIOS: {
-    fontSize: 19,
-    fontFamily: Fonts.TRRegular,
-    textAlign: 'center',
-    paddingHorizontal: 15,
-    height: 55,
-    width: 150,
-    color: '#000000',
-    borderColor: 'darkblue',
-    borderWidth: 4,
-    borderRadius: 10,
-    margin: 10,
-  },
-  inputAndroid: {
-    fontSize: 19,
-    fontFamily: Fonts.TRBold,
-    textAlign: 'center',
-    paddingHorizontal: 15,
-    height: 55,
-    width: 150,
-    color: '#000000',
-    borderColor: 'darkblue',
-    borderWidth: 4,
-    borderRadius: 10,
-    margin: 10,
-  },
-  placeholder: {
-    color: 'gray',
   },
 });
 

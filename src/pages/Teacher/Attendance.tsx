@@ -16,7 +16,7 @@ import {RootState} from '../../store/reducer';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {TeacherParamList} from '../../../AppInner';
 import {Fonts} from '../../assets/Fonts';
-import {Divider} from 'native-base';
+import {width, height} from '../../config/globalStyles';
 
 type AttendanceScreenProps = NativeStackScreenProps<
   TeacherParamList,
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     // backgroundColor: 'blue',
   },
   courseName: {
-    fontSize: 23,
+    fontSize: width * 23,
     fontFamily: Fonts.TRBold,
     color: '#0077e6',
     // backgroundColor: 'lightyellow',
@@ -168,19 +168,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderColor: '#b0e0e6',
     borderBottomWidth: 1,
-    padding: 15,
+    paddingHorizontal: width * 15,
+    paddingVertical: height * 15,
     backgroundColor: '#f0f9ff',
   },
   dateText: {
     marginLeft: '5%',
-    fontSize: 18,
+    fontSize: width * 18,
     fontFamily: Fonts.TRBold,
     color: 'black',
   },
   timeText: {
     position: 'absolute',
     right: '7%',
-    fontSize: 17,
+    fontSize: width * 17,
     fontFamily: Fonts.TRBold,
     color: '#6a5acd',
   },

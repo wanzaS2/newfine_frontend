@@ -1,13 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {
-  Alert,
-  FlatList,
-  Pressable,
   SafeAreaView,
-  StatusBar,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
   ScrollView,
   Dimensions,
@@ -21,6 +16,7 @@ import {Fonts} from '../../assets/Fonts';
 import {LineChart} from 'react-native-chart-kit';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {LoggedInParamList} from '../../../AppInner';
+import {width, height} from '../../config/globalStyles';
 
 type StudentAllTestResultScreenProps = NativeStackScreenProps<
   LoggedInParamList,
@@ -29,10 +25,7 @@ type StudentAllTestResultScreenProps = NativeStackScreenProps<
 
 const screenWidth = Dimensions.get('window').width;
 
-function StudentAllTestResult({
-  route,
-  navigation,
-}: StudentAllTestResultScreenProps) {
+function StudentAllTestResult({route}: StudentAllTestResultScreenProps) {
   const [TestList, setTestList] = useState();
   const [MyRank, setMyRank] = useState();
   const [MyScore, setMyScore] = useState();
@@ -153,7 +146,8 @@ function StudentAllTestResult({
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <View style={{marginTop: '15%'}}>
+        <View style={{marginTop: '5%'}}>
+          {/*<View style={{marginTop: '15%'}}>*/}
           <View style={{paddingBottom: '5%'}}>
             {/*          <StatusBar style="auto" />*/}
             <View style={styles.scoreBox}>
@@ -165,7 +159,7 @@ function StudentAllTestResult({
               <LineChart
                 data={RData}
                 width={screenWidth}
-                height={300}
+                height={height * 300}
                 chartConfig={chartConfig}
                 fromZero={true}
               />
@@ -181,7 +175,7 @@ function StudentAllTestResult({
               <LineChart
                 data={SData}
                 width={screenWidth}
-                height={300}
+                height={height * 300}
                 chartConfig={chartConfig}
                 fromZero={true}
               />
@@ -205,22 +199,22 @@ const styles = StyleSheet.create({
   rankScore: {
     alignItems: 'center',
     justifyContent: 'flex-start',
-    fontSize: 30,
+    fontSize: width * 30,
     fontFamily: Fonts.TRBold,
     color: 'black',
   },
   totalAvg: {
-    marginTop: 8,
-    paddingLeft: 10,
+    marginTop: height * 8,
+    paddingLeft: width * 10,
     // backgroundColor: 'yellow',
     borderRadius: 5,
-    fontSize: 18,
+    fontSize: width * 18,
     color: 'black',
     // fontFamily: Fonts.TRRegular,
   },
   number: {
     color: '#0077e6',
-    fontSize: 30,
+    fontSize: width * 30,
     fontFamily: Fonts.TRBold,
   },
 });

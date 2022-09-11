@@ -3,10 +3,7 @@ import {SafeAreaView, StyleSheet, View, Text} from 'react-native';
 import DismissKeyboardView from '../../components/DismissKeyboardView';
 import {Fonts} from '../../assets/Fonts';
 import SetUpProfile from '../../components/SetUpProfile';
-// import {NativeStackScreenProps} from '@react-navigation/native-stack';
-// import {LoggedInParamList} from '../../../AppInner';
-
-// type WelcomeScreenProps = NativeStackScreenProps<LoggedInParamList, 'Welcome'>;
+import {width, height} from '../../config/globalStyles';
 
 function Welcome() {
   return (
@@ -28,7 +25,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f0f9ff',
   },
   textArea: {
-    marginTop: 30,
+    marginTop: height * 30,
     flex: 1,
     // backgroundColor: 'yellow',
     alignItems: 'center',
@@ -36,12 +33,12 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: Fonts.TRBold,
-    fontSize: 45,
+    fontSize: width * 45,
     color: 'black',
   },
   description: {
     fontFamily: Fonts.TRBold,
-    fontSize: 21,
+    fontSize: width * 21,
   },
 });
 

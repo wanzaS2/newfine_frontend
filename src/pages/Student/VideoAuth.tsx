@@ -18,6 +18,7 @@ import MyTextInput from '../../components/MyTextInput';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store/reducer';
 import OTPTextView from 'react-native-otp-textinput';
+import {width, height} from '../../config/globalStyles';
 
 type VideoAuthScreenProps = NativeStackScreenProps<
   LoggedInParamList,
@@ -137,14 +138,14 @@ function VideoAuth({route, navigation}: VideoAuthScreenProps) {
       <DismissKeyboardView>
         <View style={styles.inputWrapper}>
           <View style={styles.textArea}>
-            <Text style={{fontFamily: Fonts.TRBold, fontSize: 25}}>
+            <Text style={{fontFamily: Fonts.TRBold, fontSize: width * 25}}>
               학부모님 인증이 필요합니다.
             </Text>
             <Text
               style={{
                 fontFamily: Fonts.TRRegular,
-                fontSize: 18,
-                marginTop: 3,
+                fontSize: width * 18,
+                marginTop: height * 3,
               }}>
               저장된 부모님 번호입니다.{'\n'}인증번호 발송 버튼을 눌러주세요!
             </Text>
@@ -201,20 +202,20 @@ const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: 'pin'},
   textArea: {
     justifyContent: 'center',
-    marginBottom: 5,
+    marginBottom: height * 5,
     marginTop: '15%',
   },
   inputWrapper: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingVertical: height * 10,
+    paddingHorizontal: width * 20,
   },
   OtpArea: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     // backgroundColor: 'pink',
-    paddingVertical: 10,
-    marginTop: 15,
+    paddingVertical: height * 10,
+    marginTop: height * 15,
   },
   textInputContainer: {
     // marginBottom: 20,
