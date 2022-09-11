@@ -78,7 +78,9 @@ function VideoList({navigation}: VideoListScreenProps) {
             <Pressable onPress={() => navigation.navigate('VideoAuth', item)}>
               <View style={styles.flatList}>
                 <Text style={styles.classText}>{item.course.cname}</Text>
-                <Text style={styles.timeText}>{item.course.start_time}</Text>
+                <Text style={styles.timeText}>
+                  {item.startTime.slice(0, 10)}
+                </Text>
               </View>
             </Pressable>
           )}
