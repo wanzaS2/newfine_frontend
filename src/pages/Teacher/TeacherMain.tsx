@@ -92,7 +92,7 @@ function TeacherMain({navigation}: TeacherMainScreenProps) {
                 title={item.title}
                 titleTextStyle={{
                   fontFamily: Fonts.TRRegular,
-                  fontSize: width * 17,
+                  fontSize: width * 16,
                 }}
                 value={item.value}
                 valueTextStyle={styles.value}

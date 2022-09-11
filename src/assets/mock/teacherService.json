@@ -2,7 +2,7 @@
   { "title": "My Class", "value": "내 수업", "icon": "heart", "onPress": "TeacherCourse",
     "backgroundColor": "#7954ff"
   },
-  { "title": "Video", "value": "동영상\n신청 현황", "icon": "heart", "onPress": "ApplyVideo", "backgroundColor": "#4aa9ff" },
-  { "title": "Ranking", "value": "학생 랭킹", "icon": "heart", "onPress": "TeacherRanking", "backgroundColor": "#84cc16" },
+  { "title": "Video", "value": "동영상\n신청현황", "icon": "heart", "onPress": "ApplyVideo", "backgroundColor": "#4aa9ff" },
+  { "title": "Ranking", "value": "학생랭킹", "icon": "heart", "onPress": "TeacherRanking", "backgroundColor": "#84cc16" },
   { "title": "Logout", "value": "로그아웃", "icon": "heart", "backgroundColor": "#fb923c" }
 ]
