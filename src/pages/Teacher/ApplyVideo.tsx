@@ -121,7 +121,7 @@ function ApplyVideo() {
                   orientation="vertical"
                 />
                 <Text style={styles.dateText}>
-                  {item.date} {item.time}
+                  {item.date}
                   {/*{' '}*/}
                   {/*{item.year}.{item.month}.{item.day} {item.hour}:{item.minute}{' '}*/}
                 </Text>
