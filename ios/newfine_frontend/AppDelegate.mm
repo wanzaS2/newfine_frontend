@@ -10,6 +10,10 @@
 #import <FirebaseCore.h> // 윤아 추가
 #import <UserNotifications/UserNotifications.h> // 윤아 추가
 #import <RNCPushNotificationIOS.h> // 윤아 추가
+#import <CodePush/CodePush.h>
+#import <AppCenterReactNative.h>
+#import <AppCenterReactNativeAnalytics.h>
+#import <AppCenterReactNativeCrashes.h>
 
 #if RCT_NEW_ARCH_ENABLED
 #import <React/CoreModulesPlugins.h>
@@ -90,6 +94,10 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
   [self.window makeKeyAndVisible];
 
   [RNSplashScreen show];  // 문경 추가
+  // 수영 추가 - 코드푸쉬
+  [AppCenterReactNative register];
+  [AppCenterReactNativeAnalytics registerWithInitiallyEnabled:true];
+  [AppCenterReactNativeCrashes registerWithAutomaticProcessing];
 
  // Define UNUserNotificationCenter 윤아 추가
    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
@@ -109,7 +117,7 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 #if DEBUG
   return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index"];
 #else
-  return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+  return [CodePush bundleURL];
 #endif
 }
 
