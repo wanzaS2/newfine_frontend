@@ -19,8 +19,9 @@ const AttendanceWeb = ({route, navigation}) => {
     console.log('token', webRef.postMessage(accessToken));
   };
   const handleOnMessage = e => {
-    console.log('web 으로부터 받은 데이터', e.nativeEvent.data);
-    if (e.nativeEvent.data == 1) {
+    const res = JSON.parse(e.nativeEvent.data).data;
+    console.log('web 으로부터 받은 데이터', res);
+    if (res === 1) {
       Alert.alert(
         //alert 사용
         '',
