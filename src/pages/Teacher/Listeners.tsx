@@ -78,10 +78,10 @@ function Listeners({route}: ListenersScreenProps) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        <View style={styles.courseArea}>
-          <Text style={styles.courseName}> #{route.params.cname}</Text>
-        </View>
+      <View style={{marginTop: '15%'}}>
+        {/*<View style={styles.courseArea}>*/}
+        {/*  <Text style={styles.courseName}> #{route.params.cname}</Text>*/}
+        {/*</View>*/}
         <Divider
           my="0"
           _light={{
@@ -98,7 +98,7 @@ function Listeners({route}: ListenersScreenProps) {
             data={Students}
             onRefresh={fetchItems} // fetch로 데이터 호출
             refreshing={isRefreshing} // state
-            style={{height: '90%'}}
+            // style={{height: '90%'}}
             renderItem={({item, index}) => (
               <View style={styles.box_list}>
                 <Text style={styles.studentText}>

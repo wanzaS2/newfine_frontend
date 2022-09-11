@@ -62,8 +62,7 @@ function TeacherCourse({navigation}: TeacherCourseScreenProps) {
                 onPress={() => navigation.navigate('TeacherCourseInfo', item)}>
                 <View style={styles.flatList}>
                   <Text style={styles.classText}>
-                    {item.cname}
-                    {/*(요일을 추가해보자)*/}
+                    {item.cname}({item.days})
                   </Text>
                   <FontAwesome5Icon
                     name={'caret-right'}

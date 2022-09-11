@@ -165,9 +165,9 @@ export default function SHomeworkList(
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.courseArea}>
-        <Text style={styles.courseName}> #{courseName}</Text>
-      </View>
+      {/*<View style={styles.courseArea}>*/}
+      {/*  <Text style={styles.courseName}> #{courseName}</Text>*/}
+      {/*</View>*/}
       <View style={styles.listArea}>
         {isRefreshing ? (
           <ActivityIndicator />
@@ -267,6 +267,12 @@ const styles = StyleSheet.create({
     color: '#0077e6',
     // backgroundColor: 'lightyellow',
     // marginRight: 250,
+  },
+  listArea: {
+    marginTop: '15%',
+    // backgroundColor: 'yellow',
+    alignItem: 'center',
+    justifyContent: 'center',
   },
   flatList: {
     borderRadius: 10,
