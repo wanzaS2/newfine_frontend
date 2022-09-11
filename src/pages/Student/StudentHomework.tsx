@@ -200,7 +200,7 @@ export default function StudentHomework({route}: StudentHomeworkScreenProps) {
                               {item.course} : {item.title} ({item.deadline})
                             </Text>
                             <Text style={styles.text}>
-                              확인 일시: {item.modifiedDate}
+                              확인 일시: {item.modifiedDate.substring(0, 10)}
                             </Text>
                           </View>
                         </Pressable>
