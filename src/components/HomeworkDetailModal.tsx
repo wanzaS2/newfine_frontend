@@ -354,14 +354,14 @@ function HomeworkDetailModal({...props}) {
                   <Text style={styles.text}>1차 마감기한:</Text>
                   <TouchableOpacity onPress={onPressDate1}>
                     <Text>
-                      {format(new Date(newDate1), 'PPP', {
+                      &nbsp;{format(new Date(newDate1), 'PPP', {
                         locale: ko,
                       })}
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity onPress={onPressTime1}>
                     <Text>
-                      {format(new Date(newDate1), 'p', {
+                      &nbsp;{format(new Date(newDate1), 'p', {
                         locale: ko,
                       })}
                     </Text>

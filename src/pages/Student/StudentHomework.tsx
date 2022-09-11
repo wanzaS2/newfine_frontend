@@ -6,7 +6,7 @@ import {
   View,
   StyleSheet,
   SafeAreaView,
-  Platform,
+  Platform, ScrollView,
 } from 'react-native';
 import Config from 'react-native-config';
 import axios from 'axios';
@@ -17,6 +17,7 @@ import {LoggedInParamList} from '../../../AppInner';
 import {Fonts} from '../../assets/Fonts';
 import {Modal, Pressable} from 'native-base';
 import {width, height} from '../../config/globalStyles';
+import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 
 type StudentHomeworkScreenProps = NativeStackScreenProps<
   LoggedInParamList,
@@ -28,11 +29,21 @@ export default function StudentHomework({route}: StudentHomeworkScreenProps) {
   // const [toggle, onToggle] = useState('');
   const [data, setData] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [data2, setData2] = useState([]);
+  const [isRefreshing2, setIsRefreshing2] = useState(false);
   const scrollRef = useRef();
+  const [visibleChecked, setVisibleChecked] = useState(false);
+  const [visibleUnChecked, setVisibleUnChecked] = useState(false);
 
   const fetchItems = () => {
     if (!isRefreshing) {
       getCheckedHomeworks();
+    }
+  };
+
+  const fetchItems2 = () => {
+    if (!isRefreshing2) {
+      getunCheckedHomeworks();
     }
   };
 
@@ -54,8 +65,31 @@ export default function StudentHomework({route}: StudentHomeworkScreenProps) {
       .finally(() => setIsRefreshing(false));
   };
 
+  const getunCheckedHomeworks = () => {
+    setIsRefreshing(true);
+    console.log('받은 param', route.params);
+    axios
+        .get(`${Config.API_URL}/api/shlist/unchecked`, {
+          params: {},
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then(response => {
+          setData2(response.data);
+          console.log(response.data);
+        })
+        .catch(error => console.error(error))
+        .finally(() => setIsRefreshing(false));
+  };
+
+
   useEffect(() => {
     getCheckedHomeworks();
+  }, []);
+
+  useEffect(() => {
+    getunCheckedHomeworks();
   }, []);
 
   return (
@@ -65,12 +99,82 @@ export default function StudentHomework({route}: StudentHomeworkScreenProps) {
           <ActivityIndicator />
         ) : (
           <View style={{marginTop: '15%'}}>
-            <View style={styles.completedHomework}>
-              <Text style={styles.completedHomeworkText}>
-                확인완료된 과제입니다~!
-              </Text>
+            <View style={styles.listArea}>
+              <Pressable
+                  style={styles.button1}
+                  onPress={() => {
+                    if (visibleUnChecked) {
+                      setVisibleUnChecked(false);
+                    } else {
+                      setVisibleUnChecked(true);
+                    }
+                  }}>
+                <View style={{alignItems: 'center'}}>
+                  <Text
+                      style={{
+                        color: 'black',
+                        fontFamily: Fonts.TRBold,
+                        fontSize: 19,
+                      }}>
+                    미확인 과제 <FontAwesome5Icon name={'angle-down'} size={17} />
+                  </Text>
+                </View>
+              </Pressable>
+              {visibleUnChecked && (
+                  <FlatList
+                      ref={scrollRef}
+                      data={data2}
+                      onRefresh={fetchItems2} // fetch로 데이터 호출
+                      refreshing={isRefreshing} // state
+                      style={{height: '92%'}}
+                      keyExtractor={(item, index) => {
+                        // console.log("index", index)
+                        return index.toString();
+                      }}
+                      renderItem={({item, index}) => {
+                        console.log('item', item);
+                        return (
+                            <Pressable
+                                style={styles.flatList1}
+                                key={index.toString()}
+                                // onPress={() => setShowModal(true)}>
+                            >
+                              <View>
+                                <Text style={styles.title}>
+                                  {item.course} : {item.title} ({item.deadline})
+                                </Text>
+                                <Text style={styles.text}>
+                                  확인 일시: {item.modifiedDate}
+                                </Text>
+                              </View>
+                            </Pressable>
+                        );
+                      }}
+                  />
+                  )}
             </View>
             <View style={styles.listArea}>
+              <Pressable
+                  style={styles.button2}
+                  onPress={() => {
+                    if (visibleChecked) {
+                      setVisibleChecked(false);
+                    } else {
+                      setVisibleChecked(true);
+                    }
+                  }}>
+                <View style={{alignItems: 'center'}}>
+                  <Text
+                      style={{
+                        color: 'black',
+                        fontFamily: Fonts.TRBold,
+                        fontSize: 19,
+                      }}>
+                    확인완료된 과제 <FontAwesome5Icon name={'angle-down'} size={17} />
+                  </Text>
+                </View>
+              </Pressable>
+              {visibleChecked && (
               <FlatList
                 ref={scrollRef}
                 data={data}
@@ -85,7 +189,7 @@ export default function StudentHomework({route}: StudentHomeworkScreenProps) {
                   console.log('item', item);
                   return (
                     <Pressable
-                      style={styles.flatList}
+                      style={styles.flatList2}
                       key={index.toString()}
                       // onPress={() => setShowModal(true)}>
                     >
@@ -94,7 +198,7 @@ export default function StudentHomework({route}: StudentHomeworkScreenProps) {
                           {item.course} : {item.title} ({item.deadline})
                         </Text>
                         <Text style={styles.text}>
-                          확인 일시: {item.checkedDate}
+                          확인 일시: {item.modifiedDate}
                         </Text>
                       </View>
                       {/*<Modal*/}
@@ -144,6 +248,7 @@ export default function StudentHomework({route}: StudentHomeworkScreenProps) {
                   );
                 }}
               />
+                  )}
             </View>
           </View>
         )}
@@ -171,16 +276,41 @@ const styles = StyleSheet.create({
     alignItem: 'center',
     justifyContent: 'center',
   },
-  flatList: {
+  flatList2: {
     // width: screenWidth,
     paddingVertical: '4%',
     // alignItems: 'center',
     // marginTop: 5,
     justifyContent: 'center',
-    marginBottom: height * 10,
+    // marginBottom: height * 10,
     borderRadius: 8,
     backgroundColor: '#bae6fd',
-    marginHorizontal: width * 10,
+    // marginHorizontal: width * 10,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: width * 10,
+          height: height * 10,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 10,
+      },
+      android: {
+        elevation: 3,
+      },
+    }),
+  },
+  flatList1: {
+    // width: screenWidth,
+    paddingVertical: '4%',
+    // alignItems: 'center',
+    // marginTop: 5,
+    justifyContent: 'center',
+    // marginBottom: height * 10,
+    borderRadius: 8,
+    backgroundColor: '#bdc3c7',
+    // marginHorizontal: width * 10,
     ...Platform.select({
       ios: {
         shadowColor: '#000',
@@ -208,5 +338,45 @@ const styles = StyleSheet.create({
     fontSize: width * 15,
     fontFamily: Fonts.TRBold,
     color: 'gray',
+  },
+  button1: {
+    backgroundColor: '#bdc3c7',
+    paddingHorizontal: width * 20,
+    paddingVertical: height * 10,
+    borderRadius: 5,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: width * 10,
+          height: height * 10,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 10,
+      },
+      android: {
+        elevation: 2,
+      },
+    }),
+  },
+  button2: {
+    backgroundColor: '#bae6fd',
+    paddingHorizontal: width * 20,
+    paddingVertical: height * 10,
+    borderRadius: 5,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: width * 10,
+          height: height * 10,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 10,
+      },
+      android: {
+        elevation: 2,
+      },
+    }),
   },
 });

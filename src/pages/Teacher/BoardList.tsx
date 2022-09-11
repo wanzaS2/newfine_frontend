@@ -39,6 +39,7 @@ export default function BoardList({route, navigation}: BoardListScreenProps) {
   const [selectedItem, setSelectedItem] = useState(null);
   const scrollRef = useRef();
 
+
   const handleOnSelectItem = item => {
     setSelectedItem(item);
     console.log('\n\n\n\n\n셀아: ', selectedItem);
@@ -219,6 +220,31 @@ const styles = StyleSheet.create({
     alignItem: 'center',
     justifyContent: 'center',
   },
+  flatList1: {
+    // width: screenWidth,
+    paddingVertical: '4%',
+    // alignItems: 'center',
+    // marginTop: 5,
+    justifyContent: 'center',
+    marginBottom: 10,
+    borderRadius: 8,
+    backgroundColor: 'gray',
+    marginHorizontal: 10,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 10,
+          height: 10,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 10,
+      },
+      android: {
+        elevation: 3,
+      },
+    }),
+  },
   flatList: {
     // width: screenWidth,
     paddingVertical: '4%',
@@ -257,7 +283,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   icon: {
-    // color: 'gray',
+    // color: 'red',
     position: 'absolute',
     right: 20,
     bottom: 13,
