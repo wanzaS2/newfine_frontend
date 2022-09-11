@@ -119,7 +119,7 @@ function StudentMain({navigation}: MainScreenProps) {
                   <Text
                     style={{
                       fontSize:
-                        myTier === 'CHALLENGER' ? width * 25 : width * 25,
+                        myTier === 'CHALLENGER' ? width * 20 : width * 25,
                     }}>
                     {myTier}
                   </Text>

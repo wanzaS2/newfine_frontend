@@ -29,10 +29,10 @@ function TeacherCourseInfo({route, navigation}: TeacherCourseInfoScreenProps) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.courseArea}>
-        <Text style={styles.courseName}> #{route.params.cname}</Text>
-      </View>
-      <View style={{flex: 1}}>
+      {/*<View style={styles.courseArea}>*/}
+      {/*  <Text style={styles.courseName}> #{route.params.cname}</Text>*/}
+      {/*</View>*/}
+      <View style={{flex: 1, marginTop: '10%'}}>
         <FlatList
           contentContainerStyle={{
             // marginTop: 10,
