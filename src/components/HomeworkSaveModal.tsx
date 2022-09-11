@@ -18,6 +18,7 @@ import {format} from 'date-fns';
 import ko from 'date-fns/esm/locale/ko/index.js';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {width, height} from '../config/globalStyles';
+import {space} from "native-base/lib/typescript/theme/styled-system";
 
 
 function HomeworkSaveModal({...props}) {
@@ -224,13 +225,13 @@ function HomeworkSaveModal({...props}) {
                 </TouchableOpacity>
                 <TouchableOpacity onPress={onPressTime1}>
                   <Text>
-                      {format(new Date(date1), 'p', {
+                    &nbsp;{format(new Date(date1), 'p', {
                       locale: ko,
                     })}
                   </Text>
                 </TouchableOpacity>
               </View>
-              <DateTimePicker
+              <DateTimePickerModal
                 isVisible={visible1}
                 mode={mode1}
                 onConfirm={onConfirm1}
@@ -248,13 +249,13 @@ function HomeworkSaveModal({...props}) {
                 </TouchableOpacity>
                 <TouchableOpacity onPress={onPressTime2}>
                   <Text>
-                    {format(new Date(date2), 'p', {
+                    &nbsp;{format(new Date(date2), 'p', {
                       locale: ko,
                     })}
                   </Text>
                 </TouchableOpacity>
               </View>
-              <DateTimePicker
+              <DateTimePickerModal
                 isVisible={visible2}
                 mode={mode2}
                 onConfirm={onConfirm2}

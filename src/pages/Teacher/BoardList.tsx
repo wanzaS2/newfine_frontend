@@ -8,7 +8,9 @@ import {
   SafeAreaView,
   Platform,
   Pressable,
-  TouchableOpacity, TextInput, Alert,
+  TouchableOpacity,
+  TextInput,
+  Alert,
 } from 'react-native';
 import Config from 'react-native-config';
 import axios from 'axios';
@@ -20,9 +22,9 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import {Fonts} from '../../assets/Fonts';
 import HomeworkSaveModal from '../../components/HomeworkSaveModal';
 import HomeworkDetailModal from '../../components/HomeworkDetailModal';
-import {format} from "date-fns";
-import ko from "date-fns/esm/locale/ko/index.js";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import {format} from 'date-fns';
+import ko from 'date-fns/esm/locale/ko/index.js';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 // import {LocalNotification} from '../lib/LocalNotification';
 
 type BoardListScreenProps = NativeStackScreenProps<
@@ -38,6 +40,7 @@ export default function BoardList({route, navigation}: BoardListScreenProps) {
   const [modalVisible, setModalVisible] = React.useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const scrollRef = useRef();
+
 
   const handleOnSelectItem = item => {
     setSelectedItem(item);
@@ -102,9 +105,9 @@ export default function BoardList({route, navigation}: BoardListScreenProps) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.courseArea}>
-        <Text style={styles.courseName}> #{route.params.cname}</Text>
-      </View>
+      {/*<View style={styles.courseArea}>*/}
+      {/*  <Text style={styles.courseName}> #{route.params.cname}</Text>*/}
+      {/*</View>*/}
       <View style={styles.listArea}>
         {isRefreshing ? (
           <ActivityIndicator />
@@ -122,9 +125,9 @@ export default function BoardList({route, navigation}: BoardListScreenProps) {
             <FlatList
               ref={scrollRef}
               data={datalist}
-              style={{
-                height: '80%',
-              }}
+              // style={{
+              //   height: '80%',
+              // }}
               onRefresh={fetchItems} // fetch로 데이터 호출
               refreshing={isRefreshing} // state
               keyExtractor={(item, index) => {
@@ -214,10 +217,35 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   listArea: {
-    // marginTop: '15%',
+    marginTop: '15%',
     // backgroundColor: 'yellow',
     alignItem: 'center',
     justifyContent: 'center',
+  },
+  flatList1: {
+    // width: screenWidth,
+    paddingVertical: '4%',
+    // alignItems: 'center',
+    // marginTop: 5,
+    justifyContent: 'center',
+    marginBottom: 10,
+    borderRadius: 8,
+    backgroundColor: 'gray',
+    marginHorizontal: 10,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 10,
+          height: 10,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 10,
+      },
+      android: {
+        elevation: 3,
+      },
+    }),
   },
   flatList: {
     // width: screenWidth,
@@ -257,7 +285,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   icon: {
-    // color: 'gray',
+    // color: 'red',
     position: 'absolute',
     right: 20,
     bottom: 13,
