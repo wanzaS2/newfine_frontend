@@ -7,7 +7,15 @@ import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import {SSRProvider} from '@react-aria/ssr';
-import {useEffect} from 'react';
+import CodePush, {CodePushOptions} from 'react-native-code-push';
+
+const codePushOptions: CodePushOptions = {
+  checkFrequency: CodePush.CheckFrequency.MANUAL,
+  // 언제 업데이트를 체크하고 반영할지
+
+  installMode: CodePush.InstallMode.IMMEDIATE,
+  mandatoryInstallMode: CodePush.InstallMode.IMMEDIATE,
+};
 
 PushNotification.configure({
   // (optional) 토큰이 생성될 때 실행됨(토큰을 서버에 등록할 때 쓸 수 있음)
@@ -91,18 +99,45 @@ PushNotification.createChannel(
 // };
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Alert} from 'react-native';
+import {useEffect} from 'react';
 // import messaging from '@react-native-firebase/messaging';
 
 function App() {
+  useEffect(() => {
+    CodePush.sync(
+      {
+        installMode: CodePush.InstallMode.IMMEDIATE,
+        mandatoryInstallMode: CodePush.InstallMode.IMMEDIATE,
+        updateDialog: {
+          mandatoryUpdateMessage:
+            '필수 업데이트가 있어 설치 후 앱을 재시작합니다.',
+          mandatoryContinueButtonLabel: '재시작',
+          optionalIgnoreButtonLabel: '나중에',
+          optionalInstallButtonLabel: '재시작',
+          optionalUpdateMessage: '업데이트가 있습니다. 설치하시겠습니까?',
+          title: '업데이트 안내',
+        },
+      },
+      status => {
+        console.log(`Changed ${status}`);
+      },
+      downloadProgress => {
+        // 여기서 몇 % 다운로드되었는지 체크 가능
+      },
+    ).then(status => {
+      console.log(`CodePush ${status}`);
+    });
+  }, []);
+
   messaging().setBackgroundMessageHandler(async remoteMessage => {
     Alert.alert(
       remoteMessage.notification?.title as string,
       remoteMessage.notification?.body,
     );
-     // 여기에 로직을 작성한다.
-     // remoteMessage.data로 메세지에 접근가능
-     // remoteMessage.from 으로 topic name 또는 message identifier
-     // remoteMessage.messageId 는 메시지 고유값 id
+    // 여기에 로직을 작성한다.
+    // remoteMessage.data로 메세지에 접근가능
+    // remoteMessage.from 으로 topic name 또는 message identifier
+    // remoteMessage.messageId 는 메시지 고유값 id
     //  remoteMessage.notification 메시지와 함께 보내진 추가 데이터
     //  remoteMessage.sentTime 보낸시간
   });
@@ -118,14 +153,14 @@ function App() {
   });
 
   return (
-      <SSRProvider>
-        <Provider store={store}>
-          <NavigationContainer>
-            <AppInner />
-          </NavigationContainer>
-        </Provider>
-      </SSRProvider>
+    <SSRProvider>
+      <Provider store={store}>
+        <NavigationContainer>
+          <AppInner />
+        </NavigationContainer>
+      </Provider>
+    </SSRProvider>
   );
 }
 
-export default App;
+export default CodePush(codePushOptions)(App);
