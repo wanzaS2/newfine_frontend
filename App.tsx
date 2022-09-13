@@ -7,15 +7,15 @@ import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import {SSRProvider} from '@react-aria/ssr';
-import CodePush, {CodePushOptions} from 'react-native-code-push';
+// import CodePush, {CodePushOptions} from 'react-native-code-push';
 
-const codePushOptions: CodePushOptions = {
-  checkFrequency: CodePush.CheckFrequency.MANUAL,
+// const codePushOptions: CodePushOptions = {
+//   checkFrequency: CodePush.CheckFrequency.MANUAL,
   // 언제 업데이트를 체크하고 반영할지
 
-  installMode: CodePush.InstallMode.IMMEDIATE,
-  mandatoryInstallMode: CodePush.InstallMode.IMMEDIATE,
-};
+  // installMode: CodePush.InstallMode.IMMEDIATE,
+  // mandatoryInstallMode: CodePush.InstallMode.IMMEDIATE,
+// };
 
 PushNotification.configure({
   // (optional) 토큰이 생성될 때 실행됨(토큰을 서버에 등록할 때 쓸 수 있음)
@@ -98,11 +98,12 @@ PushNotification.createChannel(
 // 업데이트를 어떻게 설치할 것인지 (IMMEDIATE는 강제설치를 의미)
 // };
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Alert} from 'react-native';
+import {Alert, Vibration} from 'react-native';
 import {useEffect} from 'react';
 // import messaging from '@react-native-firebase/messaging';
 
 function App() {
+  /*
   useEffect(() => {
     CodePush.sync(
       {
@@ -128,8 +129,10 @@ function App() {
       console.log(`CodePush ${status}`);
     });
   }, []);
+   */
 
   messaging().setBackgroundMessageHandler(async remoteMessage => {
+    Vibration.vibrate();
     Alert.alert(
       remoteMessage.notification?.title as string,
       remoteMessage.notification?.body,
@@ -144,6 +147,7 @@ function App() {
   //
   React.useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
+      Vibration.vibrate();
       Alert.alert(
         remoteMessage.notification?.title as string,
         remoteMessage.notification?.body,
@@ -163,4 +167,5 @@ function App() {
   );
 }
 
-export default CodePush(codePushOptions)(App);
+// export default CodePush(codePushOptions)(App);
+export default App;

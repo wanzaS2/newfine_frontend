@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Button, FormControl, Input, Modal, TextArea} from 'native-base';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {
-  Alert,
+  Alert, Platform,
   Pressable,
   StyleSheet,
   Text,
@@ -210,12 +210,14 @@ function HomeworkSaveModal({...props}) {
             <FormControl mt="3">
               <FormControl.Label>상세 내용</FormControl.Label>
               <TextArea
-                h={height * 40}
-                placeholder="Text Area Placeholder"
-                value={content}
-                onChangeText={val => setContent(val)}
-              />
+                  h={height * 100}
+                  placeholder="Text Area Placeholder"
+                  value={content}
+                  onChangeText={val => setContent(val)} autoCompleteType={undefined}              />
             </FormControl>
+            <Text>
+              &nbsp;
+            </Text>
               <View style={styles.datetime}>
                 <Text style={styles.text}>1차 마감기한:</Text>
                 <TouchableOpacity onPress={onPressDate1}>

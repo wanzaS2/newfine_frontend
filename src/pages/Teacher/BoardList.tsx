@@ -25,6 +25,7 @@ import HomeworkDetailModal from '../../components/HomeworkDetailModal';
 import {format} from 'date-fns';
 import ko from 'date-fns/esm/locale/ko/index.js';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import {height, width} from "../../config/globalStyles";
 // import {LocalNotification} from '../lib/LocalNotification';
 
 type BoardListScreenProps = NativeStackScreenProps<
@@ -222,31 +223,6 @@ const styles = StyleSheet.create({
     alignItem: 'center',
     justifyContent: 'center',
   },
-  flatList1: {
-    // width: screenWidth,
-    paddingVertical: '4%',
-    // alignItems: 'center',
-    // marginTop: 5,
-    justifyContent: 'center',
-    marginBottom: 10,
-    borderRadius: 8,
-    backgroundColor: 'gray',
-    marginHorizontal: 10,
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 10,
-          height: 10,
-        },
-        shadowOpacity: 0.5,
-        shadowRadius: 10,
-      },
-      android: {
-        elevation: 3,
-      },
-    }),
-  },
   flatList: {
     // width: screenWidth,
     paddingVertical: '4%',
@@ -261,11 +237,11 @@ const styles = StyleSheet.create({
       ios: {
         shadowColor: '#000',
         shadowOffset: {
-          width: 10,
-          height: 10,
+          width: width * 5,
+          height: height * 5,
         },
         shadowOpacity: 0.5,
-        shadowRadius: 10,
+        shadowRadius: 3,
       },
       android: {
         elevation: 3,
@@ -276,18 +252,27 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 18,
     fontFamily: Fonts.TRBold,
-    marginLeft: 20,
+    marginLeft: width * 10,
     marginBottom: 3,
   },
   text: {
     fontSize: 15,
     fontFamily: Fonts.TRRegular,
-    marginLeft: 20,
+    marginLeft: width * 10,
   },
   icon: {
-    // color: 'red',
-    position: 'absolute',
-    right: 20,
-    bottom: 13,
+    ...Platform.select({
+      ios: {
+        position: 'absolute',
+        right: 20,
+        bottom: height * 12,
+      },
+
+      android: {
+        position: 'absolute',
+        right: 20,
+        bottom: height * 20,
+      },
+    }),
   },
 });

@@ -49,6 +49,7 @@ function MyPage() {
   }>();
   const photoUrl = useSelector((state: RootState) => state.user.photoURL);
   const [changeImage, setChangeImage] = useState(false);
+  const deviceToken = useSelector((state: RootState) => state.user.deviceToken);
 
   const {isOpen, onOpen, onClose} = useDisclose();
 
@@ -594,11 +595,11 @@ const styles = StyleSheet.create({
       ios: {
         shadowColor: '#000',
         shadowOffset: {
-          width: width * 10,
-          height: height * 10,
+          width: width * 5,
+          height: height * 5,
         },
         shadowOpacity: 0.5,
-        shadowRadius: 10,
+        shadowRadius: 3,
       },
       android: {
         elevation: 2,

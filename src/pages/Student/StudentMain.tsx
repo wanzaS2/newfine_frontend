@@ -120,6 +120,12 @@ function StudentMain({navigation}: MainScreenProps) {
                     style={{
                       fontSize:
                         myTier === 'CHALLENGER' ? width * 20 : width * 25,
+                      color:
+                        myTier === 'CHALLENGER' ? "crimson" :
+                            myTier === 'MASTER' ? "darkmagenta" :
+                                myTier === 'DIA' ? "cornflowerblue" :
+                                    myTier === 'PLATINUM' ? "lightseagreen" :
+                                        myTier === 'GOLD' ? "gold" : "darkblue",
                     }}>
                     {myTier}
                   </Text>
@@ -175,11 +181,11 @@ const styles = StyleSheet.create({
       ios: {
         shadowColor: '#000',
         shadowOffset: {
-          width: width * 10,
-          height: height * 10,
+          width: width * 5,
+          height: height * 5,
         },
         shadowOpacity: 0.5,
-        shadowRadius: 10,
+        shadowRadius: 5,
       },
       android: {
         elevation: 5,
