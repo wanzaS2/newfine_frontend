@@ -19,21 +19,39 @@ const AttendanceWeb = ({route, navigation}) => {
     console.log('token', webRef.postMessage(accessToken));
   };
   const handleOnMessage = e => {
-    console.log('web 으로부터 받은 데이터', e.nativeEvent.data);
-    Alert.alert(
-      //alert 사용
-      '',
-      '출석이 완료되었습니다!',
-      [
-        //alert창 문구 작성]
-        {
-          text: '출석',
-          onPress: () => {
-            navigation.navigate('StudentMain');
-          },
-        }, //alert 버튼 작성
-      ],
-    );
+    const res = JSON.parse(e.nativeEvent.data).data;
+    console.log('web 으로부터 받은 데이터', res);
+    if (res === 1) {
+      Alert.alert(
+        //alert 사용
+        '',
+        '출석이 완료되었습니다!',
+        [
+          //alert창 문구 작성]
+          {
+            text: '출석',
+            onPress: () => {
+              navigation.navigate('StudentMain');
+            },
+          }, //alert 버튼 작성
+        ],
+      );
+    } else {
+      Alert.alert(
+        //alert 사용
+        '',
+        '이미 출석처리된 수업입니다!',
+        [
+          //alert창 문구 작성]
+          {
+            text: '출석',
+            onPress: () => {
+              navigation.navigate('StudentMain');
+            },
+          }, //alert 버튼 작성
+        ],
+      );
+    }
   };
 
   console.log('url', route.params);
