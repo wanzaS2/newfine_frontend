@@ -64,6 +64,8 @@ const AttendanceWeb = ({route, navigation}) => {
       javaScriptEnabled={true}
       onMessage={handleOnMessage}
       source={{uri: route.params}}
+      setSupportMultipleWindows={false}
+      // originWhitelist={["https://"]}
     />
   );
 };
