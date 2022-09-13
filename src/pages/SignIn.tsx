@@ -7,7 +7,7 @@ import {
   TextInput,
   View,
   SafeAreaView,
-  Dimensions,
+  Dimensions, Platform,
 } from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import EncryptedStorage from 'react-native-encrypted-storage';
@@ -211,7 +211,7 @@ function SignIn({navigation}: SignInScreenProps) {
                 style={{
                   fontFamily: Fonts.TRRegular,
                   textDecorationLine: 'underline',
-                  fontSize: width * 14,
+                  fontSize: width * 15,
                 }}>
                 회원가입
               </Text>
@@ -227,7 +227,7 @@ function SignIn({navigation}: SignInScreenProps) {
                   style={{
                     fontFamily: Fonts.TRRegular,
                     textDecorationLine: 'underline',
-                    fontSize: width * 14,
+                    fontSize: width * 15,
                   }}>
                   비밀번호를 잊어버리셨나요?
                 </Text>
@@ -263,8 +263,7 @@ const styles = StyleSheet.create({
     color: 'black',
     // fontFamily: Fonts.TRBold,
     fontSize: width * 19,
-    // fontFamily: Fonts.TRBold,
-    fontFamily: 'TmoneyRoundWind-ExtraBold',
+    fontFamily: Fonts.TRBold,
     // fontSize: 17,
     marginBottom: width * 15,
   },

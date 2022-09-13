@@ -283,7 +283,7 @@ const styles = StyleSheet.create({
     marginBottom: height * 10,
     marginHorizontal: width * 25,
     //backgroundColor: 'rgba(50,50,50,1)',
-    backgroundColor: '#e0ffff',
+    backgroundColor: '#bae6fd',
     flexDirection: 'row',
     justifyContent: 'space-between', //space-around
   },
@@ -294,12 +294,12 @@ const styles = StyleSheet.create({
     marginBottom: height * 3,
   },
   text: {
-    color: 'gray',
     fontSize: width * 15,
     fontFamily: Fonts.TRRegular,
   },
   button: {
     marginVertical: height * 15,
     marginHorizontal: width * 150,
+    backgroundColor: '#bae6fd',
   },
 });

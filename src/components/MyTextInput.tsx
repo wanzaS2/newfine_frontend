@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, TextInput, View} from 'react-native';
+import {Platform, StyleSheet, TextInput, View} from 'react-native';
 import {Fonts} from '../assets/Fonts';
 import {height, width} from '../config/globalStyles';
 
@@ -36,6 +36,11 @@ const styles = StyleSheet.create({
     fontSize: width * 14,
     paddingHorizontal: width * 15,
     borderRadius: 5,
+    ...Platform.select({
+      ios: {
+        paddingVertical: height * 10,
+        },
+    }),
   },
 });
 
