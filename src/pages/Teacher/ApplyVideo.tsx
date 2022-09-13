@@ -97,7 +97,6 @@ function ApplyVideo() {
         console.log(response.data);
       })
       .catch(error => console.error(error))
-      .finally();
   };
   useEffect(() => {
     getVideos();
