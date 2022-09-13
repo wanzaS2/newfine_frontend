@@ -14,7 +14,8 @@
     "bundle:ios": "react-native bundle --assets-dest build/CodePush --bundle-output build/CodePush/main.jsbundle --dev false --entry-file index.js --platform ios --sourcemap-output build/CodePush/main.jsbundle.map",
     "aab:android": "npm ci && cd android && ./gradlew bundleRelease && cd .. && open android/app/build/outputs/bundle/release",
     "apk:android": "npm ci && cd android && ./gradlew assembleRelease && cd .. && open android/app/build/outputs/apk/release",
-    "appcenter-android-key": "appcenter codepush deployment list -a NewFine/NewFine-android -k"
+    "appcenter-android-key": "appcenter codepush deployment list -a NewFine/NewFine-android -k",
+    "appcenter-ios-key": "appcenter codepush deployment list -a NewFine/NewFine-ios -k"
   },
   "dependencies": {
     "@bam.tech/react-native-make": "^3.0.3",
