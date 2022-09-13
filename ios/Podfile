@@ -25,7 +25,6 @@ target 'newfine_frontend' do
   pod 'FirebaseMessaging'
 
 
-  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
 
 
 #   pod 'react-native-material-kit', :path => '../node_modules/react-native-material-kit'

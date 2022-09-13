@@ -40,7 +40,7 @@ const StudyIn = ({navigation}: StudyInScreenProps) => {
         style={styles.scanner}
         ref={ref}
         cameraType={CameraType.Back} // Front/Back(default)
-        focusMode={CameraType.Back}
+        focusMode={'on'}
         // Barcode Scanner Props
         scanBarcode={true}
         showFrame={false}
