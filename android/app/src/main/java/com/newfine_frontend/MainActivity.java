@@ -20,6 +20,20 @@ public class MainActivity extends ReactActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
 SplashScreen.show(this, R.style.SplashScreenTheme, true);   super.onCreate(null);
+
+    setContentView(R.layout.activity_uncaught);
+
+    Tread.setDefaultUncaughtExceptionHandler(new ExceptionHandl
+  }
+
+  public class ExceptionHandler implements Tread.UncaughtExceptionHandler {
+    @Override
+    public void uncaughtException(Tread t, Throwable e){
+//      Log.e(TAG, "error-------> "+ e.toString());
+      e.printStackTrace();
+      android.os.Process.killProcess(android.os.Process.myPid());
+      System.exit(10);
+    }
   }
 
   /**
