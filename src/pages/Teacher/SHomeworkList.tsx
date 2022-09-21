@@ -54,7 +54,7 @@ export default function SHomeworkList(
     Alert.alert(
       //     말그대로 Alert를 띄운다
       '', // 첫번째 text: 타이틀 제목
-      '등급을 선택하세요.', // 두번째 text: 그 밑에 작은 제목
+      '제출기한을 선택하세요.', // 두번째 text: 그 밑에 작은 제목
       [
         //   버튼 배열
         {
