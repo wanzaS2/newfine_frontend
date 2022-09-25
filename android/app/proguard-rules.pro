@@ -12,6 +12,7 @@
 -keep class com.facebook.hermes.unicode.** { *; }
 -keep class com.facebook.jni.** { *; }
 -keep class com.facebook.jni.** { *; }
+-keep public class com.horcrux.svg.** {*;}
 
 
 -keep,allowobfuscation @interface com.facebook.proguard.annotations.DoNotStrip
