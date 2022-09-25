@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     marginHorizontal: width * 10,
-    marginVerticalL: height * 10,
+    marginVertical: height * 10,
     color: 'black',
     fontFamily: Fonts.TRBold,
     fontSize: width * 40,

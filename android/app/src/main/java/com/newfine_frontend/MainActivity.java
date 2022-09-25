@@ -48,7 +48,7 @@ public class MainActivity extends ReactActivity {
   public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
     @Override
     public void uncaughtException(Thread t, Throwable e){
-//      Log.e(TAG, "error-------> "+ e.toString());
+//      Log.e("아놔 error-------> "+ e.toString());
       e.printStackTrace();
       android.os.Process.killProcess(android.os.Process.myPid());
       System.exit(10);
