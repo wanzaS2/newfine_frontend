@@ -135,11 +135,11 @@ const styles = StyleSheet.create({
       ios: {
         shadowColor: '#000',
         shadowOffset: {
-          width: width * 10,
-          height: height * 10,
+          width: width * 5,
+          height: height * 5,
         },
         shadowOpacity: 0.5,
-        shadowRadius: 10,
+        shadowRadius: 5,
       },
       android: {
         elevation: 5,
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     marginHorizontal: width * 10,
-    marginVerticalL: height * 10,
+    marginVertical: height * 10,
     color: 'black',
     fontFamily: Fonts.TRBold,
     fontSize: width * 40,

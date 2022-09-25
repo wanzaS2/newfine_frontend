@@ -174,11 +174,11 @@ const styles = StyleSheet.create({
       ios: {
         shadowColor: '#000',
         shadowOffset: {
-          width: width * 10,
-          height: height * 10,
+          width: width * 5,
+          height: height * 5,
         },
         shadowOpacity: 0.5,
-        shadowRadius: 10,
+        shadowRadius: 3,
       },
       android: {
         elevation: 3,
@@ -204,9 +204,19 @@ const styles = StyleSheet.create({
     color: '#ef4444',
   },
   icon: {
-    position: 'absolute',
-    right: width * 12,
-    bottom: height * 2,
+    ...Platform.select({
+      ios: {
+        position: 'absolute',
+        right: width * 15,
+        bottom: height * 0.1,
+        },
+
+      android: {
+        position: 'absolute',
+        right: width * 12,
+        bottom: height * 2,
+      },
+    }),
   },
 });
 

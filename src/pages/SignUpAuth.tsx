@@ -154,7 +154,7 @@ function SignUpAuth({navigation}: SignUpAuthScreenProps) {
       <DismissKeyboardView>
         <View style={styles.branchArea}>
           <Text
-            style={{fontFamily: Fonts.TRBold, fontSize: 23, color: 'black'}}>
+            style={{fontFamily: Fonts.TRBold, fontSize: 23, color: 'black', paddingVertical: width * 5}}>
             분원을 선택해주세요.
           </Text>
           <Select
@@ -179,7 +179,7 @@ function SignUpAuth({navigation}: SignUpAuthScreenProps) {
         <View style={styles.inputWrapper}>
           <View style={styles.textArea}>
             <Text
-              style={{fontFamily: Fonts.TRBold, fontSize: 23, color: 'black'}}>
+              style={{fontFamily: Fonts.TRBold, fontSize: 23, color: 'black', paddingVertical: width * 5}}>
               전화번호를 입력해주세요.
             </Text>
             <Text

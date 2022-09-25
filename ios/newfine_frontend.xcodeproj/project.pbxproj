@@ -11,6 +11,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		93512F1EA2B54E77A18E43C3 /* TmoneyRoundWind-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F96264F311B1449EAB0DFB8C /* TmoneyRoundWind-ExtraBold.ttf */; };
+		AE7A84A328D19A4F00923D1A /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = AE7A84A228D19A4F00923D1A /* AppCenter-Config.plist */; };
 		AEB82EF928CD15FA003A9CE2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AEB82EF828CD15FA003A9CE2 /* GoogleService-Info.plist */; };
 		AEB99E7728CE1663005E7455 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AEB99E7628CE1663005E7455 /* Images.xcassets */; };
 		AEBA7C6228CE2E0F00B45CA1 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEBA7C6128CE2E0F00B45CA1 /* SplashScreen.storyboard */; };
@@ -46,6 +47,7 @@
 		5A5D4CA6A104DA784E180DDB /* Pods-newfine_frontend-newfine_frontendTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-newfine_frontend-newfine_frontendTests.debug.xcconfig"; path = "Target Support Files/Pods-newfine_frontend-newfine_frontendTests/Pods-newfine_frontend-newfine_frontendTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5B837EFE88BE90F0C3E07937 /* Pods-newfine_frontend.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-newfine_frontend.debug.xcconfig"; path = "Target Support Files/Pods-newfine_frontend/Pods-newfine_frontend.debug.xcconfig"; sourceTree = "<group>"; };
 		7A725B31456B2E2CF5F315AB /* libPods-newfine_frontend.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-newfine_frontend.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AE7A84A228D19A4F00923D1A /* AppCenter-Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AppCenter-Config.plist"; sourceTree = "<group>"; };
 		AEB82EF828CD15FA003A9CE2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AEB99E7628CE1663005E7455 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = newfine_frontend/Images.xcassets; sourceTree = "<group>"; };
 		AEBA7C6128CE2E0F00B45CA1 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				AE7A84A228D19A4F00923D1A /* AppCenter-Config.plist */,
 				AEB99E7628CE1663005E7455 /* Images.xcassets */,
 				AEB82EF828CD15FA003A9CE2 /* GoogleService-Info.plist */,
 				AEC7161328CA345D0000BCAE /* Fonts */,
@@ -286,6 +289,7 @@
 				AEC7161828CA346E0000BCAE /* TmoneyRoundWind-ExtraBold.ttf in Resources */,
 				AEBA7C6228CE2E0F00B45CA1 /* SplashScreen.storyboard in Resources */,
 				AEB99E7728CE1663005E7455 /* Images.xcassets in Resources */,
+				AE7A84A328D19A4F00923D1A /* AppCenter-Config.plist in Resources */,
 				AEB82EF928CD15FA003A9CE2 /* GoogleService-Info.plist in Resources */,
 				AEC7161928CA346E0000BCAE /* JosefinSans-Regular.ttf in Resources */,
 				AEC7161A28CA346E0000BCAE /* TmoneyRoundWind-Regular.ttf in Resources */,
@@ -545,7 +549,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = newfine_frontend/newfine_frontend.entitlements;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = H64ML6YW9Z;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = newfine_frontend/Info.plist;
@@ -575,7 +579,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = newfine_frontend/newfine_frontend.entitlements;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = H64ML6YW9Z;
 				INFOPLIST_FILE = newfine_frontend/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -628,7 +632,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -699,7 +703,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

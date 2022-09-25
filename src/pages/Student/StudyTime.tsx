@@ -28,6 +28,7 @@ import {
   HStack,
   AlertDialog,
 } from 'native-base';
+import {height, width} from "../../config/globalStyles";
 
 type StudyTimeScreenProps = NativeStackScreenProps<
   LoggedInParamList,
@@ -252,11 +253,11 @@ const styles = StyleSheet.create({
       ios: {
         shadowColor: '#000',
         shadowOffset: {
-          width: 10,
-          height: 10,
+          width: width * 5,
+          height: height * 5,
         },
         shadowOpacity: 0.5,
-        shadowRadius: 10,
+        shadowRadius: 5,
       },
       android: {
         elevation: 5,

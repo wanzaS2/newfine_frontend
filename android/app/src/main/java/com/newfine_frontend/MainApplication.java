@@ -16,6 +16,7 @@ import com.newfine_frontend.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import com.microsoft.codepush.react.CodePush;
+//import com.facebook.react.BuildConfig;
 
 public class MainApplication extends Application implements ReactApplication {
 

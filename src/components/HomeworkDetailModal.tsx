@@ -341,12 +341,15 @@ function HomeworkDetailModal({...props}) {
             <FormControl.Label>상세 내용</FormControl.Label>
             <TextArea
               editable={canUpdate ? true : false}
-              h={height * 40}
+              h={height * 100}
               placeholder="Text Area Placeholder"
               value={content}
               onChangeText={onChangeContent}
             />
           </FormControl>
+          <Text>
+            &nbsp;
+          </Text>
           <View>
             {canUpdate ? (
               <View>

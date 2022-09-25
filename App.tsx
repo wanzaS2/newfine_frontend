@@ -8,14 +8,16 @@ import PushNotification from 'react-native-push-notification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import {SSRProvider} from '@react-aria/ssr';
 import CodePush, {CodePushOptions} from 'react-native-code-push';
+import {Alert, Vibration} from 'react-native';
+import {useEffect} from 'react';
 
-const codePushOptions: CodePushOptions = {
-  checkFrequency: CodePush.CheckFrequency.MANUAL,
+// const codePushOptions: CodePushOptions = {
+//   checkFrequency: CodePush.CheckFrequency.MANUAL,
   // 언제 업데이트를 체크하고 반영할지
 
-  installMode: CodePush.InstallMode.IMMEDIATE,
-  mandatoryInstallMode: CodePush.InstallMode.IMMEDIATE,
-};
+  // installMode: CodePush.InstallMode.IMMEDIATE,
+  // mandatoryInstallMode: CodePush.InstallMode.IMMEDIATE,
+// };
 
 PushNotification.configure({
   // (optional) 토큰이 생성될 때 실행됨(토큰을 서버에 등록할 때 쓸 수 있음)
@@ -87,22 +89,18 @@ PushNotification.createChannel(
     console.log(`createChannel riders returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
 );
 
-// const codePushOptions: CodePushOptions = {
-//   checkFrequency: CodePush.CheckFrequency.MANUAL,
+const codePushOptions: CodePushOptions = {
+  checkFrequency: CodePush.CheckFrequency.MANUAL,
 // 언제 업데이트를 체크하고 반영할지를 정한다.
 // ON_APP_RESUME은 Background에서 Foreground로 오는 것을 의미
 // ON_APP_START은 앱이 실행되는(켜지는) 순간을 의미
 
-// installMode: CodePush.InstallMode.IMMEDIATE,
-// mandatoryInstallMode: CodePush.InstallMode.IMMEDIATE,
+installMode: CodePush.InstallMode.IMMEDIATE,
+mandatoryInstallMode: CodePush.InstallMode.IMMEDIATE,
 // 업데이트를 어떻게 설치할 것인지 (IMMEDIATE는 강제설치를 의미)
-// };
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Alert} from 'react-native';
-import {useEffect} from 'react';
-// import messaging from '@react-native-firebase/messaging';
+};
 
-function App() {
+function App(){
   useEffect(() => {
     CodePush.sync(
       {
@@ -130,6 +128,7 @@ function App() {
   }, []);
 
   messaging().setBackgroundMessageHandler(async remoteMessage => {
+    Vibration.vibrate();
     Alert.alert(
       remoteMessage.notification?.title as string,
       remoteMessage.notification?.body,
@@ -144,6 +143,7 @@ function App() {
   //
   React.useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
+      Vibration.vibrate();
       Alert.alert(
         remoteMessage.notification?.title as string,
         remoteMessage.notification?.body,
@@ -164,3 +164,4 @@ function App() {
 }
 
 export default CodePush(codePushOptions)(App);
+

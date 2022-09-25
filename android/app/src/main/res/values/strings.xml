@@ -2,5 +2,5 @@
     <string name="app_name">newfine_frontend</string>
     <string name="appCenterCrashes_whenToSendCrashes" moduleConfig="true" translatable="false">DO_NOT_ASK_JAVASCRIPT</string>
     <string name="appCenterAnalytics_whenToEnableAnalytics" moduleConfig="true" translatable="false">ALWAYS_SEND</string>
-    <string moduleConfig="true" name="CodePushDeploymentKey">qrdJP0QEiGCAI3_7Ak0OCnJwuk-FVztVqgRXS</string>
+    <string moduleConfig="true" name="CodePushDeploymentKey">94i82SdVoP_3hPlbUpPwIOxdVSEVEEj7U5034</string>
 </resources>
