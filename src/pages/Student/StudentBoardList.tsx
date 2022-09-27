@@ -97,10 +97,10 @@ export default function StudentBoardList({route}: StudentBoardListScreenProps) {
                         {item.modifiedDate.substring(0, 10)}
                       </Text>
                       <Text style={styles.text}>
-                        1차 마감기한: {item.fdeadline}
+                        1차 마감기한: {item.fdeadline.substring(5, 16)}
                       </Text>
                       <Text style={styles.text}>
-                        2차 마감기한: {item.sdeadline}
+                        2차 마감기한: {item.sdeadline.substring(5, 16)}
                       </Text>
                       <FontAwesome5Icon
                         name={'chevron-circle-right'}

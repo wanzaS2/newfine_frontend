@@ -25,7 +25,7 @@ import HomeworkDetailModal from '../../components/HomeworkDetailModal';
 import {format} from 'date-fns';
 import ko from 'date-fns/esm/locale/ko/index.js';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import {height, width} from "../../config/globalStyles";
+import {height, width} from '../../config/globalStyles';
 // import {LocalNotification} from '../lib/LocalNotification';
 
 type BoardListScreenProps = NativeStackScreenProps<
@@ -41,7 +41,6 @@ export default function BoardList({route, navigation}: BoardListScreenProps) {
   const [modalVisible, setModalVisible] = React.useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const scrollRef = useRef();
-
 
   const handleOnSelectItem = item => {
     setSelectedItem(item);
@@ -153,10 +152,10 @@ export default function BoardList({route, navigation}: BoardListScreenProps) {
                         </Text>
                       </View>
                       <Text style={styles.text}>
-                        1차 마감기한: {item.fdeadline}
+                        1차 마감기한: {item.fdeadline.substring(5, 16)}
                       </Text>
                       <Text style={styles.text}>
-                        2차 마감기한: {item.sdeadline}
+                        2차 마감기한: {item.sdeadline.substring(5, 16)}
                       </Text>
                       <TouchableOpacity
                         onPress={() =>

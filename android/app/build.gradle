@@ -150,8 +150,8 @@ android {
         applicationId "com.newfine_frontend"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 6
+        versionName "1.6"
         resValue "string", "build_config_package", "com.newfine_frontend"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
 
@@ -323,6 +323,9 @@ if (isNewArchitectureEnabled()) {
     // This will be applied to all the imported transtitive dependency.
     configurations.all {
         resolutionStrategy.dependencySubstitution {
+            resolutionStrategy {
+                force "com.facebook.soloader:soloader:0.8.0"
+            }
             substitute(module("com.facebook.react:react-native"))
                     .using(project(":ReactAndroid")).because("On New Architecture we're building React Native from source")
         }
