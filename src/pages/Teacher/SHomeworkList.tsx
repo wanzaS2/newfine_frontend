@@ -68,7 +68,7 @@ export default function SHomeworkList(
     );
   };
 
-  const saveGrade = async (state: string) => {
+  const saveGrade = (state: string) => {
     for (let c of checked) {
       data[c - 1].deadline = state;
       data[c - 1].disabled = true;
