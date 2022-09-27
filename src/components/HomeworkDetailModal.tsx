@@ -357,7 +357,7 @@ function HomeworkDetailModal({...props}) {
                   <Text style={styles.text}>1차 마감기한:</Text>
                   <TouchableOpacity onPress={onPressDate1}>
                     <Text>
-                      &nbsp;{format(new Date(newDate1), 'PPP', {
+                      {format(new Date(newDate1), 'PPP', {
                         locale: ko,
                       })}
                     </Text>
@@ -387,7 +387,7 @@ function HomeworkDetailModal({...props}) {
                   </TouchableOpacity>
                   <TouchableOpacity onPress={onPressTime2}>
                     <Text>
-                      {format(new Date(newDate2), 'p', {
+                      &nbsp;{format(new Date(newDate2), 'p', {
                         locale: ko,
                       })}
                     </Text>
@@ -407,11 +407,15 @@ function HomeworkDetailModal({...props}) {
                 <View style={styles.datetime}>
                   <Text style={styles.text}>1차 마감기한:</Text>
                   {/*<TouchableOpacity onPress={onPressDate1}>*/}
-                  <TextInput placeholder={date1} editable={false} />
+                  <Text style={styles.text2}>
+                    {date1}
+                  </Text>
                 </View>
                 <View style={styles.datetime}>
                   <Text style={styles.text}>2차 마감기한:</Text>
-                  <TextInput editable={false} placeholder={date2} />
+                  <Text style={styles.text2}>
+                    {date2}
+                  </Text>
                 </View>
               </View>
             )}
@@ -469,6 +473,9 @@ const styles = StyleSheet.create({
     marginRight: width * 5,
     color: '#0077e6',
   },
+  text2: {
+    color: 'gray',
+  }
 });
 
 export default HomeworkDetailModal;
